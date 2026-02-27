@@ -213,7 +213,7 @@ Module BasicFcn
             '验证文件扩展名是否为支持的图像格式
             Dim extension As String = Path.GetExtension(filePath).ToLower()
             Dim supportedFormats As String() = {".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tiff", ".ico", ".wmf", ".emf"}
-            If Not supportedFormats.Contains(extension) Then Return Nothing
+            If Not ImageChecker.IsImageByMIMEType(filePath) Then Return Nothing
             '使用 FromFile 方法加载图像, 但先复制到内存以避免文件锁定
             Using fs As New FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)
                 Using memoryStream As New MemoryStream()

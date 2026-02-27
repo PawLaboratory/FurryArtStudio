@@ -523,6 +523,10 @@ Public Class MainForm
             Dim previewPath As String = Path.Combine(artworkPath, ".preview.jpg")
             If Not File.Exists(previewPath) And Directory.GetFiles(artworkPath).Count > 0 Then '保证缩略图存在
                 Using img As Image = LoadImageFromFile(Directory.GetFiles(artworkPath)(0))
+                    If IsNothing(img) Then
+                        ' 跳过，不处理
+                        Continue For
+                    End If
                     img.Save(previewPath, ImageFormat.Jpeg)
                 End Using
             End If

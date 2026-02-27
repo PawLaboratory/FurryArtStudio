@@ -419,6 +419,12 @@ Public Class ArtworkLibrary
     ''' 数据库行映射到Artwork对象
     ''' </summary>
     Private Function MapToArtwork(row As Object) As Artwork
+        Dim targetDir As String = Path.Combine(Me._LibraryPath, row.UUID.ToString())
+        Dim files As String() = Array.Empty(Of String)()
+        if Directory.Exists(targetDir) Then
+            files = Directory.GetFiles(targetDir)
+        End If
+
         Return New Artwork() With {
             .ID = CInt(row.ID),
             .UUID = Guid.Parse(row.UUID.ToString()),
@@ -435,7 +441,7 @@ Public Class ArtworkLibrary
                       JsonSerializer.Deserialize(Of String())(row.Tags),
                       Array.Empty(Of String)()),
             .Notes = If(row.Notes, ""),
-            .FilePaths = Directory.GetFiles(Path.Combine(Me._LibraryPath, row.UUID.ToString()))
+            .FilePaths = files
         }
     End Function
 

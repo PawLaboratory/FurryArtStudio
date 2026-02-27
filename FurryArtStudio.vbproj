@@ -252,6 +252,7 @@
     </Compile>
     <Compile Include="Utilities\AppSettings.vb" />
     <Compile Include="Utilities\BasicFcn.vb" />
+    <Compile Include="Utilities\ImageChecker.vb" />
     <Compile Include="Utilities\FileTransaction.vb" />
     <Compile Include="Utilities\Logger.vb" />
     <Compile Include="Utilities\WinAPI.vb" />

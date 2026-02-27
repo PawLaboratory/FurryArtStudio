@@ -248,10 +248,22 @@ Public Class EditDialogForm
             openFileDialog.Multiselect = True
             If openFileDialog.ShowDialog() = DialogResult.OK Then
                 Try
-                    _transaction.AddFiles(openFileDialog.FileNames) '添加文件到处理类
-                    PreviewPicturebox.Image = LoadImageFromFile(openFileDialog.FileName) '添加一个文件作为缩略图
-                    PreviewPicturebox.Refresh()
-                    RefreshFileList()
+                    Dim canAddedFiles As New List(Of String)
+                    'Dim cannotAddedFiles As New List(Of String) ' 考虑为用户选中的不是图片的文件提供反馈
+                    ' 检查给定的文件是不是图片文件
+                    For Each file In openFileDialog.FileNames
+                        If ImageChecker.IsImageByMIMEType(file) Then
+                            canAddedFiles.Add(file)
+                        Else
+                            'cannotAddedFiles.Add(file)
+                        End If
+                    Next
+                    If canAddedFiles.Count > 0 Then
+                        _transaction.AddFiles(canAddedFiles) '添加文件到处理类
+                        PreviewPicturebox.Image = LoadImageFromFile(canAddedFiles(0)) '添加一个文件作为缩略图
+                        PreviewPicturebox.Refresh()
+                        RefreshFileList()
+                    End If
                 Catch ex As Exception
                     '不处理
                 End Try
