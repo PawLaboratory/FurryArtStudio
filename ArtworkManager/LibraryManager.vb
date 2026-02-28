@@ -47,7 +47,7 @@ Public Class LibraryManager
     ''' 将所有稿件库加入到稿件库实例管理器
     ''' </summary>
     Public Sub LoadAllLibraries()
-        Dim libraryFolders = Directory.GetDirectories(Path.Combine(Application.StartupPath, "Artworks"))
+        Dim libraryFolders = Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks"))
         For Each folder In libraryFolders
             Dim name = Path.GetFileName(folder)
             AddLibrary(name) '按照文件夹名称添加到稿件库列表

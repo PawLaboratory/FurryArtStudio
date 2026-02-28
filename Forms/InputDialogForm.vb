@@ -59,7 +59,7 @@ Public Class InputDialogForm
         If Regex.IsMatch(inputStr, "[<>:""/\\|?*]") Then Return $"文件夹名不能包含这些字符: 
             {String.Join("", invalidChars.Where(Function(c) inputStr.Contains(c)).Distinct())}"
         If Regex.IsMatch(inputStr, "^.+~\d+$") Then Return "文件夹名包含特殊格式"
-        Dim newPath As String = Path.Combine(Application.StartupPath, "Artworks", inputStr)
+        Dim newPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", inputStr)
         If Directory.Exists(newPath) Then Return "不能与现有文件夹重名"
         Return ""
     End Function

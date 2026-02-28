@@ -49,7 +49,7 @@ Public Class ArtworkLibrary
     Public Sub New(name As String)
 
         LibraryName = name
-        Dim artworksPath As String = Path.Combine(Application.StartupPath, "Artworks")
+        Dim artworksPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks")
         If Not Directory.Exists(artworksPath) Then
             Directory.CreateDirectory(artworksPath) '检查 Artworks 文件夹是否存在
         End If

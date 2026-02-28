@@ -322,7 +322,7 @@
     <value>Storage: {0} Files: {1}</value>
   </data>
   <data name="Main_StrPropNowTime" xml:space="preserve">
-    <value>Current time: {Now:yyyy-MM-dd HH:mm:ss}</value>
+    <value>Current time: {0:yyyy-MM-dd HH:mm:ss}</value>
   </data>
   <data name="Stat_NewMs" xml:space="preserve">
     <value>Creating new manuscript...</value>
@@ -391,7 +391,7 @@
     <value>Total {0} manuscripts</value>
   </data>
   <data name="Msg_StrMsNow" xml:space="preserve">
-    <value>Current time: {Now:yyyy-MM-dd HH:mm:ss}</value>
+    <value>Current time: {0:yyyy-MM-dd HH:mm:ss}</value>
   </data>
   <data name="Msg_StrMsSupportByFAS" xml:space="preserve">
     <value>*Powered by FurryArtStudio*</value>
@@ -424,7 +424,7 @@
     <value>Selected: {0}/{1}</value>
   </data>
   <data name="Main_LblTitleSelect" xml:space="preserve">
-    <value>{0} item(s) selected</value>
+    <value>{0} item selected</value>
   </data>
   <data name="Main_LblPage" xml:space="preserve">
     <value>Page: {0}/{1}</value>

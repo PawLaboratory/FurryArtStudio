@@ -475,7 +475,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 {0} item(s) selected 的本地化字符串。
+        '''  查找类似 {0} item selected 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Main_LblTitleSelect() As String
             Get
@@ -538,7 +538,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 Current time: {Now:yyyy-MM-dd HH:mm:ss} 的本地化字符串。
+        '''  查找类似 Current time: {0:yyyy-MM-dd HH:mm:ss} 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Main_StrPropNowTime() As String
             Get
@@ -1159,7 +1159,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 Current time: {Now:yyyy-MM-dd HH:mm:ss} 的本地化字符串。
+        '''  查找类似 Current time: {0:yyyy-MM-dd HH:mm:ss} 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Msg_StrMsNow() As String
             Get

@@ -630,7 +630,7 @@ Public Class MainForm
             If _libraryManager.GetCurrentLibrary IsNot Nothing Then
                 startPath = _libraryManager.GetCurrentLibrary.LibraryPath
             Else
-                startPath = Application.StartupPath
+                startPath = AppDomain.CurrentDomain.BaseDirectory
             End If
             Dim psi As New ProcessStartInfo With {
                 .FileName = "cmd.exe",
@@ -659,9 +659,9 @@ Public Class MainForm
     ''' </summary>
     Private Sub RefreshLibListMenu()
         MnuLibList.DropDownItems.Clear()
-        Dim artworksPath As String = Path.Combine(Application.StartupPath, "Artworks")
+        Dim artworksPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks")
         If Not Directory.Exists(artworksPath) Then Directory.CreateDirectory(artworksPath) '检查 Artworks 文件夹是否存在
-        Dim libraryFolders = Directory.GetDirectories(Path.Combine(Application.StartupPath, "Artworks"))
+        Dim libraryFolders = Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks"))
         If libraryFolders.Length = 0 Then
             Dim artworkMenuItem As New ToolStripMenuItem() With {
                 .Text = My.Resources.Main_LblNoLib,
@@ -752,7 +752,7 @@ Public Class MainForm
             StatusLabel.Text = My.Resources.Stat_Cloning
             If inputForm.ShowDialog() = DialogResult.OK Then '显示对话框并获取结果
                 Dim newLib As String = inputForm.InputValue
-                Dim newPath As String = Path.Combine(Application.StartupPath, "Artworks", newLib)
+                Dim newPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", newLib)
                 Try
                     FileIO.FileSystem.CopyDirectory(_libraryManager.GetCurrentLibrary.LibraryPath, newPath, FileIO.UIOption.AllDialogs)
                 Catch ex As OperationCanceledException
@@ -783,7 +783,7 @@ Public Class MainForm
     End Sub
     Private Sub MnuLibRename_Click(sender As Object, e As EventArgs) Handles MnuLibRename.Click
         Dim oldLib As String = _libraryManager.GetCurrentLibrary.LibraryName
-        Dim oldPath As String = Path.Combine(Application.StartupPath, "Artworks", oldLib)
+        Dim oldPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", oldLib)
         Using inputForm As New InputDialogForm With {
             .Text = My.Resources.Input_RenameLibTitle
         }
@@ -793,7 +793,7 @@ Public Class MainForm
                 Try
                     Dim newLib As String = inputForm.InputValue
                     _libraryManager.CloseLibrary(_libraryManager.GetCurrentLibrary.LibraryName) '先释放数据库资源
-                    Dim newPath As String = Path.Combine(Application.StartupPath, "Artworks", newLib)
+                    Dim newPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", newLib)
                     Directory.Move(oldPath, newPath) '重命名
                     _libraryManager.AddLibrary(newLib) '载入新稿件库
                     _libraryManager.SwitchLibrary(newLib)
@@ -857,7 +857,7 @@ Public Class MainForm
         sb.Append(String.Format(My.Resources.Main_StrPropMsCount, library.GetAllArtworksComplete.Count) & vbCrLf)
         Dim result = GetFolderInfo(library.LibraryPath)
         sb.Append(String.Format(My.Resources.Main_StrPropStorage, result.sizeString, result.fileCount) & vbCrLf)
-        sb.Append(My.Resources.Main_StrPropNowTime)
+        sb.Append(String.Format(My.Resources.Main_StrPropNowTime, Now))
         MessageBox.Show(sb.ToString, My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 #End Region
@@ -1128,7 +1128,7 @@ Public Class MainForm
             Next
             artworkInfo.Append($"{SeparatorDash}{vbCrLf}")
             artworkInfo.Append(String.Format(My.Resources.Msg_StrMsTotal, count) & vbCrLf) '总计
-            artworkInfo.Append(String.Format(My.Resources.Main_StrPropNowTime) & vbCrLf) '当前时间
+            artworkInfo.Append(String.Format(My.Resources.Msg_StrMsNow, Now) & vbCrLf) '当前时间
             artworkInfo.Append(My.Resources.Msg_StrMsSupportByFAS)
             artworkObject.SetData(DataFormats.Text, artworkInfo) '复制信息文本
             CopyDirectoryToClipboard(artworkPaths.ToArray(), artworkObject) '同时复制稿件

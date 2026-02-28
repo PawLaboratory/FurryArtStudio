@@ -322,7 +322,7 @@
     <value>儲存空間: {0}  檔案數: {1}</value>
   </data>
   <data name="Main_StrPropNowTime" xml:space="preserve">
-    <value>目前時間: {Now:yyyy-MM-dd HH:mm:ss}</value>
+    <value>目前時間: {0:yyyy-MM-dd HH:mm:ss}</value>
   </data>
   <data name="Stat_NewMs" xml:space="preserve">
     <value>正在新增稿件……</value>
@@ -391,7 +391,7 @@
     <value>總計 {0} 個稿件</value>
   </data>
   <data name="Msg_StrMsNow" xml:space="preserve">
-    <value>目前時間: {Now:yyyy-MM-dd HH:mm:ss}</value>
+    <value>目前時間: {0:yyyy-MM-dd HH:mm:ss}</value>
   </data>
   <data name="Msg_StrMsSupportByFAS" xml:space="preserve">
     <value>*由 FurryArtStudio 提供技術支援*</value>
