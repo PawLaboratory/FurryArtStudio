@@ -25,6 +25,7 @@ Public Class AboutForm
         RemoveMenu(MnuHandle, SC_MINIMIZE, MF_BYCOMMAND) '去除最小化菜单
         SystemThemeChange()
         TxtBox.Text = My.Resources.Licenses.AboutText
+        PicBoxLogo.SizeMode = PictureBoxSizeMode.Zoom
         LblVersion.Text = GetCurrentVersion()
         LanguageChange()
     End Sub

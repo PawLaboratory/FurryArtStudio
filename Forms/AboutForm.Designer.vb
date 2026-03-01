@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class AboutForm
     Inherits System.Windows.Forms.Form
 
     'Form 重写 Dispose，以清理组件列表。
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,8 +20,9 @@ Partial Class AboutForm
     '注意: 以下过程是 Windows 窗体设计器所必需的
     '可以使用 Windows 窗体设计器修改它。  
     '不要使用代码编辑器修改它。
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AboutForm))
         Me.BtnOK = New System.Windows.Forms.Button()
         Me.LblVersion = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -31,6 +32,8 @@ Partial Class AboutForm
         Me.TxtBox = New System.Windows.Forms.RichTextBox()
         Me.LlblPrivacy = New System.Windows.Forms.LinkLabel()
         Me.LlblUserAgreement = New System.Windows.Forms.LinkLabel()
+        Me.PicBoxLogo = New System.Windows.Forms.PictureBox()
+        CType(Me.PicBoxLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'BtnOK
@@ -119,12 +122,22 @@ Partial Class AboutForm
         Me.LlblUserAgreement.Text = "用户协议"
         Me.LlblUserAgreement.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'PicBoxLogo
+        '
+        Me.PicBoxLogo.Image = CType(resources.GetObject("PicBoxLogo.Image"), System.Drawing.Image)
+        Me.PicBoxLogo.Location = New System.Drawing.Point(12, 7)
+        Me.PicBoxLogo.Name = "PicBoxLogo"
+        Me.PicBoxLogo.Size = New System.Drawing.Size(45, 45)
+        Me.PicBoxLogo.TabIndex = 9
+        Me.PicBoxLogo.TabStop = False
+        '
         'AboutForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.BtnOK
         Me.ClientSize = New System.Drawing.Size(622, 273)
+        Me.Controls.Add(Me.PicBoxLogo)
         Me.Controls.Add(Me.LlblUserAgreement)
         Me.Controls.Add(Me.LlblPrivacy)
         Me.Controls.Add(Me.TxtBox)
@@ -141,6 +154,7 @@ Partial Class AboutForm
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "关于"
+        CType(Me.PicBoxLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -154,4 +168,5 @@ Partial Class AboutForm
     Friend WithEvents TxtBox As RichTextBox
     Friend WithEvents LlblPrivacy As LinkLabel
     Friend WithEvents LlblUserAgreement As LinkLabel
+    Friend WithEvents PicBoxLogo As PictureBox
 End Class

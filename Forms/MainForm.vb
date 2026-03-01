@@ -84,10 +84,10 @@ Public Class MainForm
                 SysThreading.Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
         End Select
         UpdateFormLang() '更新语言
-        StatusLabel.Text = My.Resources.Stat_Ready '就绪
         SystemThemeChange() '设置主题
-
         SetTitleBarColor(Handle, IconColorLight) '修改标题栏颜色(win11生效)
+
+        StatusLabel.Text = My.Resources.Stat_Ready '就绪
     End Sub
 
     ''' <summary>
