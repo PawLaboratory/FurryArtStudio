@@ -1,6 +1,6 @@
 ﻿
 <div align="center">
-  <img src="https://raw.githubusercontent.com/xionglongztz/FurryArtStudio/refs/heads/main/Resources/Banner.png" alt="Banner"/>
+  <img src="https://raw.githubusercontent.com/xionglongztz/FurryArtStudio/refs/heads/master/Resources/Banner.png" alt="Banner"/>
 </div>
 
 <h1 align="center">🐾🖊FurryArtStudio</h1>
