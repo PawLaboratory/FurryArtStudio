@@ -39,6 +39,7 @@
     - Stub.System.Data.SQLite.Core.NetFrame - SQLite Development Team（Public Domain）
     - System.Data.SQLite - System.Data.SQLite
     - System.Data.SQLite.Core - SQLite Development Team（Public Domain）
+    - Maoken Assorted Sans - Maoken Fonts（OFL-1.1 license）
     
     反馈与支持
     - GitHub：https://github.com/xionglongztz/FurryArtStudio
