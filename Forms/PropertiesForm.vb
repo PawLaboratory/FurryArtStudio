@@ -202,6 +202,8 @@ Public Class PropertiesForm
     End Sub
     Private Sub ChkMenuUpper_CheckedChanged(sender As Object, e As EventArgs) Handles ChkMenuUpper.CheckedChanged
         Setting.Appearance.MenuUppercase = ChkMenuUpper.Checked
+        Setting.Save()
+        UpdateFormLang()
     End Sub
 #End Region
 

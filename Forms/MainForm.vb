@@ -48,8 +48,6 @@ Public Class MainForm
     Private WithEvents _themeDebounceTimer As New Timer With {
     .Interval = 300
     }
-    '设置
-    Private Settings As AppSettings = AppSettings.Load()
 #End Region
 
 #Region "窗体事件处理"
@@ -73,7 +71,8 @@ Public Class MainForm
 #Else
         MnuDevTools.Enabled = False
 #End If
-        Select Case Settings.Appearance.Language
+        Dim settings = AppSettings.Load() '读取设置项
+        Select Case settings.Appearance.Language
             Case AppSettings.LanguageOption.English
                 SysThreading.Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
             Case AppSettings.LanguageOption.ChineseSimplified
@@ -133,7 +132,8 @@ Public Class MainForm
             End Select
         End If
         If m.Msg = WM_DWMCOLORIZATIONCOLORCHANGED Then '主题发生改变时
-            If Settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
+            Dim settings = AppSettings.Load()
+            If settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
                 _themeDebounceTimer.Stop()
                 _themeDebounceTimer.Start() '消抖
             End If
@@ -143,7 +143,8 @@ Public Class MainForm
     Private Sub _themeDebounceTimer_Tick() Handles _themeDebounceTimer.Tick
         _themeDebounceTimer.Stop()
         BeginInvoke(New MethodInvoker(Sub()
-                                          If Settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
+                                          Dim settings = AppSettings.Load()
+                                          If settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
                                               UpdateFormTheme() '当主题设置为跟随系统时,主题变更通过接口发送给全部窗体
                                           End If
                                       End Sub))
@@ -239,7 +240,8 @@ Public Class MainForm
         MnuHelpAbout.Text = My.Resources.Mnu_About
         '窗体
         UpdateMenuItem()
-        If Settings.Appearance.MenuUppercase Then
+        Dim settings = AppSettings.Load()
+        If settings.Appearance.MenuUppercase Then
             MnuFile.Text = MnuFile.Text.ToUpper
             MnuLibrary.Text = MnuLibrary.Text.ToUpper
             MnuManuscript.Text = MnuManuscript.Text.ToUpper
