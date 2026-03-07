@@ -33,6 +33,13 @@ body:
         What actually happened is unknown. This software does not currently generate logs; screenshots are recommended. Please be mindful of your privacy when taking screenshots.
     validations:
       required: true
+
+  - type: input
+    attributes:
+      label: 软件版本 / Software version
+      description: 请提供您所使用的软件版本号，例如 v1.2.3 / Please provide the software version you are using, e.g., v1.2.3
+    validations:
+      required: true
   
   - type: input
     attributes:
