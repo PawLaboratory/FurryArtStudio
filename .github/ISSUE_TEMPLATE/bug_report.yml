@@ -1,0 +1,74 @@
+name: 反馈问题 / Bug Report
+description: 反馈错误或异常行为。 / Report errors or unexpected behavior。
+title: "[Bug] "
+labels: [ bug ]
+body: 
+  - type: markdown
+    attributes:
+      value: |
+        为了能够更好的帮到您，请您提供以下信息：
+  
+  - type: textarea
+    attributes:
+      label: 问题的复现步骤 / Steps to reproduce the problem
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 预期行为 / Expected behavior
+      placeholder: 正常情况下应该有什么行为？ / What should be done under normal circumstances?
+    validations:
+      required: true
+  
+  - type: textarea
+    attributes:
+      label: 实际行为 / Actual behaviour
+      placeholder: |
+        实际上发生了什么。本软件目前不产生日志，建议截图，截图时请注意您的隐私信息。 /
+        What actually happened is unknown. This software does not currently generate logs; screenshots are recommended. Please be mindful of your privacy when taking screenshots.
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: 软件版本 / Software version
+      description: 请提供您所使用的软件版本号，例如 v1.2.3 / Please provide the software version you are using, e.g., v1.2.3
+    validations:
+      required: true
+  
+  - type: input
+    attributes:
+      label: 你所使用的系统版本 / Your system version
+      description: |
+        请不要用“最新版”等文字描述，请提供明确的版本号，否则issue将不会被处理并会被关闭。 /
+        Please do not use terms like "latest version" in your description. Please provide a specific version number; otherwise, the issue will not be processed and will be closed.
+    validations:
+      required: true
+  
+  - type: textarea
+    attributes:
+      label: 其他说明（可选） / Additional information (Optional)
+  
+  - type: checkboxes
+    attributes: 
+      label: 提交issue前，请你确认以下内容 / Before submitting, please confirm the following
+      options:
+        - label: 我正在使用预发布版本。 / I'm using pre-release version.
+          required: false
+        
+        - label: 我已确认没有同样的issue提交。 / I'm sure that this is the first issue for this problem.
+          required: true
+        
+        - label: 我已确认上述内容为本软件的问题，而非其他软件的问题。并且我能理解，如果是因为其他软件的问题，本issue会被无条件关闭。/ I have confirmed that the above issue is a problem with this software, not with other software. otherwise, this issue would have been closed unconditionally.
+          required: true
+        
+        - label: 我已知晓并同意，如果未按照当前模板填写，issue会被无条件关闭。/ I acknowledge and agree that if the issue is not filled out according to the current template, it will be closed unconditionally.
+          required: true
+
+        - label: 我能够理解，作者及协作者精力有限，不能及时处理报告的问题，且有合理理由的情况下有权拒绝修复上面提出的问题。/ I understand that authors and collaborators have limited energy and cannot address reported issues in a timely manner, and have the right to refuse to fix the issues raised above if they have reasonable grounds.
+          required: true

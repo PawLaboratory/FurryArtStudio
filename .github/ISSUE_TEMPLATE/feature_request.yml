@@ -1,0 +1,30 @@
+name: 功能请求或建议 / Feature requests or suggestions
+description: 提出你想要的功能，或对本软件提供建议。 / Suggest the features you would like or provide suggestions for this software.
+labels: [ enhancement ]
+title: "[Feat] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您向我们提出意见或建议！
+        为了能更好的帮到您，请您填写以下内容：
+  
+  - type: textarea
+    attributes:
+      label: 为什么你认为需要这个功能？ / Why do you think this feature is needed?
+      description: 非功能请求时请留空。 / Please leave blank for non-functional requests.
+    validations:
+      required: false
+  
+  - type: textarea
+    attributes:
+      label: 联系到了哪些bug或功能？ / Which bug or feature were mentioned?
+      description: 没有可留空。/ If not, please leave blank.
+    validations:
+      required: false
+  
+  - type: textarea
+    attributes: 
+      label: 请具体的描述这个功能或建议。 / Please describe this feature or provide a suggestion in detail.
+    validations:
+      required: true
