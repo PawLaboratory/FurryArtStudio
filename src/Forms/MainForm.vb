@@ -163,16 +163,6 @@ Public Class MainForm
     Private Sub ResizeControl()
         Dim p2Width = ArtworkListSplitContainer.Panel2.Width - 10
         PiChkThumb.Height = PiChkThumb.Width '保持为方形
-        'LblTitle.Width = p2Width
-        'LblTitle.Top = p2Width + 10
-        'LblAuthor.Width = p2Width
-        'LblAuthor.Top = p2Width + 30
-        'LblCharacters.Width = p2Width
-        'LblCharacters.Top = p2Width + 50
-        'LblTags.Width = p2Width
-        'LblTags.Top = p2Width + 70
-        'LblNotes.Width = p2Width
-        'LblNotes.Top = p2Width + 90
     End Sub
 
 #End Region
@@ -1232,9 +1222,27 @@ Public Class MainForm
     Private Sub MnuHelpTutorial_Click(sender As Object, e As EventArgs) Handles MnuHelpTutorial.Click
 
     End Sub
-    Private Sub MnuCheckUpdate_Click(sender As Object, e As EventArgs) Handles MnuCheckUpdate.Click
-
+    Private Async Sub MnuCheckUpdate_Click(sender As Object, e As EventArgs) Handles MnuCheckUpdate.Click
+        Await CheckForUpdate()
     End Sub
+    Private Async Function CheckForUpdate() As Task
+        StatusLabel.Text = "正在检查更新..."
+        Dim updateInfo = Await CheckForUpdateAsync()
+        If updateInfo.HasError Then
+            MessageBox.Show("检查更新失败：" & updateInfo.ErrorMessage, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        ElseIf updateInfo.IsUpdateAvailable Then
+            Dim msg = $"发现新版本 {updateInfo.LatestVersion}!" & vbCrLf & vbCrLf &
+                      "更新内容：" & vbCrLf & updateInfo.ReleaseNotes & vbCrLf & vbCrLf &
+                      "是否现在下载？"
+            Dim result = MessageBox.Show(msg, "有可用更新", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If result = DialogResult.Yes Then
+                Process.Start(updateInfo.DownloadUrl)
+            End If
+        Else
+            MessageBox.Show($"当前已是最新版本（{updateInfo.LatestVersion}）。", "检查更新", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+        StatusLabel.Text = "就绪"
+    End Function
     Private Sub MnuHelpWhatsNew_Click(sender As Object, e As EventArgs) Handles MnuHelpWhatsNew.Click
         Dim txt As New TextBoxForm(My.Resources.Licenses.WhatsNewText, My.Resources.Main_StrWhatsNew)
         txt.Show()
