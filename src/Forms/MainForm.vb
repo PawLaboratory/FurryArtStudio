@@ -71,9 +71,9 @@ Public Class MainForm
 #Else
         MnuDevTools.Enabled = False
 #End If
-        Dim autoChangeLang As Boolean = IsFirstRun() '判断程序是否首次启动
+        Dim autoChangeLang As Boolean = IsFirstRun() '判断程序是否首次启动, 并存储状态
         Dim settings = AppSettings.Load() '读取设置项
-        If autoChangeLang Then '当首次启动程序时
+        If autoChangeLang Then
             Dim systemCulture = CultureInfo.InstalledUICulture '检测当前系统语言, 并自动设置
             Select Case systemCulture.Name '下次重构时, 考虑改为单独的函数
                 Case "zh-CN", "zh-SG"
@@ -287,6 +287,7 @@ Public Class MainForm
         SetPreferredAppMode(If(IsDarkMode(), PreferredAppMode.AllowDark, PreferredAppMode.ForceLight))
         FlushMenuThemes()
     End Sub
+
     ''' <summary>
     ''' 初始化菜单图标
     ''' </summary>
@@ -466,6 +467,7 @@ Public Class MainForm
         EnableMenuItem(menuHandle, SC_PLAY, MF_GRAYED)
         EnableMenuItem(menuHandle, SC_STATISTICS, MF_GRAYED)
     End Sub
+
     ''' <summary>
     ''' 更新窗体菜单项
     ''' </summary>
@@ -541,6 +543,10 @@ Public Class MainForm
         ArtworkListSplitContainer.UseWaitCursor = False
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
+
+    ''' <summary>
+    ''' 设置图片墙显示内容
+    ''' </summary>
     Private Sub SetGallery(artworks As List(Of Artwork), libraryPath As String)
         For Each artwork In artworks
             Dim artworkPath As String = Path.Combine(libraryPath, artwork.UUID.ToString())
@@ -583,15 +589,21 @@ Public Class MainForm
             ImageGalleryMain.AddImage(gi)
         Next
     End Sub
+
     ''' <summary>
     ''' 查看属性信息
     ''' </summary>
     Private Sub StorageStatusLabel_Click(sender As Object, e As EventArgs) Handles StorageStatusLabel.Click
         MnuLibStatistics.PerformClick()
     End Sub
+
+    ''' <summary>
+    ''' 搜索内容时触发
+    ''' </summary>
     Private Sub SearchTextBox_TextChanged(sender As Object, e As EventArgs) Handles SearchTextBox.TextChanged
         SearchArtwork()
     End Sub
+
     ''' <summary>
     ''' 搜索稿件
     ''' </summary>
@@ -1208,7 +1220,7 @@ Public Class MainForm
         Else
             MnuPageUp.Enabled = True
         End If
-        If ImageGalleryMain.Page = ImageGalleryMain.GetTotalPages Then
+        If ImageGalleryMain.Page = ImageGalleryMain.TotalPages Then
             MnuPageDown.Enabled = False
         Else
             MnuPageDown.Enabled = True
@@ -1379,7 +1391,7 @@ Public Class MainForm
         End If
     End Sub
     Private Sub ImageGalleryMain_PageChanged(page As Integer) Handles ImageGalleryMain.PageChanged
-        PageStatusLabel.Text = String.Format(My.Resources.Main_LblPage, page, ImageGalleryMain.GetTotalPages)
+        PageStatusLabel.Text = String.Format(My.Resources.Main_LblPage, page, ImageGalleryMain.TotalPages)
         UpdatePageMenu()
     End Sub
     Private Sub ImageGalleryMain_ImageDoubleClicked(image As GalleryImage) Handles ImageGalleryMain.ImageDoubleClicked

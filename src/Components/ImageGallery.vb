@@ -39,6 +39,9 @@ Public Class ImageGallery
     Private _badgeColor As Color = Color.Red
 
     Private Const ItemPadding As Integer = 8
+
+    Private _focusIndex As Integer = -1 '当前键盘焦点项的索引
+    Private _anchorIndex As Integer = -1 '范围选择的锚点索引
     '事件
     ''' <summary>
     ''' 当已选的稿件变化时调用
@@ -161,7 +164,7 @@ Public Class ImageGallery
     ''' <summary>
     ''' 获得总页数
     ''' </summary>
-    Public ReadOnly Property GetTotalPages As Integer
+    Public ReadOnly Property TotalPages As Integer
         Get
             Return _totalPages
         End Get
@@ -328,6 +331,7 @@ Public Class ImageGallery
             End If
         Next
         Invalidate()
+        RaiseEvent SelectionChanged(Me, New SelectionChangedEventArgs(_selectedImages.AsReadOnly()))
     End Sub
 #End Region
 
@@ -385,6 +389,9 @@ Public Class ImageGallery
         End If
 
         Invalidate()
+        '修改布局后焦点与锚点失效
+        _focusIndex = -1
+        _anchorIndex = -1
     End Sub
     ''' <summary>
     ''' 更新页数
@@ -494,28 +501,81 @@ Public Class ImageGallery
         Dim isShiftPressed As Boolean = My.Computer.Keyboard.ShiftKeyDown
         Dim isCtrlPressed As Boolean = My.Computer.Keyboard.CtrlKeyDown
 
-        For Each item In _layoutItems
-            If e.Button = MouseButtons.Right Then
-                RaiseEvent ImageRightClicked(item.Image) '鼠标右键
-                Return
-            End If
-            If item.Bounds.Contains(logicalPoint) Then
-                If isCtrlPressed Then
-                    If _selectedImages.Contains(item.Image) Then
-                        _selectedImages.Remove(item.Image) 'Ctrl 取消选择
-                    Else
-                        _selectedImages.Add(item.Image) 'Ctrl 加选
-                    End If
-                Else
-                    _selectedImages.Clear()
-                    _selectedImages.Add(item.Image)
+        If e.Button = MouseButtons.Right Then '处理右键逻辑
+            Dim index As Integer = 0
+            For Each item In _layoutItems
+                If item.Bounds.Contains(logicalPoint) Then
+                    RaiseEvent ImageRightClicked(item.Image)
+                    _focusIndex = index '记录焦点位置
+                    Invalidate()
+                    Return
                 End If
+                index += 1
+            Next
+            Return
+        End If
+
+        If e.Button = MouseButtons.Left Then
+            Dim hitIndex As Integer = -1
+            Dim index As Integer = 0
+            For Each item In _layoutItems
+                If item.Bounds.Contains(logicalPoint) Then
+                    hitIndex = index
+                    Exit For
+                End If
+                index += 1
+            Next
+            If hitIndex >= 0 Then
+                If isShiftPressed AndAlso _focusIndex >= 0 Then
+                    'Shift+左键: 范围选择
+                    Dim startIdx As Integer = Math.Min(_focusIndex, hitIndex)
+                    Dim endIdx As Integer = Math.Max(_focusIndex, hitIndex)
+                    If Not isCtrlPressed Then
+                        '无Ctrl时清除原有选择
+                        _selectedImages.Clear()
+                    End If
+                    '添加范围内的所有项
+                    For i As Integer = startIdx To endIdx
+                        Dim img = _layoutItems(i).Image
+                        If Not _selectedImages.Contains(img) Then
+                            _selectedImages.Add(img)
+                        End If
+                    Next
+                    _anchorIndex = _focusIndex '保留锚点
+                ElseIf isCtrlPressed Then
+                    'Ctrl+左键: 切换当前项的选择状态
+                    Dim clickedImg = _layoutItems(hitIndex).Image
+                    If _selectedImages.Contains(clickedImg) Then
+                        _selectedImages.Remove(clickedImg)
+                    Else
+                        _selectedImages.Add(clickedImg)
+                    End If
+                    'Ctrl点击时不改变其他项的选择状态
+                    _anchorIndex = -1 '清除锚点
+                Else
+                    '普通左键: 单选
+                    _selectedImages.Clear()
+                    _selectedImages.Add(_layoutItems(hitIndex).Image)
+                    _anchorIndex = -1 '清除锚点
+                End If
+
+                _focusIndex = hitIndex '更新焦点索引
                 Invalidate()
-                'RaiseEvent SelectionChanged(_selectedImages.AsReadOnly()) '选中稿件
                 RaiseEvent SelectionChanged(Me, New SelectionChangedEventArgs(_selectedImages.AsReadOnly()))
                 Return
             End If
-        Next
+
+            ' 点击空白区域：取消选择
+            If Not isCtrlPressed AndAlso Not isShiftPressed Then
+                _selectedImages.Clear()
+                _focusIndex = -1
+                _anchorIndex = -1
+                Invalidate()
+                'RaiseEvent SelectionChanged(_selectedImages.AsReadOnly()) '选中稿件
+                RaiseEvent SelectionChanged(Me, New SelectionChangedEventArgs(_selectedImages.AsReadOnly()))
+            End If
+        End If
+
         For Each kv In _pageRects
             If kv.Value.Contains(logicalPoint) Then
                 SetPage(kv.Key)
@@ -542,34 +602,158 @@ Public Class ImageGallery
             End If
         Next
     End Sub
+
     ''' <summary>
     ''' 按下键盘时触发
     ''' </summary>
     Protected Overrides Sub OnKeyDown(e As KeyEventArgs)
         MyBase.OnKeyDown(e)
-        If _currentPageImages.Count = 0 Then Return '避免在没有任何数据的情况下接受键盘输入
+        Me.Focus() '设置自身为焦点
+
+        If _currentPageImages.Count = 0 Then Return
         Select Case e.KeyCode
-            Case Keys.Up
+            Case Keys.Left, Keys.Right, Keys.Up, Keys.Down
+                If _layoutItems.Count = 0 Then Return
+                '确保有焦点项(默认选第一个)
+                If _focusIndex < 0 Then _focusIndex = 0
+                Dim currentFocus As Integer = _focusIndex
+                Dim newIndex As Integer = currentFocus
+                '计算移动后的索引(网格边界内)
+                Dim keyCode = e.KeyCode And Keys.KeyCode
+                '上和左是上一张, 下和右是下一张
+                If keyCode = Keys.Up OrElse keyCode = Keys.Left Then
+                    newIndex = Math.Max(0, currentFocus - 1)
+                Else
+                    newIndex = Math.Min(_layoutItems.Count - 1, currentFocus + 1)
+                End If
+                If newIndex = currentFocus Then Return '无法移动
+                If e.Shift Then
+                    'Shift+方向键: 连续范围选择
+                    If _anchorIndex < 0 Then _anchorIndex = currentFocus
 
-            Case Keys.Down
+                    Dim startIdx As Integer = Math.Min(_anchorIndex, newIndex)
+                    Dim endIdx As Integer = Math.Max(_anchorIndex, newIndex)
 
-            Case Keys.Left
-
-            Case Keys.Right
-
+                    _selectedImages.Clear()
+                    For i As Integer = startIdx To endIdx
+                        _selectedImages.Add(_layoutItems(i).Image)
+                    Next
+                    _focusIndex = newIndex
+                Else
+                    '无Shift: 移动到新项并单选
+                    _selectedImages.Clear()
+                    _selectedImages.Add(_layoutItems(newIndex).Image)
+                    _focusIndex = newIndex
+                    _anchorIndex = -1 '清除锚点
+                End If
+                '滚动到新项可见
+                EnsureVisible(newIndex)
+                Invalidate()
+                RaiseEvent SelectionChanged(Me, New SelectionChangedEventArgs(_selectedImages.AsReadOnly()))
+                e.Handled = True
             Case Keys.PageUp
                 CancelSelect()
                 SetPage(_currentPage - 1)
+                e.Handled = True
             Case Keys.PageDown
                 CancelSelect()
                 SetPage(_currentPage + 1)
+                e.Handled = True
             Case Keys.Enter
-                RaiseEvent ImageDoubleClicked(_layoutItems(0).Image)
+                '双击事件: 优先焦点项, 其次第一个选中项, 最后第一个项
+                Dim target As GalleryImage = Nothing
+                If _focusIndex >= 0 AndAlso _focusIndex < _layoutItems.Count Then
+                    target = _layoutItems(_focusIndex).Image
+                ElseIf _selectedImages.Count > 0 Then
+                    target = _selectedImages(0)
+                ElseIf _layoutItems.Count > 0 Then
+                    target = _layoutItems(0).Image
+                End If
+                If target IsNot Nothing Then
+                    RaiseEvent ImageDoubleClicked(target)
+                    e.Handled = True
+                End If
             Case Keys.Apps
-                RaiseEvent ImageRightClicked(_layoutItems(0).Image) '鼠标右键
-            Case Else
-                Exit Select
+                '右键菜单事件
+                Dim target As GalleryImage = Nothing
+                If _focusIndex >= 0 AndAlso _focusIndex < _layoutItems.Count Then
+                    target = _layoutItems(_focusIndex).Image
+                ElseIf _selectedImages.Count > 0 Then
+                    target = _selectedImages(0)
+                ElseIf _layoutItems.Count > 0 Then
+                    target = _layoutItems(0).Image
+                End If
+                If target IsNot Nothing Then
+                    RaiseEvent ImageRightClicked(target)
+                    e.Handled = True
+                End If
+            Case Keys.Home
+                If _layoutItems.Count > 0 Then
+                    If e.Shift Then
+                        'Shift+Home: 从锚点选择到第一个
+                        If _anchorIndex < 0 Then _anchorIndex = _focusIndex
+                        Dim startIdx As Integer = 0
+                        Dim endIdx As Integer = Math.Max(_anchorIndex, 0)
+
+                        _selectedImages.Clear()
+                        For i As Integer = startIdx To endIdx
+                            _selectedImages.Add(_layoutItems(i).Image)
+                        Next
+                        _focusIndex = 0
+                    Else
+                        'Home: 跳到第一个并单选
+                        _selectedImages.Clear()
+                        _selectedImages.Add(_layoutItems(0).Image)
+                        _focusIndex = 0
+                        _anchorIndex = -1
+                    End If
+                    EnsureVisible(0)
+                    Invalidate()
+                    RaiseEvent SelectionChanged(Me, New SelectionChangedEventArgs(_selectedImages.AsReadOnly()))
+                    e.Handled = True
+                End If
+            Case Keys.End
+                If _layoutItems.Count > 0 Then
+                    Dim lastIndex = _layoutItems.Count - 1
+                    If e.Shift Then
+                        'Shift+End: 从锚点选择到最后一个
+                        If _anchorIndex < 0 Then _anchorIndex = _focusIndex
+                        Dim startIdx As Integer = Math.Min(_anchorIndex, lastIndex)
+                        Dim endIdx As Integer = lastIndex
+
+                        _selectedImages.Clear()
+                        For i As Integer = startIdx To endIdx
+                            _selectedImages.Add(_layoutItems(i).Image)
+                        Next
+                        _focusIndex = lastIndex
+                    Else
+                        'End: 跳到最后一个并单选
+                        _selectedImages.Clear()
+                        _selectedImages.Add(_layoutItems(lastIndex).Image)
+                        _focusIndex = lastIndex
+                        _anchorIndex = -1
+                    End If
+                    EnsureVisible(lastIndex)
+                    Invalidate()
+                    RaiseEvent SelectionChanged(Me, New SelectionChangedEventArgs(_selectedImages.AsReadOnly()))
+                    e.Handled = True
+                End If
         End Select
+    End Sub
+    Private Sub EnsureVisible(index As Integer)
+        If index < 0 OrElse index >= _layoutItems.Count Then Return
+        Dim rect As Rectangle = _layoutItems(index).Bounds
+        Dim currentX As Integer = -Me.AutoScrollPosition.X
+        Dim currentY As Integer = -Me.AutoScrollPosition.Y
+        Dim clientH As Integer = Me.ClientSize.Height
+
+        If rect.Top < currentY Then
+            ' 需要向上滚动
+            Me.AutoScrollPosition = New Point(currentX, rect.Top)
+        ElseIf rect.Bottom > currentY + clientH Then
+            ' 需要向下滚动
+            Me.AutoScrollPosition = New Point(currentX, rect.Bottom - clientH)
+        End If
     End Sub
 
 #End Region
