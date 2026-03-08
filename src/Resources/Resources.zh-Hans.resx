@@ -388,7 +388,7 @@
     <value> - 备注: {0}</value>
   </data>
   <data name="Msg_StrMsTotal" xml:space="preserve">
-    <value>总计{0}个稿件</value>
+    <value>总计 {0} 个稿件</value>
   </data>
   <data name="Msg_StrMsNow" xml:space="preserve">
     <value>当前时间: {0:yyyy-MM-dd HH:mm:ss}</value>
@@ -593,5 +593,20 @@
   </data>
   <data name="Main_LblSearchedMs" xml:space="preserve">
     <value>已搜到{0}个稿件</value>
+  </data>
+  <data name="Msg_CheckingUpdate" xml:space="preserve">
+    <value>正在检查更新...</value>
+  </data>
+  <data name="Msg_UptoDate" xml:space="preserve">
+    <value>当前已是最新版本: {0}</value>
+  </data>
+  <data name="Msg_CheckUpdateFailed" xml:space="preserve">
+    <value>检查更新失败: {0}</value>
+  </data>
+  <data name="Msg_NewVerFound" xml:space="preserve">
+    <value>发现新版本: {0}</value>
+  </data>
+  <data name="Msg_DownloadNow" xml:space="preserve">
+    <value>是否现在下载?</value>
   </data>
 </root>

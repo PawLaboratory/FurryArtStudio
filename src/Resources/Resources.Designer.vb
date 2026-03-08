@@ -997,6 +997,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Checking for update... 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_CheckingUpdate() As String
+            Get
+                Return ResourceManager.GetString("Msg_CheckingUpdate", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Failed to check for update: {0} 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_CheckUpdateFailed() As String
+            Get
+                Return ResourceManager.GetString("Msg_CheckUpdateFailed", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Creation failed: {0} 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Msg_CreateFailed() As String
@@ -1051,6 +1069,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Download now? 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_DownloadNow() As String
+            Get
+                Return ResourceManager.GetString("Msg_DownloadNow", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Elevation failed: {0} 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Msg_ElevatedFailed() As String
@@ -1083,6 +1110,15 @@ Namespace My.Resources
         Friend ReadOnly Property Msg_MultiFolderOpen() As String
             Get
                 Return ResourceManager.GetString("Msg_MultiFolderOpen", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 New version found: {0} 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_NewVerFound() As String
+            Get
+                Return ResourceManager.GetString("Msg_NewVerFound", resourceCulture)
             End Get
         End Property
         
@@ -1227,6 +1263,15 @@ Namespace My.Resources
         Friend ReadOnly Property Msg_TerminalFailed() As String
             Get
                 Return ResourceManager.GetString("Msg_TerminalFailed", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Your version is up to date: {0} 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_UptoDate() As String
+            Get
+                Return ResourceManager.GetString("Msg_UptoDate", resourceCulture)
             End Get
         End Property
         

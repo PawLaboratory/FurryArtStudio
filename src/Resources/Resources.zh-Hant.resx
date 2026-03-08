@@ -594,4 +594,19 @@
   <data name="Main_LblSearchedMs" xml:space="preserve">
     <value>已搜尋{0}個稿件</value>
   </data>
+  <data name="Msg_CheckingUpdate" xml:space="preserve">
+    <value>正在檢查更新...</value>
+  </data>
+  <data name="Msg_UptoDate" xml:space="preserve">
+    <value>目前已是最新版本: {0}</value>
+  </data>
+  <data name="Msg_CheckUpdateFailed" xml:space="preserve">
+    <value>檢查更新失敗: {0}</value>
+  </data>
+  <data name="Msg_NewVerFound" xml:space="preserve">
+    <value>發現新版本: {0}</value>
+  </data>
+  <data name="Msg_DownloadNow" xml:space="preserve">
+    <value>是否現在下載?</value>
+  </data>
 </root>

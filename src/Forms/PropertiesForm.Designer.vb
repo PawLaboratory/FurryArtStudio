@@ -59,8 +59,6 @@ Partial Class PropertiesForm
         Me.GrpAdvanced = New System.Windows.Forms.GroupBox()
         Me.ChkDevTools = New System.Windows.Forms.CheckBox()
         Me.ChkPlayNext = New System.Windows.Forms.CheckBox()
-        Me.LblPlayMode = New System.Windows.Forms.Label()
-        Me.CboPlayMode = New System.Windows.Forms.ComboBox()
         Me.TxtAutoNext = New System.Windows.Forms.TextBox()
         Me.LblAutoNext = New System.Windows.Forms.Label()
         Me.ChkFileAssociation = New System.Windows.Forms.CheckBox()
@@ -72,6 +70,7 @@ Partial Class PropertiesForm
         Me.ColorDlg = New System.Windows.Forms.ColorDialog()
         Me.BtnClose = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.ChkLoop = New System.Windows.Forms.CheckBox()
         Me.GrpAppearance.SuspendLayout()
         Me.GrpStartup.SuspendLayout()
         Me.GrpAdvanced.SuspendLayout()
@@ -420,10 +419,9 @@ Partial Class PropertiesForm
         '
         'GrpAdvanced
         '
+        Me.GrpAdvanced.Controls.Add(Me.ChkLoop)
         Me.GrpAdvanced.Controls.Add(Me.ChkDevTools)
         Me.GrpAdvanced.Controls.Add(Me.ChkPlayNext)
-        Me.GrpAdvanced.Controls.Add(Me.LblPlayMode)
-        Me.GrpAdvanced.Controls.Add(Me.CboPlayMode)
         Me.GrpAdvanced.Controls.Add(Me.TxtAutoNext)
         Me.GrpAdvanced.Controls.Add(Me.LblAutoNext)
         Me.GrpAdvanced.Controls.Add(Me.ChkFileAssociation)
@@ -458,24 +456,6 @@ Partial Class PropertiesForm
         Me.ChkPlayNext.TabIndex = 86
         Me.ChkPlayNext.Text = "播放后切换到下一个库"
         Me.ChkPlayNext.UseVisualStyleBackColor = True
-        '
-        'LblPlayMode
-        '
-        Me.LblPlayMode.AutoSize = True
-        Me.LblPlayMode.Location = New System.Drawing.Point(8, 145)
-        Me.LblPlayMode.Name = "LblPlayMode"
-        Me.LblPlayMode.Size = New System.Drawing.Size(82, 15)
-        Me.LblPlayMode.TabIndex = 85
-        Me.LblPlayMode.Text = "播放模式："
-        '
-        'CboPlayMode
-        '
-        Me.CboPlayMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CboPlayMode.FormattingEnabled = True
-        Me.CboPlayMode.Location = New System.Drawing.Point(212, 142)
-        Me.CboPlayMode.Name = "CboPlayMode"
-        Me.CboPlayMode.Size = New System.Drawing.Size(179, 23)
-        Me.CboPlayMode.TabIndex = 84
         '
         'TxtAutoNext
         '
@@ -569,6 +549,16 @@ Partial Class PropertiesForm
         Me.Label1.TabIndex = 59
         Me.Label1.Text = "/!\部分选项需要重启后生效"
         '
+        'ChkLoop
+        '
+        Me.ChkLoop.AutoSize = True
+        Me.ChkLoop.Location = New System.Drawing.Point(10, 146)
+        Me.ChkLoop.Name = "ChkLoop"
+        Me.ChkLoop.Size = New System.Drawing.Size(89, 19)
+        Me.ChkLoop.TabIndex = 88
+        Me.ChkLoop.Text = "循环播放"
+        Me.ChkLoop.UseVisualStyleBackColor = True
+        '
         'PropertiesForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -639,8 +629,6 @@ Partial Class PropertiesForm
     Friend WithEvents LblThumbMin As Label
     Friend WithEvents ChkDevTools As CheckBox
     Friend WithEvents ChkPlayNext As CheckBox
-    Friend WithEvents LblPlayMode As Label
-    Friend WithEvents CboPlayMode As ComboBox
     Friend WithEvents TxtAutoNext As TextBox
     Friend WithEvents LblAutoNext As Label
     Friend WithEvents ChkFileAssociation As CheckBox
@@ -649,4 +637,5 @@ Partial Class PropertiesForm
     Friend WithEvents BtnClose As Button
     Friend WithEvents ChkMenuUpper As CheckBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents ChkLoop As CheckBox
 End Class

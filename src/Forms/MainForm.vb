@@ -80,7 +80,16 @@ Public Class MainForm
             Case AppSettings.LanguageOption.ChineseTraditional
                 SysThreading.Thread.CurrentThread.CurrentUICulture = New CultureInfo("zh-Hant")
             Case Else
-                SysThreading.Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
+                '当没有符合条件的选项时, 则代表首次启动程序
+                Dim systemCulture = CultureInfo.InstalledUICulture '检测当前系统语言, 并自动设置
+                Select Case systemCulture.Name
+                    Case "zh-CN", "zh-SG"
+                        SysThreading.Thread.CurrentThread.CurrentUICulture = New CultureInfo("zh-Hans")
+                    Case "zh-TW", "zh-HK", "zh-MO"
+                        SysThreading.Thread.CurrentThread.CurrentUICulture = New CultureInfo("zh-Hant")
+                    Case Else
+                        SysThreading.Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
+                End Select
         End Select
         UpdateFormLang() '更新语言
         SystemThemeChange() '设置主题
@@ -635,7 +644,7 @@ Public Class MainForm
             Process.Start(startInfo)
             Me.Close()
         Catch ex As Win32Exception
-            MessageBox.Show(String.Format(My.Resources.Msg_ElevatedFailed, ex.Message), "FurryArtStudio", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show(String.Format(My.Resources.Msg_ElevatedFailed, ex.Message), My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
     End Sub
     Private Sub MnuRunTerminal_Click(sender As Object, e As EventArgs) Handles MnuRunTerminal.Click
@@ -654,7 +663,7 @@ Public Class MainForm
             }
             Process.Start(psi)
         Catch ex As Exception
-            MessageBox.Show(String.Format(My.Resources.Msg_TerminalFailed, ex.Message), "FurryArtStudio", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show(String.Format(My.Resources.Msg_TerminalFailed, ex.Message), My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
     End Sub
     Private Sub MnuProperties_Click(sender As Object, e As EventArgs) Handles MnuProperties.Click
@@ -1226,22 +1235,20 @@ Public Class MainForm
         Await CheckForUpdate()
     End Sub
     Private Async Function CheckForUpdate() As Task
-        StatusLabel.Text = "正在检查更新..."
+        StatusLabel.Text = My.Resources.Msg_CheckingUpdate
         Dim updateInfo = Await CheckForUpdateAsync()
-        If updateInfo.HasError Then
-            MessageBox.Show("检查更新失败：" & updateInfo.ErrorMessage, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        ElseIf updateInfo.IsUpdateAvailable Then
-            Dim msg = $"发现新版本 {updateInfo.LatestVersion}!" & vbCrLf & vbCrLf &
-                      "更新内容：" & vbCrLf & updateInfo.ReleaseNotes & vbCrLf & vbCrLf &
-                      "是否现在下载？"
-            Dim result = MessageBox.Show(msg, "有可用更新", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If updateInfo.HasError Then '检查更新失败
+            MessageBox.Show(String.Format(My.Resources.Msg_CheckUpdateFailed, updateInfo.ErrorMessage), My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        ElseIf updateInfo.IsUpdateAvailable Then '有新版本可用
+            Dim msg = updateInfo.ReleaseNotes & vbCrLf & My.Resources.Msg_DownloadNow
+            Dim result = MessageBox.Show(msg, String.Format(My.Resources.Msg_NewVerFound, updateInfo.LatestVersion), MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
-                Process.Start(updateInfo.DownloadUrl)
+                Process.Start(updateInfo.DownloadUrl) '打开下载链接
             End If
-        Else
-            MessageBox.Show($"当前已是最新版本（{updateInfo.LatestVersion}）。", "检查更新", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else '已是最新版本
+            MessageBox.Show(String.Format(My.Resources.Msg_UptoDate, updateInfo.LatestVersion), My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-        StatusLabel.Text = "就绪"
+        StatusLabel.Text = My.Resources.Stat_Ready
     End Function
     Private Sub MnuHelpWhatsNew_Click(sender As Object, e As EventArgs) Handles MnuHelpWhatsNew.Click
         Dim txt As New TextBoxForm(My.Resources.Licenses.WhatsNewText, My.Resources.Main_StrWhatsNew)

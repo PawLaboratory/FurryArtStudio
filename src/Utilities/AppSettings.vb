@@ -46,7 +46,6 @@ Public Class AppSettings
     End Enum
 
     Public Enum UpdateIntervalOption
-        EveryStart
         Daily
         Weekly
     End Enum
@@ -74,7 +73,6 @@ Public Class AppSettings
 
         Public Property MenuUppercase As Boolean = False
     End Class
-
     Public Class StartupSettings
         Public Property RunAtStartup As Boolean = False
         Public Property RestoreLastLibrary As Boolean = True
@@ -83,11 +81,10 @@ Public Class AppSettings
         Public Property AutoPlaySlideshow As Boolean = False
 
         Public Property AutoCheckUpdate As Boolean = True
-        Public Property UpdateInterval As UpdateIntervalOption = UpdateIntervalOption.EveryStart
+        Public Property UpdateInterval As UpdateIntervalOption = UpdateIntervalOption.Daily
 
         Public Property LastCheckUpdateTime As DateTime = DateTime.MinValue '隐藏
     End Class
-
     Public Class AdvancedSettings
         Public Property ThumbnailMinSize As Integer = 120
         Public Property ThumbnailMaxSize As Integer = 240

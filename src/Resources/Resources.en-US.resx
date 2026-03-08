@@ -594,4 +594,19 @@
   <data name="Main_LblSearchedMs" xml:space="preserve">
     <value>Searched {0} manuscript(s)</value>
   </data>
+  <data name="Msg_CheckingUpdate" xml:space="preserve">
+    <value>Checking for update...</value>
+  </data>
+  <data name="Msg_UptoDate" xml:space="preserve">
+    <value>Your version is up to date: {0}</value>
+  </data>
+  <data name="Msg_CheckUpdateFailed" xml:space="preserve">
+    <value>Failed to check for update: {0}</value>
+  </data>
+  <data name="Msg_NewVerFound" xml:space="preserve">
+    <value>New version found: {0}</value>
+  </data>
+  <data name="Msg_DownloadNow" xml:space="preserve">
+    <value>Download now?</value>
+  </data>
 </root>
