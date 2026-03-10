@@ -537,7 +537,7 @@ Public Class MainForm
         Dim result = GetFolderInfo(libraryPath)
         StorageStatusLabel.Text = String.Format(My.Resources.Main_LblStorage,
                                                 result.sizeString, result.fileCount)
-        Dim page As Integer = Math.Ceiling(_artworkCount / ImageGalleryMain.PageSize)
+        Dim page As Integer = Math.Max(1, Math.Ceiling(_artworkCount / ImageGalleryMain.PageSize))
         MnuPageDown.Enabled = page > 1
         PageStatusLabel.Text = String.Format(My.Resources.Main_LblPage1, page) '在初始化阶段暂时获得不到准确的页码
         ArtworkListSplitContainer.UseWaitCursor = False
