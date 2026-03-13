@@ -77,7 +77,8 @@ Public Class FileTransaction
     ''' 初始化工作区
     ''' </summary>
     Private Sub InitializeWorkspace()
-        _workingPath = Path.Combine(Path.GetTempPath(), $"FAS_{Guid.NewGuid():N}") '工作区路径, 确保全局唯一
+        ' 修改临时工作区到程序运行目录
+        _workingPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $".FAS_{Guid.NewGuid():N}") '工作区路径, 确保全局唯一
         Directory.CreateDirectory(_workingPath)
         If _transactionType = TransactionType.Edit Then '编辑模式下将文件复制到工作区
             SyncTargetToWorkspace()
@@ -148,7 +149,11 @@ Public Class FileTransaction
                     result.ErrorMessage = "目标文件已存在"
                     result.ExistsInWorkspace = True
                 Else
-                    File.Copy(sourcePath, destPath)
+                    ' 使用硬连接方式添加文件
+                    If Not CreateHardLink(destPath, sourcePath, IntPtr.Zero) Then
+                        ' 降级处理
+                        File.Copy(sourcePath, destPath)
+                    End If
                     result.Success = True
                     result.WorkingPath = destPath
                 End If
@@ -190,7 +195,9 @@ Public Class FileTransaction
             '复制工作区所有文件到目标文件夹
             For Each file In Directory.GetFiles(_workingPath)
                 Dim destPath = Path.Combine(_targetPath, Path.GetFileName(file))
-                IO.File.Copy(file, destPath)
+                If Not CreateHardLink(destPath, file, IntPtr.Zero) Then
+                    IO.File.Copy(file, destPath)
+                End If
                 result.CopiedFiles.Add(Path.GetFileName(file))
             Next
             result.Success = True

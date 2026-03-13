@@ -302,4 +302,13 @@ Public Module WinAPI
     Public Const SEE_MASK_INVOKEIDLIST As Integer = &HC
 #End Region
 
+#Region "文件处理"
+    <DllImport("kernel32.dll", CharSet:=CharSet.Auto)>
+    Public Function CreateHardLink(
+        ByVal lpFileName As String,
+        ByVal lpExistingFileName As String,
+        ByVal lpSecurityAttributes As IntPtr
+        ) As <MarshalAs(UnmanagedType.Bool)> Boolean
+    End Function
+#End Region
 End Module

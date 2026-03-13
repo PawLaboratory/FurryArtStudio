@@ -31,6 +31,7 @@ Module ImageChecker
                     End If
                 Next
             End Using
+            Return False ' 循环未命中，类型不支持或不是图片
         Catch ex As Exception
             '不应当返回False, 应当当抛出异常, 调用者可以根据需要处理
             Throw New IOException($"Can not read file at {filePath}", ex)
