@@ -88,7 +88,7 @@ Public Class FileTransaction
                 SyncTargetToWorkspace()
             End If
         Catch ex As Exception
-            Throw New IOException(ex)
+            Throw New IOException("error: ", ex)
         End Try
     End Sub
     ''' <summary>
