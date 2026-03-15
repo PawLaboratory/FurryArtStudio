@@ -15,9 +15,12 @@
 Imports System.IO
 
 Public Class FileTransaction
+    Implements IDisposable
 
 #Region "定义"
-    '私有字段
+    <System.Runtime.InteropServices.DllImport("kernel32.dll", SetLastError:=True, CharSet:=System.Runtime.InteropServices.CharSet.Auto)>
+    Private Shared Function CreateHardLink(lpFileName As String, lpExistingFileName As String, lpSecurityAttributes As IntPtr) As Boolean
+    End Function
     Private _targetPath As String '目标文件夹路径
     Private _workingPath As String '临时工作文件夹路径
     Private _isDisposed As Boolean '是否已释放
@@ -77,12 +80,16 @@ Public Class FileTransaction
     ''' 初始化工作区
     ''' </summary>
     Private Sub InitializeWorkspace()
-        ' 修改临时工作区到程序运行目录
-        _workingPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $".FAS_{Guid.NewGuid():N}") '工作区路径, 确保全局唯一
-        Directory.CreateDirectory(_workingPath)
-        If _transactionType = TransactionType.Edit Then '编辑模式下将文件复制到工作区
-            SyncTargetToWorkspace()
-        End If
+        Try
+            _workingPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $".FAS_{Guid.NewGuid():N}")
+            Dim dirInfo = Directory.CreateDirectory(_workingPath)
+            dirInfo.Attributes = FileAttributes.Directory Or FileAttributes.Hidden
+            If _transactionType = TransactionType.Edit Then
+                SyncTargetToWorkspace()
+            End If
+        Catch ex As Exception
+            Throw New IOException("error: ", ex)
+        End Try
     End Sub
     ''' <summary>
     ''' 从目标文件夹同步到工作区
@@ -232,11 +239,21 @@ Public Class FileTransaction
     ''' <summary>
     ''' 实现IDisposable接口, 支持Using语句
     ''' </summary>
-    Public Sub Dispose()
+    Public Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+    Protected Overridable Sub Dispose(disposing As Boolean)
         If Not _isDisposed Then
+            If disposing Then
+            End If
             CleanupWorkspace()
             _isDisposed = True
         End If
+    End Sub
+    Protected Overrides Sub Finalize()
+        Dispose(False)
+        MyBase.Finalize()
     End Sub
 #End Region
 
