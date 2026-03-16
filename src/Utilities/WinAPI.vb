@@ -153,48 +153,49 @@ Public Module WinAPI
 #End Region
 
 #Region "窗口"
-    'ChangeWindowMessageFilter 函数 - 修改指定窗口(UIPI)消息筛选器的用户界面特权隔离, 解除管理员模式下无法拖拽的问题
+    <StructLayout(LayoutKind.Sequential)>
+    Public Structure CHANGEFILTERSTRUCT
+        Public cbSize As Integer
+        Public ExtStatus As Integer
+    End Structure
+    <DllImport("shell32.dll")>
+    Public Sub DragAcceptFiles(ByVal hWnd As IntPtr, ByVal fAccept As Boolean)
+    End Sub
     <DllImport("user32.dll")>
     Public Function ChangeWindowMessageFilter(
         ByVal message As Integer,
         ByVal dwFlag As Integer
     ) As <MarshalAs(UnmanagedType.Bool)> Boolean
     End Function
-    'ChangeWindowMessageFilterEx 函数 - 窗口级别
     <DllImport("user32.dll", SetLastError:=True)>
     Public Function ChangeWindowMessageFilterEx(
         ByVal hwnd As IntPtr,
         ByVal message As Integer,
         ByVal action As Integer,
-        ByRef pChangeFilterStruct As Integer) As Boolean
+        ByRef pChangeFilterStruct As CHANGEFILTERSTRUCT) As Boolean
     End Function
-    'SendMessage 函数 - 发送特定消息
     <DllImport("user32.dll")>
     Public Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As Integer, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As IntPtr
     End Function
-    'ReleaseCapture 函数 - 处理拖动事件
     <DllImport("user32.dll")>
     Public Function ReleaseCapture() As Boolean
     End Function
-    '消息常量
-    Public Const WM_DROPFILES As Integer = &H233 '拖拽文件
+    Public Const WM_DROPFILES As Integer = &H233 
     Public Const WM_COPYGLOBALDATA As Integer = &H49
     Public Const WM_COPYDATA As Integer = &H4A
     Public Const MSGFLT_ALLOW As Integer = 1
     Public Const MSGFLT_ADD As Integer = 1
     Public Const MSGFLT_REMOVE As Integer = 2
-    '窗口常量
-    Public Const WM_SYSCOLORCHANGE = &H15S '当系统颜色改变时, 发送此消息给所有顶级窗口
-    Public Const WM_SETFOCUS = &H7S '窗体获得焦点
-    Public Const WM_KILLFOCUS = &H8S '窗体失去焦点
-    Public Const WM_COMMAND = &H111 '窗体选择菜单项
-    Public Const WM_SYSCOMMAND = &H112 '窗体选择系统菜单项
-    Public Const WM_DWMCOLORIZATIONCOLORCHANGED = &H320 '窗体主题色被更改(深色同样有效)
-    Public Const WM_SYSMENU As Integer = &H313 '系统菜单常量
+    Public Const WM_SYSCOLORCHANGE = &H15S 
+    Public Const WM_SETFOCUS = &H7S 
+    Public Const WM_KILLFOCUS = &H8S 
+    Public Const WM_COMMAND = &H111 
+    Public Const WM_SYSCOMMAND = &H112 
+    Public Const WM_DWMCOLORIZATIONCOLORCHANGED = &H320 
+    Public Const WM_SYSMENU As Integer = &H313 
     Public Const WM_NCLBUTTONDOWN As Integer = &HA1
     Public Const WM_THEMECHANGED As Integer = &H31A
     Public Const WM_SETREDRAW As Integer = &HB
-    '其他常量
     Public Const HTCAPTION As Integer = 2
 #End Region
 

@@ -65,6 +65,9 @@ Public Class MainForm
         Dim titleFont As New Font(LblTitle.Font, FontStyle.Bold)
         LblTitle.Font = titleFont
         If IsAdmin() Then MnuRunAsElevated.Enabled = False
+        If ImageGalleryMain IsNot Nothing Then
+            RegisterUIPIDragDropFilter(ImageGalleryMain.Handle)
+        End If
 #If DEBUG Then
         MnuDevTools.Visible = True '显示并启用开发者工具选项
         MnuDevTools.Enabled = True
@@ -101,6 +104,7 @@ Public Class MainForm
         Icon = Icon.FromHandle(My.Resources.Icons.FurryArtStudio.GetHicon) '设置图标
         settings.Save() '保存默认设置
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
+        Me.AllowDrop = True
     End Sub
 
     ''' <summary>
@@ -179,6 +183,45 @@ Public Class MainForm
         PiChkThumb.Height = PiChkThumb.Width '保持为方形
     End Sub
 
+    ''' <summary>
+    ''' 当窗口句柄创建或重建时，注入UIPI消息过滤器
+    ''' </summary>
+    Protected Overrides Sub OnHandleCreated(e As EventArgs)
+        MyBase.OnHandleCreated(e)
+        RegisterUIPIDragDropFilter(Me.Handle)
+        If ImageGalleryMain IsNot Nothing AndAlso ImageGalleryMain.IsHandleCreated Then
+            RegisterUIPIDragDropFilter(ImageGalleryMain.Handle)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' 底层注册逻辑：放行跨特权等级的拖拽消息
+    ''' </summary>
+    Private Sub RegisterUIPIDragDropFilter(hWnd As IntPtr)
+        If hWnd = IntPtr.Zero Then Return
+        
+        Try
+            Dim cfs As New WinAPI.CHANGEFILTERSTRUCT()
+            cfs.cbSize = Marshal.SizeOf(cfs)
+            
+            ' 定义需要穿越 UIPI 墙的消息集
+            Dim targetMessages As Integer() = {
+                WinAPI.WM_DROPFILES,
+                WinAPI.WM_COPYDATA,
+                WinAPI.WM_COPYGLOBALDATA
+            }
+
+            For Each msg In targetMessages
+                WinAPI.ChangeWindowMessageFilterEx(hWnd, msg, WinAPI.MSGFLT_ALLOW, cfs)
+            Next
+            
+            ' 显式告知 Shell 接受文件流
+            WinAPI.DragAcceptFiles(hWnd, True)
+            
+        Catch ex As Exception
+            Debug.WriteLine($"Critical: Failed to set UIPI filter for {hWnd:X}. Message: {ex.Message}")
+        End Try
+    End Sub
 #End Region
 
 #Region "辅助方法"
