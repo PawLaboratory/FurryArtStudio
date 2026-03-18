@@ -88,10 +88,7 @@ Public Class EditDialogForm
     End Sub
     Protected Overrides Sub OnHandleCreated(e As EventArgs)
         MyBase.OnHandleCreated(e)
-        '解决管理员权限下程序无法接受拖拽数据的问题
-        '但是似乎不能用, 可能是微软限制, 不管了
-        ChangeWindowMessageFilterEx(Me.Handle, WM_DROPFILES, MSGFLT_ALLOW, IntPtr.Zero)
-        ChangeWindowMessageFilterEx(Me.Handle, WM_COPYDATA, MSGFLT_ALLOW, IntPtr.Zero)
+        RegisterUIPIDragDropFilter(Me.Handle)
     End Sub
     Private Sub EditDialogForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         _transaction.Dispose()

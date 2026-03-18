@@ -65,6 +65,9 @@ Public Class MainForm
         Dim titleFont As New Font(LblTitle.Font, FontStyle.Bold)
         LblTitle.Font = titleFont
         If IsAdmin() Then MnuRunAsElevated.Enabled = False
+        If ImageGalleryMain IsNot Nothing Then
+            RegisterUIPIDragDropFilter(ImageGalleryMain.Handle)
+        End If
 #If DEBUG Then
         MnuDevTools.Visible = True '显示并启用开发者工具选项
         MnuDevTools.Enabled = True
@@ -101,6 +104,7 @@ Public Class MainForm
         Icon = Icon.FromHandle(My.Resources.Icons.FurryArtStudio.GetHicon) '设置图标
         settings.Save() '保存默认设置
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
+        Me.AllowDrop = True
     End Sub
 
     ''' <summary>
@@ -179,6 +183,16 @@ Public Class MainForm
         PiChkThumb.Height = PiChkThumb.Width '保持为方形
     End Sub
 
+    ''' <summary>
+    ''' 当窗口句柄创建或重建时，注入UIPI消息过滤器
+    ''' </summary>
+    Protected Overrides Sub OnHandleCreated(e As EventArgs)
+        MyBase.OnHandleCreated(e)
+        RegisterUIPIDragDropFilter(Me.Handle)
+        If ImageGalleryMain IsNot Nothing AndAlso ImageGalleryMain.IsHandleCreated Then
+            RegisterUIPIDragDropFilter(ImageGalleryMain.Handle)
+        End If
+    End Sub
 #End Region
 
 #Region "辅助方法"

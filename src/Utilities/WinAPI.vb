@@ -153,6 +153,14 @@ Public Module WinAPI
 #End Region
 
 #Region "窗口"
+    <StructLayout(LayoutKind.Sequential)>
+    Public Structure CHANGEFILTERSTRUCT
+        Public cbSize As Integer
+        Public ExtStatus As Integer
+    End Structure
+    <DllImport("shell32.dll")>
+    Public Sub DragAcceptFiles(ByVal hWnd As IntPtr, ByVal fAccept As Boolean)
+    End Sub
     'ChangeWindowMessageFilter 函数 - 修改指定窗口(UIPI)消息筛选器的用户界面特权隔离, 解除管理员模式下无法拖拽的问题
     <DllImport("user32.dll")>
     Public Function ChangeWindowMessageFilter(
@@ -166,7 +174,7 @@ Public Module WinAPI
         ByVal hwnd As IntPtr,
         ByVal message As Integer,
         ByVal action As Integer,
-        ByRef pChangeFilterStruct As Integer) As Boolean
+        ByRef pChangeFilterStruct As CHANGEFILTERSTRUCT) As Boolean
     End Function
     'SendMessage 函数 - 发送特定消息
     <DllImport("user32.dll")>
@@ -190,7 +198,7 @@ Public Module WinAPI
     Public Const WM_COMMAND = &H111 '窗体选择菜单项
     Public Const WM_SYSCOMMAND = &H112 '窗体选择系统菜单项
     Public Const WM_DWMCOLORIZATIONCOLORCHANGED = &H320 '窗体主题色被更改(深色同样有效)
-    Public Const WM_SYSMENU As Integer = &H313 '系统菜单常量
+    Public Const WM_SYSMENU As Integer = &H313 '系统菜单常量 
     Public Const WM_NCLBUTTONDOWN As Integer = &HA1
     Public Const WM_THEMECHANGED As Integer = &H31A
     Public Const WM_SETREDRAW As Integer = &HB
