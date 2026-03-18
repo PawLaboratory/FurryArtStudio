@@ -20,12 +20,10 @@
   <img src="https://img.shields.io/badge/Language-VB.NET-9B4F96">
 </div>
 
-
 ## 🚀 项目简介
 
 **FurryArtStudio** 是一款用 VB.NET 开发的桌面应用，致力于帮助 Furry 社区用户高效整理角色设定、绘画素材、参考图集等内容 🖼️  
 它支持直观的分类、标签、搜索与批量操作，是艺术创作者和资料收集者的好帮手 🎨
-
 
 ## 📦 功能亮点
 
@@ -39,7 +37,6 @@
 - 🖼 高性能图片墙、加载速度快、内存占用低  
 - 🦾 隐私优先、不上传数据、不训练AI  
 - 以及更多...  
-
 
 ## 📥 快速开始
 
@@ -59,13 +56,6 @@ cd FurryArtStudio
 - 确保已安装 .NET Framework 4.7.2 开发工具包。  
 - 按 F5 构建并运行。🎉  
 
-
-## 🧪 测试版说明
-
-当前版本为测试版（Beta），欢迎体验与反馈  
-如发现问题或有功能建议，请通过 Issues 提交 💡
-
-
 ## 📂 贡献指南
 
 1. Fork 本仓库  
@@ -73,12 +63,10 @@ cd FurryArtStudio
 3. 提交 Pull Request  
 4. 等待 Review
 
-
 ## 📄 许可证
 
 本项目遵循 **Apache License 2.0**  
 使用本项目请确保您已充分阅读并同意[隐私政策](src/Docs/PRIVACY.txt)和[用户协议](src/Docs/TERMS.txt)
-
 
 ## 💬 联系方式
 

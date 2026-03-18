@@ -59,13 +59,6 @@ cd FurryArtStudio
 - Ensure .NET Framework 4.7.2 development tools are installed.  
 - Press F5 to build and run. 🎉  
 
-
-## 🧪 Beta Version Notice
-
-The current version is a beta release, feedback is welcome  
-If you find any issues or have feature suggestions, please submit them via Issues 💡
-
-
 ## 📂 Contributing Guide
 
 1. Fork this repository  
@@ -77,7 +70,7 @@ If you find any issues or have feature suggestions, please submit them via Issue
 ## 📄 License
 
 This project is licensed under **Apache License 2.0**  
-By using this project, please ensure you have fully read and agreed to [PRIVACY.txt](../src/Docs/PRIVACY.txt) and [TERMS.txt](../src/Docs/TERMS.txt)
+By using this project, please ensure you have fully read and agreed to [Privacy Policy](../src/Docs/PRIVACY.txt) and [User Terms](../src/Docs/TERMS.txt)
 
 
 ## 💬 Contact

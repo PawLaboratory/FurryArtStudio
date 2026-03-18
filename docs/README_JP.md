@@ -20,11 +20,9 @@
   <img src="https://img.shields.io/badge/Language-VB.NET-9B4F96">
 </div>
 
-
 ## 🚀 プロジェクト紹介
 
-**FurryArtStudio** は、VB.NET で開発されたデスクトップアプリケーションです。Furry コミュニティのユーザーが、自身のキャラクター設定、イラスト素材、ポーズ資料などを効率的に整理できるように設計されています 🖼️
-
+**FurryArtStudio** は、VB.NET で開発されたデスクトップアプリケーションです。Furry コミュニティのユーザーが、自身のキャラクター設定、イラスト素材、ポーズ資料などを効率的に整理できるように設計されています 🖼️  
 直感的なカテゴリー分け、タグ付け、検索、一括操作をサポートしており、クリエイターや資料コレクターにとって最適なパートナーとなります 🎨
 
 ## 📦 主な機能
@@ -49,18 +47,13 @@
 ### 方法2：ソースコードからビルド
 Visual Studio 環境をお持ちの場合：
 ```bash
-git clone [https://github.com/xionglongztz/FurryArtStudio.git](https://github.com/xionglongztz/FurryArtStudio.git)
+git clone https://github.com/xionglongztz/FurryArtStudio.git
 cd FurryArtStudio
 ```
 
 * Visual Studio 2019以降で `FurryArtStudio.sln` を開きます。
 * .NET Framework 4.7.2 開発ワークロードがインストールされていることを確認してください。
 * `F5` キーを押してビルド＆実行します。🎉
-
-## 🧪 ベータ版について
-
-本プロジェクトは現在ベータ版（Beta）です。フィードバックを心よりお待ちしております。
-バグ報告や機能改善の提案は、 [Issues](https://www.google.com/search?q=https://github.com/xionglongztz/FurryArtStudio/issues) までお寄せください 💡
 
 ## 📂 コントリビューション（貢献方法）
 
