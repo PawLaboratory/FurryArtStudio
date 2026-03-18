@@ -193,35 +193,6 @@ Public Class MainForm
             RegisterUIPIDragDropFilter(ImageGalleryMain.Handle)
         End If
     End Sub
-
-    ''' <summary>
-    ''' 底层注册逻辑：放行跨特权等级的拖拽消息
-    ''' </summary>
-    Private Sub RegisterUIPIDragDropFilter(hWnd As IntPtr)
-        If hWnd = IntPtr.Zero Then Return
-        
-        Try
-            Dim cfs As New WinAPI.CHANGEFILTERSTRUCT()
-            cfs.cbSize = Marshal.SizeOf(cfs)
-            
-            ' 定义需要穿越 UIPI 墙的消息集
-            Dim targetMessages As Integer() = {
-                WinAPI.WM_DROPFILES,
-                WinAPI.WM_COPYDATA,
-                WinAPI.WM_COPYGLOBALDATA
-            }
-
-            For Each msg In targetMessages
-                WinAPI.ChangeWindowMessageFilterEx(hWnd, msg, WinAPI.MSGFLT_ALLOW, cfs)
-            Next
-            
-            ' 显式告知 Shell 接受文件流
-            WinAPI.DragAcceptFiles(hWnd, True)
-            
-        Catch ex As Exception
-            Debug.WriteLine($"Critical: Failed to set UIPI filter for {hWnd:X}. Message: {ex.Message}")
-        End Try
-    End Sub
 #End Region
 
 #Region "辅助方法"
