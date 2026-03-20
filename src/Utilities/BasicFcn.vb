@@ -573,6 +573,9 @@ Module BasicFcn
 #End Region
 
 #Region "本地化"
+    ''' <summary>
+    ''' 定义一个语言变更接口
+    ''' </summary>
     Public Interface ILocalizable
         Sub LanguageChange()
     End Interface

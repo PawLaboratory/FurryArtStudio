@@ -124,6 +124,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Extract result 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property ColorDialog_Title() As String
+            Get
+                Return ResourceManager.GetString("ColorDialog_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 &amp;Add... 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Edit_BtnAddItem() As String

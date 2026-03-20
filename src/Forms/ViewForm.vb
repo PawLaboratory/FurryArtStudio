@@ -15,9 +15,11 @@
 Imports System.ComponentModel
 Imports System.IO
 Imports System.Runtime.InteropServices
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
-Imports Chromis
+Imports Chromis.ColorExtractor
+Imports Ookii.Dialogs.WinForms
 
 Public Class ViewForm
     Implements IThemeChangeable, ILocalizable
@@ -47,9 +49,15 @@ Public Class ViewForm
     Private Const SC_COPY = 6
     Private Const SC_PROP = 7
     Private Const SC_INFO = 8
-    Private Const SC_PLAY = 9
-    Private Const SC_HELP = 10
-    Private Const SC_FULLSCREEN = 11
+    Private Const SC_EXTRACT = 9
+    Private Const SC_PLAY = 10
+    Private Const SC_HELP = 11
+    Private Const SC_FULLSCREEN = 12
+    Private Const SC_KMEANS = 101
+    Private Const SC_MEDIANCUT = 102
+    Private Const SC_OCTREE = 103
+    Private _hSubMenu As IntPtr '子菜单句柄
+    '设置
     Private Settings As AppSettings = AppSettings.Load()
 #End Region
 
@@ -122,6 +130,14 @@ Public Class ViewForm
     ''' 初始化系统菜单
     ''' </summary>
     Private Sub SysMenuInit()
+        Dim hSubMenu As IntPtr = CreatePopupMenu() '新建一个子菜单
+        _hSubMenu = hSubMenu
+        AppendMenu(hSubMenu, MF_STRING, CType(SC_KMEANS, UIntPtr), "K-Means聚类(&K)...")
+        AppendMenu(hSubMenu, MF_STRING, CType(SC_MEDIANCUT, UIntPtr), "中位切分(&M)...")
+        AppendMenu(hSubMenu, MF_STRING, CType(SC_OCTREE, UIntPtr), "八叉树(&O)...")
+        SetMenuItemWithShortcut(hSubMenu, 0, SC_KMEANS, "K-Means聚类(&K)...", "Alt+1")
+        SetMenuItemWithShortcut(hSubMenu, 1, SC_MEDIANCUT, "中位切分(&M)...", "Alt+2")
+        SetMenuItemWithShortcut(hSubMenu, 2, SC_OCTREE, "八叉树(&O)...", "Alt+3")
         Dim menuHandle = GetSystemMenu(Handle, False) '获取菜单句柄
         InsertMenu(menuHandle, 0, MF_BYPOSITION Or MF_STRING, SC_PREVIMG, "上一张(&P)")
         InsertMenu(menuHandle, 1, MF_BYPOSITION Or MF_STRING, SC_NEXTIMG, "下一张(&N)")
@@ -134,10 +150,11 @@ Public Class ViewForm
         InsertMenu(menuHandle, 8, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
         InsertMenu(menuHandle, 9, MF_BYPOSITION Or MF_STRING, SC_PROP, "文件属性(&R)")
         InsertMenu(menuHandle, 10, MF_BYPOSITION Or MF_STRING, SC_INFO, "详情(&I)...")
-        InsertMenu(menuHandle, 11, MF_BYPOSITION Or MF_STRING, SC_PLAY, "幻灯片放映(&P)")
-        InsertMenu(menuHandle, 12, MF_BYPOSITION Or MF_STRING, SC_HELP, "帮助(&H)...")
-        InsertMenu(menuHandle, 13, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
-        InsertMenu(menuHandle, 14, MF_BYPOSITION Or MF_STRING, SC_FULLSCREEN, "全屏(&F)")
+        InsertMenu(menuHandle, 11, MF_BYPOSITION Or MF_POPUP, hSubMenu, "提取(&E)")
+        InsertMenu(menuHandle, 12, MF_BYPOSITION Or MF_STRING, SC_PLAY, "幻灯片放映(&P)")
+        InsertMenu(menuHandle, 13, MF_BYPOSITION Or MF_STRING, SC_HELP, "帮助(&H)...")
+        InsertMenu(menuHandle, 14, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
+        InsertMenu(menuHandle, 15, MF_BYPOSITION Or MF_STRING, SC_FULLSCREEN, "全屏(&F)")
         '设置菜单项快捷键
         SetMenuItemWithShortcut(menuHandle, 0, SC_PREVIMG, "上一张(&P)", "PageUp")
         SetMenuItemWithShortcut(menuHandle, 1, SC_NEXTIMG, "下一张(&N)", "PageDown")
@@ -147,8 +164,8 @@ Public Class ViewForm
         SetMenuItemWithShortcut(menuHandle, 7, SC_COPY, "复制(&C)", "Ctrl+C")
         SetMenuItemWithShortcut(menuHandle, 9, SC_PROP, "文件属性(&R)", "Alt+Enter")
         SetMenuItemWithShortcut(menuHandle, 10, SC_INFO, "详情(&I)...", "I")
-        SetMenuItemWithShortcut(menuHandle, 11, SC_PLAY, "幻灯片放映(&P)", "Ctrl+F5")
-        SetMenuItemWithShortcut(menuHandle, 12, SC_HELP, "帮助(&H)...", "F1")
+        SetMenuItemWithShortcut(menuHandle, 12, SC_PLAY, "幻灯片放映(&P)", "Ctrl+F5")
+        SetMenuItemWithShortcut(menuHandle, 13, SC_HELP, "帮助(&H)...", "F1")
         SetMenuItemWithShortcut(menuHandle, 14, SC_FULLSCREEN, "全屏(&F)", "F11")
     End Sub
     Private Sub InitializeMenuImages(Optional isDarkMode As Boolean = False)
@@ -162,6 +179,7 @@ Public Class ViewForm
             ApplyMenuIcon(menuHandle, SC_COPY, My.Resources.Icons.MenuCopyDark, True)
             ApplyMenuIcon(menuHandle, SC_PROP, My.Resources.Icons.FormFileDark, True)
             ApplyMenuIcon(menuHandle, SC_INFO, My.Resources.Icons.MenuInfoDark, True)
+            ApplyMenuIcon(menuHandle, _hSubMenu, My.Resources.Icons.MenuExtractDark, True)
             ApplyMenuIcon(menuHandle, SC_PLAY, My.Resources.Icons.MenuImagePlayDark, True)
             ApplyMenuIcon(menuHandle, SC_HELP, My.Resources.Icons.MenuTutorialDark, True)
             ApplyMenuIcon(menuHandle, SC_FULLSCREEN, My.Resources.Icons.MenuFullscreenDark, True)
@@ -174,6 +192,7 @@ Public Class ViewForm
             ApplyMenuIcon(menuHandle, SC_COPY, My.Resources.Icons.MenuCopyLight)
             ApplyMenuIcon(menuHandle, SC_PROP, My.Resources.Icons.FormFileLight)
             ApplyMenuIcon(menuHandle, SC_INFO, My.Resources.Icons.MenuInfoLight)
+            ApplyMenuIcon(menuHandle, _hSubMenu, My.Resources.Icons.MenuExtractLight)
             ApplyMenuIcon(menuHandle, SC_PLAY, My.Resources.Icons.MenuImagePlayLight)
             ApplyMenuIcon(menuHandle, SC_HELP, My.Resources.Icons.MenuTutorialLight)
             ApplyMenuIcon(menuHandle, SC_FULLSCREEN, My.Resources.Icons.MenuFullscreenLight)
@@ -200,28 +219,61 @@ Public Class ViewForm
                 Case SC_PROP '文件属性
                     ShowProperties(filePath)
                 Case SC_INFO '详情
-                    'ShowArtworkInfo()
-                    Dim pixels As New List(Of ColorExtractor.RGBColor)
-                    For Each color In GetPixelsFromImage(PictureBoxMain.Image)
-                        pixels.Add(ColorExtractor.RGBColor.FromRGB(color.R, color.G, color.B))
-                    Next
-                    Dim colorInfos = ColorExtractor.Extract(pixels, 10, ColorExtractor.ExtractType.KMeans)
-                    For Each ci In colorInfos
-                        Debug.Print($"{ci.Color.R}, {ci.Color.G}, {ci.Color.B} - {ci.Ratio:P}")
-                    Next
+                    ShowArtworkInfo()
                 Case SC_PLAY'幻灯片放映
                     '待开发
                 Case SC_HELP '帮助
                     ShowHelp()
                 Case SC_FULLSCREEN '全屏
                     '待开发
+                Case SC_KMEANS
+                    UpdateExtractColor(PictureBoxMain.Image, ExtractType.KMeans)
+                Case SC_MEDIANCUT
+                    UpdateExtractColor(PictureBoxMain.Image, ExtractType.MedianCut)
+                Case SC_OCTREE
+                    UpdateExtractColor(PictureBoxMain.Image, ExtractType.Octree)
             End Select
         End If
         MyBase.WndProc(m) '循环监听消息
     End Sub
+
 #End Region
 
 #Region "辅助函数"
+    ''' <summary>
+    ''' 在新的窗口显示提取的颜色
+    ''' </summary>
+    ''' <param name="img">图像</param>
+    ''' <param name="extractType">处理类型</param>
+    Private Sub UpdateExtractColor(img As Image, extractType As ExtractType)
+        Dim pixels As New List(Of RGBColor)
+        For Each color In GetPixelsFromImage(img)
+            pixels.Add(RGBColor.FromRGB(color.R, color.G, color.B))
+        Next
+        Dim colors = Extract(pixels, 10, extractType)
+        Dim colorLabels() = {ColorDialogForm.L1, ColorDialogForm.L2, ColorDialogForm.L3, ColorDialogForm.L4,
+            ColorDialogForm.L5, ColorDialogForm.L6, ColorDialogForm.L7, ColorDialogForm.L8,
+            ColorDialogForm.L9, ColorDialogForm.L10}
+        For Each label In colorLabels '先强制清除所有属性
+            label.Text = ""
+            If IsDarkMode() Then label.BackColor = BgColorDark Else BackColor = BgColorLight
+        Next
+        For i As Integer = 0 To colors.Count - 1 '再重新赋值
+            colorLabels(i).Text = $"RGB({colors(i).Color.R}, {colors(i).Color.G}, {colors(i).Color.B}) ({colors(i).Color.ToHex}) - {colors(i).Ratio:P2}"
+            colorLabels(i).BackColor = Color.FromArgb(colors(i).Color.R, colors(i).Color.G, colors(i).Color.B)
+            colorLabels(i).ForeColor = GetForeColor(colorLabels(i).BackColor)
+        Next
+        Select Case extractType
+            Case ExtractType.KMeans
+                ColorDialogForm.Text = My.Resources.ColorDialog_Title & " - K-Means"
+            Case ExtractType.MedianCut
+                ColorDialogForm.Text = My.Resources.ColorDialog_Title & " - Median Cut"
+            Case ExtractType.Octree
+                ColorDialogForm.Text = My.Resources.ColorDialog_Title & " - Octree"
+        End Select
+        ColorDialogForm.ShowDialog() '以对话框显示窗口
+    End Sub
+
     ''' <summary>
     ''' 从文件路径数组中过滤出图片文件
     ''' </summary>
@@ -245,6 +297,7 @@ Public Class ViewForm
         result.Sort(Function(a, b) StrCmpLogicalW(Path.GetFileName(a), Path.GetFileName(b)))
         Return result
     End Function
+
 #Region "自然字符串排序比较器"
     Public Class NaturalStringComparer
         Implements IComparer(Of String)
@@ -354,17 +407,35 @@ Public Class ViewForm
     ''' </summary>
     Private Sub ShowArtworkInfo()
         If _currentArtwork Is Nothing Then Return
-        Dim info As String = $"标题: {_currentArtwork.Title}{vbCrLf}" &
-                             $"作者: {_currentArtwork.Author}{vbCrLf}" &
-                             $"UUID: {_currentArtwork.UUID}{vbCrLf}" &
-                             $"角色: {FormatArrayWithEllipsis(_currentArtwork.Characters)}{vbCrLf}" &
-                             $"标签: {FormatArrayWithEllipsis(_currentArtwork.Tags)}{vbCrLf}" &
-                             $"创作时间: {_currentArtwork.CreateTime:yyyy-MM-dd HH:mm:ss}{vbCrLf}" &
-                             $"入库时间: {_currentArtwork.ImportTime:yyyy-MM-dd HH:mm:ss}{vbCrLf}" &
-                             $"更新时间: {_currentArtwork.UpdateTime:yyyy-MM-dd HH:mm:ss}{vbCrLf}" &
-                             $"备注: {_currentArtwork.Notes}{vbCrLf}"
-        MessageBox.Show(info, "稿件信息", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Dim imageFiles As List(Of String) = GetCurrentArtworkImages()
+        Dim filePath As String = imageFiles(_currentFileIndex)
+        Dim sb As New StringBuilder
+        sb.Append($"标题: {_currentArtwork.Title}{vbCrLf}")
+        sb.Append($"作者: {_currentArtwork.Author}{vbCrLf}")
+        sb.Append($"UUID: {_currentArtwork.UUID}{vbCrLf}")
+        If _currentArtwork.Characters.Length > 0 Then sb.Append($"角色: {FormatArrayWithEllipsis(_currentArtwork.Characters)}{vbCrLf}")
+        If _currentArtwork.Tags.Length > 0 Then sb.Append($"标签: {FormatArrayWithEllipsis(_currentArtwork.Tags)}{vbCrLf}")
+        sb.Append($"创作时间: {_currentArtwork.CreateTime:yyyy-MM-dd HH:mm:ss}{vbCrLf}")
+        sb.Append($"入库时间: {_currentArtwork.ImportTime:yyyy-MM-dd HH:mm:ss}{vbCrLf}")
+        sb.Append($"更新时间: {_currentArtwork.UpdateTime:yyyy-MM-dd HH:mm:ss}{vbCrLf}")
+        sb.Append($"备注: {_currentArtwork.Notes}{vbCrLf}")
+        sb.Append("----------")
+        sb.Append($"文件路径: {filePath}")
+        '分辨率，位深
+        '文件类型
+        '文件大小
+        '创建时间，修改时间
+        Using dlg As New TaskDialog With {
+            .WindowTitle = My.Resources.FurryArtStudio,
+            .MainInstruction = "稿件信息",
+            .Content = sb.ToString,
+            .MainIcon = TaskDialogIcon.Information
+            }
+            dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
+            dlg.ShowDialog()
+        End Using
     End Sub
+
     ''' <summary>
     ''' 显示帮助信息
     ''' </summary>
@@ -381,6 +452,7 @@ Public Class ViewForm
                                    $"显示帮助        F1"
         MessageBox.Show(helpString, "使用帮助说明", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
+
     ''' <summary>
     ''' 置顶
     ''' </summary>
@@ -394,6 +466,7 @@ Public Class ViewForm
             CheckMenuItem(hMenu, SC_ALWAYSONTOP, MF_UNCHECKED) '取消置顶
         End If
     End Sub
+
     ''' <summary>
     ''' 当库关闭时, 本窗口也将关闭
     ''' </summary>
@@ -418,6 +491,9 @@ Public Class ViewForm
             End SyncLock
             For Each i In {SC_PREVIMG, SC_NEXTIMG, SC_PREVART, SC_NEXTART}
                 EnableMenuItem(hMenu, i, MF_BYCOMMAND Or MF_GRAYED)
+            Next
+            For Each i In {SC_KMEANS, SC_MEDIANCUT, SC_OCTREE}
+                EnableMenuItem(_hSubMenu, i, MF_BYCOMMAND Or MF_GRAYED)
             Next
             EnableMenuItem(hMenu, SC_COPY, MF_BYCOMMAND Or MF_GRAYED)
             '取消之前的加载任务
@@ -455,7 +531,11 @@ Public Class ViewForm
             '无论如何都要释放加载状态
             SyncLock _loadingLock
                 _isProcessing = False
-                EnableMenuItem(GetSystemMenu(Me.Handle, False), 6, MF_BYCOMMAND Or MF_ENABLED)
+                Dim hMenu = GetSystemMenu(Me.Handle, False)
+                EnableMenuItem(hMenu, SC_COPY, MF_BYCOMMAND Or MF_ENABLED)
+                For Each i In {SC_KMEANS, SC_MEDIANCUT, SC_OCTREE} '子菜单可用
+                    EnableMenuItem(_hSubMenu, i, MF_BYCOMMAND Or MF_ENABLED)
+                Next
             End SyncLock
             Me.Cursor = Cursors.Default
             UpdateMenuStates()
@@ -617,6 +697,7 @@ Public Class ViewForm
         Next
         MessageBox.Show("已经是第一个有图片的稿件了", "FurryArtStudio", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
+
     ''' <summary>
     ''' 导航到下一个稿件
     ''' </summary>
@@ -662,16 +743,24 @@ Public Class ViewForm
                     Clipboard.SetImage(PictureBoxMain.Image)
             End Select
         End If
-        If e.Alt And e.KeyCode = Keys.Enter Then
-            Dim imageFiles As List(Of String) = GetCurrentArtworkImages()
-            ShowProperties(imageFiles(_currentFileIndex))
-            e.Handled = True
-            e.SuppressKeyPress = True '防止发出声音
-        End If
-        If e.Alt And e.KeyCode = Keys.T Then
-            SetWindowOnTop()
-            e.Handled = True
-            e.SuppressKeyPress = True '防止发出声音
+        If e.Alt Then
+            Select Case e.KeyCode
+                Case Keys.Enter
+                    Dim imageFiles As List(Of String) = GetCurrentArtworkImages()
+                    ShowProperties(imageFiles(_currentFileIndex))
+                    e.Handled = True
+                    e.SuppressKeyPress = True '防止发出声音
+                Case Keys.T
+                    SetWindowOnTop()
+                    e.Handled = True
+                    e.SuppressKeyPress = True '防止发出声音
+                Case Keys.D1
+                    UpdateExtractColor(PictureBoxMain.Image, ExtractType.KMeans)
+                Case Keys.D2
+                    UpdateExtractColor(PictureBoxMain.Image, ExtractType.MedianCut)
+                Case Keys.D3
+                    UpdateExtractColor(PictureBoxMain.Image, ExtractType.Octree)
+            End Select
         End If
         '处理单键
         Select Case e.KeyCode
@@ -757,6 +846,7 @@ Public Class ViewForm
             NavigateNext()
         End If
     End Sub
+
     ''' <summary>
     ''' 根据当前状态更新菜单项的启用/禁用
     ''' </summary>

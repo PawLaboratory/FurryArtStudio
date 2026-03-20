@@ -17,6 +17,10 @@ Imports System.Runtime.InteropServices
 Public Module WinAPI
 
 #Region "菜单"
+    'CreatePopupMenu 函数 - 新建弹出菜单
+    <DllImport("user32.dll")>
+    Public Function CreatePopupMenu() As IntPtr
+    End Function
     'GetSystemMenu 函数 - 获得系统菜单
     <DllImport("user32.dll")>
     Public Function GetSystemMenu(
@@ -139,6 +143,7 @@ Public Module WinAPI
     Public Const MF_HILITE = &H80 '高亮
     Public Const MF_BYCOMMAND = &H0 '标识符
     Public Const MF_BYPOSITION = &H400 '位置
+    Public Const MF_POPUP = &H10 '弹出菜单
     '菜单项常量
     Public Const SC_RESTORE = &HF120 '还原
     Public Const SC_MOVE = &HF010 '移动
