@@ -275,6 +275,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.en-US.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Resources\Resources.zh-HanFurry.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.zh-HanFurry.resx</DependentUpon>
+    </Compile>
     <Compile Include="src\Resources\Resources.zh-Hans.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -285,6 +290,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.zh-Hant.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Utilities\AfdianHandler.vb" />
     <Compile Include="src\Utilities\AppSettings.vb" />
     <Compile Include="src\Utilities\BasicFcn.vb" />
     <Compile Include="src\Utilities\ImageChecker.vb" />
@@ -338,6 +344,11 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.en-US.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Resources\Resources.zh-HanFurry.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.zh-HanFurry.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Resources\Resources.zh-Hans.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>

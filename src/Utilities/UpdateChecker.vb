@@ -30,16 +30,16 @@ End Class
 ''' <summary>
 ''' GitHub 更新检查器
 ''' </summary>
-Public Module UpdateChecker
-    Private ReadOnly _httpClient As New HttpClient()
+Public Class UpdateChecker
+    Private Shared ReadOnly _httpClient As New HttpClient()
     Sub New()
-        _httpClient.DefaultRequestHeaders.Add("User-Agent", "MyApp-UpdateChecker/1.0")
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "FAS-UpdateChecker/1.0")
         _httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json")
     End Sub
     ''' <summary>
     ''' 异步检查 GitHub 是否有新版本
     ''' </summary>
-    Public Async Function CheckForUpdateAsync() As Task(Of UpdateInfo)
+    Public Shared Async Function CheckForUpdateAsync() As Task(Of UpdateInfo)
         Dim result As New UpdateInfo()
         Try
             '获得版本
@@ -48,7 +48,8 @@ Public Module UpdateChecker
                 Throw New Exception("无法获取当前版本号")
             End If
             '调用 GitHub API
-            Dim apiUrl = $"https://api.github.com/repos/xionglongztz/FurryArtStudio/releases/latest"
+            'Dim apiUrl = "https://api.github.com/repos/xionglongztz/FurryArtStudio/releases/latest"
+            Dim apiUrl = "http://112.90.76.180:10465/release" '@rainyxin 的服务器
             Dim jsonResponse = Await _httpClient.GetStringAsync(apiUrl)
             '解析 JSON
             Using jsonDoc = JsonDocument.Parse(jsonResponse)
@@ -119,7 +120,7 @@ Public Module UpdateChecker
     ''' <summary>
     ''' 比较版本号
     ''' </summary>
-    Private Function IsNewerVersion(currentVer As String, latestVer As String) As Boolean
+    Private Shared Function IsNewerVersion(currentVer As String, latestVer As String) As Boolean
         Dim cleanCurrent = currentVer.TrimStart("v"c)
         Dim cleanLatest = latestVer.TrimStart("v"c)
         Try
@@ -131,4 +132,4 @@ Public Module UpdateChecker
             Return String.Compare(cleanLatest, cleanCurrent, StringComparison.OrdinalIgnoreCase) > 0
         End Try
     End Function
-End Module
+End Class

@@ -21,6 +21,7 @@ Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports Krypton.Toolkit
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Ookii.Dialogs.WinForms
 Imports SysThreading = System.Threading
 
@@ -1344,7 +1345,43 @@ Public Class MainForm
     Private Sub MnuHelpWebsite_Click(sender As Object, e As EventArgs) Handles MnuHelpWebsite.Click
 
     End Sub
-    Private Sub MnuHelpDonate_Click(sender As Object, e As EventArgs) Handles MnuHelpDonate.Click
+    Private Async Sub MnuLoadSponsors_Click(sender As Object, e As EventArgs) Handles MnuLoadSponsors.Click
+        Await CheckSponsors()
+    End Sub
+    Private Async Function CheckSponsors() As Task
+        Dim sponsorInfo = Await AfdianHandler.CheckSponsorsAsync()
+        MnuHelpDonate.DropDownItems.Clear()
+        MnuHelpDonate.DropDownItems.Add(MnuOpenAfdian) '打开爱发电
+        MnuHelpDonate.DropDownItems.Add(MnuLoadSponsors) '加载赞助者信息
+        MnuHelpDonate.DropDownItems.Add(New ToolStripSeparator) '分割线
+        If sponsorInfo.Count = 0 Then
+            Dim sponsorMenuItem As New ToolStripMenuItem() With {
+                .Text = "<暂无赞助者>",
+                .Enabled = False
+            }
+            MnuHelpDonate.DropDownItems.Add(sponsorMenuItem)
+            Return
+        End If
+        For Each sponsor In sponsorInfo
+            Dim sponsorMenuItem As New ToolStripMenuItem With {
+                .Tag = sponsor.UserID,
+                .Image = sponsor.UserAvatar,
+                .Text = sponsor.UserName
+            }
+            MnuHelpDonate.DropDownItems.Add(sponsorMenuItem)
+            AddHandler sponsorMenuItem.Click, AddressOf OnSponsorClick
+        Next
+    End Function
+    Private Sub OnSponsorClick(sender As Object, e As EventArgs)
+        Dim menuItem As ToolStripMenuItem = TryCast(sender, ToolStripMenuItem)
+        If menuItem IsNot Nothing Then
+            Dim userID As String = TryCast(menuItem.Tag, String)
+            If Not String.IsNullOrEmpty(userID) Then
+                Process.Start($"https://ifdian.net/u/{userID}")
+            End If
+        End If
+    End Sub
+    Private Sub MnuOpenAfdian_Click(sender As Object, e As EventArgs) Handles MnuOpenAfdian.Click
         Process.Start("https://ifdian.net/a/xionglongztz")
     End Sub
     Private Sub MnuHelpLicense_Click(sender As Object, e As EventArgs) Handles MnuHelpLicense.Click
@@ -1363,7 +1400,7 @@ Public Class MainForm
     End Sub
     Private Async Function CheckForUpdate() As Task
         StatusLabel.Text = My.Resources.Msg_CheckingUpdate
-        Dim updateInfo = Await CheckForUpdateAsync()
+        Dim updateInfo = Await UpdateChecker.CheckForUpdateAsync()
         If updateInfo.HasError Then '检查更新失败
             Using dlg As New TaskDialog With {
                 .WindowTitle = My.Resources.FurryArtStudio,

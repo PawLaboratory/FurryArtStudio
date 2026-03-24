@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About_LinkGitHub" xml:space="preserve">
+    <value>猫猫</value>
+  </data>
+  <data name="About_LinkLicense" xml:space="preserve">
+    <value>许可证</value>
+  </data>
+  <data name="About_LinkPrivacy" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="About_LinkUserAgreement" xml:space="preserve">
+    <value>用户协议</value>
+  </data>
+  <data name="About_LinkWebSite" xml:space="preserve">
+    <value>官网</value>
+  </data>
+  <data name="About_Title" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="Edit_BtnCancel" xml:space="preserve">
+    <value>取消(&amp;C)</value>
+  </data>
+  <data name="Edit_EditTitle" xml:space="preserve">
+    <value>编辑稿件</value>
+  </data>
+  <data name="Edit_NewTitle" xml:space="preserve">
+    <value>新建稿件</value>
+  </data>
+  <data name="Edit_LblTitle" xml:space="preserve">
+    <value>标题:</value>
+  </data>
+  <data name="Edit_LblAuthor" xml:space="preserve">
+    <value>作者:</value>
+  </data>
+  <data name="Edit_LblTags" xml:space="preserve">
+    <value>标签:</value>
+  </data>
+  <data name="Edit_LblNotes" xml:space="preserve">
+    <value>备注:</value>
+  </data>
+  <data name="Edit_LblCharacters" xml:space="preserve">
+    <value>角色:</value>
+  </data>
+  <data name="Edit_LblCreate" xml:space="preserve">
+    <value>创作时间:</value>
+  </data>
+  <data name="Edit_LblImport" xml:space="preserve">
+    <value>导入时间: {0}</value>
+  </data>
+  <data name="Edit_LblUpdate" xml:space="preserve">
+    <value>更新时间: {0}</value>
+  </data>
+  <data name="Edit_BtnAddItem" xml:space="preserve">
+    <value>添加(&amp;A)...</value>
+  </data>
+  <data name="Edit_BtnDel" xml:space="preserve">
+    <value>删除(&amp;D)...</value>
+  </data>
+  <data name="Edit_BtnSave" xml:space="preserve">
+    <value>保存(&amp;S)</value>
+  </data>
+  <data name="Stat_Init" xml:space="preserve">
+    <value>正在初始化...</value>
+  </data>
+  <data name="Stat_Ready" xml:space="preserve">
+    <value>就绪</value>
+  </data>
+  <data name="Stat_OpenProp" xml:space="preserve">
+    <value>正在设置首选项...</value>
+  </data>
+  <data name="Main_LblNoLib" xml:space="preserve">
+    <value>&lt;无稿件库&gt;</value>
+  </data>
+  <data name="Main_LblNoMs" xml:space="preserve">
+    <value>0 个稿件</value>
+  </data>
+  <data name="Main_LblNoStorage" xml:space="preserve">
+    <value>存储: 0B (0个文件)</value>
+  </data>
+  <data name="Main_LblNoPage" xml:space="preserve">
+    <value>页码: 0/0</value>
+  </data>
+  <data name="Mnu_AlwaysOnTop" xml:space="preserve">
+    <value>窗口置顶(&amp;T)</value>
+  </data>
+  <data name="Mnu_NewMs" xml:space="preserve">
+    <value>新建稿件(&amp;N)...</value>
+  </data>
+  <data name="Mnu_Refresh" xml:space="preserve">
+    <value>刷新(&amp;R)</value>
+  </data>
+  <data name="Mnu_Play" xml:space="preserve">
+    <value>幻灯片放映(&amp;P)</value>
+  </data>
+  <data name="Mnu_Options" xml:space="preserve">
+    <value>选项(&amp;O)...</value>
+  </data>
+  <data name="Mnu_Properties" xml:space="preserve">
+    <value>统计信息(&amp;S)...</value>
+  </data>
+  <data name="Stat_Loading" xml:space="preserve">
+    <value>正在载入数据...</value>
+  </data>
+  <data name="Main_LblNoSelect" xml:space="preserve">
+    <value>请选择一个项目</value>
+  </data>
+  <data name="Main_LblMs" xml:space="preserve">
+    <value>{0} 个稿件</value>
+  </data>
+  <data name="Main_LblStorage" xml:space="preserve">
+    <value>存储: {0} ({1} 个文件)</value>
+  </data>
+  <data name="Main_LblPage1" xml:space="preserve">
+    <value>页码: 1/{0}</value>
+  </data>
+  <data name="Stat_Searching" xml:space="preserve">
+    <value>正在搜索...</value>
+  </data>
+  <data name="Msg_ElevatedFailed" xml:space="preserve">
+    <value>权限提升失败</value>
+  </data>
+  <data name="Msg_TerminalFailed" xml:space="preserve">
+    <value>命令提示符启动失败</value>
+  </data>
+  <data name="Input_NewLibTitle" xml:space="preserve">
+    <value>新建稿件库</value>
+  </data>
+  <data name="Input_TxtNewLib" xml:space="preserve">
+    <value>新稿件库</value>
+  </data>
+  <data name="Stat_CreatingLib" xml:space="preserve">
+    <value>正在创建稿件库...</value>
+  </data>
+  <data name="Stat_ExportCSV" xml:space="preserve">
+    <value>正在导出为CSV...</value>
+  </data>
+  <data name="Main_FileFilterCSV" xml:space="preserve">
+    <value>CSV文件(*.csv)|*.csv|所有文件(*.*)|*.*</value>
+  </data>
+  <data name="Input_CloneLibTitle" xml:space="preserve">
+    <value>克隆稿件库</value>
+  </data>
+  <data name="Stat_Cloning" xml:space="preserve">
+    <value>正在克隆稿件库...</value>
+  </data>
+  <data name="Input_TxtClone" xml:space="preserve">
+    <value>{0} 的副本</value>
+  </data>
+  <data name="Stat_Closing" xml:space="preserve">
+    <value>正在关闭稿件库...</value>
+  </data>
+  <data name="Input_RenameLibTitle" xml:space="preserve">
+    <value>重命名稿件库</value>
+  </data>
+  <data name="Stat_Renaming" xml:space="preserve">
+    <value>正在重命名稿件库...</value>
+  </data>
+  <data name="Msg_CreateFailed" xml:space="preserve">
+    <value>创建失败</value>
+  </data>
+  <data name="Stat_DeletingLib" xml:space="preserve">
+    <value>正在删除稿件库...</value>
+  </data>
+  <data name="Prop_BtnClose" xml:space="preserve">
+    <value>关闭(&amp;C)</value>
+  </data>
+  <data name="Edit_BtnOK" xml:space="preserve">
+    <value>确定(&amp;O)</value>
+  </data>
+  <data name="Edit_BtnSetPreview" xml:space="preserve">
+    <value>设为封面(&amp;P)</value>
+  </data>
+  <data name="Mnu_About" xml:space="preserve">
+    <value>关于(&amp;A)...</value>
+  </data>
+  <data name="Main_LblLibName" xml:space="preserve">
+    <value>稿件库: {0}</value>
+  </data>
+  <data name="FurryArtStudio" xml:space="preserve">
+    <value>FurryArtStudio</value>
+  </data>
+  <data name="Main_StrOperationCancelled" xml:space="preserve">
+    <value>操作已被用户取消</value>
+  </data>
+  <data name="Msg_DeleteLibPermanently" xml:space="preserve">
+    <value>你希望永久删除稿件库 {0} 吗? </value>
+  </data>
+  <data name="Msg_DeleteLib" xml:space="preserve">
+    <value>你希望将稿件库 {0} 移到回收站吗?</value>
+  </data>
+  <data name="Msg_LibDeleteFailed" xml:space="preserve">
+    <value>稿件库删除失败</value>
+  </data>
+  <data name="Main_StrPropLib" xml:space="preserve">
+    <value>稿件库: {0}</value>
+  </data>
+  <data name="Main_StrPropLibPath" xml:space="preserve">
+    <value>库目录: {0}</value>
+  </data>
+  <data name="Main_StrPropMsCount" xml:space="preserve">
+    <value>稿件数: {0}</value>
+  </data>
+  <data name="Main_StrPropStorage" xml:space="preserve">
+    <value>存储: {0} 文件: {1}</value>
+  </data>
+  <data name="Main_StrPropNowTime" xml:space="preserve">
+    <value>当前时间: {0:yyyy-MM-dd HH:mm:ss}</value>
+  </data>
+  <data name="Stat_NewMs" xml:space="preserve">
+    <value>正在新建稿件...</value>
+  </data>
+  <data name="Stat_EditMs" xml:space="preserve">
+    <value>正在编辑稿件...</value>
+  </data>
+  <data name="Stat_PreparePrint" xml:space="preserve">
+    <value>正在初始化打印...</value>
+  </data>
+  <data name="Msg_NoPrintFile" xml:space="preserve">
+    <value>没有找到可打印的图片文件</value>
+  </data>
+  <data name="Stat_Printing" xml:space="preserve">
+    <value>正在打印...</value>
+  </data>
+  <data name="Msg_PrintFailed" xml:space="preserve">
+    <value>打印时出错: {0}</value>
+  </data>
+  <data name="Msg_ImageLoadFailed" xml:space="preserve">
+    <value>无法加载图片: {0}</value>
+  </data>
+  <data name="Msg_MultiFolderOpen" xml:space="preserve">
+    <value>您将同时打开 {0} 个文件夹, 确定要继续吗?</value>
+  </data>
+  <data name="Stat_DeletingMs" xml:space="preserve">
+    <value>正在删除稿件...</value>
+  </data>
+  <data name="Msg_DeleteMsPermanently" xml:space="preserve">
+    <value>确实要永久性的删除 {0} 项稿件吗?</value>
+  </data>
+  <data name="Msg_DeleteMsCount" xml:space="preserve">
+    <value>...等 {0} 个项目</value>
+  </data>
+  <data name="Msg_DeleteMs" xml:space="preserve">
+    <value>确实要将这 {0} 项放入回收站吗?</value>
+  </data>
+  <data name="Msg_StrMsInfo" xml:space="preserve">
+    <value>## 稿件信息:</value>
+  </data>
+  <data name="Msg_StrMsTitle" xml:space="preserve">
+    <value>### 标题: {0} - {1}</value>
+  </data>
+  <data name="Msg_StrMsUUID" xml:space="preserve">
+    <value> - UUID: {0}</value>
+  </data>
+  <data name="Msg_StrMsUpdate" xml:space="preserve">
+    <value> - 更新时间: {0:yyyy-MM-dd HH:mm:ss}</value>
+  </data>
+  <data name="Msg_StrMsImport" xml:space="preserve">
+    <value> - 入库时间: {0:yyyy-MM-dd HH:mm:ss}</value>
+  </data>
+  <data name="Msg_StrMsCreate" xml:space="preserve">
+    <value> - 创作时间: {0:yyyy-MM-dd HH:mm:ss}</value>
+  </data>
+  <data name="Msg_StrMsTags" xml:space="preserve">
+    <value> - 标签: {0}</value>
+  </data>
+  <data name="Msg_StrMsCharacters" xml:space="preserve">
+    <value> - 角色: {0}</value>
+  </data>
+  <data name="Msg_StrMsNotes" xml:space="preserve">
+    <value> - 备注: {0}</value>
+  </data>
+  <data name="Msg_StrMsTotal" xml:space="preserve">
+    <value>总计 {0} 个稿件</value>
+  </data>
+  <data name="Msg_StrMsNow" xml:space="preserve">
+    <value>当前时间: {0:yyyy-MM-dd HH:mm:ss}</value>
+  </data>
+  <data name="Msg_StrMsSupportByFAS" xml:space="preserve">
+    <value>*由 FurryArtStudio 提供技术支持*</value>
+  </data>
+  <data name="Main_StrLicense" xml:space="preserve">
+    <value>Apache License 2.0</value>
+  </data>
+  <data name="Main_StrPrivacy" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="Main_StrWhatsNew" xml:space="preserve">
+    <value>新增功能</value>
+  </data>
+  <data name="Main_StrTerms" xml:space="preserve">
+    <value>用户协议</value>
+  </data>
+  <data name="Main_LblSelectMs1" xml:space="preserve">
+    <value>已选: 1/{0}</value>
+  </data>
+  <data name="Main_LblCharacter" xml:space="preserve">
+    <value>角色: {0}</value>
+  </data>
+  <data name="Main_LblTags" xml:space="preserve">
+    <value>标签: {0}</value>
+  </data>
+  <data name="Main_LblNotes" xml:space="preserve">
+    <value>备注: {0}</value>
+  </data>
+  <data name="Main_LblSelectMs" xml:space="preserve">
+    <value>已选: {0}/{1}</value>
+  </data>
+  <data name="Main_LblTitleSelect" xml:space="preserve">
+    <value>已选择 {0} 个项目</value>
+  </data>
+  <data name="Main_LblPage" xml:space="preserve">
+    <value>页码: {0}/{1}</value>
+  </data>
+  <data name="Msg_NoImg" xml:space="preserve">
+    <value>当前稿件没有图片文件</value>
+  </data>
+  <data name="Print_Title" xml:space="preserve">
+    <value>打印</value>
+  </data>
+  <data name="Print_LblPrinter" xml:space="preserve">
+    <value>打印机:</value>
+  </data>
+  <data name="Print_LblCount" xml:space="preserve">
+    <value>份数:</value>
+  </data>
+  <data name="Print_LblPaper" xml:space="preserve">
+    <value>纸张: </value>
+  </data>
+  <data name="Print_LblType" xml:space="preserve">
+    <value>布局:</value>
+  </data>
+  <data name="Print_BtnPrint" xml:space="preserve">
+    <value>打印(&amp;P)</value>
+  </data>
+  <data name="Print_BtnCancel" xml:space="preserve">
+    <value>取消(&amp;C)</value>
+  </data>
+  <data name="Print_PrinterManager" xml:space="preserve">
+    <value>打印机管理(&amp;M)</value>
+  </data>
+  <data name="Print_LblTop" xml:space="preserve">
+    <value>上边距:</value>
+  </data>
+  <data name="Print_LblBottom" xml:space="preserve">
+    <value>下边距:</value>
+  </data>
+  <data name="Print_LblLeft" xml:space="preserve">
+    <value>左边距:</value>
+  </data>
+  <data name="Print_LblRight" xml:space="preserve">
+    <value>右边距:</value>
+  </data>
+  <data name="Mnu_DevTools" xml:space="preserve">
+    <value>开发者工具(&amp;D)...</value>
+  </data>
+  <data name="Mnu_RunAsElevated" xml:space="preserve">
+    <value>以管理员身份重启(&amp;R)</value>
+  </data>
+  <data name="Mnu_OpenTerminal" xml:space="preserve">
+    <value>在此处打开终端(&amp;T)</value>
+  </data>
+  <data name="Mnu_Exit" xml:space="preserve">
+    <value>退出(&amp;X)</value>
+  </data>
+  <data name="Mnu_CurrentLib" xml:space="preserve">
+    <value>当前库(&amp;U)</value>
+  </data>
+  <data name="Mnu_New" xml:space="preserve">
+    <value>新建(&amp;N)...</value>
+  </data>
+  <data name="Mnu_Import" xml:space="preserve">
+    <value>导入(&amp;I)...</value>
+  </data>
+  <data name="Mnu_Export" xml:space="preserve">
+    <value>导出(&amp;E)...</value>
+  </data>
+  <data name="Mnu_ExportCSV" xml:space="preserve">
+    <value>导出为 CSV 文件(&amp;V)...</value>
+  </data>
+  <data name="Mnu_Clone" xml:space="preserve">
+    <value>克隆(&amp;L)...</value>
+  </data>
+  <data name="Mnu_OpenPath" xml:space="preserve">
+    <value>打开目录(&amp;O)</value>
+  </data>
+  <data name="Mnu_Copy" xml:space="preserve">
+    <value>复制文件夹(&amp;C)</value>
+  </data>
+  <data name="Mnu_CopyPath" xml:space="preserve">
+    <value>复制目录路径(&amp;T)</value>
+  </data>
+  <data name="Mnu_Close" xml:space="preserve">
+    <value>关闭(&amp;C)</value>
+  </data>
+  <data name="Mnu_Rename" xml:space="preserve">
+    <value>重命名(&amp;M)...</value>
+  </data>
+  <data name="Mnu_Delete" xml:space="preserve">
+    <value>删除(&amp;D)...</value>
+  </data>
+  <data name="Mnu_FormProperties" xml:space="preserve">
+    <value>统计信息(&amp;S)...</value>
+  </data>
+  <data name="Mnu_View" xml:space="preserve">
+    <value>预览(&amp;V)</value>
+  </data>
+  <data name="Mnu_Edit" xml:space="preserve">
+    <value>编辑(&amp;E)...</value>
+  </data>
+  <data name="Mnu_ExportMs" xml:space="preserve">
+    <value>导出(&amp;X)...</value>
+  </data>
+  <data name="Mnu_Print" xml:space="preserve">
+    <value>打印(&amp;P)...</value>
+  </data>
+  <data name="Mnu_SelectAll" xml:space="preserve">
+    <value>全选(&amp;A)</value>
+  </data>
+  <data name="Mnu_SelectReverse" xml:space="preserve">
+    <value>反选(&amp;R)</value>
+  </data>
+  <data name="Mnu_Search" xml:space="preserve">
+    <value>搜索(&amp;F)</value>
+  </data>
+  <data name="Mnu_AdvancedSearch" xml:space="preserve">
+    <value>高级搜索(&amp;D)...</value>
+  </data>
+  <data name="Mnu_Prev" xml:space="preserve">
+    <value>上一页(&amp;E)</value>
+  </data>
+  <data name="Mnu_Next" xml:space="preserve">
+    <value>下一页(&amp;N)</value>
+  </data>
+  <data name="Mnu_Tutorial" xml:space="preserve">
+    <value>教程(&amp;T)</value>
+  </data>
+  <data name="Mnu_Website" xml:space="preserve">
+    <value>官网(&amp;W)</value>
+  </data>
+  <data name="Mnu_GitHub" xml:space="preserve">
+    <value>&amp;GitHub</value>
+  </data>
+  <data name="Mnu_WhatsNew" xml:space="preserve">
+    <value>新增功能(&amp;W)</value>
+  </data>
+  <data name="Mnu_CheckUpdate" xml:space="preserve">
+    <value>检查更新(&amp;U)</value>
+  </data>
+  <data name="Mnu_License" xml:space="preserve">
+    <value>许可证(&amp;L)...</value>
+  </data>
+  <data name="Mnu_Privacy" xml:space="preserve">
+    <value>隐私政策(&amp;P)...</value>
+  </data>
+  <data name="Mnu_Terms" xml:space="preserve">
+    <value>用户协议(&amp;T)...</value>
+  </data>
+  <data name="Mnu_File" xml:space="preserve">
+    <value>文件(&amp;F)</value>
+  </data>
+  <data name="Mnu_Lib" xml:space="preserve">
+    <value>稿件库(&amp;L)</value>
+  </data>
+  <data name="Mnu_Ms" xml:space="preserve">
+    <value>稿件(&amp;M)</value>
+  </data>
+  <data name="Mnu_Views" xml:space="preserve">
+    <value>视图(&amp;V)</value>
+  </data>
+  <data name="Mnu_Help" xml:space="preserve">
+    <value>帮助(&amp;H)</value>
+  </data>
+  <data name="About_BtnOK" xml:space="preserve">
+    <value>确定(&amp;O)</value>
+  </data>
+  <data name="Main_LblSearchedMs" xml:space="preserve">
+    <value>已搜到 {0} 个稿件</value>
+  </data>
+  <data name="Msg_CheckingUpdate" xml:space="preserve">
+    <value>正在检查更新...</value>
+  </data>
+  <data name="Msg_UptoDate" xml:space="preserve">
+    <value>当前已是最新版本</value>
+  </data>
+  <data name="Msg_CheckUpdateFailed" xml:space="preserve">
+    <value>检查更新失败</value>
+  </data>
+  <data name="Msg_NewVerFound" xml:space="preserve">
+    <value>发现新版本: {0}</value>
+  </data>
+  <data name="Msg_DownloadNewVer" xml:space="preserve">
+    <value>下载新版本</value>
+  </data>
+  <data name="Print_Horizontal" xml:space="preserve">
+    <value>横向</value>
+  </data>
+  <data name="Print_Vertical" xml:space="preserve">
+    <value>竖向</value>
+  </data>
+  <data name="Msg_CannotBeIrreversible" xml:space="preserve">
+    <value>此操作不可逆!</value>
+  </data>
+  <data name="Msg_IKnowWhatIamDoing" xml:space="preserve">
+    <value>我知道我在做什么!</value>
+  </data>
+  <data name="Msg_DeleteMsConfirm" xml:space="preserve">
+    <value>删除稿件</value>
+  </data>
+  <data name="Msg_DeleteMsPermanentlyConfirm" xml:space="preserve">
+    <value>永久删除稿件</value>
+  </data>
+  <data name="Msg_DeleteLibConfirm" xml:space="preserve">
+    <value>移到回收站</value>
+  </data>
+  <data name="Msg_CopyDetails" xml:space="preserve">
+    <value>复制详细信息(&amp;C)</value>
+  </data>
+  <data name="ColorDialog_Title" xml:space="preserve">
+    <value>提取结果</value>
+  </data>
+  <data name="Mnu_Donate" xml:space="preserve">
+    <value>捐赠(&amp;D)</value>
+  </data>
+  <data name="View_PreviousImg" xml:space="preserve">
+    <value>上一张(&amp;P)</value>
+  </data>
+  <data name="View_NextImg" xml:space="preserve">
+    <value>下一张(&amp;N)</value>
+  </data>
+  <data name="View_PreviousMs" xml:space="preserve">
+    <value>上一稿件(&amp;R)</value>
+  </data>
+  <data name="View_NextMs" xml:space="preserve">
+    <value>下一稿件(&amp;E)</value>
+  </data>
+  <data name="View_Copy" xml:space="preserve">
+    <value>复制(&amp;C)</value>
+  </data>
+  <data name="View_FileProperties" xml:space="preserve">
+    <value>文件属性(&amp;R)</value>
+  </data>
+  <data name="View_Info" xml:space="preserve">
+    <value>详情(&amp;I)...</value>
+  </data>
+  <data name="View_Help" xml:space="preserve">
+    <value>帮助(&amp;H)...</value>
+  </data>
+  <data name="View_Fullscreen" xml:space="preserve">
+    <value>全屏(&amp;F)</value>
+  </data>
+  <data name="View_Extract" xml:space="preserve">
+    <value>提取(&amp;E)</value>
+  </data>
+  <data name="View_KMeansCluster" xml:space="preserve">
+    <value>&amp;K-Means聚类</value>
+  </data>
+  <data name="View_MedianCut" xml:space="preserve">
+    <value>中位切分(&amp;M)</value>
+  </data>
+  <data name="View_Octree" xml:space="preserve">
+    <value>八叉树(&amp;O)</value>
+  </data>
+</root>
