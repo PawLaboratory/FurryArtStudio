@@ -678,4 +678,16 @@
   <data name="View_Octree" xml:space="preserve">
     <value>八叉树(&amp;O)</value>
   </data>
+  <data name="Msg_CheckingSponsor" xml:space="preserve">
+    <value>正在获取赞助者信息...</value>
+  </data>
+  <data name="Msg_NoSponsor" xml:space="preserve">
+    <value>&lt;无赞助者信息&gt;</value>
+  </data>
+  <data name="Mnu_OpenAfdian" xml:space="preserve">
+    <value>打开爱发电官网(&amp;A)</value>
+  </data>
+  <data name="Mnu_LoadSponsors" xml:space="preserve">
+    <value>加载赞助者名单(&amp;L)</value>
+  </data>
 </root>

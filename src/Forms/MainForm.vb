@@ -256,6 +256,8 @@ Public Class MainForm
         MnuHelpLicense.Text = My.Resources.Mnu_License
         MnuHelpPrivacy.Text = My.Resources.Mnu_Privacy
         MnuHelpDonate.Text = My.Resources.Mnu_Donate
+        MnuOpenAfdian.Text = My.Resources.Mnu_OpenAfdian
+        MnuLoadSponsors.Text = My.Resources.Mnu_LoadSponsors
         MnuTerms.Text = My.Resources.Mnu_Terms
         MnuHelpAbout.Text = My.Resources.Mnu_About
         '窗体
@@ -1349,6 +1351,7 @@ Public Class MainForm
         Await CheckSponsors()
     End Sub
     Private Async Function CheckSponsors() As Task
+        StatusLabel.Text = My.Resources.Msg_CheckingSponsor
         Dim sponsorInfo = Await AfdianHandler.CheckSponsorsAsync()
         MnuHelpDonate.DropDownItems.Clear()
         MnuHelpDonate.DropDownItems.Add(MnuOpenAfdian) '打开爱发电
@@ -1356,7 +1359,7 @@ Public Class MainForm
         MnuHelpDonate.DropDownItems.Add(New ToolStripSeparator) '分割线
         If sponsorInfo.Count = 0 Then
             Dim sponsorMenuItem As New ToolStripMenuItem() With {
-                .Text = "<暂无赞助者>",
+                .Text = My.Resources.Msg_NoSponsor,
                 .Enabled = False
             }
             MnuHelpDonate.DropDownItems.Add(sponsorMenuItem)
@@ -1371,6 +1374,7 @@ Public Class MainForm
             MnuHelpDonate.DropDownItems.Add(sponsorMenuItem)
             AddHandler sponsorMenuItem.Click, AddressOf OnSponsorClick
         Next
+        StatusLabel.Text = My.Resources.Stat_Ready
     End Function
     Private Sub OnSponsorClick(sender As Object, e As EventArgs)
         Dim menuItem As ToolStripMenuItem = TryCast(sender, ToolStripMenuItem)

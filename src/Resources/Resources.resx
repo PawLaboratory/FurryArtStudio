@@ -678,4 +678,16 @@
   <data name="View_Octree" xml:space="preserve">
     <value>&amp;Octree</value>
   </data>
+  <data name="Msg_CheckingSponsor" xml:space="preserve">
+    <value>Retrieving sponsor information...</value>
+  </data>
+  <data name="Msg_NoSponsor" xml:space="preserve">
+    <value>&lt;No sponsor information&gt;</value>
+  </data>
+  <data name="Mnu_OpenAfdian" xml:space="preserve">
+    <value>Open &amp;Afdian Official Website</value>
+  </data>
+  <data name="Mnu_LoadSponsors" xml:space="preserve">
+    <value>&amp;Load Sponsor List</value>
+  </data>
 </root>

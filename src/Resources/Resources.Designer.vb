@@ -799,6 +799,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 &amp;Load Sponsor List 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_LoadSponsors() As String
+            Get
+                Return ResourceManager.GetString("Mnu_LoadSponsors", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 &amp;Manuscript 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Mnu_Ms() As String
@@ -831,6 +840,15 @@ Namespace My.Resources
         Friend ReadOnly Property Mnu_Next() As String
             Get
                 Return ResourceManager.GetString("Mnu_Next", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Open &amp;Afdian Official Website 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_OpenAfdian() As String
+            Get
+                Return ResourceManager.GetString("Mnu_OpenAfdian", resourceCulture)
             End Get
         End Property
         
@@ -1024,6 +1042,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Retrieving sponsor information... 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_CheckingSponsor() As String
+            Get
+                Return ResourceManager.GetString("Msg_CheckingSponsor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Checking for update... 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Msg_CheckingUpdate() As String
@@ -1209,6 +1236,15 @@ Namespace My.Resources
         Friend ReadOnly Property Msg_NoPrintFile() As String
             Get
                 Return ResourceManager.GetString("Msg_NoPrintFile", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 &lt;No sponsor information&gt; 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_NoSponsor() As String
+            Get
+                Return ResourceManager.GetString("Msg_NoSponsor", resourceCulture)
             End Get
         End Property
         
