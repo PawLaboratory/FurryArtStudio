@@ -690,4 +690,7 @@
   <data name="Mnu_LoadSponsors" xml:space="preserve">
     <value>加载赞助者名单(&amp;L)</value>
   </data>
+  <data name="Msg_CreateCSVFailed" xml:space="preserve">
+    <value>无法导出为CSV文件</value>
+  </data>
 </root>

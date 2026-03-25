@@ -820,7 +820,11 @@ Public Class MainForm
             .FileName = $"{_libraryManager.GetCurrentLibrary.LibraryName}.csv"
             }
             If saveFileDialog.ShowDialog() = DialogResult.OK Then
-                _libraryManager.GetCurrentLibrary.ExportTableToCSV(saveFileDialog.FileName)
+                Try
+                    _libraryManager.GetCurrentLibrary.ExportTableToCSV(saveFileDialog.FileName)
+                Catch ex As Exception
+                    ShowErrorDialog(ex, My.Resources.Msg_CreateCSVFailed)
+                End Try
             End If
         End Using
         StatusLabel.Text = My.Resources.Stat_Ready

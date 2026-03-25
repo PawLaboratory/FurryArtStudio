@@ -1078,6 +1078,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Failed to export CSV file 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_CreateCSVFailed() As String
+            Get
+                Return ResourceManager.GetString("Msg_CreateCSVFailed", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Creation failed 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Msg_CreateFailed() As String

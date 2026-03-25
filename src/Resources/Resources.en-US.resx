@@ -690,4 +690,7 @@
   <data name="Mnu_LoadSponsors" xml:space="preserve">
     <value>&amp;Load Sponsor List</value>
   </data>
+  <data name="Msg_CreateCSVFailed" xml:space="preserve">
+    <value>Failed to export CSV file</value>
+  </data>
 </root>
