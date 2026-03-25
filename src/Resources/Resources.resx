@@ -708,4 +708,10 @@
   <data name="Mnu_MyFeedback" xml:space="preserve">
     <value>&amp;My Feedback</value>
   </data>
+  <data name="Msg_CreateShortcutFailed" xml:space="preserve">
+    <value>Failed to create desktop shortcut</value>
+  </data>
+  <data name="FAS_Description" xml:space="preserve">
+    <value>Scientifically and efficiently organize and manage Fursona sketches, reference materials, original OC content, and image documents</value>
+  </data>
 </root>

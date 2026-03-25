@@ -708,4 +708,10 @@
   <data name="Mnu_MyFeedback" xml:space="preserve">
     <value>我的反馈(&amp;M)</value>
   </data>
+  <data name="Msg_CreateShortcutFailed" xml:space="preserve">
+    <value>无法创建桌面快捷方式</value>
+  </data>
+  <data name="FAS_Description" xml:space="preserve">
+    <value>科学、高效的组织和管理 Fursona 手稿、参考素材、原创 OC 内容和图片文档</value>
+  </data>
 </root>

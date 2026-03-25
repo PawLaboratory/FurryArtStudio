@@ -751,7 +751,23 @@ Public Class MainForm
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
     Private Sub MnuCreateShortcut_Click(sender As Object, e As EventArgs) Handles MnuCreateShortcut.Click
-
+        Dim result = CreateDesktopShortcut(
+            targetPath:=Application.ExecutablePath,
+            shortcutName:=My.Resources.FurryArtStudio,
+            workingDirectory:=Application.StartupPath,
+            description:=My.Resources.FAS_Description,
+            iconLocation:=$"{Application.ExecutablePath},0"
+        )
+        If Not result Then
+            Using dlg As New TaskDialog With {
+            .WindowTitle = My.Resources.FurryArtStudio,
+            .MainInstruction = My.Resources.Msg_CreateShortcutFailed,
+            .MainIcon = TaskDialogIcon.Information
+            }
+                dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
+                dlg.ShowDialog()
+            End Using
+        End If
     End Sub
     Private Sub MnuExit_Click(sender As Object, e As EventArgs) Handles MnuExit.Click
         Me.Close()

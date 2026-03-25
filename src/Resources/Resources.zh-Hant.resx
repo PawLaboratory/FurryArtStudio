@@ -697,7 +697,7 @@
     <value>問題回報(&amp;B)</value>
   </data>
   <data name="Mnu_CreateShortcut" xml:space="preserve">
-    <value>建立桌面捷徑(S)</value>
+    <value>建立桌面捷徑(&amp;S)</value>
   </data>
   <data name="Mnu_Feedback" xml:space="preserve">
     <value>回饋(&amp;F)</value>
@@ -707,5 +707,11 @@
   </data>
   <data name="Mnu_MyFeedback" xml:space="preserve">
     <value>我的回饋(&amp;M)</value>
+  </data>
+  <data name="Msg_CreateShortcutFailed" xml:space="preserve">
+    <value>無法建立桌面捷徑</value>
+  </data>
+  <data name="FAS_Description" xml:space="preserve">
+    <value>科學且高效地組織與管理 Fursona 手稿、參考素材、原創 OC 內容及影像檔案</value>
   </data>
 </root>

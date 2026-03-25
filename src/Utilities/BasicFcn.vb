@@ -652,4 +652,82 @@ Module BasicFcn
         End Try
     End Sub
 #End Region
+
+#Region "桌面快捷方式"
+    ''' <summary>
+    ''' 通过 PowerShell 在桌面创建快捷方式
+    ''' </summary>
+    ''' <param name="targetPath">目标程序的完整路径</param>
+    ''' <param name="shortcutName">快捷方式名称</param>
+    ''' <param name="workingDirectory">(可选)工作目录</param>
+    ''' <param name="description">(可选)快捷方式描述</param>
+    ''' <param name="iconLocation">(可选)图标位置(格式:"路径,索引")</param>
+    ''' <returns>成功返回 True，失败返回 False</returns>
+    Public Function CreateDesktopShortcut(targetPath As String,
+                                          shortcutName As String,
+                                          Optional workingDirectory As String = Nothing,
+                                          Optional description As String = Nothing,
+                                          Optional iconLocation As String = Nothing) As Boolean
+        '获取桌面路径
+        Dim desktopPath As String = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
+        Dim shortcutPath As String = Path.Combine(desktopPath, shortcutName & ".lnk")
+        '构建 PowerShell 命令
+        Dim psCommand As New StringBuilder()
+        psCommand.AppendLine("$shell = New-Object -ComObject WScript.Shell")
+        psCommand.AppendLine("$shortcut = $shell.CreateShortcut('" + EscapePathForPowerShell(shortcutPath) + "')")
+        psCommand.AppendLine("$shortcut.TargetPath = '" + EscapePathForPowerShell(targetPath) + "'")
+        If Not String.IsNullOrEmpty(workingDirectory) Then
+            psCommand.AppendLine("$shortcut.WorkingDirectory = '" + EscapePathForPowerShell(workingDirectory) + "'")
+        End If
+        If Not String.IsNullOrEmpty(description) Then
+            psCommand.AppendLine("$shortcut.Description = '" + EscapeForPowerShell(description) + "'")
+        End If
+        If Not String.IsNullOrEmpty(iconLocation) Then
+            'iconLocation 格式如 "C:\file.exe,0"
+            '需要拆分为路径和索引
+            Dim parts = iconLocation.Split(","c)
+            Dim iconPath = parts(0)
+            Dim iconIndex = 0
+            If parts.Length > 1 Then Integer.TryParse(parts(1), iconIndex)
+            psCommand.AppendLine("$shortcut.IconLocation = '" + EscapePathForPowerShell(iconPath) + "', " + iconIndex.ToString())
+        End If
+        psCommand.AppendLine("$shortcut.Save()")
+        ' 准备 PowerShell
+        Dim startInfo As New ProcessStartInfo()
+        startInfo.FileName = "powershell.exe"
+        startInfo.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command """ & psCommand.ToString().Replace("""", "\""") & """"
+        startInfo.UseShellExecute = False
+        startInfo.CreateNoWindow = True
+        startInfo.RedirectStandardError = True
+        startInfo.RedirectStandardOutput = True
+        Try
+            Using proc As Process = Process.Start(startInfo)
+                proc.WaitForExit()
+                Dim errorMsg = proc.StandardError.ReadToEnd()
+                If proc.ExitCode <> 0 OrElse Not String.IsNullOrEmpty(errorMsg) Then
+                    Return False
+                End If
+                Return True
+            End Using
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+    ''' <summary>
+    ''' 转义路径中的单引号并确保路径合法
+    ''' </summary>
+    Private Function EscapePathForPowerShell(path As String) As String
+        If String.IsNullOrEmpty(path) Then Return path
+        '将单引号替换为两个单引号
+        Return path.Replace("'", "''")
+    End Function
+    ''' <summary>
+    ''' 转义普通字符串中的单引号
+    ''' </summary>
+    Private Function EscapeForPowerShell(text As String) As String
+        If String.IsNullOrEmpty(text) Then Return text
+        Return text.Replace("'", "''")
+    End Function
+#End Region
+
 End Module

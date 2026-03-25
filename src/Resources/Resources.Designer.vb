@@ -277,6 +277,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Scientifically and efficiently organize and manage Fursona sketches, reference materials, original OC content, and image documents 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property FAS_Description() As String
+            Get
+                Return ResourceManager.GetString("FAS_Description", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 FurryArtStudio 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property FurryArtStudio() As String
@@ -1137,6 +1146,15 @@ Namespace My.Resources
         Friend ReadOnly Property Msg_CreateFailed() As String
             Get
                 Return ResourceManager.GetString("Msg_CreateFailed", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Failed to create desktop shortcut 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_CreateShortcutFailed() As String
+            Get
+                Return ResourceManager.GetString("Msg_CreateShortcutFailed", resourceCulture)
             End Get
         End Property
         
