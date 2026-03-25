@@ -714,4 +714,7 @@
   <data name="FAS_Description" xml:space="preserve">
     <value>Scientifically and efficiently organize and manage Fursona sketches, reference materials, original OC content, and image documents</value>
   </data>
+  <data name="Mnu_OpenFolder" xml:space="preserve">
+    <value>Open &amp;Program Folder</value>
+  </data>
 </root>

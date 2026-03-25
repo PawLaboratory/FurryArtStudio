@@ -898,6 +898,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Open &amp;Program Folder 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_OpenFolder() As String
+            Get
+                Return ResourceManager.GetString("Mnu_OpenFolder", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 &amp;Open Folder 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Mnu_OpenPath() As String

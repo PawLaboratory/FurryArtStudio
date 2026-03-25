@@ -714,4 +714,7 @@
   <data name="FAS_Description" xml:space="preserve">
     <value>科学、高效的组织和管理 Fursona 手稿、参考素材、原创 OC 内容和图片文档</value>
   </data>
+  <data name="Mnu_OpenFolder" xml:space="preserve">
+    <value>打开程序文件夹(&amp;P)</value>
+  </data>
 </root>

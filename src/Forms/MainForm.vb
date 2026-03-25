@@ -208,6 +208,7 @@ Public Class MainForm
         MnuRunAsElevated.Text = My.Resources.Mnu_RunAsElevated
         MnuRunTerminal.Text = My.Resources.Mnu_OpenTerminal
         MnuProperties.Text = My.Resources.Mnu_Options
+        MnuOpenPath.Text = My.Resources.Mnu_OpenFolder
         MnuCreateShortcut.Text = My.Resources.Mnu_CreateShortcut
         MnuExit.Text = My.Resources.Mnu_Exit
         '稿件库
@@ -350,6 +351,7 @@ Public Class MainForm
         (MnuRunAsElevated, "MenuShield"),
         (MnuRunTerminal, "MenuTerminal"),
         (MnuProperties, "MenuSettings"),
+        (MnuOpenPath, "MenuFolderOpen"),
         (MnuCreateShortcut, "MenuCreateShortcut"),
         (MnuExit, "MenuClose"),
         (MnuLibList, "MenuFolders"),
@@ -751,27 +753,21 @@ Public Class MainForm
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
     Private Sub MnuCreateShortcut_Click(sender As Object, e As EventArgs) Handles MnuCreateShortcut.Click
-        Dim result = CreateDesktopShortcut(
+        CreateDesktopShortcut(
             targetPath:=Application.ExecutablePath,
             shortcutName:=My.Resources.FurryArtStudio,
             workingDirectory:=Application.StartupPath,
             description:=My.Resources.FAS_Description,
             iconLocation:=$"{Application.ExecutablePath},0"
         )
-        If Not result Then
-            Using dlg As New TaskDialog With {
-            .WindowTitle = My.Resources.FurryArtStudio,
-            .MainInstruction = My.Resources.Msg_CreateShortcutFailed,
-            .MainIcon = TaskDialogIcon.Information
-            }
-                dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-                dlg.ShowDialog()
-            End Using
-        End If
     End Sub
     Private Sub MnuExit_Click(sender As Object, e As EventArgs) Handles MnuExit.Click
         Me.Close()
     End Sub
+    Private Sub MnuOpenPath_Click(sender As Object, e As EventArgs) Handles MnuOpenPath.Click
+        Shell($"explorer {Application.StartupPath}", 1)
+    End Sub
+
 #End Region
 
 #Region "稿件库菜单项"
