@@ -1242,7 +1242,7 @@ Public Class MainForm
             Dim buttonYes As New TaskDialogButton(ButtonType.Yes)
             Using dlg As New TaskDialog With {
                     .WindowTitle = My.Resources.FurryArtStudio,
-                    .MainInstruction = My.Resources.Msg_MultiFolderOpen,
+                    .MainInstruction = String.Format(My.Resources.Msg_MultiFolderOpen, artworkPaths.Count),
                     .MainIcon = TaskDialogIcon.Information
                     }
                 dlg.Buttons.Add(buttonYes)
@@ -1253,6 +1253,10 @@ Public Class MainForm
                     Next
                 End If
             End Using
+        Else
+            For Each artworkPath In artworkPaths
+                Shell($"explorer {artworkPath}", 1)
+            Next
         End If
     End Sub
     Private Sub MnuMsCopy_Click(sender As Object, e As EventArgs) Handles MnuMsCopy.Click
