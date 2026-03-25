@@ -176,11 +176,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="src\ArtworkManager\Artwork.vb" />
     <Compile Include="src\ArtworkManager\ArtworkLibrary.vb" />
     <Compile Include="src\ArtworkManager\LibraryManager.vb" />
@@ -305,11 +300,6 @@
     <Compile Include="src\Utilities\WinAPI.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\AboutForm.resx">
       <DependentUpon>AboutForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -419,7 +409,9 @@
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-right.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-left.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-right.png" />
+    <Content Include="src\Resources\Darkmode-Icons\bug.png" />
     <Content Include="src\Resources\Darkmode-Icons\chart-pie.png" />
+    <Content Include="src\Resources\Darkmode-Icons\circle-arrow-up.png" />
     <Content Include="src\Resources\Darkmode-Icons\circle-question-mark.png" />
     <Content Include="src\Resources\Darkmode-Icons\code.png" />
     <Content Include="src\Resources\Darkmode-Icons\copy-plus.png" />
@@ -453,6 +445,7 @@
     <Content Include="src\Resources\Darkmode-Icons\search.png" />
     <Content Include="src\Resources\Darkmode-Icons\settings.png" />
     <Content Include="src\Resources\Darkmode-Icons\shield.png" />
+    <Content Include="src\Resources\Darkmode-Icons\square-arrow-out-up-right.png" />
     <Content Include="src\Resources\Darkmode-Icons\star.png" />
     <Content Include="src\Resources\Darkmode-Icons\terminal.png" />
     <Content Include="src\Resources\Darkmode-Icons\trash-2.png" />
@@ -465,7 +458,9 @@
     <Content Include="src\Resources\Lightmode-Icons\arrow-big-right.png" />
     <Content Include="src\Resources\Lightmode-Icons\arrow-left.png" />
     <Content Include="src\Resources\Lightmode-Icons\arrow-right.png" />
+    <Content Include="src\Resources\Lightmode-Icons\bug.png" />
     <Content Include="src\Resources\Lightmode-Icons\chart-pie.png" />
+    <Content Include="src\Resources\Lightmode-Icons\circle-arrow-up.png" />
     <Content Include="src\Resources\Lightmode-Icons\circle-question-mark.png" />
     <Content Include="src\Resources\Lightmode-Icons\code.png" />
     <Content Include="src\Resources\Lightmode-Icons\copy-plus.png" />
@@ -500,6 +495,7 @@
     <Content Include="src\Resources\Lightmode-Icons\search.png" />
     <Content Include="src\Resources\Lightmode-Icons\settings.png" />
     <Content Include="src\Resources\Lightmode-Icons\shield.png" />
+    <Content Include="src\Resources\Lightmode-Icons\square-arrow-out-up-right.png" />
     <Content Include="src\Resources\Lightmode-Icons\star.png" />
     <Content Include="src\Resources\Lightmode-Icons\terminal.png" />
     <Content Include="src\Resources\Lightmode-Icons\trash-2.png" />
