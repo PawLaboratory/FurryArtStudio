@@ -744,6 +744,9 @@ Public Class MainForm
         PropertiesForm.ShowDialog()
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
+    Private Sub MnuCreateShortcut_Click(sender As Object, e As EventArgs) Handles MnuCreateShortcut.Click
+
+    End Sub
     Private Sub MnuExit_Click(sender As Object, e As EventArgs) Handles MnuExit.Click
         Me.Close()
     End Sub
@@ -1354,6 +1357,9 @@ Public Class MainForm
     End Sub
     Private Sub MnuHelpGithub_Click(sender As Object, e As EventArgs) Handles MnuHelpGithub.Click
         Process.Start("https://github.com/xionglongztz/FurryArtStudio")
+    End Sub
+    Private Sub MnuBugReport_Click(sender As Object, e As EventArgs) Handles MnuBugReport.Click
+        Process.Start("https://github.com/xionglongztz/FurryArtStudio/issues/new?template=bug_report.yml")
     End Sub
     Private Sub MnuHelpWebsite_Click(sender As Object, e As EventArgs) Handles MnuHelpWebsite.Click
 
