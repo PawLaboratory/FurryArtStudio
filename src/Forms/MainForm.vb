@@ -374,7 +374,7 @@ Public Class MainForm
         (MnuPageDown, "MenuNext"),
         (MnuHelpTutorial, "MenuTutorial"),
         (MnuHelpGithub, "MenuGithub"),
-        (MnuHelpDonate, "MenuSupport"),
+        (MnuOpenAfdian, "MenuSupport"),
         (MnuHelpWebsite, "MenuWebsite"),
         (MnuHelpAbout, "MenuInfo"),
         (MnuHelpWhatsNew, "MenuStar"),
