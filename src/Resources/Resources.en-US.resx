@@ -699,4 +699,13 @@
   <data name="Mnu_CreateShortcut" xml:space="preserve">
     <value>Create Desktop &amp;Shortcut</value>
   </data>
+  <data name="Mnu_Feedback" xml:space="preserve">
+    <value>&amp;Feedback</value>
+  </data>
+  <data name="Mnu_Suggestions" xml:space="preserve">
+    <value>&amp;Suggest Feature</value>
+  </data>
+  <data name="Mnu_MyFeedback" xml:space="preserve">
+    <value>&amp;My Feedback</value>
+  </data>
 </root>

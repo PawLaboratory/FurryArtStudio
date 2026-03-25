@@ -699,4 +699,13 @@
   <data name="Mnu_CreateShortcut" xml:space="preserve">
     <value>建立桌面捷徑(S)</value>
   </data>
+  <data name="Mnu_Feedback" xml:space="preserve">
+    <value>回饋(&amp;F)</value>
+  </data>
+  <data name="Mnu_Suggestions" xml:space="preserve">
+    <value>建議功能(&amp;S)</value>
+  </data>
+  <data name="Mnu_MyFeedback" xml:space="preserve">
+    <value>我的回饋(&amp;M)</value>
+  </data>
 </root>

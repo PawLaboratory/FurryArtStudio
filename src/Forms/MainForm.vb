@@ -256,7 +256,10 @@ Public Class MainForm
         MnuCheckUpdate.Text = My.Resources.Mnu_CheckUpdate
         MnuHelpLicense.Text = My.Resources.Mnu_License
         MnuHelpPrivacy.Text = My.Resources.Mnu_Privacy
+        MnuFeedback.Text = My.Resources.Mnu_Feedback
         MnuBugReport.Text = My.Resources.Mnu_BugReport
+        MnuSuggestions.Text = My.Resources.Mnu_Suggestions
+        MnuMyFeedback.Text = My.Resources.Mnu_MyFeedback
         MnuHelpDonate.Text = My.Resources.Mnu_Donate
         MnuOpenAfdian.Text = My.Resources.Mnu_OpenAfdian
         MnuLoadSponsors.Text = My.Resources.Mnu_LoadSponsors

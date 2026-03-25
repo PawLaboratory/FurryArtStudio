@@ -754,6 +754,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 &amp;Feedback 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_Feedback() As String
+            Get
+                Return ResourceManager.GetString("Mnu_Feedback", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 &amp;File 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Mnu_File() As String
@@ -831,6 +840,15 @@ Namespace My.Resources
         Friend ReadOnly Property Mnu_Ms() As String
             Get
                 Return ResourceManager.GetString("Mnu_Ms", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 &amp;My Feedback 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_MyFeedback() As String
+            Get
+                Return ResourceManager.GetString("Mnu_MyFeedback", resourceCulture)
             End Get
         End Property
         
@@ -993,6 +1011,15 @@ Namespace My.Resources
         Friend ReadOnly Property Mnu_SelectReverse() As String
             Get
                 Return ResourceManager.GetString("Mnu_SelectReverse", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 &amp;Suggest Feature 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_Suggestions() As String
+            Get
+                Return ResourceManager.GetString("Mnu_Suggestions", resourceCulture)
             End Get
         End Property
         
