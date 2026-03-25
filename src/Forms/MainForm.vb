@@ -384,6 +384,7 @@ Public Class MainForm
         (MnuHelpWebsite, "MenuWebsite"),
         (MnuHelpAbout, "MenuInfo"),
         (MnuBugReport, "MenuBugReport"),
+        (MnuSuggestions, "MenuSuggestions"),
         (MnuCheckUpdate, "MenuCheckUpdate"),
         (MnuHelpWhatsNew, "MenuStar"),
         (ConMnuMsView, "MenuView"),
