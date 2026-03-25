@@ -437,6 +437,7 @@
     <Content Include="src\Resources\Darkmode-Icons\info.png" />
     <Content Include="src\Resources\Darkmode-Icons\japanese-yen.png" />
     <Content Include="src\Resources\Darkmode-Icons\link.png" />
+    <Content Include="src\Resources\Darkmode-Icons\message-square-more.png" />
     <Content Include="src\Resources\Darkmode-Icons\pencil-line.png" />
     <Content Include="src\Resources\Darkmode-Icons\pencil.png" />
     <Content Include="src\Resources\Darkmode-Icons\pin.png" />
@@ -486,6 +487,7 @@
     <Content Include="src\Resources\Lightmode-Icons\info.png" />
     <Content Include="src\Resources\Lightmode-Icons\japanese-yen.png" />
     <Content Include="src\Resources\Lightmode-Icons\link.png" />
+    <Content Include="src\Resources\Lightmode-Icons\message-square-more.png" />
     <Content Include="src\Resources\Lightmode-Icons\pencil-line.png" />
     <Content Include="src\Resources\Lightmode-Icons\pencil.png" />
     <Content Include="src\Resources\Lightmode-Icons\pin.png" />

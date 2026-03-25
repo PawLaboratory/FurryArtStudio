@@ -506,4 +506,12 @@
     <value>Darkmode-Icons\bug.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     <comment>反馈 - 深色模式</comment>
   </data>
+  <data name="MenuSuggestionsLight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Lightmode-Icons\message-square-more.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <comment>提建议 - 浅色模式</comment>
+  </data>
+  <data name="MenuSuggestionsDark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Darkmode-Icons\message-square-more.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <comment>提建议 - 深色模式</comment>
+  </data>
 </root>
