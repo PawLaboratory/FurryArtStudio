@@ -693,4 +693,10 @@
   <data name="Msg_CreateCSVFailed" xml:space="preserve">
     <value>Failed to export CSV file</value>
   </data>
+  <data name="Mnu_BugReport" xml:space="preserve">
+    <value>&amp;Bug Report</value>
+  </data>
+  <data name="Mnu_CreateShortcut" xml:space="preserve">
+    <value>Create Desktop &amp;Shortcut</value>
+  </data>
 </root>

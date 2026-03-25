@@ -693,4 +693,10 @@
   <data name="Msg_CreateCSVFailed" xml:space="preserve">
     <value>無法匯出為CSV檔案</value>
   </data>
+  <data name="Mnu_BugReport" xml:space="preserve">
+    <value>問題回報(&amp;B)</value>
+  </data>
+  <data name="Mnu_CreateShortcut" xml:space="preserve">
+    <value>建立桌面捷徑(S)</value>
+  </data>
 </root>

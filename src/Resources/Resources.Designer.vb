@@ -610,6 +610,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 &amp;Bug Report 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_BugReport() As String
+            Get
+                Return ResourceManager.GetString("Mnu_BugReport", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Check for &amp;Updates 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Mnu_CheckUpdate() As String
@@ -651,6 +660,15 @@ Namespace My.Resources
         Friend ReadOnly Property Mnu_CopyPath() As String
             Get
                 Return ResourceManager.GetString("Mnu_CopyPath", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Create Desktop &amp;Shortcut 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_CreateShortcut() As String
+            Get
+                Return ResourceManager.GetString("Mnu_CreateShortcut", resourceCulture)
             End Get
         End Property
         

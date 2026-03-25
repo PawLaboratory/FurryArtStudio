@@ -208,6 +208,7 @@ Public Class MainForm
         MnuRunAsElevated.Text = My.Resources.Mnu_RunAsElevated
         MnuRunTerminal.Text = My.Resources.Mnu_OpenTerminal
         MnuProperties.Text = My.Resources.Mnu_Options
+        MnuCreateShortcut.Text = My.Resources.Mnu_CreateShortcut
         MnuExit.Text = My.Resources.Mnu_Exit
         '稿件库
         MnuLibrary.Text = My.Resources.Mnu_Lib
@@ -255,6 +256,7 @@ Public Class MainForm
         MnuCheckUpdate.Text = My.Resources.Mnu_CheckUpdate
         MnuHelpLicense.Text = My.Resources.Mnu_License
         MnuHelpPrivacy.Text = My.Resources.Mnu_Privacy
+        MnuBugReport.Text = My.Resources.Mnu_BugReport
         MnuHelpDonate.Text = My.Resources.Mnu_Donate
         MnuOpenAfdian.Text = My.Resources.Mnu_OpenAfdian
         MnuLoadSponsors.Text = My.Resources.Mnu_LoadSponsors
