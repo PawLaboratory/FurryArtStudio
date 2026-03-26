@@ -95,12 +95,6 @@
       <HintPath>packages\Microsoft.Bcl.HashCode.6.0.0\lib\net462\Microsoft.Bcl.HashCode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Toolkit, Version=6.0.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Toolkit.6.0.0\lib\netstandard2.0\Microsoft.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Toolkit.Parsers, Version=6.0.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Toolkit.Parsers.6.0.0\lib\netstandard2.0\Microsoft.Toolkit.Parsers.dll</HintPath>
-    </Reference>
     <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
       <HintPath>packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
     </Reference>
@@ -232,6 +226,12 @@
     <Compile Include="src\Forms\PropertiesForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="src\Forms\ScriptForm.Designer.vb">
+      <DependentUpon>ScriptForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\Forms\ScriptForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\Forms\TextBoxForm.Designer.vb">
       <DependentUpon>TextBoxForm.vb</DependentUpon>
     </Compile>
@@ -290,6 +290,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.zh-Hant.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Scripts\ScriptEngine.vb" />
     <Compile Include="src\Utilities\AfdianHandler.vb" />
     <Compile Include="src\Utilities\AppSettings.vb" />
     <Compile Include="src\Utilities\BasicFcn.vb" />
@@ -323,6 +324,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\PropertiesForm.resx">
       <DependentUpon>PropertiesForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Forms\ScriptForm.resx">
+      <DependentUpon>ScriptForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\TextBoxForm.resx">
       <DependentUpon>TextBoxForm.vb</DependentUpon>
@@ -404,6 +408,7 @@
     <Content Include="docs\CHANGELOG.txt" />
     <Content Include="src\Docs\PRIVACY.txt" />
     <Content Include="docs\Banner.png" />
+    <Content Include="src\Resources\BV1GJ411x7h7.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-left.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-right-dash.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-right.png" />

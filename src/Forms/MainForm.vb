@@ -105,6 +105,7 @@ Public Class MainForm
         Icon = Icon.FromHandle(My.Resources.Icons.FurryArtStudio.GetHicon) '设置图标
         settings.Save() '保存默认设置
         Me.AllowDrop = True
+        CheckFurryUpdate() '检查更新
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
     End Sub
 
