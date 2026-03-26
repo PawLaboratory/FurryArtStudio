@@ -86,7 +86,8 @@ jobs:
       with:
         tag_name: ${{ env.NEW_TAG }}
         name: Release ${{ env.NEW_TAG }}
-        generate_release_notes: true 
+        # generate_release_notes: true 
+        body_path: src/Docs/WHATSNEW.txt
         files: |
           ./FurryArtStudio-${{ env.NEW_TAG }}.zip
       env:
