@@ -19,6 +19,7 @@ Imports System.Reflection
 Imports System.Runtime.InteropServices
 Imports System.Security.Principal
 Imports System.Text
+Imports Microsoft.Win32
 Imports Ookii.Dialogs.WinForms
 
 ''' <summary>
@@ -624,6 +625,17 @@ Module BasicFcn
                                          End Sub
         dialog.ShowDialog()
     End Sub
+    Public Sub ShowInfoDialog(content As String, Optional mainInstruction As String = "")
+        Using dlg As New TaskDialog With {
+            .WindowTitle = My.Resources.FurryArtStudio,
+            .Content = content,
+            .MainIcon = TaskDialogIcon.Information
+            }
+            If mainInstruction <> "" Then dlg.MainInstruction = mainInstruction
+            dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
+            dlg.ShowDialog()
+        End Using
+    End Sub
 #End Region
 
 #Region "窗口特权相关"
@@ -771,6 +783,32 @@ Module BasicFcn
         '测试了下二维码应该是可以扫描的, 如果扫不了得换更高DPI的显示器
         '应该没人注意到是什么
     End Sub
+    ''' <summary>
+    ''' 通过注册表获取指定扩展名关联的默认打开程序
+    ''' </summary>
+    Public Function GetFileTypeDescription(extension As String) As String
+        Try
+            '标准化扩展名
+            If String.IsNullOrWhiteSpace(extension) Then Return ""
+            If Not extension.StartsWith(".") Then extension = "." & extension
+            '扩展名 -> ProgID
+            Using extKey As RegistryKey = Registry.ClassesRoot.OpenSubKey(extension)
+                If extKey Is Nothing Then Return extension & " Files"
+                Dim progId As String = TryCast(extKey.GetValue(Nothing), String)
+                If String.IsNullOrEmpty(progId) Then Return extension & " Files"
+                '用 ProgID 查描述
+                Using progKey As RegistryKey = Registry.ClassesRoot.OpenSubKey(progId)
+                    If progKey Is Nothing Then Return extension & " Files"
+                    Dim description As String = TryCast(progKey.GetValue(Nothing), String)
+                    If Not String.IsNullOrEmpty(description) Then
+                        Return $"{description} ({extension})"
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+        End Try
+        Return extension & " Files"
+    End Function
 #End Region
 
 End Module

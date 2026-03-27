@@ -340,10 +340,10 @@
     <value>Printing...</value>
   </data>
   <data name="Msg_PrintFailed" xml:space="preserve">
-    <value>Error while printing: {0}</value>
+    <value>Error while printing</value>
   </data>
   <data name="Msg_ImageLoadFailed" xml:space="preserve">
-    <value>Failed to load image: {0}</value>
+    <value>Failed to load image</value>
   </data>
   <data name="Msg_MultiFolderOpen" xml:space="preserve">
     <value>You are about to open {0} folders at once. Do you want to continue?</value>
@@ -716,5 +716,122 @@
   </data>
   <data name="Mnu_OpenFolder" xml:space="preserve">
     <value>Open &amp;Program Folder</value>
+  </data>
+  <data name="View_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="View_ImageBrowser" xml:space="preserve">
+    <value>Image Viewer</value>
+  </data>
+  <data name="View_NoTitle" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
+  <data name="View_NoFile" xml:space="preserve">
+    <value>File does not exist or path is invalid.</value>
+  </data>
+  <data name="View_FailedtoOpenProp" xml:space="preserve">
+    <value>Unable to open properties window</value>
+  </data>
+  <data name="View_HelpInfo" xml:space="preserve">
+    <value>Show Information        I</value>
+  </data>
+  <data name="View_HelpPrevImg" xml:space="preserve">
+    <value>Previous         Left Arrow or Up Arrow, 'W', 'A', 'P', PageUp, &lt;</value>
+  </data>
+  <data name="View_HelpNextImg" xml:space="preserve">
+    <value>Next             Right Arrow or Down Arrow, 'S', 'D', 'N', PageDown, &gt;, Space or Enter</value>
+  </data>
+  <data name="View_HelpPrevArt" xml:space="preserve">
+    <value>Previous Artwork         Ctrl+PageUp, Ctrl+Up Arrow, Ctrl+Left Arrow</value>
+  </data>
+  <data name="View_HelpNextArt" xml:space="preserve">
+    <value>Next Artwork             Ctrl+PageDown, Ctrl+Down Arrow, Ctrl+Right Arrow</value>
+  </data>
+  <data name="View_HelpFirstArt" xml:space="preserve">
+    <value>First Artwork        Home</value>
+  </data>
+  <data name="View_HelpLastArt" xml:space="preserve">
+    <value>Last Artwork         End</value>
+  </data>
+  <data name="View_HelpClose" xml:space="preserve">
+    <value>Close        Esc</value>
+  </data>
+  <data name="View_HelpShowInfo" xml:space="preserve">
+    <value>Help Instructions</value>
+  </data>
+  <data name="View_HelpShowProp" xml:space="preserve">
+    <value>Show File Properties        Alt+Enter</value>
+  </data>
+  <data name="View_HelpFullScreen" xml:space="preserve">
+    <value>Toggle Full Screen        F11</value>
+  </data>
+  <data name="View_HelpShowHelp" xml:space="preserve">
+    <value>Show This Help        F1</value>
+  </data>
+  <data name="View_HelpExtract" xml:space="preserve">
+    <value>Extract        Alt+1, Alt+2, Alt+3</value>
+  </data>
+  <data name="View_HelpPlay" xml:space="preserve">
+    <value>Play        Ctrl+F5</value>
+  </data>
+  <data name="View_ArtInfo" xml:space="preserve">
+    <value>Artwork Information</value>
+  </data>
+  <data name="View_Title" xml:space="preserve">
+    <value>Title: {0}</value>
+  </data>
+  <data name="View_Author" xml:space="preserve">
+    <value>Author: {0}</value>
+  </data>
+  <data name="View_UUID" xml:space="preserve">
+    <value>UUID: {0}</value>
+  </data>
+  <data name="View_Roles" xml:space="preserve">
+    <value>Characters: {0}</value>
+  </data>
+  <data name="View_Tags" xml:space="preserve">
+    <value>Tags: {0}</value>
+  </data>
+  <data name="View_Create" xml:space="preserve">
+    <value>Creation Time: {0}</value>
+  </data>
+  <data name="View_Import" xml:space="preserve">
+    <value>Import Time: {0}</value>
+  </data>
+  <data name="View_Update" xml:space="preserve">
+    <value>Update Time: {0}</value>
+  </data>
+  <data name="View_Notes" xml:space="preserve">
+    <value>Notes: {0}</value>
+  </data>
+  <data name="View_FilePath" xml:space="preserve">
+    <value>File Path: {0}</value>
+  </data>
+  <data name="View_Resolution" xml:space="preserve">
+    <value>Resolution: {0}</value>
+  </data>
+  <data name="View_Depth" xml:space="preserve">
+    <value>Bit Depth: {0}</value>
+  </data>
+  <data name="View_FileType" xml:space="preserve">
+    <value>File Type: {0}</value>
+  </data>
+  <data name="View_FileSize" xml:space="preserve">
+    <value>File Size: {0}</value>
+  </data>
+  <data name="View_FileCreateTime" xml:space="preserve">
+    <value>File Creation Time: {0}</value>
+  </data>
+  <data name="View_FileModifyTime" xml:space="preserve">
+    <value>File Modification Time: {0}</value>
+  </data>
+  <data name="View_CopyPath" xml:space="preserve">
+    <value>Copy Path</value>
+  </data>
+  <data name="View_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="View_OpenFolder" xml:space="preserve">
+    <value>Open Folder</value>
   </data>
 </root>

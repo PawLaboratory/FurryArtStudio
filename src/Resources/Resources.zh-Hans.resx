@@ -340,10 +340,10 @@
     <value>正在打印...</value>
   </data>
   <data name="Msg_PrintFailed" xml:space="preserve">
-    <value>打印时出错: {0}</value>
+    <value>打印时出错</value>
   </data>
   <data name="Msg_ImageLoadFailed" xml:space="preserve">
-    <value>无法加载图片: {0}</value>
+    <value>无法加载图片</value>
   </data>
   <data name="Msg_MultiFolderOpen" xml:space="preserve">
     <value>您将同时打开 {0} 个文件夹, 确定要继续吗?</value>
@@ -716,5 +716,122 @@
   </data>
   <data name="Mnu_OpenFolder" xml:space="preserve">
     <value>打开程序文件夹(&amp;P)</value>
+  </data>
+  <data name="View_Loading" xml:space="preserve">
+    <value>加载中...</value>
+  </data>
+  <data name="View_ImageBrowser" xml:space="preserve">
+    <value>图像浏览器</value>
+  </data>
+  <data name="View_NoTitle" xml:space="preserve">
+    <value>无标题</value>
+  </data>
+  <data name="View_NoFile" xml:space="preserve">
+    <value>文件不存在或路径无效。</value>
+  </data>
+  <data name="View_FailedtoOpenProp" xml:space="preserve">
+    <value>无法打开属性窗口</value>
+  </data>
+  <data name="View_HelpInfo" xml:space="preserve">
+    <value>显示信息        I</value>
+  </data>
+  <data name="View_HelpPrevImg" xml:space="preserve">
+    <value>上一张        左箭头或上箭头,'W','A','P',PageUp,小于号</value>
+  </data>
+  <data name="View_HelpNextImg" xml:space="preserve">
+    <value>下一张        右箭头或下箭头,'S','D','N',PageDown,大于号,空格或回车</value>
+  </data>
+  <data name="View_HelpPrevArt" xml:space="preserve">
+    <value>上一稿件        Ctrl+PageUp,Ctrl+上箭头,Ctrl+左箭头</value>
+  </data>
+  <data name="View_HelpNextArt" xml:space="preserve">
+    <value>下一稿件        Ctrl+PageDown,Ctrl+下箭头,Ctrl+右箭头</value>
+  </data>
+  <data name="View_HelpFirstArt" xml:space="preserve">
+    <value>第一个稿件        Home</value>
+  </data>
+  <data name="View_HelpLastArt" xml:space="preserve">
+    <value>最后一个稿件        End</value>
+  </data>
+  <data name="View_HelpClose" xml:space="preserve">
+    <value>关闭        Esc</value>
+  </data>
+  <data name="View_HelpShowInfo" xml:space="preserve">
+    <value>使用帮助说明</value>
+  </data>
+  <data name="View_HelpShowProp" xml:space="preserve">
+    <value>显示文件属性        Alt+Enter</value>
+  </data>
+  <data name="View_HelpFullScreen" xml:space="preserve">
+    <value>切换全屏        F11</value>
+  </data>
+  <data name="View_HelpShowHelp" xml:space="preserve">
+    <value>显示此帮助        F1</value>
+  </data>
+  <data name="View_HelpExtract" xml:space="preserve">
+    <value>提取        Alt+1,Alt+2,Alt+3</value>
+  </data>
+  <data name="View_HelpPlay" xml:space="preserve">
+    <value>幻灯片放映        Ctrl+F5</value>
+  </data>
+  <data name="View_ArtInfo" xml:space="preserve">
+    <value>稿件信息</value>
+  </data>
+  <data name="View_Title" xml:space="preserve">
+    <value>标题: {0}</value>
+  </data>
+  <data name="View_Author" xml:space="preserve">
+    <value>作者: {0}</value>
+  </data>
+  <data name="View_UUID" xml:space="preserve">
+    <value>UUID: {0}</value>
+  </data>
+  <data name="View_Roles" xml:space="preserve">
+    <value>角色: {0}</value>
+  </data>
+  <data name="View_Tags" xml:space="preserve">
+    <value>标签: {0}</value>
+  </data>
+  <data name="View_Create" xml:space="preserve">
+    <value>创作时间: {0}</value>
+  </data>
+  <data name="View_Import" xml:space="preserve">
+    <value>入库时间: {0}</value>
+  </data>
+  <data name="View_Update" xml:space="preserve">
+    <value>更新时间: {0}</value>
+  </data>
+  <data name="View_Notes" xml:space="preserve">
+    <value>备注: {0}</value>
+  </data>
+  <data name="View_FilePath" xml:space="preserve">
+    <value>文件路径: {0}</value>
+  </data>
+  <data name="View_Resolution" xml:space="preserve">
+    <value>分辨率: {0}</value>
+  </data>
+  <data name="View_Depth" xml:space="preserve">
+    <value>位深: {0}</value>
+  </data>
+  <data name="View_FileType" xml:space="preserve">
+    <value>文件类型: {0}</value>
+  </data>
+  <data name="View_FileSize" xml:space="preserve">
+    <value>文件大小: {0}</value>
+  </data>
+  <data name="View_FileCreateTime" xml:space="preserve">
+    <value>文件创建时间: {0}</value>
+  </data>
+  <data name="View_FileModifyTime" xml:space="preserve">
+    <value>文件修改时间: {0}</value>
+  </data>
+  <data name="View_CopyPath" xml:space="preserve">
+    <value>复制路径</value>
+  </data>
+  <data name="View_Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="View_OpenFolder" xml:space="preserve">
+    <value>打开目录</value>
   </data>
 </root>

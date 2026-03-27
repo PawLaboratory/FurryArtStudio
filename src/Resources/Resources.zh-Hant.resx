@@ -340,10 +340,10 @@
     <value>正在列印……</value>
   </data>
   <data name="Msg_PrintFailed" xml:space="preserve">
-    <value>列印時發生錯誤: {0}</value>
+    <value>列印時發生錯誤</value>
   </data>
   <data name="Msg_ImageLoadFailed" xml:space="preserve">
-    <value>無法載入圖片: {0}</value>
+    <value>無法載入圖片</value>
   </data>
   <data name="Msg_MultiFolderOpen" xml:space="preserve">
     <value>您將同時開啟 {0} 個資料夾，確定要繼續嗎?</value>
@@ -716,5 +716,122 @@
   </data>
   <data name="Mnu_OpenFolder" xml:space="preserve">
     <value>開啟程式資料夾(&amp;P)</value>
+  </data>
+  <data name="View_Loading" xml:space="preserve">
+    <value>載入中...</value>
+  </data>
+  <data name="View_ImageBrowser" xml:space="preserve">
+    <value>影像瀏覽器</value>
+  </data>
+  <data name="View_NoTitle" xml:space="preserve">
+    <value>無標題</value>
+  </data>
+  <data name="View_NoFile" xml:space="preserve">
+    <value>檔案不存在或路徑無效。</value>
+  </data>
+  <data name="View_FailedtoOpenProp" xml:space="preserve">
+    <value>無法開啟屬性視窗</value>
+  </data>
+  <data name="View_HelpInfo" xml:space="preserve">
+    <value>顯示資訊        I</value>
+  </data>
+  <data name="View_HelpPrevImg" xml:space="preserve">
+    <value>上一張         左箭頭或上箭頭,'W','A','P',PageUp,小於符號</value>
+  </data>
+  <data name="View_HelpNextImg" xml:space="preserve">
+    <value>下一張         右箭頭或下箭頭,'S','D','N',PageDown,大於符號,空格或Enter</value>
+  </data>
+  <data name="View_HelpPrevArt" xml:space="preserve">
+    <value>上一稿件        Ctrl+PageUp,Ctrl+上箭頭,Ctrl+左箭頭</value>
+  </data>
+  <data name="View_HelpNextArt" xml:space="preserve">
+    <value>下一稿件        Ctrl+PageDown,Ctrl+下箭頭,Ctrl+右箭頭</value>
+  </data>
+  <data name="View_HelpFirstArt" xml:space="preserve">
+    <value>第一個稿件        Home</value>
+  </data>
+  <data name="View_HelpLastArt" xml:space="preserve">
+    <value>最後一個稿件        End</value>
+  </data>
+  <data name="View_HelpClose" xml:space="preserve">
+    <value>關閉        Esc</value>
+  </data>
+  <data name="View_HelpShowInfo" xml:space="preserve">
+    <value>使用說明</value>
+  </data>
+  <data name="View_HelpShowProp" xml:space="preserve">
+    <value>顯示檔案屬性        Alt+Enter</value>
+  </data>
+  <data name="View_HelpFullScreen" xml:space="preserve">
+    <value>切換全螢幕        F11</value>
+  </data>
+  <data name="View_HelpShowHelp" xml:space="preserve">
+    <value>顯示此說明        F1</value>
+  </data>
+  <data name="View_HelpExtract" xml:space="preserve">
+    <value>擷取        Alt+1,Alt+2,Alt+3</value>
+  </data>
+  <data name="View_HelpPlay" xml:space="preserve">
+    <value>幻燈片放映        Ctrl+F5</value>
+  </data>
+  <data name="View_ArtInfo" xml:space="preserve">
+    <value>稿件資訊</value>
+  </data>
+  <data name="View_Title" xml:space="preserve">
+    <value>標題: {0}</value>
+  </data>
+  <data name="View_Author" xml:space="preserve">
+    <value>作者: {0}</value>
+  </data>
+  <data name="View_UUID" xml:space="preserve">
+    <value>UUID: {0}</value>
+  </data>
+  <data name="View_Roles" xml:space="preserve">
+    <value>角色: {0}</value>
+  </data>
+  <data name="View_Tags" xml:space="preserve">
+    <value>標籤: {0}</value>
+  </data>
+  <data name="View_Create" xml:space="preserve">
+    <value>創作時間: {0}</value>
+  </data>
+  <data name="View_Import" xml:space="preserve">
+    <value>入庫時間: {0}</value>
+  </data>
+  <data name="View_Update" xml:space="preserve">
+    <value>更新時間: {0}</value>
+  </data>
+  <data name="View_Notes" xml:space="preserve">
+    <value>備註: {0}</value>
+  </data>
+  <data name="View_FilePath" xml:space="preserve">
+    <value>檔案路徑: {0}</value>
+  </data>
+  <data name="View_Resolution" xml:space="preserve">
+    <value>解析度: {0}</value>
+  </data>
+  <data name="View_Depth" xml:space="preserve">
+    <value>位元深度: {0}</value>
+  </data>
+  <data name="View_FileType" xml:space="preserve">
+    <value>檔案類型: {0}</value>
+  </data>
+  <data name="View_FileSize" xml:space="preserve">
+    <value>檔案大小: {0}</value>
+  </data>
+  <data name="View_FileCreateTime" xml:space="preserve">
+    <value>檔案建立時間: {0}</value>
+  </data>
+  <data name="View_FileModifyTime" xml:space="preserve">
+    <value>檔案修改時間: {0}</value>
+  </data>
+  <data name="View_CopyPath" xml:space="preserve">
+    <value>複製路徑</value>
+  </data>
+  <data name="View_Open" xml:space="preserve">
+    <value>開啟</value>
+  </data>
+  <data name="View_OpenFolder" xml:space="preserve">
+    <value>開啟目錄</value>
   </data>
 </root>

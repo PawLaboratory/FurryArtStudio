@@ -14,13 +14,13 @@
 ' limitations under the License.
 Imports System.ComponentModel
 Imports System.IO
+Imports System.Media
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Chromis.ColorExtractor
 Imports Ookii.Dialogs.WinForms
-
 Public Class ViewForm
     Implements IThemeChangeable, ILocalizable
 
@@ -70,31 +70,27 @@ Public Class ViewForm
         _currentArtwork = currentArtwork
         _allArtworks = allArtworks
         _mainForm = MainForm
-        '查找当前稿件在所有稿件列表中的索引
-        If _allArtworks IsNot Nothing Then
+        If _allArtworks IsNot Nothing Then '查找当前稿件在所有稿件列表中的索引
             _currentArtworkIndex = _allArtworks.FindIndex(Function(a) a.ID = currentArtwork.ID)
         End If
         If TypeOf _mainForm Is MainForm Then
             AddHandler DirectCast(_mainForm, MainForm).LibraryClosed, AddressOf OnLibraryClosed
         End If
     End Sub
-
     ''' <summary>
     ''' 窗体加载事件
     ''' </summary>
     Private Sub ViewForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        Me.Text = "图片浏览器"
+        Me.Text = My.Resources.View_ImageBrowser
         PictureBoxMain.SizeMode = PictureBoxSizeMode.Zoom
         PictureBoxMain.Dock = DockStyle.Fill
         SysMenuInit() '初始化菜单
         UpdateMenuStates() '更新菜单状态
         LanguageChange() '初始化语言
         SystemThemeChange() '初始化主题
-        '加载当前稿件的第一张图片
-        LoadCurrentArtworkFirstImage()
+        LoadCurrentArtworkFirstImage() '加载当前稿件的第一张图片
     End Sub
-
     ''' <summary>
     ''' 窗体关闭时释放资源
     ''' </summary>
@@ -107,7 +103,9 @@ Public Class ViewForm
             PictureBoxMain.Image = Nothing
         End If
     End Sub
-    '主题
+    ''' <summary>
+    ''' 主题
+    ''' </summary>
     Private Sub SystemThemeChange() Implements IThemeChangeable.SystemThemeChange
         If IsDarkMode() Then
             PictureBoxMain.BackColor = BgColorDark
@@ -123,9 +121,12 @@ Public Class ViewForm
         SetPreferredAppMode(If(IsDarkMode(), PreferredAppMode.AllowDark, PreferredAppMode.ForceLight))
         FlushMenuThemes()
     End Sub
-    '语言
+    ''' <summary>
+    ''' 语言
+    ''' </summary>
     Private Sub LanguageChange() Implements ILocalizable.LanguageChange
         UpdateMenuItem() '更新菜单项
+        Settings = AppSettings.Load()
     End Sub
     Private Sub UpdateMenuItem()
         Dim menuHandle = GetSystemMenu(Handle, False)
@@ -240,7 +241,6 @@ Public Class ViewForm
         End If
         MyBase.WndProc(m) '循环监听消息
     End Sub
-
 #End Region
 
 #Region "辅助函数"
@@ -277,7 +277,6 @@ Public Class ViewForm
         End Select
         ColorDialogForm.ShowDialog() '以对话框显示窗口
     End Sub
-
     ''' <summary>
     ''' 从文件路径数组中过滤出图片文件
     ''' </summary>
@@ -361,7 +360,6 @@ Public Class ViewForm
         _currentFileIndex = 0
         LoadImageAsync(imageFiles(_currentFileIndex))
     End Sub
-
     ''' <summary>
     ''' 获取当前稿件的所有图片文件
     ''' </summary>
@@ -372,19 +370,18 @@ Public Class ViewForm
         End If
         Return GetImageFiles(_currentArtwork.FilePaths)
     End Function
-
     ''' <summary>
     ''' 更新窗口标题
     ''' </summary>
     ''' <param name="currentFilePath">当前文件路径</param>
     Private Sub UpdateWindowTitle(Optional currentFilePath As String = Nothing)
         If _currentArtwork Is Nothing Then '没有文件
-            Me.Text = "图片浏览器"
+            Me.Text = My.Resources.View_ImageBrowser
             Return
         End If
         Dim title As String = _currentArtwork.Title
         If String.IsNullOrWhiteSpace(title) Then '没有标题
-            title = "无标题"
+            title = My.Resources.View_NoTitle
         End If
         Dim imageFiles As List(Of String) = GetCurrentArtworkImages()
         Dim totalImages As Integer = imageFiles.Count
@@ -405,7 +402,6 @@ Public Class ViewForm
             'Dim a As String = Settings.Appearance.ImageWindowTitleFormat
         End If
     End Sub
-
     ''' <summary>
     ''' 显示稿件信息
     ''' </summary>
@@ -414,49 +410,68 @@ Public Class ViewForm
         Dim imageFiles As List(Of String) = GetCurrentArtworkImages()
         Dim filePath As String = imageFiles(_currentFileIndex)
         Dim sb As New StringBuilder
-        sb.Append($"标题: {_currentArtwork.Title}{vbCrLf}")
-        sb.Append($"作者: {_currentArtwork.Author}{vbCrLf}")
-        sb.Append($"UUID: {_currentArtwork.UUID}{vbCrLf}")
-        If _currentArtwork.Characters.Length > 0 Then sb.Append($"角色: {FormatArrayWithEllipsis(_currentArtwork.Characters)}{vbCrLf}")
-        If _currentArtwork.Tags.Length > 0 Then sb.Append($"标签: {FormatArrayWithEllipsis(_currentArtwork.Tags)}{vbCrLf}")
-        sb.Append($"创作时间: {_currentArtwork.CreateTime:yyyy-MM-dd HH:mm:ss}{vbCrLf}")
-        sb.Append($"入库时间: {_currentArtwork.ImportTime:yyyy-MM-dd HH:mm:ss}{vbCrLf}")
-        sb.Append($"更新时间: {_currentArtwork.UpdateTime:yyyy-MM-dd HH:mm:ss}{vbCrLf}")
-        sb.Append($"备注: {_currentArtwork.Notes}{vbCrLf}")
-        sb.Append($"----------{vbCrLf}")
-        sb.Append($"文件路径: {filePath}")
-        '分辨率，位深
-        '文件类型
-        '文件大小
-        '创建时间，修改时间
+        sb.Append(String.Format(My.Resources.View_Title, _currentArtwork.Title) & vbCrLf)
+        sb.Append(String.Format(My.Resources.View_Author, _currentArtwork.Author) & vbCrLf)
+        sb.Append(String.Format(My.Resources.View_UUID, _currentArtwork.UUID) & vbCrLf)
+        If _currentArtwork.Characters.Length > 0 Then sb.Append(String.Format(My.Resources.View_Roles, FormatArrayWithEllipsis(_currentArtwork.Characters)) & vbCrLf)
+        If _currentArtwork.Tags.Length > 0 Then sb.Append(String.Format(My.Resources.View_Tags, FormatArrayWithEllipsis(_currentArtwork.Tags)) & vbCrLf)
+        sb.Append(String.Format(My.Resources.View_Create, _currentArtwork.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")) & vbCrLf)
+        sb.Append(String.Format(My.Resources.View_Import, _currentArtwork.ImportTime.ToString("yyyy-MM-dd HH:mm:ss")) & vbCrLf)
+        sb.Append(String.Format(My.Resources.View_Update, _currentArtwork.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss")) & vbCrLf)
+        If _currentArtwork.Notes <> "" Then sb.Append(String.Format(My.Resources.View_Notes, _currentArtwork.Notes) & vbCrLf)
+        sb.Append(vbCrLf)
+        sb.Append(String.Format(My.Resources.View_FilePath, filePath) & vbCrLf)
+        Dim fi As New FileInfo(filePath)
+        'sb.Append(String.Format(My.Resources.View_Resolution,) & vbCrLf)
+        'sb.Append(String.Format(My.Resources.View_Depth,) & vbCrLf)
+        Dim extension = Path.GetExtension(filePath).ToLowerInvariant() '获得扩展名
+        sb.Append(String.Format(My.Resources.View_FileType, GetFileTypeDescription(extension)) & vbCrLf)
+        sb.Append(String.Format(My.Resources.View_FileSize, FormatFileSize(fi.Length)) & vbCrLf)
+        sb.Append(String.Format(My.Resources.View_FileCreateTime, fi.CreationTime.ToString) & vbCrLf)
+        sb.Append(String.Format(My.Resources.View_FileModifyTime, fi.LastWriteTime) & vbCrLf)
+        Dim buttonOpenFolder As New TaskDialogButton(My.Resources.View_OpenFolder) '打开路径
+        Dim buttonCopyPath As New TaskDialogButton(My.Resources.View_CopyPath) '复制路径
+        Dim buttonOpen As New TaskDialogButton(My.Resources.View_Open) '打开
         Using dlg As New TaskDialog With {
             .WindowTitle = My.Resources.FurryArtStudio,
-            .MainInstruction = "稿件信息",
             .Content = sb.ToString,
-            .MainIcon = TaskDialogIcon.Information
+            .MainIcon = TaskDialogIcon.Information,
+            .MainInstruction = My.Resources.View_ArtInfo
             }
             dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-            dlg.ShowDialog()
+            dlg.Buttons.Add(buttonCopyPath)
+            dlg.Buttons.Add(buttonOpenFolder)
+            dlg.Buttons.Add(buttonOpen)
+            Dim result As TaskDialogButton = dlg.ShowDialog()
+            If result Is buttonOpenFolder Then
+                Shell($"explorer /select,{filePath}", 1)
+            ElseIf result Is buttonCopyPath Then
+                Clipboard.SetDataObject(filePath)
+            ElseIf result Is buttonOpen Then
+                Process.Start(filePath)
+            End If
         End Using
     End Sub
-
     ''' <summary>
     ''' 显示帮助信息
     ''' </summary>
     Private Sub ShowHelp()
-        Dim helpString As String = $"上一张        左箭头或上箭头,'W','A','P',PageUp,小于号{vbCrLf}" &
-                                   $"下一张        右箭头或下箭头,'S','D','N',PageDown,大于号,空格或回车{vbCrLf}" &
-                                   $"上一稿件        Ctrl+PageUp,Ctrl+上箭头,Ctrl+左箭头{vbCrLf}" &
-                                   $"下一稿件        Ctrl+PageDown,Ctrl+下箭头,Ctrl+右箭头{vbCrLf}" &
-                                   $"第一张        Home{vbCrLf}" &
-                                   $"最后一张        End{vbCrLf}" &
-                                   $"关闭        Esc{vbCrLf}" &
-                                   $"显示信息        I{vbCrLf}" &
-                                   $"切换全屏        F11{vbCrLf}" &
-                                   $"显示帮助        F1"
-        MessageBox.Show(helpString, "使用帮助说明", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Dim sb As New StringBuilder
+        sb.Append(My.Resources.View_HelpPrevImg & vbCrLf)
+        sb.Append(My.Resources.View_HelpNextImg & vbCrLf)
+        sb.Append(My.Resources.View_HelpPrevArt & vbCrLf)
+        sb.Append(My.Resources.View_HelpNextArt & vbCrLf)
+        sb.Append(My.Resources.View_HelpFirstArt & vbCrLf)
+        sb.Append(My.Resources.View_HelpLastArt & vbCrLf)
+        sb.Append(My.Resources.View_HelpClose & vbCrLf)
+        sb.Append(My.Resources.View_HelpInfo & vbCrLf)
+        sb.Append(My.Resources.View_HelpShowProp & vbCrLf)
+        sb.Append(My.Resources.View_HelpExtract & vbCrLf)
+        sb.Append(My.Resources.View_HelpPlay & vbCrLf)
+        sb.Append(My.Resources.View_HelpFullScreen & vbCrLf)
+        sb.Append(My.Resources.View_HelpShowHelp & vbCrLf)
+        ShowInfoDialog(sb.ToString, My.Resources.View_HelpShowInfo)
     End Sub
-
     ''' <summary>
     ''' 置顶
     ''' </summary>
@@ -470,7 +485,6 @@ Public Class ViewForm
             CheckMenuItem(hMenu, SC_ALWAYSONTOP, MF_UNCHECKED) '取消置顶
         End If
     End Sub
-
     ''' <summary>
     ''' 当库关闭时, 本窗口也将关闭
     ''' </summary>
@@ -481,7 +495,6 @@ Public Class ViewForm
             Me.Close()
         End If
     End Sub
-
     ''' <summary>
     ''' 异步加载图片
     ''' </summary>
@@ -505,7 +518,7 @@ Public Class ViewForm
             _cancellationTokenSource = New CancellationTokenSource()
             '显示加载提示
             PictureBoxMain.Image = Nothing
-            Me.Text = "加载中... " & Path.GetFileName(filePath)
+            Me.Text = My.Resources.View_Loading & Path.GetFileName(filePath)
             Me.Cursor = Cursors.WaitCursor
             '异步加载图片
             Dim image = Await Task.Run(Function() LoadImageWithResize(filePath, 1920, 1080, _cancellationTokenSource.Token),
@@ -529,8 +542,7 @@ Public Class ViewForm
         Catch ex As OperationCanceledException
             '忽略取消事件
         Catch ex As Exception
-            MessageBox.Show($"加载图片时出错: {ex.Message}", My.Resources.FurryArtStudio,
-                           MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ShowErrorDialog(ex, My.Resources.Msg_ImageLoadFailed)
         Finally
             '无论如何都要释放加载状态
             SyncLock _loadingLock
@@ -545,7 +557,6 @@ Public Class ViewForm
             UpdateMenuStates()
         End Try
     End Sub
-
     ''' <summary>
     ''' 在后台线程中加载并调整图片大小
     ''' </summary>
@@ -583,7 +594,6 @@ Public Class ViewForm
             End Using
         End Using
     End Function
-
 #End Region
 
 #Region "图片导航"
@@ -614,9 +624,8 @@ Public Class ViewForm
                 End If
             Next
         End If
-        MessageBox.Show("已经是最后一张图片了", My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        SystemSounds.Asterisk.Play() '播放提示音
     End Sub
-
     ''' <summary>
     ''' 导航到上一张/上一个稿件
     ''' </summary>
@@ -644,9 +653,8 @@ Public Class ViewForm
                 End If
             Next
         End If
-        MessageBox.Show("已经是第一张图片了", My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        SystemSounds.Asterisk.Play() '播放提示音
     End Sub
-
     ''' <summary>
     ''' 导航到第一张稿件
     ''' </summary>
@@ -663,7 +671,6 @@ Public Class ViewForm
             End If
         Next
     End Sub
-
     ''' <summary>
     ''' 导航到最后一张稿件
     ''' </summary>
@@ -680,7 +687,6 @@ Public Class ViewForm
             End If
         Next
     End Sub
-
     ''' <summary>
     ''' 导航到上一个稿件
     ''' </summary>
@@ -699,9 +705,7 @@ Public Class ViewForm
                 Return
             End If
         Next
-        MessageBox.Show("已经是第一个有图片的稿件了", My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
-
     ''' <summary>
     ''' 导航到下一个稿件
     ''' </summary>
@@ -720,12 +724,13 @@ Public Class ViewForm
                 Return
             End If
         Next
-        MessageBox.Show("已经是最后一个有图片的稿件了", My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 #End Region
 
 #Region "其他"
-    '窗体键盘事件处理 - 使用窗体事件确保响应
+    ''' <summary>
+    ''' 窗体键盘事件处理 - 使用窗体事件确保响应
+    ''' </summary>
     Private Sub ViewForm_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Dim isAltPressed As Boolean = e.Alt
         If _isProcessing Then '当正在加载图片时, 取消处理按键响应
@@ -797,15 +802,20 @@ Public Class ViewForm
                 ShowHelp()
         End Select
     End Sub
-    '切换全屏模式
+    ''' <summary>
+    ''' 切换全屏模式
+    ''' </summary>
     Private Sub ToggleFullScreen()
         '全屏
     End Sub
-    '打开属性
+    ''' <summary>
+    ''' 打开属性
+    ''' </summary>
+    ''' <param name="filePath">文件路径</param>
     Private Sub ShowProperties(filePath As String)
         Try
             If String.IsNullOrEmpty(filePath) OrElse Not File.Exists(filePath) Then
-                Throw New FileNotFoundException("文件不存在或路径无效。")
+                Throw New FileNotFoundException(My.Resources.View_NoFile)
             End If
             Dim info As New SHELLEXECUTEINFO()
             info.cbSize = Marshal.SizeOf(info)
@@ -817,7 +827,7 @@ Public Class ViewForm
                 Throw New Win32Exception(Marshal.GetLastWin32Error())
             End If
         Catch ex As Exception
-            MessageBox.Show($"无法打开属性窗口: {ex.Message}", My.Resources.FurryArtStudio, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ShowErrorDialog(ex, My.Resources.View_FailedtoOpenProp)
         End Try
     End Sub
     Private Sub PictureBoxMain_MouseDown(sender As Object, e As MouseEventArgs) Handles PictureBoxMain.MouseDown
@@ -850,7 +860,6 @@ Public Class ViewForm
             NavigateNext()
         End If
     End Sub
-
     ''' <summary>
     ''' 根据当前状态更新菜单项的启用/禁用
     ''' </summary>
@@ -882,7 +891,6 @@ Public Class ViewForm
             EnableMenuItem(hMenu, SC_NEXTART, MF_BYCOMMAND Or MF_GRAYED)
         End If
     End Sub
-
     ''' <summary>
     ''' 检查是否存在上一个有图片的稿件
     ''' </summary>
@@ -896,7 +904,6 @@ Public Class ViewForm
 
         Return False
     End Function
-
     ''' <summary>
     ''' 检查是否存在下一个有图片的稿件
     ''' </summary>
