@@ -13,6 +13,7 @@
 ' See the License for the specific language governing permissions and
 ' limitations under the License.
 Imports System.ComponentModel
+Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Media
 Imports System.Runtime.InteropServices
@@ -126,7 +127,6 @@ Public Class ViewForm
     ''' </summary>
     Private Sub LanguageChange() Implements ILocalizable.LanguageChange
         UpdateMenuItem() '更新菜单项
-        Settings = AppSettings.Load()
     End Sub
     Private Sub UpdateMenuItem()
         Dim menuHandle = GetSystemMenu(Handle, False)
@@ -420,10 +420,24 @@ Public Class ViewForm
         sb.Append(String.Format(My.Resources.View_Update, _currentArtwork.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss")) & vbCrLf)
         If _currentArtwork.Notes <> "" Then sb.Append(String.Format(My.Resources.View_Notes, _currentArtwork.Notes) & vbCrLf)
         sb.Append(vbCrLf)
-        sb.Append(String.Format(My.Resources.View_FilePath, filePath) & vbCrLf)
         Dim fi As New FileInfo(filePath)
-        'sb.Append(String.Format(My.Resources.View_Resolution,) & vbCrLf)
-        'sb.Append(String.Format(My.Resources.View_Depth,) & vbCrLf)
+        Dim imgWidth As Integer = 0
+        Dim imgHeight As Integer = 0
+        Dim bitDepth As Integer = 0
+        Dim imgDpiX As Single = 0
+        Dim imgDpiY As Single = 0
+        Using img As Image = Image.FromFile(filePath) '这个方法相当耗时, 导致对话框延迟加载, 且占用大量内存
+            imgWidth = img.Width
+            imgHeight = img.Height
+            bitDepth = GetBitDepth(img.PixelFormat)
+            imgDpiX = img.HorizontalResolution
+            imgDpiY = img.VerticalResolution
+        End Using
+        sb.Append(String.Format(My.Resources.View_Resolution, $"{imgWidth}×{imgHeight}") & vbCrLf)
+        sb.Append(String.Format(My.Resources.View_Depth, bitDepth) & vbCrLf)
+        sb.Append($"DPI: {imgDpiX}×{imgDpiY}" & vbCrLf)
+        sb.Append(vbCrLf)
+        sb.Append(String.Format(My.Resources.View_FilePath, filePath) & vbCrLf)
         Dim extension = Path.GetExtension(filePath).ToLowerInvariant() '获得扩展名
         sb.Append(String.Format(My.Resources.View_FileType, GetFileTypeDescription(extension)) & vbCrLf)
         sb.Append(String.Format(My.Resources.View_FileSize, FormatFileSize(fi.Length)) & vbCrLf)
@@ -438,7 +452,7 @@ Public Class ViewForm
             .MainIcon = TaskDialogIcon.Information,
             .MainInstruction = My.Resources.View_ArtInfo
             }
-            dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
+            dlg.Buttons.Add(New TaskDialogButton(ButtonType.Cancel))
             dlg.Buttons.Add(buttonCopyPath)
             dlg.Buttons.Add(buttonOpenFolder)
             dlg.Buttons.Add(buttonOpen)
@@ -452,6 +466,31 @@ Public Class ViewForm
             End If
         End Using
     End Sub
+    ''' <summary>
+    ''' 根据图像格式计算位深
+    ''' </summary>
+    Private Function GetBitDepth(pf As PixelFormat) As Integer
+        Select Case pf
+            Case PixelFormat.Format1bppIndexed
+                Return 1
+            Case PixelFormat.Format4bppIndexed
+                Return 4
+            Case PixelFormat.Format8bppIndexed
+                Return 8
+            Case PixelFormat.Format16bppGrayScale, PixelFormat.Format16bppRgb555, PixelFormat.Format16bppRgb565, PixelFormat.Format16bppArgb1555
+                Return 16
+            Case PixelFormat.Format24bppRgb
+                Return 24
+            Case PixelFormat.Format32bppRgb, PixelFormat.Format32bppArgb, PixelFormat.Format32bppPArgb
+                Return 32
+            Case PixelFormat.Format48bppRgb
+                Return 48
+            Case PixelFormat.Format64bppArgb, PixelFormat.Format64bppPArgb
+                Return 64
+            Case Else
+                Return 0 '未知
+        End Select
+    End Function
     ''' <summary>
     ''' 显示帮助信息
     ''' </summary>
