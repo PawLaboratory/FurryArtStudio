@@ -30,12 +30,8 @@ Partial Class PropertiesForm
         Me.ChkShowThemeColor = New System.Windows.Forms.CheckBox()
         Me.LblFontShow = New System.Windows.Forms.Label()
         Me.BtnFont = New System.Windows.Forms.Button()
-        Me.TxtPicTitle = New System.Windows.Forms.TextBox()
-        Me.TxtMainTitle = New System.Windows.Forms.TextBox()
         Me.LblLanguage = New System.Windows.Forms.Label()
         Me.CboLang = New System.Windows.Forms.ComboBox()
-        Me.LblPicTitle = New System.Windows.Forms.Label()
-        Me.LblMainTitle = New System.Windows.Forms.Label()
         Me.LblFont = New System.Windows.Forms.Label()
         Me.LblCorColor = New System.Windows.Forms.Label()
         Me.LblSelColor = New System.Windows.Forms.Label()
@@ -109,12 +105,8 @@ Partial Class PropertiesForm
         Me.GrpAppearance.Controls.Add(Me.ChkShowThemeColor)
         Me.GrpAppearance.Controls.Add(Me.LblFontShow)
         Me.GrpAppearance.Controls.Add(Me.BtnFont)
-        Me.GrpAppearance.Controls.Add(Me.TxtPicTitle)
-        Me.GrpAppearance.Controls.Add(Me.TxtMainTitle)
         Me.GrpAppearance.Controls.Add(Me.LblLanguage)
         Me.GrpAppearance.Controls.Add(Me.CboLang)
-        Me.GrpAppearance.Controls.Add(Me.LblPicTitle)
-        Me.GrpAppearance.Controls.Add(Me.LblMainTitle)
         Me.GrpAppearance.Controls.Add(Me.LblFont)
         Me.GrpAppearance.Controls.Add(Me.LblCorColor)
         Me.GrpAppearance.Controls.Add(Me.LblSelColor)
@@ -175,22 +167,6 @@ Partial Class PropertiesForm
         Me.BtnFont.Text = "字体..."
         Me.BtnFont.UseVisualStyleBackColor = True
         '
-        'TxtPicTitle
-        '
-        Me.TxtPicTitle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtPicTitle.Location = New System.Drawing.Point(179, 328)
-        Me.TxtPicTitle.Name = "TxtPicTitle"
-        Me.TxtPicTitle.Size = New System.Drawing.Size(189, 25)
-        Me.TxtPicTitle.TabIndex = 76
-        '
-        'TxtMainTitle
-        '
-        Me.TxtMainTitle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtMainTitle.Location = New System.Drawing.Point(179, 299)
-        Me.TxtMainTitle.Name = "TxtMainTitle"
-        Me.TxtMainTitle.Size = New System.Drawing.Size(189, 25)
-        Me.TxtMainTitle.TabIndex = 75
-        '
         'LblLanguage
         '
         Me.LblLanguage.AutoSize = True
@@ -208,24 +184,6 @@ Partial Class PropertiesForm
         Me.CboLang.Name = "CboLang"
         Me.CboLang.Size = New System.Drawing.Size(189, 23)
         Me.CboLang.TabIndex = 73
-        '
-        'LblPicTitle
-        '
-        Me.LblPicTitle.AutoSize = True
-        Me.LblPicTitle.Location = New System.Drawing.Point(17, 330)
-        Me.LblPicTitle.Name = "LblPicTitle"
-        Me.LblPicTitle.Size = New System.Drawing.Size(127, 15)
-        Me.LblPicTitle.TabIndex = 72
-        Me.LblPicTitle.Text = "图片窗口标题栏：" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
-        '
-        'LblMainTitle
-        '
-        Me.LblMainTitle.AutoSize = True
-        Me.LblMainTitle.Location = New System.Drawing.Point(16, 301)
-        Me.LblMainTitle.Name = "LblMainTitle"
-        Me.LblMainTitle.Size = New System.Drawing.Size(112, 15)
-        Me.LblMainTitle.TabIndex = 71
-        Me.LblMainTitle.Text = "主窗口标题栏："
         '
         'LblFont
         '
@@ -595,12 +553,8 @@ Partial Class PropertiesForm
     Friend WithEvents GrpAppearance As GroupBox
     Friend WithEvents LblFontShow As Label
     Friend WithEvents BtnFont As Button
-    Friend WithEvents TxtPicTitle As TextBox
-    Friend WithEvents TxtMainTitle As TextBox
     Friend WithEvents LblLanguage As Label
     Friend WithEvents CboLang As ComboBox
-    Friend WithEvents LblPicTitle As Label
-    Friend WithEvents LblMainTitle As Label
     Friend WithEvents LblFont As Label
     Friend WithEvents LblCorColor As Label
     Friend WithEvents LblSelColor As Label

@@ -47,13 +47,10 @@ Public Class MainForm
     Private Const SC_STATISTICS = 6 '统计信息
     Private Const SC_ABOUT = 7 '关于
     '用于主题消息变更消抖
-    Private WithEvents _themeDebounceTimer As New Timer With {
-    .Interval = 300
-    }
+    Private WithEvents _themeDebounceTimer As New Timer With {.Interval = 300}
 #End Region
 
 #Region "窗体事件处理"
-
     ''' <summary>
     ''' 程序启动时调用
     ''' </summary>
@@ -108,7 +105,6 @@ Public Class MainForm
         CheckFurryUpdate() '检查更新
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
     End Sub
-
     ''' <summary>
     ''' 关闭时释放资源
     ''' </summary>
@@ -116,7 +112,6 @@ Public Class MainForm
         CloseLibrary()
         LibraryManager.CloseAllLibrary() '关闭时释放资源
     End Sub
-
     ''' <summary>
     ''' 窗体消息处理
     ''' </summary>
@@ -169,14 +164,12 @@ Public Class MainForm
                                           End If
                                       End Sub))
     End Sub
-
     ''' <summary>
     ''' 分割线调整时触发
     ''' </summary>
     Private Sub ArtworkListSplitContainer_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles ArtworkListSplitContainer.SplitterMoved
         ResizeControl()
     End Sub
-
     ''' <summary>
     ''' 调整组件的大小
     ''' </summary>
@@ -184,7 +177,6 @@ Public Class MainForm
         Dim p2Width = ArtworkListSplitContainer.Panel2.Width - 10
         PiChkThumb.Height = PiChkThumb.Width '保持为方形
     End Sub
-
     ''' <summary>
     ''' 当窗口句柄创建或重建时，注入UIPI消息过滤器
     ''' </summary>
@@ -304,7 +296,6 @@ Public Class MainForm
             End If
         Next
     End Sub
-
     ''' <summary>
     ''' 系统主题发生变化时调用以更新
     ''' </summary>
@@ -339,7 +330,6 @@ Public Class MainForm
         SetPreferredAppMode(If(IsDarkMode(), PreferredAppMode.AllowDark, PreferredAppMode.ForceLight))
         FlushMenuThemes()
     End Sub
-
     ''' <summary>
     ''' 初始化菜单图标
     ''' </summary>
@@ -434,7 +424,6 @@ Public Class MainForm
             ApplyMenuIcon(menuHandle, SC_ABOUT, My.Resources.Icons.MenuInfoLight)
         End If
     End Sub
-
     ''' <summary>
     ''' 初始化菜单项
     ''' </summary>
@@ -505,7 +494,6 @@ Public Class MainForm
         EnableMenuItem(menuHandle, SC_STATISTICS, MF_GRAYED)
         GC.Collect()
     End Sub
-
     ''' <summary>
     ''' 初始化系统菜单
     ''' </summary>
@@ -529,7 +517,6 @@ Public Class MainForm
         EnableMenuItem(menuHandle, SC_PLAY, MF_GRAYED)
         EnableMenuItem(menuHandle, SC_STATISTICS, MF_GRAYED)
     End Sub
-
     ''' <summary>
     ''' 更新窗体菜单项
     ''' </summary>
@@ -543,7 +530,6 @@ Public Class MainForm
         SetMenuItemWithShortcut(menuHandle, 13, SC_STATISTICS, My.Resources.Mnu_Properties, "Alt+I")
         SetMenuItemWithShortcut(menuHandle, 14, SC_ABOUT, My.Resources.Mnu_About, "Ctrl+F1")
     End Sub
-
     ''' <summary>
     ''' 载入数据并设置图片墙
     ''' </summary>
@@ -607,7 +593,6 @@ Public Class MainForm
         ArtworkListSplitContainer.UseWaitCursor = False
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
-
     ''' <summary>
     ''' 设置图片墙显示内容
     ''' </summary>
@@ -653,21 +638,18 @@ Public Class MainForm
             ImageGalleryMain.AddImage(gi)
         Next
     End Sub
-
     ''' <summary>
     ''' 查看属性信息
     ''' </summary>
     Private Sub StorageStatusLabel_Click(sender As Object, e As EventArgs) Handles StorageStatusLabel.Click
         MnuLibStatistics.PerformClick()
     End Sub
-
     ''' <summary>
     ''' 搜索内容时触发
     ''' </summary>
     Private Sub SearchTextBox_TextChanged(sender As Object, e As EventArgs) Handles SearchTextBox.TextChanged
         SearchArtwork()
     End Sub
-
     ''' <summary>
     ''' 搜索稿件
     ''' </summary>
@@ -768,7 +750,6 @@ Public Class MainForm
     Private Sub MnuOpenPath_Click(sender As Object, e As EventArgs) Handles MnuOpenPath.Click
         Shell($"explorer {Application.StartupPath}", 1)
     End Sub
-
 #End Region
 
 #Region "稿件库菜单项"

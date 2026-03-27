@@ -94,8 +94,6 @@ Public Class PropertiesForm
             LblFontShow.Font = f
             LblFontShow.Text = $"{f.Name},{f.Size}pt"
         End Using
-        TxtMainTitle.Text = appearances.MainWindowTitleFormat
-        TxtPicTitle.Text = appearances.ImageWindowTitleFormat
         ChkMenuUpper.Checked = appearances.MenuUppercase
         Dim startups = Setting.Startup
         ChkAutoStart.Checked = startups.RunAtStartup

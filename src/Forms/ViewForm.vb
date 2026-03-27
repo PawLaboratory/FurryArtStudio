@@ -402,7 +402,7 @@ Public Class ViewForm
                 Me.Text = $"{title} - [{_currentFileIndex + 1}/{totalImages}] {fileName} - 图片浏览器"
             End If
             UpdateMenuStates() '同时更新菜单
-            Dim a As String = Settings.Appearance.ImageWindowTitleFormat
+            'Dim a As String = Settings.Appearance.ImageWindowTitleFormat
         End If
     End Sub
 

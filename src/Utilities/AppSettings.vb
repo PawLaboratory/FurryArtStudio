@@ -67,10 +67,6 @@ Public Class AppSettings
 
         Public Property GlobalFontName As String = "宋体"
         Public Property GlobalFontSize As Single = 9.0F
-
-        Public Property MainWindowTitleFormat As String = "{LibraryName} - FurryArtStudio"
-        Public Property ImageWindowTitleFormat As String = "{ImageName} - FAS"
-
         Public Property MenuUppercase As Boolean = False
     End Class
     Public Class StartupSettings
