@@ -30,15 +30,10 @@ Public Class AboutForm
         LanguageChange()
     End Sub
     Private Sub SystemThemeChange() Implements IThemeChangeable.SystemThemeChange
-        '颜色常量
-        Dim bgColor As Color
-        Dim frColor As Color
         '获取控件集合
         Dim controlList As List(Of Control) = GetAllControls(Me)
         '判断颜色
         If IsDarkMode() Then
-            bgColor = BgColorDark
-            frColor = FrColorDark
             LlblGitHub.LinkColor = IconColorDark
             LlblGitHub.VisitedLinkColor = IconColorLight
             LlblLicense.LinkColor = IconColorDark
@@ -51,20 +46,30 @@ Public Class AboutForm
             LlblUserAgreement.VisitedLinkColor = IconColorLight
             Icon = CreateRoundedRectangleIcon(True, My.Resources.Icons.MenuInfoDark)
             TxtBox.BackColor = Color.FromArgb(50, 50, 50) '增加一个好看的底色
+            BtnOK.ForeColor = FrColorDark
+            BtnOK.BackColor = BgColorDark
+            ForeColor = FrColorDark
+            BackColor = BgColorDark
+            TxtBox.ForeColor = FrColorDark
         Else
-            bgColor = BgColorLight
-            frColor = FrColorLight
+            LlblGitHub.LinkColor = Color.Blue
+            LlblGitHub.VisitedLinkColor = Color.Purple
+            LlblLicense.LinkColor = Color.Blue
+            LlblLicense.VisitedLinkColor = Color.Purple
+            LlblPrivacy.LinkColor = Color.Blue
+            LlblPrivacy.VisitedLinkColor = Color.Purple
+            LlblWebSite.LinkColor = Color.Blue
+            LlblWebSite.VisitedLinkColor = Color.Purple
+            LlblUserAgreement.LinkColor = Color.Blue
+            LlblUserAgreement.VisitedLinkColor = Color.Purple
             Icon = CreateRoundedRectangleIcon(False, My.Resources.Icons.MenuInfoLight)
             TxtBox.BackColor = Color.FromArgb(180, 180, 180)
+            BtnOK.ForeColor = FrColorLight
+            BtnOK.BackColor = BgColorLight
+            ForeColor = FrColorLight
+            BackColor = BgColorLight
+            TxtBox.ForeColor = FrColorLight
         End If
-        TxtBox.ForeColor = frColor
-        For Each control In controlList
-            If control.Name = "TxtBox" Then Continue For
-            control.ForeColor = frColor
-            control.BackColor = bgColor
-        Next
-        ForeColor = frColor
-        BackColor = bgColor
         'WinAPI
         DwmSetWindowAttribute(Handle, DwmWindowAttribute.UseImmersiveDarkMode, IsDarkMode(), Marshal.SizeOf(Of Integer))
         SetPreferredAppMode(If(IsDarkMode(), PreferredAppMode.AllowDark, PreferredAppMode.ForceLight))

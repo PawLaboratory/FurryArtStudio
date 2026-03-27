@@ -42,7 +42,7 @@ Partial Class AboutForm
         Me.BtnOK.Location = New System.Drawing.Point(484, 220)
         Me.BtnOK.Name = "BtnOK"
         Me.BtnOK.Size = New System.Drawing.Size(126, 41)
-        Me.BtnOK.TabIndex = 0
+        Me.BtnOK.TabIndex = 7
         Me.BtnOK.Text = "确定(&O)"
         Me.BtnOK.UseVisualStyleBackColor = True
         '
@@ -67,7 +67,7 @@ Partial Class AboutForm
         Me.LlblWebSite.Location = New System.Drawing.Point(481, 9)
         Me.LlblWebSite.Name = "LlblWebSite"
         Me.LlblWebSite.Size = New System.Drawing.Size(129, 23)
-        Me.LlblWebSite.TabIndex = 3
+        Me.LlblWebSite.TabIndex = 1
         Me.LlblWebSite.TabStop = True
         Me.LlblWebSite.Text = "官网"
         Me.LlblWebSite.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -77,7 +77,7 @@ Partial Class AboutForm
         Me.LlblGitHub.Location = New System.Drawing.Point(481, 37)
         Me.LlblGitHub.Name = "LlblGitHub"
         Me.LlblGitHub.Size = New System.Drawing.Size(129, 23)
-        Me.LlblGitHub.TabIndex = 4
+        Me.LlblGitHub.TabIndex = 2
         Me.LlblGitHub.TabStop = True
         Me.LlblGitHub.Text = "GitHub"
         Me.LlblGitHub.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -87,7 +87,7 @@ Partial Class AboutForm
         Me.LlblLicense.Location = New System.Drawing.Point(481, 65)
         Me.LlblLicense.Name = "LlblLicense"
         Me.LlblLicense.Size = New System.Drawing.Size(129, 23)
-        Me.LlblLicense.TabIndex = 5
+        Me.LlblLicense.TabIndex = 3
         Me.LlblLicense.TabStop = True
         Me.LlblLicense.Text = "许可证"
         Me.LlblLicense.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -107,7 +107,7 @@ Partial Class AboutForm
         Me.LlblPrivacy.Location = New System.Drawing.Point(481, 93)
         Me.LlblPrivacy.Name = "LlblPrivacy"
         Me.LlblPrivacy.Size = New System.Drawing.Size(129, 23)
-        Me.LlblPrivacy.TabIndex = 7
+        Me.LlblPrivacy.TabIndex = 4
         Me.LlblPrivacy.TabStop = True
         Me.LlblPrivacy.Text = "隐私政策"
         Me.LlblPrivacy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -117,7 +117,7 @@ Partial Class AboutForm
         Me.LlblUserAgreement.Location = New System.Drawing.Point(481, 121)
         Me.LlblUserAgreement.Name = "LlblUserAgreement"
         Me.LlblUserAgreement.Size = New System.Drawing.Size(129, 23)
-        Me.LlblUserAgreement.TabIndex = 8
+        Me.LlblUserAgreement.TabIndex = 5
         Me.LlblUserAgreement.TabStop = True
         Me.LlblUserAgreement.Text = "用户协议"
         Me.LlblUserAgreement.TextAlign = System.Drawing.ContentAlignment.MiddleLeft

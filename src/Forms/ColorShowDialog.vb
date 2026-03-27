@@ -12,9 +12,9 @@
 ' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ' See the License for the specific language governing permissions and
 ' limitations under the License.
-
 Imports System.Runtime.InteropServices
 Imports System.Text
+Imports System.Text.RegularExpressions
 Public Class ColorDialogForm
     Implements IThemeChangeable
     Dim colorLabels() As Label
@@ -33,7 +33,7 @@ Public Class ColorDialogForm
     Private Sub Label_Click(sender As Object, e As EventArgs)
         Dim lbl As Label = DirectCast(sender, Label)
         If Not String.IsNullOrEmpty(lbl.Text) Then
-            Clipboard.SetText(lbl.Text)
+            Clipboard.SetText(Regex.Match(lbl.Text, "#([A-Fa-f0-9]{6})").Value) '提取出颜色十六进制
         End If
     End Sub
     Private Sub ColorDialogForm_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
