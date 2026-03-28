@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  English | <a href="..\README.md">简体中文</a> | <a href="docs/README_JP.md">日本語</a>
+  English | <a href="..\README.md">简体中文</a> | <a href="README_JP.md">日本語</a>
 </p>
 
 <div align="center">
