@@ -20,6 +20,7 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Text
+Imports Dapper.SqlMapper
 Imports Krypton.Toolkit
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Ookii.Dialogs.WinForms
@@ -98,9 +99,13 @@ Public Class MainForm
         End Select
         UpdateFormLang() '更新语言
         SystemThemeChange() '设置主题
-        SetTitleBarColor(Handle, IconColorLight) '修改标题栏颜色(win11生效)
+        If settings.Appearance.ShowThemeColor Then '修改标题栏颜色(win11生效)
+            SetTitleBarColor(Handle, Color.FromArgb(settings.Appearance.ThemeColorArgb))
+        End If
         Icon = Icon.FromHandle(My.Resources.Icons.FurryArtStudio.GetHicon) '设置图标
-        settings.Save() '保存默认设置
+        ImageGalleryMain.SelectionAccentColor = Color.FromArgb(settings.Appearance.SelectionAccentColorArgb)
+        ImageGalleryMain.BadgeColor = Color.FromArgb(settings.Appearance.BadgeColorArgb)
+        If autoChangeLang Then settings.Save() '首次运行时保存配置文件
         Me.AllowDrop = True
         CheckFurryUpdate() '检查更新
         StatusLabel.Text = My.Resources.Stat_Ready '就绪

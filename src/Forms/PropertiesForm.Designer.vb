@@ -535,6 +535,7 @@ Partial Class PropertiesForm
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "PropertiesForm"
+        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "选项"
         Me.GrpAppearance.ResumeLayout(False)
