@@ -1,6 +1,6 @@
 ﻿
 <div align="center">
-  <img src="https://raw.githubusercontent.com/xionglongztz/FurryArtStudio/refs/heads/master/docs/Banner.png" alt="Banner"/>
+  <img src="https://raw.githubusercontent.com/PawLaboratory/FurryArtStudio/refs/heads/master/docs/Banner.png" alt="Banner"/>
 </div>
 
 <h1 align="center">🐾FurryArtStudio</h1>
@@ -41,14 +41,14 @@
 ## 📥 快速开始
 
 ### 方式一：下载预编译版本（推荐）
-1. 前往 [Releases 页面](https://github.com/xionglongztz/FurryArtStudio/releases) 下载最新的 `FurryArtStudio.zip`。
+1. 前往 [Releases 页面](https://github.com/PawLaboratory/FurryArtStudio/releases) 下载最新的 `FurryArtStudio.zip`。
 2. 解压到任意文件夹，运行 `FurryArtStudio.exe` 即可。
 3. 无需安装，不写注册表，卸载时直接删除文件夹。
 
 ### 方式二：从源码构建
 如果你熟悉 Visual Studio：
 ```bash
-git clone https://github.com/xionglongztz/FurryArtStudio.git
+git clone https://github.com/PawLaboratory/FurryArtStudio.git
 cd FurryArtStudio
 ```
 
@@ -75,4 +75,4 @@ cd FurryArtStudio
 QQ交流群：620079146🐧
 
 ## 🌟 趋势图
-[![Stargazers over time](https://starchart.cc/xionglongztz/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/xionglongztz/FurryArtStudio)
+[![Stargazers over time](https://starchart.cc/PawLaboratory/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/PawLaboratory/FurryArtStudio)

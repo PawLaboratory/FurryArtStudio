@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/xionglongztz/FurryArtStudio/refs/heads/master/docs/Banner.png" alt="Banner"/>
+  <img src="https://raw.githubusercontent.com/PawLaboratory/FurryArtStudio/refs/heads/master/docs/Banner.png" alt="Banner"/>
 </div>
 
 <h1 align="center">🐾FurryArtStudio</h1>
@@ -40,14 +40,14 @@
 ## 📥 クイックスタート
 
 ### 方法1：ビルド済みバイナリを使用（推奨）
-1. [Releases ページ](https://github.com/xionglongztz/FurryArtStudio/releases) から最新の `FurryArtStudio.zip` をダウンロードします。
+1. [Releases ページ](https://github.com/PawLaboratory/FurryArtStudio/releases) から最新の `FurryArtStudio.zip` をダウンロードします。
 2. 任意のフォルダに解凍し、 `FurryArtStudio.exe` を実行してください。
 3. レジストリを汚さないため、アンインストールはフォルダを削除するだけで完了します。
 
 ### 方法2：ソースコードからビルド
 Visual Studio 環境をお持ちの場合：
 ```bash
-git clone https://github.com/xionglongztz/FurryArtStudio.git
+git clone https://github.com/PawLaboratory/FurryArtStudio.git
 cd FurryArtStudio
 ```
 
@@ -65,7 +65,7 @@ cd FurryArtStudio
 ## 📄 ライセンス
 
 本プロジェクトは **Apache License 2.0** のもとで公開されています。
-ご利用の際は、[プライバシーポリシー](https://www.google.com/search?q=src/Docs/PRIVACY.txt) および [利用規約](https://www.google.com/search?q=src/Docs/TERMS.txt) に同意いただいたものとみなします。
+ご利用の際は、[プライバシーポリシー](src/Docs/PRIVACY.txt) および [利用規約](src/Docs/TERMS.txt) に同意いただいたものとみなします。
 
 ## 💬 お問い合わせ
 
@@ -74,4 +74,4 @@ cd FurryArtStudio
 QQグループ：620079146 🐧
 
 ## 🌟 スター推移
-[![Stargazers over time](https://starchart.cc/xionglongztz/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/xionglongztz/FurryArtStudio)
+[![Stargazers over time](https://starchart.cc/PawLaboratory/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/PawLaboratory/FurryArtStudio)

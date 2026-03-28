@@ -1,5 +1,5 @@
 ﻿' FurryArtStudio - 本地稿件管理工具
-' Copyright 2026 xionglongztz
+' Copyright 2026 xionglongztz/PawLaboratory
 '
 ' Licensed under the Apache License, Version 2.0 (the "License");
 ' you may not use this file except in compliance with the License.
@@ -1356,16 +1356,16 @@ Public Class MainForm
         AboutForm.ShowDialog()
     End Sub
     Private Sub MnuHelpGithub_Click(sender As Object, e As EventArgs) Handles MnuHelpGithub.Click
-        Process.Start("https://github.com/xionglongztz/FurryArtStudio")
+        Process.Start("https://github.com/PawLaboratory/FurryArtStudio")
     End Sub
     Private Sub MnuBugReport_Click(sender As Object, e As EventArgs) Handles MnuBugReport.Click
-        Process.Start("https://github.com/xionglongztz/FurryArtStudio/issues/new?template=bug_report.yml")
+        Process.Start("https://github.com/PawLaboratory/FurryArtStudio/issues/new?template=bug_report.yml")
     End Sub
     Private Sub MnuSuggestions_Click(sender As Object, e As EventArgs) Handles MnuSuggestions.Click
-        Process.Start("https://github.com/xionglongztz/FurryArtStudio/issues/new?template=feature_request.yml")
+        Process.Start("https://github.com/PawLaboratory/FurryArtStudio/issues/new?template=feature_request.yml")
     End Sub
     Private Sub MnuMyFeedback_Click(sender As Object, e As EventArgs) Handles MnuMyFeedback.Click
-        Process.Start("https://github.com/xionglongztz/FurryArtStudio/issues?q=is%3Aissue%20author%3A%40me")
+        Process.Start("https://github.com/PawLaboratory/FurryArtStudio/issues?q=is%3Aissue%20author%3A%40me")
     End Sub
     Private Sub MnuHelpWebsite_Click(sender As Object, e As EventArgs) Handles MnuHelpWebsite.Click
 

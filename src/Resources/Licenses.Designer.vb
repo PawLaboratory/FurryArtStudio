@@ -63,7 +63,7 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
-        
+
         '''<summary>
         '''  查找类似     
         '''    FurryArtStudio 是一款轻量级、强大的本地工具，专为整理和管理兽设稿件、参考资料、OC 内容以及图像文档而设计。
@@ -80,7 +80,7 @@ Namespace My.Resources
         '''    - FurryArtStudio 完全免费使用，不收取任何费用（包括订阅、解锁功能、VIP 等）。
         '''    - 我们致力于提供高质量的开源工具，让每位 Furry 创作者都能轻松管理自己的稿件和参考资料。
         '''    请务必从官方渠道下载：
-        '''    - 唯一官方下载来源：GitHub 仓库 https://github.com/xionglongztz/FurryArtStudio
+        '''    - 唯一官方下载来源：GitHub 仓库 https://github.com/PawLaboratory/FurryArtStudio
         '''    - 请勿从 [字符串的其余部分被截断]&quot;; 的本地化字符串。
         '''</summary>
         Friend Shared ReadOnly Property AboutText() As String

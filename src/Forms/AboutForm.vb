@@ -1,5 +1,5 @@
 ﻿' FurryArtStudio - 本地稿件管理工具
-' Copyright 2026 xionglongztz
+' Copyright 2026 xionglongztz/PawLaboratory
 '
 ' Licensed under the Apache License, Version 2.0 (the "License");
 ' you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ Public Class AboutForm
     End Sub
     'GitHub
     Private Sub LlblGitHub_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LlblGitHub.LinkClicked
-        Process.Start("https://github.com/xionglongztz/FurryArtStudio")
+        Process.Start("https://github.com/PawLaboratory/FurryArtStudio")
     End Sub
     '许可证
     Private Sub LlblLicense_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LlblLicense.LinkClicked

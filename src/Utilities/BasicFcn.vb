@@ -1,5 +1,5 @@
 ﻿' FurryArtStudio - 本地稿件管理工具
-' Copyright 2026 xionglongztz
+' Copyright 2026 xionglongztz/PawLaboratory
 '
 ' Licensed under the Apache License, Version 2.0 (the "License");
 ' you may not use this file except in compliance with the License.
@@ -771,7 +771,7 @@ Module BasicFcn
                 dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
                 Dim result As TaskDialogButton = dlg.ShowDialog()
                 If result Is buttonInfo Then
-                    Process.Start("https://github.com/xionglongztz/FurryArtStudio")
+                    Process.Start("https://github.com/PawLaboratory/FurryArtStudio")
                 End If
                 If result Is buttonGi Then
                     Process.Start("https://ys.mihoyo.com/")

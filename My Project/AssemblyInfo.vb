@@ -10,10 +10,10 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("FurryArtStudio")>
 <Assembly: AssemblyDescription("FurryArtStudio")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyCompany("PawLaboratory")>
 <Assembly: AssemblyProduct("FurryArtStudio")>
 <Assembly: AssemblyCopyright("Copyright ©  2026 xionglongztz")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTrademark("PawLaboratory")>
 
 <Assembly: ComVisible(False)>
 

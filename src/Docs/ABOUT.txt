@@ -13,7 +13,7 @@
     - FurryArtStudio 完全免费使用，不收取任何费用（包括订阅、解锁功能、VIP 等）。
     - 我们致力于提供高质量的开源工具，让每位 Furry 创作者都能轻松管理自己的稿件和参考资料。
     请务必从官方渠道下载：
-    - 唯一官方下载来源：GitHub 仓库 https://github.com/xionglongztz/FurryArtStudio
+    - 唯一官方下载来源：GitHub 仓库 https://github.com/PawLaboratory/FurryArtStudio
     - 请勿从其他网站、论坛、网盘、闲鱼、淘宝等渠道下载安装包。
     - 这些非官方版本可能被捆绑病毒、木马、后门或恶意修改，严重威胁您的设备和稿件隐私安全。
     - 分发此软件时，请务必携带本软件的官方 GitHub 仓库链接。
@@ -43,9 +43,9 @@
     - System.Data.SQLite.Core - SQLite Development Team (Public Domain)
     
     反馈与支持
-    - GitHub：https://github.com/xionglongztz/FurryArtStudio
+    - GitHub：https://github.com/PawLaboratory/FurryArtStudio
     - 问题/建议：欢迎在 Issues 中提交
     - 赞助支持：https://ifdian.net/a/xionglongztz
 
-    Copyright © 2026 xionglongztz
+    Copyright © 2026 xionglongztz/PawLaboratory
     Licensed under the Apache License, Version 2.0.

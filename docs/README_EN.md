@@ -1,6 +1,6 @@
 ﻿
 <div align="center">
-  <img src="https://raw.githubusercontent.com/xionglongztz/FurryArtStudio/refs/heads/master/docs/Banner.png" alt="Banner"/>
+  <img src="https://raw.githubusercontent.com/PawLaboratory/FurryArtStudio/refs/heads/master/docs/Banner.png" alt="Banner"/>
 </div>
 
 <h1 align="center">🐾FurryArtStudio</h1>
@@ -44,14 +44,14 @@ It supports intuitive categorization, tagging, searching, and batch operations, 
 ## 📥 Quick Start
 
 ### Method 1: Download Pre-compiled Version (Recommended)
-1. Go to the [Releases page](https://github.com/xionglongztz/FurryArtStudio/releases) to download the latest `FurryArtStudio.zip`.
+1. Go to the [Releases page](https://github.com/PawLaboratory/FurryArtStudio/releases) to download the latest `FurryArtStudio.zip`.
 2. Extract to any folder and run `FurryArtStudio.exe`.
 3. No installation required, no registry entries, simply delete the folder to uninstall.
 
 ### Method 2: Build from Source
 If you are familiar with Visual Studio:
 ```bash
-git clone https://github.com/xionglongztz/FurryArtStudio.git
+git clone https://github.com/PawLaboratory/FurryArtStudio.git
 cd FurryArtStudio
 ```
 
@@ -80,4 +80,4 @@ Welcome to exchange and discuss technology 🤝
 QQ Group: 620079146 🐧
 
 ## 🌟 Stargazers
-[![Stargazers over time](https://starchart.cc/xionglongztz/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/xionglongztz/FurryArtStudio)
+[![Stargazers over time](https://starchart.cc/PawLaboratory/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/PawLaboratory/FurryArtStudio)

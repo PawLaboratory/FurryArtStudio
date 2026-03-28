@@ -1,5 +1,5 @@
 ﻿' FurryArtStudio - 本地稿件管理工具
-' Copyright 2026 xionglongztz
+' Copyright 2026 xionglongztz/PawLaboratory
 '
 ' Licensed under the Apache License, Version 2.0 (the "License");
 ' you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ Public Class UpdateChecker
                 Throw New Exception("无法获取当前版本号")
             End If
             '调用 GitHub API
-            'Dim apiUrl = "https://api.github.com/repos/xionglongztz/FurryArtStudio/releases/latest"
+            'Dim apiUrl = "https://api.github.com/repos/PawLaboratory/FurryArtStudio/releases/latest"
             Dim apiUrl = "http://112.90.76.180:10465/release" '@rainyxin 的服务器
             Dim jsonResponse = Await _httpClient.GetStringAsync(apiUrl)
             '解析 JSON
