@@ -461,6 +461,8 @@ Public Class ViewForm
                 Shell($"explorer /select,{filePath}", 1)
             ElseIf result Is buttonCopyPath Then
                 Clipboard.SetDataObject(filePath)
+            ElseIf result Is buttonOpen And My.Computer.Keyboard.ShiftKeyDown Then
+                Process.Start("rundll32.exe", $"shell32.dll,OpenAs_RunDLL {filePath}")
             ElseIf result Is buttonOpen Then
                 Process.Start(filePath)
             End If
