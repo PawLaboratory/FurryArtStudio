@@ -244,6 +244,7 @@
     <Compile Include="src\Forms\ViewForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="src\Meta\Artifacts.vb" />
     <Compile Include="src\Resources\Icons.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -290,7 +291,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.zh-Hant.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\Scripts\ScriptEngine.vb" />
     <Compile Include="src\Utilities\AfdianHandler.vb" />
     <Compile Include="src\Utilities\AppSettings.vb" />
     <Compile Include="src\Utilities\BasicFcn.vb" />
@@ -408,7 +408,7 @@
     <Content Include="docs\CHANGELOG.txt" />
     <Content Include="src\Docs\PRIVACY.txt" />
     <Content Include="docs\Banner.png" />
-    <Content Include="src\Resources\BV1GJ411x7h7.png" />
+    <Content Include="src\Meta\BV1GJ411x7h7.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-left.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-right-dash.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-right.png" />

@@ -20,9 +20,7 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Text
-Imports Dapper.SqlMapper
 Imports Krypton.Toolkit
-Imports Microsoft.VisualBasic.ApplicationServices
 Imports Ookii.Dialogs.WinForms
 Imports SysThreading = System.Threading
 
@@ -107,7 +105,6 @@ Public Class MainForm
         ImageGalleryMain.BadgeColor = Color.FromArgb(settings.Appearance.BadgeColorArgb)
         If autoChangeLang Then settings.Save() '首次运行时保存配置文件
         Me.AllowDrop = True
-        CheckFurryUpdate() '检查更新
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
     End Sub
     ''' <summary>
