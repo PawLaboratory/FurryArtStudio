@@ -28,11 +28,8 @@ Partial Class PropertiesForm
         Me.GrpAppearance = New System.Windows.Forms.GroupBox()
         Me.ChkMenuUpper = New System.Windows.Forms.CheckBox()
         Me.ChkShowThemeColor = New System.Windows.Forms.CheckBox()
-        Me.LblFontShow = New System.Windows.Forms.Label()
-        Me.BtnFont = New System.Windows.Forms.Button()
         Me.LblLanguage = New System.Windows.Forms.Label()
         Me.CboLang = New System.Windows.Forms.ComboBox()
-        Me.LblFont = New System.Windows.Forms.Label()
         Me.LblCorColor = New System.Windows.Forms.Label()
         Me.LblSelColor = New System.Windows.Forms.Label()
         Me.BtnCornerColor = New System.Windows.Forms.Button()
@@ -66,7 +63,6 @@ Partial Class PropertiesForm
         Me.LblThumbMin = New System.Windows.Forms.Label()
         Me.ColorDlg = New System.Windows.Forms.ColorDialog()
         Me.BtnClose = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.GrpAppearance.SuspendLayout()
         Me.GrpStartup.SuspendLayout()
         Me.GrpAdvanced.SuspendLayout()
@@ -103,11 +99,8 @@ Partial Class PropertiesForm
         '
         Me.GrpAppearance.Controls.Add(Me.ChkMenuUpper)
         Me.GrpAppearance.Controls.Add(Me.ChkShowThemeColor)
-        Me.GrpAppearance.Controls.Add(Me.LblFontShow)
-        Me.GrpAppearance.Controls.Add(Me.BtnFont)
         Me.GrpAppearance.Controls.Add(Me.LblLanguage)
         Me.GrpAppearance.Controls.Add(Me.CboLang)
-        Me.GrpAppearance.Controls.Add(Me.LblFont)
         Me.GrpAppearance.Controls.Add(Me.LblCorColor)
         Me.GrpAppearance.Controls.Add(Me.LblSelColor)
         Me.GrpAppearance.Controls.Add(Me.BtnCornerColor)
@@ -123,7 +116,7 @@ Partial Class PropertiesForm
         Me.GrpAppearance.Controls.Add(Me.LblTheme)
         Me.GrpAppearance.Location = New System.Drawing.Point(12, 12)
         Me.GrpAppearance.Name = "GrpAppearance"
-        Me.GrpAppearance.Size = New System.Drawing.Size(380, 386)
+        Me.GrpAppearance.Size = New System.Drawing.Size(380, 246)
         Me.GrpAppearance.TabIndex = 55
         Me.GrpAppearance.TabStop = False
         Me.GrpAppearance.Text = "外观"
@@ -131,7 +124,7 @@ Partial Class PropertiesForm
         'ChkMenuUpper
         '
         Me.ChkMenuUpper.AutoSize = True
-        Me.ChkMenuUpper.Location = New System.Drawing.Point(19, 354)
+        Me.ChkMenuUpper.Location = New System.Drawing.Point(20, 217)
         Me.ChkMenuUpper.Name = "ChkMenuUpper"
         Me.ChkMenuUpper.Size = New System.Drawing.Size(119, 19)
         Me.ChkMenuUpper.TabIndex = 80
@@ -141,36 +134,17 @@ Partial Class PropertiesForm
         'ChkShowThemeColor
         '
         Me.ChkShowThemeColor.AutoSize = True
-        Me.ChkShowThemeColor.Location = New System.Drawing.Point(20, 65)
+        Me.ChkShowThemeColor.Location = New System.Drawing.Point(20, 58)
         Me.ChkShowThemeColor.Name = "ChkShowThemeColor"
         Me.ChkShowThemeColor.Size = New System.Drawing.Size(104, 19)
         Me.ChkShowThemeColor.TabIndex = 79
         Me.ChkShowThemeColor.Text = "显示主题色"
         Me.ChkShowThemeColor.UseVisualStyleBackColor = True
         '
-        'LblFontShow
-        '
-        Me.LblFontShow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LblFontShow.Location = New System.Drawing.Point(105, 246)
-        Me.LblFontShow.Name = "LblFontShow"
-        Me.LblFontShow.Size = New System.Drawing.Size(155, 33)
-        Me.LblFontShow.TabIndex = 78
-        Me.LblFontShow.Text = "宋体,9pt"
-        Me.LblFontShow.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'BtnFont
-        '
-        Me.BtnFont.Location = New System.Drawing.Point(260, 243)
-        Me.BtnFont.Name = "BtnFont"
-        Me.BtnFont.Size = New System.Drawing.Size(108, 40)
-        Me.BtnFont.TabIndex = 77
-        Me.BtnFont.Text = "字体..."
-        Me.BtnFont.UseVisualStyleBackColor = True
-        '
         'LblLanguage
         '
         Me.LblLanguage.AutoSize = True
-        Me.LblLanguage.Location = New System.Drawing.Point(17, 132)
+        Me.LblLanguage.Location = New System.Drawing.Point(17, 109)
         Me.LblLanguage.Name = "LblLanguage"
         Me.LblLanguage.Size = New System.Drawing.Size(52, 15)
         Me.LblLanguage.TabIndex = 74
@@ -180,24 +154,15 @@ Partial Class PropertiesForm
         '
         Me.CboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CboLang.FormattingEnabled = True
-        Me.CboLang.Location = New System.Drawing.Point(179, 129)
+        Me.CboLang.Location = New System.Drawing.Point(179, 106)
         Me.CboLang.Name = "CboLang"
         Me.CboLang.Size = New System.Drawing.Size(189, 23)
         Me.CboLang.TabIndex = 73
         '
-        'LblFont
-        '
-        Me.LblFont.AutoSize = True
-        Me.LblFont.Location = New System.Drawing.Point(17, 256)
-        Me.LblFont.Name = "LblFont"
-        Me.LblFont.Size = New System.Drawing.Size(82, 15)
-        Me.LblFont.TabIndex = 70
-        Me.LblFont.Text = "全局字体："
-        '
         'LblCorColor
         '
         Me.LblCorColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LblCorColor.Location = New System.Drawing.Point(225, 202)
+        Me.LblCorColor.Location = New System.Drawing.Point(225, 179)
         Me.LblCorColor.Name = "LblCorColor"
         Me.LblCorColor.Size = New System.Drawing.Size(35, 35)
         Me.LblCorColor.TabIndex = 69
@@ -205,14 +170,14 @@ Partial Class PropertiesForm
         'LblSelColor
         '
         Me.LblSelColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LblSelColor.Location = New System.Drawing.Point(225, 161)
+        Me.LblSelColor.Location = New System.Drawing.Point(225, 138)
         Me.LblSelColor.Name = "LblSelColor"
         Me.LblSelColor.Size = New System.Drawing.Size(35, 35)
         Me.LblSelColor.TabIndex = 68
         '
         'BtnCornerColor
         '
-        Me.BtnCornerColor.Location = New System.Drawing.Point(260, 200)
+        Me.BtnCornerColor.Location = New System.Drawing.Point(260, 177)
         Me.BtnCornerColor.Name = "BtnCornerColor"
         Me.BtnCornerColor.Size = New System.Drawing.Size(108, 41)
         Me.BtnCornerColor.TabIndex = 67
@@ -221,7 +186,7 @@ Partial Class PropertiesForm
         '
         'BtnSelectedColor
         '
-        Me.BtnSelectedColor.Location = New System.Drawing.Point(260, 158)
+        Me.BtnSelectedColor.Location = New System.Drawing.Point(260, 135)
         Me.BtnSelectedColor.Name = "BtnSelectedColor"
         Me.BtnSelectedColor.Size = New System.Drawing.Size(108, 41)
         Me.BtnSelectedColor.TabIndex = 66
@@ -231,7 +196,7 @@ Partial Class PropertiesForm
         'LblCornerColor
         '
         Me.LblCornerColor.AutoSize = True
-        Me.LblCornerColor.Location = New System.Drawing.Point(17, 213)
+        Me.LblCornerColor.Location = New System.Drawing.Point(17, 190)
         Me.LblCornerColor.Name = "LblCornerColor"
         Me.LblCornerColor.Size = New System.Drawing.Size(97, 15)
         Me.LblCornerColor.TabIndex = 65
@@ -240,7 +205,7 @@ Partial Class PropertiesForm
         'LblSelectedColor
         '
         Me.LblSelectedColor.AutoSize = True
-        Me.LblSelectedColor.Location = New System.Drawing.Point(17, 171)
+        Me.LblSelectedColor.Location = New System.Drawing.Point(17, 148)
         Me.LblSelectedColor.Name = "LblSelectedColor"
         Me.LblSelectedColor.Size = New System.Drawing.Size(112, 15)
         Me.LblSelectedColor.TabIndex = 64
@@ -249,14 +214,14 @@ Partial Class PropertiesForm
         'LblThemeColor
         '
         Me.LblThemeColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LblThemeColor.Location = New System.Drawing.Point(225, 56)
+        Me.LblThemeColor.Location = New System.Drawing.Point(225, 49)
         Me.LblThemeColor.Name = "LblThemeColor"
         Me.LblThemeColor.Size = New System.Drawing.Size(35, 35)
         Me.LblThemeColor.TabIndex = 63
         '
         'BtnThemeColor
         '
-        Me.BtnThemeColor.Location = New System.Drawing.Point(260, 53)
+        Me.BtnThemeColor.Location = New System.Drawing.Point(260, 46)
         Me.BtnThemeColor.Name = "BtnThemeColor"
         Me.BtnThemeColor.Size = New System.Drawing.Size(108, 41)
         Me.BtnThemeColor.TabIndex = 62
@@ -266,7 +231,7 @@ Partial Class PropertiesForm
         'ChkShowInChild
         '
         Me.ChkShowInChild.AutoSize = True
-        Me.ChkShowInChild.Location = New System.Drawing.Point(36, 95)
+        Me.ChkShowInChild.Location = New System.Drawing.Point(36, 84)
         Me.ChkShowInChild.Name = "ChkShowInChild"
         Me.ChkShowInChild.Size = New System.Drawing.Size(149, 19)
         Me.ChkShowInChild.TabIndex = 60
@@ -276,7 +241,7 @@ Partial Class PropertiesForm
         'RadSystem
         '
         Me.RadSystem.AutoSize = True
-        Me.RadSystem.Location = New System.Drawing.Point(280, 30)
+        Me.RadSystem.Location = New System.Drawing.Point(280, 23)
         Me.RadSystem.Name = "RadSystem"
         Me.RadSystem.Size = New System.Drawing.Size(88, 19)
         Me.RadSystem.TabIndex = 26
@@ -286,7 +251,7 @@ Partial Class PropertiesForm
         'RadDark
         '
         Me.RadDark.AutoSize = True
-        Me.RadDark.Location = New System.Drawing.Point(179, 30)
+        Me.RadDark.Location = New System.Drawing.Point(179, 23)
         Me.RadDark.Name = "RadDark"
         Me.RadDark.Size = New System.Drawing.Size(88, 19)
         Me.RadDark.TabIndex = 25
@@ -296,7 +261,7 @@ Partial Class PropertiesForm
         'RadLight
         '
         Me.RadLight.AutoSize = True
-        Me.RadLight.Location = New System.Drawing.Point(78, 30)
+        Me.RadLight.Location = New System.Drawing.Point(78, 23)
         Me.RadLight.Name = "RadLight"
         Me.RadLight.Size = New System.Drawing.Size(88, 19)
         Me.RadLight.TabIndex = 24
@@ -306,7 +271,7 @@ Partial Class PropertiesForm
         'LblTheme
         '
         Me.LblTheme.AutoSize = True
-        Me.LblTheme.Location = New System.Drawing.Point(16, 30)
+        Me.LblTheme.Location = New System.Drawing.Point(16, 23)
         Me.LblTheme.Name = "LblTheme"
         Me.LblTheme.Size = New System.Drawing.Size(52, 15)
         Me.LblTheme.TabIndex = 23
@@ -319,9 +284,9 @@ Partial Class PropertiesForm
         Me.GrpStartup.Controls.Add(Me.ChkAutoCheckUpdate)
         Me.GrpStartup.Controls.Add(Me.ChkAutoPlay)
         Me.GrpStartup.Controls.Add(Me.ChkAutoStart)
-        Me.GrpStartup.Location = New System.Drawing.Point(398, 12)
+        Me.GrpStartup.Location = New System.Drawing.Point(12, 262)
         Me.GrpStartup.Name = "GrpStartup"
-        Me.GrpStartup.Size = New System.Drawing.Size(408, 133)
+        Me.GrpStartup.Size = New System.Drawing.Size(380, 133)
         Me.GrpStartup.TabIndex = 56
         Me.GrpStartup.TabStop = False
         Me.GrpStartup.Text = "启动"
@@ -342,7 +307,7 @@ Partial Class PropertiesForm
         Me.CboCheckUpdate.FormattingEnabled = True
         Me.CboCheckUpdate.Location = New System.Drawing.Point(187, 99)
         Me.CboCheckUpdate.Name = "CboCheckUpdate"
-        Me.CboCheckUpdate.Size = New System.Drawing.Size(204, 23)
+        Me.CboCheckUpdate.Size = New System.Drawing.Size(181, 23)
         Me.CboCheckUpdate.TabIndex = 58
         '
         'ChkAutoCheckUpdate
@@ -388,9 +353,9 @@ Partial Class PropertiesForm
         Me.GrpAdvanced.Controls.Add(Me.LblThumbMax)
         Me.GrpAdvanced.Controls.Add(Me.TxtMinSize)
         Me.GrpAdvanced.Controls.Add(Me.LblThumbMin)
-        Me.GrpAdvanced.Location = New System.Drawing.Point(398, 151)
+        Me.GrpAdvanced.Location = New System.Drawing.Point(398, 12)
         Me.GrpAdvanced.Name = "GrpAdvanced"
-        Me.GrpAdvanced.Size = New System.Drawing.Size(408, 247)
+        Me.GrpAdvanced.Size = New System.Drawing.Size(408, 225)
         Me.GrpAdvanced.TabIndex = 57
         Me.GrpAdvanced.TabStop = False
         Me.GrpAdvanced.Text = "高级"
@@ -508,22 +473,12 @@ Partial Class PropertiesForm
         Me.BtnClose.Text = "关闭(&C)"
         Me.BtnClose.UseVisualStyleBackColor = True
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(305, 417)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(180, 15)
-        Me.Label1.TabIndex = 59
-        Me.Label1.Text = "*部分选项需要重启后生效"
-        '
         'PropertiesForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.BtnClose
         Me.ClientSize = New System.Drawing.Size(812, 453)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.BtnClose)
         Me.Controls.Add(Me.GrpAdvanced)
         Me.Controls.Add(Me.GrpStartup)
@@ -545,18 +500,14 @@ Partial Class PropertiesForm
         Me.GrpAdvanced.ResumeLayout(False)
         Me.GrpAdvanced.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents BtnExport As Button
     Friend WithEvents BtnImport As Button
     Friend WithEvents BtnReset As Button
     Friend WithEvents GrpAppearance As GroupBox
-    Friend WithEvents LblFontShow As Label
-    Friend WithEvents BtnFont As Button
     Friend WithEvents LblLanguage As Label
     Friend WithEvents CboLang As ComboBox
-    Friend WithEvents LblFont As Label
     Friend WithEvents LblCorColor As Label
     Friend WithEvents LblSelColor As Label
     Friend WithEvents BtnCornerColor As Button
@@ -591,6 +542,5 @@ Partial Class PropertiesForm
     Friend WithEvents ColorDlg As ColorDialog
     Friend WithEvents BtnClose As Button
     Friend WithEvents ChkMenuUpper As CheckBox
-    Friend WithEvents Label1 As Label
     Friend WithEvents ChkLoop As CheckBox
 End Class

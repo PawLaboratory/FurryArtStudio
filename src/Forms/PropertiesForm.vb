@@ -16,10 +16,12 @@ Imports System.ComponentModel
 Imports System.Globalization
 Imports System.Runtime.InteropServices
 Imports System.Threading
+Imports Microsoft.Win32
 
 Public Class PropertiesForm
     Implements IThemeChangeable, ILocalizable
     Private Setting As AppSettings = AppSettings.Load()
+    Private _isUpdatingCheckbox As Boolean = False '用来区分用户设置与程序设置
 #Region "窗体"
     Private Sub PropertiesForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim MnuHandle = GetSystemMenu(Handle, False) '获取菜单句柄
@@ -90,13 +92,9 @@ Public Class PropertiesForm
         CboLang.Items.Add("简体中文")
         CboLang.Items.Add("繁體中文")
         CboLang.SelectedIndex() = appearances.Language
-        Using f As New Font(appearances.GlobalFontName, appearances.GlobalFontSize)
-            LblFontShow.Font = f
-            LblFontShow.Text = $"{f.Name},{f.Size}pt"
-        End Using
         ChkMenuUpper.Checked = appearances.MenuUppercase
         Dim startups = Setting.Startup
-        ChkAutoStart.Checked = startups.RunAtStartup
+        CheckAutoStartStatus()
         ChkRestore.Checked = startups.RestoreLastLibrary
         ChkAutoPlay.Checked = startups.AutoPlaySlideshow
         ChkAutoCheckUpdate.Checked=startups.AutoCheckUpdate
@@ -186,18 +184,6 @@ Public Class PropertiesForm
         End Using
         Setting.Save()
     End Sub
-    Private Sub BtnFont_Click(sender As Object, e As EventArgs) Handles BtnFont.Click
-        Using dlg As New FontDialog With {
-            .Font = New Font(Setting.Appearance.GlobalFontName, Setting.Appearance.GlobalFontSize)
-        }
-            If dlg.ShowDialog = DialogResult.OK Then
-                Setting.Appearance.GlobalFontName = dlg.Font.Name
-                Setting.Appearance.GlobalFontSize = dlg.Font.Size
-                LblFontShow.Font = dlg.Font
-                LblFontShow.Text = $"{dlg.Font.Name},{dlg.Font.Size}pt"
-            End If
-        End Using
-    End Sub
     Private Sub ChkMenuUpper_CheckedChanged(sender As Object, e As EventArgs) Handles ChkMenuUpper.CheckedChanged
         Setting.Appearance.MenuUppercase = ChkMenuUpper.Checked
         Setting.Save()
@@ -207,7 +193,27 @@ Public Class PropertiesForm
 
 #Region "启动"
     Private Sub ChkAutoStart_CheckedChanged(sender As Object, e As EventArgs) Handles ChkAutoStart.CheckedChanged
-
+        If _isUpdatingCheckbox Then Return
+        Dim regResult As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+        Try
+            SetAutoStart()
+        Catch ex As Exception
+            ShowErrorDialog(ex, "无法修改注册表")
+        Finally
+            CheckAutoStartStatus()
+        End Try
+    End Sub
+    Private Sub CheckAutoStartStatus()
+        _isUpdatingCheckbox = True
+        Try
+            If IsAutoStart() Then
+                ChkAutoStart.Checked = True
+            Else
+                ChkAutoStart.Checked = False
+            End If
+        Finally
+            _isUpdatingCheckbox = False
+        End Try
     End Sub
     Private Sub ChkRestore_CheckedChanged(sender As Object, e As EventArgs) Handles ChkRestore.CheckedChanged
 

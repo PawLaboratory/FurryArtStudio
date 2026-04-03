@@ -12,7 +12,6 @@
 ' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ' See the License for the specific language governing permissions and
 ' limitations under the License.
-Imports System.ComponentModel
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.Drawing.Printing
@@ -701,17 +700,9 @@ Public Class MainForm
         DevToolsForm.Show()
     End Sub
     Private Sub MnuRunAsElevated_Click(sender As Object, e As EventArgs) Handles MnuRunAsElevated.Click
-        Dim startInfo As New ProcessStartInfo With {
-            .UseShellExecute = True, '必须设置为True才能使用Verb
-            .Verb = "runas", '请求管理员权限
-            .FileName = Application.ExecutablePath
-        }
-        Try
-            Process.Start(startInfo)
+        If RunAsElevated() Then
             Me.Close()
-        Catch ex As Win32Exception
-            ShowErrorDialog(ex, My.Resources.Msg_ElevatedFailed)
-        End Try
+        End If
     End Sub
     Private Sub MnuRunTerminal_Click(sender As Object, e As EventArgs) Handles MnuRunTerminal.Click
         Dim startPath As String

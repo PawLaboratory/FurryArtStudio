@@ -12,9 +12,11 @@
 ' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ' See the License for the specific language governing permissions and
 ' limitations under the License.
+Imports System.ComponentModel
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.IO
+Imports System.IO.Pipelines
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 Imports System.Security.Principal
@@ -571,6 +573,13 @@ Module BasicFcn
     Public Function IsFirstRun() As Boolean
         Return Not File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json"))
     End Function
+    ''' <summary>
+    ''' 判断程序是否设置开机自启动
+    ''' </summary>
+    Public Function IsAutoStart() As Boolean
+        Return Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run").
+            GetValue("FurryArtStudio") IsNot Nothing
+    End Function
 #End Region
 
 #Region "本地化"
@@ -769,6 +778,37 @@ Module BasicFcn
         End Try
         Return extension & " Files"
     End Function
+    ''' <summary>
+    ''' 以管理员权限启动程序
+    ''' </summary>
+    ''' <param name="param">(可选)启动参数</param>
+    ''' <returns>是否启动成功</returns>
+    Public Function RunAsElevated(Optional param As String = "") As Boolean
+        Dim startInfo As New ProcessStartInfo With {
+        .UseShellExecute = True, '必须设置为True才能使用Verb
+        .Verb = "runas", '请求管理员权限
+        .FileName = Application.ExecutablePath,
+        .Arguments = param
+        }
+        Try
+            Process.Start(startInfo)
+            Return True
+        Catch ex As Win32Exception
+            ShowErrorDialog(ex, My.Resources.Msg_ElevatedFailed)
+            Return False
+        End Try
+    End Function
+    ''' <summary>
+    ''' 设置开机自启动
+    ''' </summary>
+    Public Sub SetAutoStart()
+        Dim regResult As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+        If Not IsAutoStart() Then
+            regResult.SetValue("FurryArtStudio", """" & Application.ExecutablePath & """")
+        Else
+            regResult.DeleteValue("FurryArtStudio")
+        End If
+    End Sub
 #End Region
 
 End Module

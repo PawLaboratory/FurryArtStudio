@@ -65,12 +65,9 @@ Public Class AppSettings
         Public Property SelectionAccentColorArgb As Integer = Color.Blue.ToArgb()
         Public Property BadgeColorArgb As Integer = Color.Red.ToArgb()
 
-        Public Property GlobalFontName As String = "宋体"
-        Public Property GlobalFontSize As Single = 9.0F
         Public Property MenuUppercase As Boolean = False
     End Class
     Public Class StartupSettings
-        Public Property RunAtStartup As Boolean = False
         Public Property RestoreLastLibrary As Boolean = True
         Public Property LastLibraryName As String = "Tutorial" '隐藏
 

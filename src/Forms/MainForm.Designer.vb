@@ -550,110 +550,110 @@ Partial Class MainForm
         Me.MnuHelpTutorial.Image = CType(resources.GetObject("MnuHelpTutorial.Image"), System.Drawing.Image)
         Me.MnuHelpTutorial.Name = "MnuHelpTutorial"
         Me.MnuHelpTutorial.ShortcutKeys = System.Windows.Forms.Keys.F1
-        Me.MnuHelpTutorial.Size = New System.Drawing.Size(218, 26)
+        Me.MnuHelpTutorial.Size = New System.Drawing.Size(224, 26)
         Me.MnuHelpTutorial.Text = "教程(&T)"
         '
         'ToolStripSeparator8
         '
         Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(215, 6)
+        Me.ToolStripSeparator8.Size = New System.Drawing.Size(221, 6)
         '
         'MnuHelpWebsite
         '
         Me.MnuHelpWebsite.Image = CType(resources.GetObject("MnuHelpWebsite.Image"), System.Drawing.Image)
         Me.MnuHelpWebsite.Name = "MnuHelpWebsite"
-        Me.MnuHelpWebsite.Size = New System.Drawing.Size(218, 26)
+        Me.MnuHelpWebsite.Size = New System.Drawing.Size(224, 26)
         Me.MnuHelpWebsite.Text = "官网(&W)"
         '
         'MnuHelpDonate
         '
         Me.MnuHelpDonate.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuOpenAfdian, Me.MnuLoadSponsors})
         Me.MnuHelpDonate.Name = "MnuHelpDonate"
-        Me.MnuHelpDonate.Size = New System.Drawing.Size(218, 26)
+        Me.MnuHelpDonate.Size = New System.Drawing.Size(224, 26)
         Me.MnuHelpDonate.Text = "捐赠(&D)"
         '
         'MnuOpenAfdian
         '
         Me.MnuOpenAfdian.Image = CType(resources.GetObject("MnuOpenAfdian.Image"), System.Drawing.Image)
         Me.MnuOpenAfdian.Name = "MnuOpenAfdian"
-        Me.MnuOpenAfdian.Size = New System.Drawing.Size(215, 26)
+        Me.MnuOpenAfdian.Size = New System.Drawing.Size(224, 26)
         Me.MnuOpenAfdian.Text = "打开爱发电(&A)"
         '
         'MnuLoadSponsors
         '
         Me.MnuLoadSponsors.Name = "MnuLoadSponsors"
-        Me.MnuLoadSponsors.Size = New System.Drawing.Size(215, 26)
+        Me.MnuLoadSponsors.Size = New System.Drawing.Size(224, 26)
         Me.MnuLoadSponsors.Text = "加载赞助者名单(&L)"
         '
         'MnuHelpGithub
         '
         Me.MnuHelpGithub.Image = CType(resources.GetObject("MnuHelpGithub.Image"), System.Drawing.Image)
         Me.MnuHelpGithub.Name = "MnuHelpGithub"
-        Me.MnuHelpGithub.Size = New System.Drawing.Size(218, 26)
+        Me.MnuHelpGithub.Size = New System.Drawing.Size(224, 26)
         Me.MnuHelpGithub.Text = "&GitHub"
         '
         'MnuFeedback
         '
         Me.MnuFeedback.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuBugReport, Me.MnuSuggestions, Me.MnuMyFeedback})
         Me.MnuFeedback.Name = "MnuFeedback"
-        Me.MnuFeedback.Size = New System.Drawing.Size(218, 26)
+        Me.MnuFeedback.Size = New System.Drawing.Size(224, 26)
         Me.MnuFeedback.Text = "反馈(&F)"
         '
         'MnuBugReport
         '
         Me.MnuBugReport.Image = CType(resources.GetObject("MnuBugReport.Image"), System.Drawing.Image)
         Me.MnuBugReport.Name = "MnuBugReport"
-        Me.MnuBugReport.Size = New System.Drawing.Size(177, 26)
+        Me.MnuBugReport.Size = New System.Drawing.Size(224, 26)
         Me.MnuBugReport.Text = "报告问题(&B)"
         '
         'MnuSuggestions
         '
         Me.MnuSuggestions.Image = CType(resources.GetObject("MnuSuggestions.Image"), System.Drawing.Image)
         Me.MnuSuggestions.Name = "MnuSuggestions"
-        Me.MnuSuggestions.Size = New System.Drawing.Size(177, 26)
+        Me.MnuSuggestions.Size = New System.Drawing.Size(224, 26)
         Me.MnuSuggestions.Text = "建议功能(&S)"
         '
         'MnuMyFeedback
         '
         Me.MnuMyFeedback.Name = "MnuMyFeedback"
-        Me.MnuMyFeedback.Size = New System.Drawing.Size(177, 26)
+        Me.MnuMyFeedback.Size = New System.Drawing.Size(224, 26)
         Me.MnuMyFeedback.Text = "我的反馈(&M)"
         '
         'MnuCheckUpdate
         '
         Me.MnuCheckUpdate.Image = CType(resources.GetObject("MnuCheckUpdate.Image"), System.Drawing.Image)
         Me.MnuCheckUpdate.Name = "MnuCheckUpdate"
-        Me.MnuCheckUpdate.Size = New System.Drawing.Size(218, 26)
+        Me.MnuCheckUpdate.Size = New System.Drawing.Size(224, 26)
         Me.MnuCheckUpdate.Text = "检查更新(&U)"
         '
         'MnuHelpWhatsNew
         '
         Me.MnuHelpWhatsNew.Image = CType(resources.GetObject("MnuHelpWhatsNew.Image"), System.Drawing.Image)
         Me.MnuHelpWhatsNew.Name = "MnuHelpWhatsNew"
-        Me.MnuHelpWhatsNew.Size = New System.Drawing.Size(218, 26)
+        Me.MnuHelpWhatsNew.Size = New System.Drawing.Size(224, 26)
         Me.MnuHelpWhatsNew.Text = "新增功能(&H)"
         '
         'ToolStripSeparator10
         '
         Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        Me.ToolStripSeparator10.Size = New System.Drawing.Size(215, 6)
+        Me.ToolStripSeparator10.Size = New System.Drawing.Size(221, 6)
         '
         'MnuHelpLicense
         '
         Me.MnuHelpLicense.Name = "MnuHelpLicense"
-        Me.MnuHelpLicense.Size = New System.Drawing.Size(218, 26)
+        Me.MnuHelpLicense.Size = New System.Drawing.Size(224, 26)
         Me.MnuHelpLicense.Text = "许可证(&L)..."
         '
         'MnuHelpPrivacy
         '
         Me.MnuHelpPrivacy.Name = "MnuHelpPrivacy"
-        Me.MnuHelpPrivacy.Size = New System.Drawing.Size(218, 26)
+        Me.MnuHelpPrivacy.Size = New System.Drawing.Size(224, 26)
         Me.MnuHelpPrivacy.Text = "隐私政策(&P)..."
         '
         'MnuTerms
         '
         Me.MnuTerms.Name = "MnuTerms"
-        Me.MnuTerms.Size = New System.Drawing.Size(218, 26)
+        Me.MnuTerms.Size = New System.Drawing.Size(224, 26)
         Me.MnuTerms.Text = "用户协议(&T)..."
         '
         'MnuHelpAbout
@@ -661,7 +661,7 @@ Partial Class MainForm
         Me.MnuHelpAbout.Image = CType(resources.GetObject("MnuHelpAbout.Image"), System.Drawing.Image)
         Me.MnuHelpAbout.Name = "MnuHelpAbout"
         Me.MnuHelpAbout.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F1), System.Windows.Forms.Keys)
-        Me.MnuHelpAbout.Size = New System.Drawing.Size(218, 26)
+        Me.MnuHelpAbout.Size = New System.Drawing.Size(224, 26)
         Me.MnuHelpAbout.Text = "关于(&A)..."
         '
         'SearchTextBox
