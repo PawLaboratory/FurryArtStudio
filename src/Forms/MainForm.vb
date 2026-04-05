@@ -104,6 +104,7 @@ Public Class MainForm
         Icon = Icon.FromHandle(My.Resources.Icons.FurryArtStudio.GetHicon) '设置图标
         ImageGalleryMain.SelectionAccentColor = Color.FromArgb(settings.Appearance.SelectionAccentColorArgb)
         ImageGalleryMain.BadgeColor = Color.FromArgb(settings.Appearance.BadgeColorArgb)
+        TlStrip.Visible = settings.Appearance.ShowToolBar
         If autoChangeLang Then settings.Save() '首次运行时保存配置文件
         Me.AllowDrop = True
         StatusLabel.Text = My.Resources.Stat_Ready '就绪

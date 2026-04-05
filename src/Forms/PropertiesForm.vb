@@ -93,6 +93,7 @@ Public Class PropertiesForm
         CboLang.Items.Add("繁體中文")
         CboLang.SelectedIndex() = appearances.Language
         ChkMenuUpper.Checked = appearances.MenuUppercase
+        ChkShowTool.Checked = appearances.ShowToolBar
         Dim startups = Setting.Startup
         CheckAutoStartStatus()
         ChkRestore.Checked = startups.RestoreLastLibrary
@@ -189,6 +190,15 @@ Public Class PropertiesForm
         Setting.Save()
         UpdateFormLang()
     End Sub
+    Private Sub ChkShowTool_CheckedChanged(sender As Object, e As EventArgs) Handles ChkShowTool.CheckedChanged
+        If ChkShowTool.Checked Then
+            Setting.Appearance.ShowToolBar = True
+            MainForm.TlStrip.Visible = True
+        Else
+            Setting.Appearance.ShowToolBar = False
+            MainForm.TlStrip.Visible = False
+        End If
+    End Sub
 #End Region
 
 #Region "启动"
@@ -227,6 +237,8 @@ Public Class PropertiesForm
     Private Sub CboCheckUpdate_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboCheckUpdate.SelectedIndexChanged
 
     End Sub
+
+
 #End Region
 
 End Class

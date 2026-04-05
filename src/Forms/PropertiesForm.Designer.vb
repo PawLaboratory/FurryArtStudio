@@ -63,6 +63,7 @@ Partial Class PropertiesForm
         Me.LblThumbMin = New System.Windows.Forms.Label()
         Me.ColorDlg = New System.Windows.Forms.ColorDialog()
         Me.BtnClose = New System.Windows.Forms.Button()
+        Me.ChkShowTool = New System.Windows.Forms.CheckBox()
         Me.GrpAppearance.SuspendLayout()
         Me.GrpStartup.SuspendLayout()
         Me.GrpAdvanced.SuspendLayout()
@@ -97,6 +98,7 @@ Partial Class PropertiesForm
         '
         'GrpAppearance
         '
+        Me.GrpAppearance.Controls.Add(Me.ChkShowTool)
         Me.GrpAppearance.Controls.Add(Me.ChkMenuUpper)
         Me.GrpAppearance.Controls.Add(Me.ChkShowThemeColor)
         Me.GrpAppearance.Controls.Add(Me.LblLanguage)
@@ -473,6 +475,16 @@ Partial Class PropertiesForm
         Me.BtnClose.Text = "关闭(&C)"
         Me.BtnClose.UseVisualStyleBackColor = True
         '
+        'ChkShowTool
+        '
+        Me.ChkShowTool.AutoSize = True
+        Me.ChkShowTool.Location = New System.Drawing.Point(205, 217)
+        Me.ChkShowTool.Name = "ChkShowTool"
+        Me.ChkShowTool.Size = New System.Drawing.Size(104, 19)
+        Me.ChkShowTool.TabIndex = 81
+        Me.ChkShowTool.Text = "显示工具栏"
+        Me.ChkShowTool.UseVisualStyleBackColor = True
+        '
         'PropertiesForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -543,4 +555,5 @@ Partial Class PropertiesForm
     Friend WithEvents BtnClose As Button
     Friend WithEvents ChkMenuUpper As CheckBox
     Friend WithEvents ChkLoop As CheckBox
+    Friend WithEvents ChkShowTool As CheckBox
 End Class

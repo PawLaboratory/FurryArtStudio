@@ -66,6 +66,7 @@ Public Class AppSettings
         Public Property BadgeColorArgb As Integer = Color.Red.ToArgb()
 
         Public Property MenuUppercase As Boolean = False
+        Public Property ShowToolBar As Boolean = True
     End Class
     Public Class StartupSettings
         Public Property RestoreLastLibrary As Boolean = True
