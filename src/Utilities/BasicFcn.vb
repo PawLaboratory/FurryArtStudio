@@ -16,7 +16,6 @@ Imports System.ComponentModel
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.IO
-Imports System.IO.Pipelines
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 Imports System.Security.Principal
@@ -751,7 +750,7 @@ Module BasicFcn
     End Function
 #End Region
 
-#Region "系统相关"
+#Region "注册表"
     ''' <summary>
     ''' 通过注册表获取指定扩展名关联的默认打开程序
     ''' </summary>
@@ -779,6 +778,20 @@ Module BasicFcn
         Return extension & " Files"
     End Function
     ''' <summary>
+    ''' 设置开机自启动
+    ''' </summary>
+    Public Sub SetAutoStart()
+        Dim regResult As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+        If Not IsAutoStart() Then
+            regResult.SetValue("FurryArtStudio", """" & Application.ExecutablePath & """")
+        Else
+            regResult.DeleteValue("FurryArtStudio")
+        End If
+    End Sub
+#End Region
+
+#Region "系统"
+    ''' <summary>
     ''' 以管理员权限启动程序
     ''' </summary>
     ''' <param name="param">(可选)启动参数</param>
@@ -798,17 +811,6 @@ Module BasicFcn
             Return False
         End Try
     End Function
-    ''' <summary>
-    ''' 设置开机自启动
-    ''' </summary>
-    Public Sub SetAutoStart()
-        Dim regResult As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
-        If Not IsAutoStart() Then
-            regResult.SetValue("FurryArtStudio", """" & Application.ExecutablePath & """")
-        Else
-            regResult.DeleteValue("FurryArtStudio")
-        End If
-    End Sub
 #End Region
 
 End Module

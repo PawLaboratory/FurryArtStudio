@@ -19,6 +19,8 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Text
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports Dapper.SqlMapper
 Imports Krypton.Toolkit
 Imports Ookii.Dialogs.WinForms
 Imports SysThreading = System.Threading
@@ -122,15 +124,7 @@ Public Class MainForm
             Dim hMenu = GetSystemMenu(Handle, False)
             Select Case m.WParam.ToInt32'对应菜单标号
                 Case SC_ALWAYSONTOP '窗口置顶
-                    If TopMost = False Then
-                        TopMost = True
-                        CheckMenuItem(hMenu, SC_ALWAYSONTOP, MF_CHECKED) '窗口置顶
-                        MnuOnTop.Checked = True
-                    Else
-                        TopMost = False
-                        CheckMenuItem(hMenu, SC_ALWAYSONTOP, MF_UNCHECKED) '取消置顶
-                        MnuOnTop.Checked = False
-                    End If
+                    SetOnTop()
                 Case SC_NEWMANUSCRIPT
                     NewManuscript()
                 Case SC_REFRESH
@@ -191,6 +185,22 @@ Public Class MainForm
 #End Region
 
 #Region "辅助方法"
+    ''' <summary>
+    ''' 设置置顶状态
+    ''' </summary>
+    Private Sub SetOnTop()
+        If TopMost = False Then
+            TopMost = True
+            CheckMenuItem(GetSystemMenu(Handle, False), SC_ALWAYSONTOP, MF_CHECKED) '窗口置顶
+            MnuOnTop.Checked = True
+            TSBtnOnTop.Checked = True
+        Else
+            TopMost = False
+            CheckMenuItem(GetSystemMenu(Handle, False), SC_ALWAYSONTOP, MF_UNCHECKED) '取消置顶
+            MnuOnTop.Checked = False
+            TSBtnOnTop.Checked = False
+        End If
+    End Sub
     ''' <summary>
     ''' 语言变更
     ''' </summary>
@@ -332,65 +342,13 @@ Public Class MainForm
         FlushMenuThemes()
     End Sub
     ''' <summary>
-    ''' 初始化菜单图标
+    ''' 设置缩放图标
     ''' </summary>
-    ''' <param name="isDarkMode">(可选)设置深色主题, 默认为浅色</param>
-    Private Sub InitializeMenuImages(Optional isDarkMode As Boolean = False)
-        Dim menuIcons As New List(Of (MenuItem As ToolStripMenuItem, BaseName As String)) From
-    {
-        (MnuOnTop, "MenuPin"),
-        (MnuDevTools, "MenuDevTools"),
-        (MnuRunAsElevated, "MenuShield"),
-        (MnuRunTerminal, "MenuTerminal"),
-        (MnuProperties, "MenuSettings"),
-        (MnuOpenPath, "MenuFolderOpen"),
-        (MnuCreateShortcut, "MenuCreateShortcut"),
-        (MnuExit, "MenuClose"),
-        (MnuLibList, "MenuFolders"),
-        (MnuLibRefresh, "MenuRefresh"),
-        (MnuLibNew, "MenuFolderNew"),
-        (MnuLibImport, "MenuFolderInput"),
-        (MnuLibExport, "MenuFolderOutput"),
-        (MnuLibExportCSV, "MenuExportCsv"),
-        (MnuLibClone, "MenuClone"),
-        (MnuLibOpenFolder, "MenuFolderOpen"),
-        (MnuLibCopy, "MenuCopy"),
-        (MnuLibClose, "MenuFolderClose"),
-        (MnuLibRename, "MenuFolderEdit"),
-        (MnuLibDelete, "MenuFolderDel"),
-        (MnuLibStatistics, "MenuProperties"),
-        (MnuMsNew, "MenuFileNew"),
-        (MnuMsImport, "MenuFileInput"),
-        (MnuMsView, "MenuView"),
-        (MnuMsEdit, "MenuEdit"),
-        (MnuMsExport, "MenuFileOutput"),
-        (MnuMsPrint, "MenuPrint"),
-        (MnuMsDelete, "MenuDelete"),
-        (MnuMsOpenFolder, "MenuFolderOpen"),
-        (MnuMsCopy, "MenuCopy"),
-        (MnuViewPlay, "MenuImagePlay"),
-        (MnuSearch, "MenuSearch"),
-        (MnuPageUp, "MenuPrevious"),
-        (MnuPageDown, "MenuNext"),
-        (MnuHelpTutorial, "MenuTutorial"),
-        (MnuHelpGithub, "MenuGithub"),
-        (MnuOpenAfdian, "MenuSupport"),
-        (MnuHelpWebsite, "MenuWebsite"),
-        (MnuHelpAbout, "MenuInfo"),
-        (MnuBugReport, "MenuBugReport"),
-        (MnuSuggestions, "MenuSuggestions"),
-        (MnuCheckUpdate, "MenuCheckUpdate"),
-        (MnuHelpWhatsNew, "MenuStar"),
-        (ConMnuMsView, "MenuView"),
-        (ConMnuMsEdit, "MenuEdit"),
-        (ConMnuMsExport, "MenuFileOutput"),
-        (ConMnuMsPrint, "MenuPrint"),
-        (ConMnuMsDelete, "MenuDelete"),
-        (ConMnuMsOpenFolder, "MenuFolderOpen"),
-        (ConMnuMsCopy, "MenuCopy")
-    }
-        For Each setting In menuIcons
-            Dim resourceName = setting.BaseName & If(isDarkMode, "Dark", "Light")
+    ''' <typeparam name="T">ToolStripItem 泛型</typeparam>
+    ''' <param name="items">图标映射元素列表</param>
+    Private Sub SetScaledIcon(Of T As ToolStripItem)(items As List(Of (Item As T, BaseName As String)))
+        For Each item In items
+            Dim resourceName = item.BaseName & If(IsDarkMode(), "Dark", "Light")
             Using img As Image = DirectCast(My.Resources.Icons.ResourceManager.GetObject(resourceName), Image)
                 Dim size As Integer = 32 '图标尺寸
                 Using thumb As New Bitmap(size, size)
@@ -401,11 +359,90 @@ Public Class MainForm
                         g.CompositingQuality = CompositingQuality.HighQuality
                         g.DrawImage(img, 0, 0, size, size)
                     End Using
-                    setting.MenuItem.Image = thumb.Clone '使用高质量缩略图
+                    item.Item.Image = thumb.Clone '使用高质量缩略图
                 End Using
-
             End Using
         Next
+    End Sub
+    ''' <summary>
+    ''' 初始化菜单图标
+    ''' </summary>
+    ''' <param name="isDarkMode">(可选)设置深色主题, 默认为浅色</param>
+    Private Sub InitializeMenuImages(Optional isDarkMode As Boolean = False)
+        Dim menuIcons As New List(Of (MenuItem As ToolStripMenuItem, BaseName As String)) From {
+            (MnuOnTop, "MenuPin"),
+            (MnuDevTools, "MenuDevTools"),
+            (MnuRunAsElevated, "MenuShield"),
+            (MnuRunTerminal, "MenuTerminal"),
+            (MnuProperties, "MenuSettings"),
+            (MnuOpenPath, "MenuFolderOpen"),
+            (MnuCreateShortcut, "MenuCreateShortcut"),
+            (MnuExit, "MenuClose"),
+            (MnuLibList, "MenuFolders"),
+            (MnuLibRefresh, "MenuRefresh"),
+            (MnuLibNew, "MenuFolderNew"),
+            (MnuLibImport, "MenuFolderInput"),
+            (MnuLibExport, "MenuFolderOutput"),
+            (MnuLibExportCSV, "MenuExportCsv"),
+            (MnuLibClone, "MenuClone"),
+            (MnuLibOpenFolder, "MenuFolderOpen"),
+            (MnuLibCopy, "MenuCopy"),
+            (MnuLibClose, "MenuFolderClose"),
+            (MnuLibRename, "MenuFolderEdit"),
+            (MnuLibDelete, "MenuFolderDel"),
+            (MnuLibStatistics, "MenuProperties"),
+            (MnuMsNew, "MenuFileNew"),
+            (MnuMsImport, "MenuFileInput"),
+            (MnuMsView, "MenuView"),
+            (MnuMsEdit, "MenuEdit"),
+            (MnuMsExport, "MenuFileOutput"),
+            (MnuMsPrint, "MenuPrint"),
+            (MnuMsDelete, "MenuDelete"),
+            (MnuMsOpenFolder, "MenuFolderOpen"),
+            (MnuMsCopy, "MenuCopy"),
+            (MnuViewPlay, "MenuImagePlay"),
+            (MnuSearch, "MenuSearch"),
+            (MnuPageUp, "MenuPrevious"),
+            (MnuPageDown, "MenuNext"),
+            (MnuHelpTutorial, "MenuTutorial"),
+            (MnuHelpGithub, "MenuGithub"),
+            (MnuOpenAfdian, "MenuSupport"),
+            (MnuHelpWebsite, "MenuWebsite"),
+            (MnuHelpAbout, "MenuInfo"),
+            (MnuBugReport, "MenuBugReport"),
+            (MnuSuggestions, "MenuSuggestions"),
+            (MnuCheckUpdate, "MenuCheckUpdate"),
+            (MnuHelpWhatsNew, "MenuStar"),
+            (ConMnuMsView, "MenuView"),
+            (ConMnuMsEdit, "MenuEdit"),
+            (ConMnuMsExport, "MenuFileOutput"),
+            (ConMnuMsPrint, "MenuPrint"),
+            (ConMnuMsDelete, "MenuDelete"),
+            (ConMnuMsOpenFolder, "MenuFolderOpen"),
+            (ConMnuMsCopy, "MenuCopy")
+        }
+        Dim toolIcons As New List(Of (ToolItem As ToolStripButton, BaseName As String)) From {
+            (TSBtnOnTop, "MenuPin"),
+            (TSBtnProperties, "MenuSettings"),
+            (TSBtnRefresh, "MenuRefresh"),
+            (TSBtnLibNew, "MenuFolderNew"),
+            (TSBtnLibImport, "MenuFolderInput"),
+            (TSBtnLibExport, "MenuFolderOutput"),
+            (TSBtnLibRename, "MenuFolderEdit"),
+            (TSBtnLibClose, "MenuFolderClose"),
+            (TSBtnMsNew, "MenuFileNew"),
+            (TSBtnMsImport, "MenuFileInput"),
+            (TSBtnMsExport, "MenuFileOutput"),
+            (TSBtnMsEdit, "MenuEdit"),
+            (TSBtnMsPrint, "MenuPrint"),
+            (TSBtnMsOpenFolder, "MenuFolderOpen"),
+            (TSBtnPlay, "MenuImagePlay"),
+            (TSBtnSearch, "MenuSearch"),
+            (TSBtnPrevPage, "MenuPrevious"),
+            (TSBtnNextPage, "MenuNext")
+        }
+        SetScaledIcon(menuIcons) '设置菜单项图标
+        SetScaledIcon(toolIcons) '设置工具栏图标
         Dim menuHandle = GetSystemMenu(Handle, False) '设置窗体菜单
         If isDarkMode Then
             ApplyMenuIcon(menuHandle, SC_ALWAYSONTOP, My.Resources.Icons.MenuPinDark, True)
@@ -494,6 +531,19 @@ Public Class MainForm
         EnableMenuItem(menuHandle, SC_PLAY, MF_GRAYED)
         EnableMenuItem(menuHandle, SC_STATISTICS, MF_GRAYED)
         GC.Collect()
+        TSBtnLibExport.Enabled = False
+        TSBtnLibRename.Enabled = False
+        TSBtnLibClose.Enabled = False
+        TSBtnMsNew.Enabled = False
+        TSBtnMsImport.Enabled = False
+        TSBtnMsExport.Enabled = False
+        TSBtnMsEdit.Enabled = False
+        TSBtnMsPrint.Enabled = False
+        TSBtnMsOpenFolder.Enabled = False
+        TSBtnPlay.Enabled = False
+        TSBtnSearch.Enabled = False
+        TSBtnPrevPage.Enabled = False
+        TSBtnNextPage.Enabled = False
     End Sub
     ''' <summary>
     ''' 初始化系统菜单
@@ -560,6 +610,13 @@ Public Class MainForm
         MnuSearch.Enabled = True
         ImageGalleryMain.Enabled = True
         ArtworkListSplitContainer.TabStop = True
+        TSBtnLibExport.Enabled = True
+        TSBtnLibRename.Enabled = True
+        TSBtnLibClose.Enabled = True
+        TSBtnMsNew.Enabled = True
+        TSBtnMsImport.Enabled = True
+        TSBtnPlay.Enabled = True
+        TSBtnSearch.Enabled = True
         Dim menuHandle = GetSystemMenu(Handle, False) '获取菜单句柄
         EnableMenuItem(menuHandle, SC_NEWMANUSCRIPT, MF_ENABLED)
         EnableMenuItem(menuHandle, SC_PLAY, MF_ENABLED)
@@ -590,6 +647,7 @@ Public Class MainForm
                                                 result.sizeString, result.fileCount)
         Dim page As Integer = Math.Max(1, Math.Ceiling(_artworkCount / ImageGalleryMain.PageSize))
         MnuPageDown.Enabled = page > 1
+        TSBtnNextPage.Enabled = page > 1
         PageStatusLabel.Text = String.Format(My.Resources.Main_LblPage1, page) '在初始化阶段暂时获得不到准确的页码
         ArtworkListSplitContainer.UseWaitCursor = False
         StatusLabel.Text = My.Resources.Stat_Ready
@@ -684,17 +742,7 @@ Public Class MainForm
 
 #Region "文件菜单项"
     Private Sub MnuOnTop_Click(sender As Object, e As EventArgs) Handles MnuOnTop.Click
-        Dim hMenu = GetSystemMenu(Handle, False)
-
-        If MnuOnTop.Checked = False Then
-            MnuOnTop.Checked = True
-            TopMost = True
-            CheckMenuItem(hMenu, 1, MF_CHECKED) '窗口置顶
-        Else
-            MnuOnTop.Checked = False
-            TopMost = False
-            CheckMenuItem(hMenu, 1, MF_UNCHECKED) '取消置顶
-        End If
+        SetOnTop()
     End Sub
     Private Sub MnuDevTools_Click(sender As Object, e As EventArgs) Handles MnuDevTools.Click
         DevToolsForm.Show()
@@ -1333,13 +1381,17 @@ Public Class MainForm
     Private Sub UpdatePageMenu()
         If ImageGalleryMain.Page = 1 Then
             MnuPageUp.Enabled = False
+            TSBtnPrevPage.Enabled = False
         Else
             MnuPageUp.Enabled = True
+            TSBtnPrevPage.Enabled = True
         End If
         If ImageGalleryMain.Page = ImageGalleryMain.TotalPages Then
             MnuPageDown.Enabled = False
+            TSBtnNextPage.Enabled = False
         Else
             MnuPageDown.Enabled = True
+            TSBtnNextPage.Enabled = True
         End If
     End Sub
 #End Region
@@ -1495,6 +1547,63 @@ Public Class MainForm
     End Sub
 #End Region
 
+#Region "工具栏按钮"
+    Private Sub TSBtnOnTop_Click(sender As Object, e As EventArgs) Handles TSBtnOnTop.Click
+        MnuOnTop.PerformClick()
+    End Sub
+    Private Sub TSBtnProperties_Click(sender As Object, e As EventArgs) Handles TSBtnProperties.Click
+        MnuProperties.PerformClick()
+    End Sub
+    Private Sub TSBtnRefresh_Click(sender As Object, e As EventArgs) Handles TSBtnRefresh.Click
+        MnuLibRefresh.PerformClick()
+    End Sub
+    Private Sub TSBtnLibNew_Click(sender As Object, e As EventArgs) Handles TSBtnLibNew.Click
+        MnuLibNew.PerformClick()
+    End Sub
+    Private Sub TSBtnLibImport_Click(sender As Object, e As EventArgs) Handles TSBtnLibImport.Click
+        MnuLibImport.PerformClick()
+    End Sub
+    Private Sub TSBtnLibExport_Click(sender As Object, e As EventArgs) Handles TSBtnLibExport.Click
+        MnuLibExport.PerformClick()
+    End Sub
+    Private Sub TSBtnLibRename_Click(sender As Object, e As EventArgs) Handles TSBtnLibRename.Click
+        MnuLibRename.PerformClick()
+    End Sub
+    Private Sub TSBtnLibClose_Click(sender As Object, e As EventArgs) Handles TSBtnLibClose.Click
+        MnuLibClose.PerformClick()
+    End Sub
+    Private Sub TSBtnMsNew_Click(sender As Object, e As EventArgs) Handles TSBtnMsNew.Click
+        MnuMsNew.PerformClick()
+    End Sub
+    Private Sub TSBtnMsImport_Click(sender As Object, e As EventArgs) Handles TSBtnMsImport.Click
+        MnuMsImport.PerformClick()
+    End Sub
+    Private Sub TSBtnMsExport_Click(sender As Object, e As EventArgs) Handles TSBtnMsExport.Click
+        MnuMsExport.PerformClick()
+    End Sub
+    Private Sub TSBtnMsEdit_Click(sender As Object, e As EventArgs) Handles TSBtnMsEdit.Click
+        MnuMsEdit.PerformClick()
+    End Sub
+    Private Sub TSBtnMsPrint_Click(sender As Object, e As EventArgs) Handles TSBtnMsPrint.Click
+        MnuMsPrint.PerformClick()
+    End Sub
+    Private Sub TSBtnMsOpenFolder_Click(sender As Object, e As EventArgs) Handles TSBtnMsOpenFolder.Click
+        MnuMsOpenFolder.PerformClick()
+    End Sub
+    Private Sub TSBtnPlay_Click(sender As Object, e As EventArgs) Handles TSBtnPlay.Click
+        MnuViewPlay.PerformClick()
+    End Sub
+    Private Sub TSBtnSearch_Click(sender As Object, e As EventArgs) Handles TSBtnSearch.Click
+        MnuAdvancedSearch.PerformClick()
+    End Sub
+    Private Sub TSBtnPrevPage_Click(sender As Object, e As EventArgs) Handles TSBtnPrevPage.Click
+        MnuPageUp.PerformClick()
+    End Sub
+    Private Sub TSBtnNextPage_Click(sender As Object, e As EventArgs) Handles TSBtnNextPage.Click
+        MnuPageDown.PerformClick()
+    End Sub
+#End Region
+
 #End Region
 
 #Region "图片墙功能"
@@ -1515,6 +1624,10 @@ Public Class MainForm
         ConMnuMsOpenFolder.Enabled = False
         ConMnuMsCopy.Enabled = False
         ConMnuMsCopyPath.Enabled = False
+        TSBtnMsExport.Enabled = False
+        TSBtnMsEdit.Enabled = False
+        TSBtnMsPrint.Enabled = False
+        TSBtnMsOpenFolder.Enabled = False
         SelectStatusLabel.Text = String.Format(My.Resources.Main_LblMs, _artworkCount)
         LblTitle.Text = My.Resources.Main_LblNoSelect
         LblAuthor.Text = ""
@@ -1547,6 +1660,10 @@ Public Class MainForm
             ConMnuMsOpenFolder.Enabled = True
             ConMnuMsCopy.Enabled = True
             ConMnuMsCopyPath.Enabled = True
+            TSBtnMsExport.Enabled = True
+            TSBtnMsEdit.Enabled = True
+            TSBtnMsPrint.Enabled = True
+            TSBtnMsOpenFolder.Enabled = True
             SelectStatusLabel.Text = String.Format(My.Resources.Main_LblSelectMs1, _artworkCount)
             PiChkThumb.Image = selectedImage.Thumbnail
             LblTitle.Text = $"{selectedArtwork.Title}"
@@ -1571,6 +1688,10 @@ Public Class MainForm
             ConMnuMsOpenFolder.Enabled = True
             ConMnuMsCopy.Enabled = True
             ConMnuMsCopyPath.Enabled = True
+            TSBtnMsExport.Enabled = True
+            TSBtnMsEdit.Enabled = False
+            TSBtnMsPrint.Enabled = False
+            TSBtnMsOpenFolder.Enabled = True
             SelectStatusLabel.Text = String.Format(My.Resources.Main_LblSelectMs, selectedCount, _artworkCount)
             LblTitle.Text = String.Format(My.Resources.Main_LblTitleSelect, selectedCount)
             LblAuthor.Text = ""
