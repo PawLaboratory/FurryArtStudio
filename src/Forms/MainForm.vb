@@ -57,7 +57,6 @@ Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         StatusLabel.Text = My.Resources.Stat_Init '正在初始化
         _libraryManager = LibraryManager.Instance '启动稿件库管理器实例
-        MenuInit() '初始化菜单
         ResizeControl() '调整组件尺寸
         SysMenuInit() '设置系统菜单
         Dim titleFont As New Font(LblTitle.Font, FontStyle.Bold)
@@ -97,6 +96,7 @@ Public Class MainForm
                 SysThreading.Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
         End Select
         UpdateFormLang() '更新语言
+        MenuInit() '初始化菜单
         SystemThemeChange() '设置主题
         If settings.Appearance.ShowThemeColor Then '修改标题栏颜色(win11生效)
             SetTitleBarColor(Handle, Color.FromArgb(settings.Appearance.ThemeColorArgb))
