@@ -26,6 +26,7 @@ Partial Class PropertiesForm
         Me.BtnImport = New System.Windows.Forms.Button()
         Me.BtnReset = New System.Windows.Forms.Button()
         Me.GrpAppearance = New System.Windows.Forms.GroupBox()
+        Me.ChkShowTool = New System.Windows.Forms.CheckBox()
         Me.ChkMenuUpper = New System.Windows.Forms.CheckBox()
         Me.ChkShowThemeColor = New System.Windows.Forms.CheckBox()
         Me.LblLanguage = New System.Windows.Forms.Label()
@@ -38,7 +39,7 @@ Partial Class PropertiesForm
         Me.LblSelectedColor = New System.Windows.Forms.Label()
         Me.LblThemeColor = New System.Windows.Forms.Label()
         Me.BtnThemeColor = New System.Windows.Forms.Button()
-        Me.ChkShowInChild = New System.Windows.Forms.CheckBox()
+        Me.ChkShowPicThemeColor = New System.Windows.Forms.CheckBox()
         Me.RadSystem = New System.Windows.Forms.RadioButton()
         Me.RadDark = New System.Windows.Forms.RadioButton()
         Me.RadLight = New System.Windows.Forms.RadioButton()
@@ -63,7 +64,6 @@ Partial Class PropertiesForm
         Me.LblThumbMin = New System.Windows.Forms.Label()
         Me.ColorDlg = New System.Windows.Forms.ColorDialog()
         Me.BtnClose = New System.Windows.Forms.Button()
-        Me.ChkShowTool = New System.Windows.Forms.CheckBox()
         Me.GrpAppearance.SuspendLayout()
         Me.GrpStartup.SuspendLayout()
         Me.GrpAdvanced.SuspendLayout()
@@ -111,7 +111,7 @@ Partial Class PropertiesForm
         Me.GrpAppearance.Controls.Add(Me.LblSelectedColor)
         Me.GrpAppearance.Controls.Add(Me.LblThemeColor)
         Me.GrpAppearance.Controls.Add(Me.BtnThemeColor)
-        Me.GrpAppearance.Controls.Add(Me.ChkShowInChild)
+        Me.GrpAppearance.Controls.Add(Me.ChkShowPicThemeColor)
         Me.GrpAppearance.Controls.Add(Me.RadSystem)
         Me.GrpAppearance.Controls.Add(Me.RadDark)
         Me.GrpAppearance.Controls.Add(Me.RadLight)
@@ -122,6 +122,16 @@ Partial Class PropertiesForm
         Me.GrpAppearance.TabIndex = 55
         Me.GrpAppearance.TabStop = False
         Me.GrpAppearance.Text = "外观"
+        '
+        'ChkShowTool
+        '
+        Me.ChkShowTool.AutoSize = True
+        Me.ChkShowTool.Location = New System.Drawing.Point(205, 217)
+        Me.ChkShowTool.Name = "ChkShowTool"
+        Me.ChkShowTool.Size = New System.Drawing.Size(104, 19)
+        Me.ChkShowTool.TabIndex = 81
+        Me.ChkShowTool.Text = "显示工具栏"
+        Me.ChkShowTool.UseVisualStyleBackColor = True
         '
         'ChkMenuUpper
         '
@@ -230,15 +240,15 @@ Partial Class PropertiesForm
         Me.BtnThemeColor.Text = "颜色..."
         Me.BtnThemeColor.UseVisualStyleBackColor = True
         '
-        'ChkShowInChild
+        'ChkShowPicThemeColor
         '
-        Me.ChkShowInChild.AutoSize = True
-        Me.ChkShowInChild.Location = New System.Drawing.Point(36, 84)
-        Me.ChkShowInChild.Name = "ChkShowInChild"
-        Me.ChkShowInChild.Size = New System.Drawing.Size(149, 19)
-        Me.ChkShowInChild.TabIndex = 60
-        Me.ChkShowInChild.Text = "子窗口使用主题色"
-        Me.ChkShowInChild.UseVisualStyleBackColor = True
+        Me.ChkShowPicThemeColor.AutoSize = True
+        Me.ChkShowPicThemeColor.Location = New System.Drawing.Point(20, 83)
+        Me.ChkShowPicThemeColor.Name = "ChkShowPicThemeColor"
+        Me.ChkShowPicThemeColor.Size = New System.Drawing.Size(194, 19)
+        Me.ChkShowPicThemeColor.TabIndex = 60
+        Me.ChkShowPicThemeColor.Text = "预览窗口显示图片主题色"
+        Me.ChkShowPicThemeColor.UseVisualStyleBackColor = True
         '
         'RadSystem
         '
@@ -475,16 +485,6 @@ Partial Class PropertiesForm
         Me.BtnClose.Text = "关闭(&C)"
         Me.BtnClose.UseVisualStyleBackColor = True
         '
-        'ChkShowTool
-        '
-        Me.ChkShowTool.AutoSize = True
-        Me.ChkShowTool.Location = New System.Drawing.Point(205, 217)
-        Me.ChkShowTool.Name = "ChkShowTool"
-        Me.ChkShowTool.Size = New System.Drawing.Size(104, 19)
-        Me.ChkShowTool.TabIndex = 81
-        Me.ChkShowTool.Text = "显示工具栏"
-        Me.ChkShowTool.UseVisualStyleBackColor = True
-        '
         'PropertiesForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -528,7 +528,7 @@ Partial Class PropertiesForm
     Friend WithEvents LblSelectedColor As Label
     Friend WithEvents LblThemeColor As Label
     Friend WithEvents BtnThemeColor As Button
-    Friend WithEvents ChkShowInChild As CheckBox
+    Friend WithEvents ChkShowPicThemeColor As CheckBox
     Friend WithEvents RadSystem As RadioButton
     Friend WithEvents RadDark As RadioButton
     Friend WithEvents RadLight As RadioButton

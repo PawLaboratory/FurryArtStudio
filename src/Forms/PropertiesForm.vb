@@ -78,12 +78,11 @@ Public Class PropertiesForm
         End Select
         ChkShowThemeColor.Checked = appearances.ShowThemeColor
         If ChkShowThemeColor.Checked = False Then
-            ChkShowInChild.Enabled = False
             BtnThemeColor.Enabled = False
         Else
-            ChkShowInChild.Enabled = True
             BtnThemeColor.Enabled = True
         End If
+        ChkShowPicThemeColor.Checked = appearances.ViewWindowThemeColor
         LblThemeColor.BackColor = Color.FromArgb(appearances.ThemeColorArgb)
         LblSelColor.BackColor = Color.FromArgb(appearances.SelectionAccentColorArgb)
         LblCorColor.BackColor = Color.FromArgb(appearances.BadgeColorArgb)
@@ -123,17 +122,15 @@ Public Class PropertiesForm
     End Sub
     Private Sub ChkShowThemeColor_CheckedChanged(sender As Object, e As EventArgs) Handles ChkShowThemeColor.CheckedChanged
         If ChkShowThemeColor.Checked Then
-            ChkShowInChild.Enabled = True
             BtnThemeColor.Enabled = True
             Setting.Appearance.ShowThemeColor = True
         Else
-            ChkShowInChild.Enabled = False
             BtnThemeColor.Enabled = False
             Setting.Appearance.ShowThemeColor = False
         End If
     End Sub
-    Private Sub ChkShowInChild_CheckedChanged(sender As Object, e As EventArgs) Handles ChkShowInChild.CheckedChanged
-        Setting.Appearance.ChildWindowsUseThemeColor = ChkShowInChild.Checked
+    Private Sub ChkShowPicThemeColor_CheckedChanged(sender As Object, e As EventArgs) Handles ChkShowPicThemeColor.CheckedChanged
+        Setting.Appearance.ViewWindowThemeColor = ChkShowPicThemeColor.Checked
         Setting.Save()
     End Sub
     Private Sub BtnThemeColor_Click(sender As Object, e As EventArgs) Handles BtnThemeColor.Click

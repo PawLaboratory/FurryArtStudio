@@ -58,7 +58,7 @@ Public Class AppSettings
         Public Property Theme As ThemeMode = ThemeMode.FollowSystem
         Public Property ShowThemeColor As Boolean = True
         Public Property ThemeColorArgb As Integer = Color.FromArgb(58, 162, 143).ToArgb()
-        Public Property ChildWindowsUseThemeColor As Boolean = True
+        Public Property ViewWindowThemeColor As Boolean = False
 
         Public Property Language As LanguageOption = LanguageOption.English
 
