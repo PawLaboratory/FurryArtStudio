@@ -412,7 +412,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 Storage: 0B (0 files) 的本地化字符串。
+        '''  查找类似 Storage: 0B (0 file) 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Main_LblNoStorage() As String
             Get
@@ -475,7 +475,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 Storage: {0} ({1:N0} files) 的本地化字符串。
+        '''  查找类似 Storage: {0} ({1:N0} file(s)) 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Main_LblStorage() As String
             Get
@@ -493,7 +493,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 {0} item selected 的本地化字符串。
+        '''  查找类似 {0} item(s) selected 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Main_LblTitleSelect() As String
             Get
@@ -565,7 +565,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 Storage: {0} Files: {1:N0} 的本地化字符串。
+        '''  查找类似 Storage: {0} File(s): {1:N0} 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Main_StrPropStorage() As String
             Get
@@ -1024,7 +1024,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 Inve&amp;rt Selection 的本地化字符串。
+        '''  查找类似 &amp;Reverse Select 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Mnu_SelectReverse() As String
             Get

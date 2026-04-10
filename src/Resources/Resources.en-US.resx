@@ -193,7 +193,7 @@
     <value>0 manuscript</value>
   </data>
   <data name="Main_LblNoStorage" xml:space="preserve">
-    <value>Storage: 0B (0 files)</value>
+    <value>Storage: 0B (0 file)</value>
   </data>
   <data name="Main_LblNoPage" xml:space="preserve">
     <value>Page: 0/0</value>
@@ -226,7 +226,7 @@
     <value>{0} manuscript(s)</value>
   </data>
   <data name="Main_LblStorage" xml:space="preserve">
-    <value>Storage: {0} ({1} files)</value>
+    <value>Storage: {0} ({1} file(s))</value>
   </data>
   <data name="Main_LblPage1" xml:space="preserve">
     <value>Page: 1/{0}</value>
@@ -319,7 +319,7 @@
     <value>Manuscripts: {0}</value>
   </data>
   <data name="Main_StrPropStorage" xml:space="preserve">
-    <value>Storage: {0} Files: {1}</value>
+    <value>Storage: {0} File(s): {1}</value>
   </data>
   <data name="Main_StrPropNowTime" xml:space="preserve">
     <value>Current time: {0:yyyy-MM-dd HH:mm:ss}</value>
@@ -424,7 +424,7 @@
     <value>Selected: {0}/{1}</value>
   </data>
   <data name="Main_LblTitleSelect" xml:space="preserve">
-    <value>{0} item selected</value>
+    <value>{0} item(s) selected</value>
   </data>
   <data name="Main_LblPage" xml:space="preserve">
     <value>Page: {0}/{1}</value>
@@ -535,7 +535,7 @@
     <value>Select &amp;All</value>
   </data>
   <data name="Mnu_SelectReverse" xml:space="preserve">
-    <value>Inve&amp;rt Selection</value>
+    <value>&amp;Reverse Select</value>
   </data>
   <data name="Mnu_Search" xml:space="preserve">
     <value>&amp;Find</value>

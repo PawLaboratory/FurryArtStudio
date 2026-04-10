@@ -100,7 +100,6 @@ Partial Class MainForm
         Me.MnuHelpAbout = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchTextBox = New System.Windows.Forms.TextBox()
         Me.ArtworkListSplitContainer = New System.Windows.Forms.SplitContainer()
-        Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.LblNotes = New System.Windows.Forms.Label()
         Me.LblTags = New System.Windows.Forms.Label()
         Me.LblCharacters = New System.Windows.Forms.Label()
@@ -153,6 +152,7 @@ Partial Class MainForm
         Me.TSBtnSearch = New System.Windows.Forms.ToolStripButton()
         Me.TSBtnPrevPage = New System.Windows.Forms.ToolStripButton()
         Me.TSBtnNextPage = New System.Windows.Forms.ToolStripButton()
+        Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.MnuStrip.SuspendLayout()
         CType(Me.ArtworkListSplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ArtworkListSplitContainer.Panel1.SuspendLayout()
@@ -724,22 +724,6 @@ Partial Class MainForm
         Me.ArtworkListSplitContainer.SplitterDistance = 730
         Me.ArtworkListSplitContainer.TabIndex = 3
         '
-        'ImageGalleryMain
-        '
-        Me.ImageGalleryMain.AutoScroll = True
-        Me.ImageGalleryMain.BackColor = System.Drawing.Color.White
-        Me.ImageGalleryMain.BadgeColor = System.Drawing.Color.Red
-        Me.ImageGalleryMain.DisplayMode = FurryArtStudio.GalleryDisplayMode.Normal
-        Me.ImageGalleryMain.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ImageGalleryMain.Location = New System.Drawing.Point(3, 25)
-        Me.ImageGalleryMain.MaxItemSize = 240
-        Me.ImageGalleryMain.MinItemSize = 120
-        Me.ImageGalleryMain.Name = "ImageGalleryMain"
-        Me.ImageGalleryMain.PageSize = 100
-        Me.ImageGalleryMain.SelectionAccentColor = System.Drawing.Color.Blue
-        Me.ImageGalleryMain.Size = New System.Drawing.Size(727, 487)
-        Me.ImageGalleryMain.TabIndex = 3
-        '
         'LblNotes
         '
         Me.LblNotes.Dock = System.Windows.Forms.DockStyle.Top
@@ -960,6 +944,7 @@ Partial Class MainForm
         'TlStrip
         '
         Me.TlStrip.Font = New System.Drawing.Font("Microsoft YaHei UI", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World)
+        Me.TlStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.TlStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.TlStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TSBtnOnTop, Me.TSBtnProperties, Me.ToolStripSeparator15, Me.TSBtnRefresh, Me.TSBtnLibNew, Me.TSBtnLibImport, Me.TSBtnLibExport, Me.TSBtnLibRename, Me.TSBtnLibClose, Me.ToolStripSeparator16, Me.TSBtnMsNew, Me.TSBtnMsImport, Me.TSBtnMsExport, Me.TSBtnMsEdit, Me.TSBtnMsPrint, Me.TSBtnMsOpenFolder, Me.ToolStripSeparator17, Me.TSBtnPlay, Me.TSBtnSearch, Me.TSBtnPrevPage, Me.TSBtnNextPage})
         Me.TlStrip.Location = New System.Drawing.Point(0, 28)
@@ -1144,6 +1129,22 @@ Partial Class MainForm
         Me.TSBtnNextPage.Name = "TSBtnNextPage"
         Me.TSBtnNextPage.Size = New System.Drawing.Size(29, 24)
         Me.TSBtnNextPage.Text = "下一页"
+        '
+        'ImageGalleryMain
+        '
+        Me.ImageGalleryMain.AutoScroll = True
+        Me.ImageGalleryMain.BackColor = System.Drawing.Color.White
+        Me.ImageGalleryMain.BadgeColor = System.Drawing.Color.Red
+        Me.ImageGalleryMain.DisplayMode = FurryArtStudio.GalleryDisplayMode.Normal
+        Me.ImageGalleryMain.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ImageGalleryMain.Location = New System.Drawing.Point(3, 25)
+        Me.ImageGalleryMain.MaxItemSize = 240
+        Me.ImageGalleryMain.MinItemSize = 120
+        Me.ImageGalleryMain.Name = "ImageGalleryMain"
+        Me.ImageGalleryMain.PageSize = 100
+        Me.ImageGalleryMain.SelectionAccentColor = System.Drawing.Color.Blue
+        Me.ImageGalleryMain.Size = New System.Drawing.Size(727, 487)
+        Me.ImageGalleryMain.TabIndex = 3
         '
         'MainForm
         '
