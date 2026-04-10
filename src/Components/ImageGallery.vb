@@ -251,6 +251,9 @@ Public Class ImageGallery
             End If
         Next '释放全部缓存资源
 
+        '当清空图片时清空所选项目
+        RaiseEvent SelectionChanged(Me, New SelectionChangedEventArgs(_selectedImages.AsReadOnly()))
+
         Me.AutoScrollMinSize = Size.Empty
         Me.AutoScrollPosition = Point.Empty
         Invalidate()
