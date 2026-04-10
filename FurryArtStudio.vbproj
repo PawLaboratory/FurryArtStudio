@@ -79,8 +79,8 @@
     <ApplicationIcon>src\Resources\FAS.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Chromis, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Chromis.1.0.3\lib\net472\Chromis.dll</HintPath>
+    <Reference Include="Chromis, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Chromis.1.0.4\lib\net472\Chromis.dll</HintPath>
     </Reference>
     <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Dapper.2.1.72\lib\net461\Dapper.dll</HintPath>
