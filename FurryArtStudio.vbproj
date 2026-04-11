@@ -291,13 +291,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.zh-Hant.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\Utilities\AfdianHandler.vb" />
+    <Compile Include="src\Web\AfdianHandler.vb" />
     <Compile Include="src\Utilities\AppSettings.vb" />
     <Compile Include="src\Utilities\BasicFcn.vb" />
     <Compile Include="src\Utilities\ImageChecker.vb" />
     <Compile Include="src\Utilities\FileTransaction.vb" />
     <Compile Include="src\Utilities\Logger.vb" />
-    <Compile Include="src\Utilities\UpdateChecker.vb" />
+    <Compile Include="src\Web\HitokotoHandler.vb" />
+    <Compile Include="src\Web\UpdateChecker.vb" />
     <Compile Include="src\Utilities\WinAPI.vb" />
   </ItemGroup>
   <ItemGroup>
