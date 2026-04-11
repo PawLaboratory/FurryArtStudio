@@ -297,6 +297,7 @@
     <Compile Include="src\Utilities\ImageChecker.vb" />
     <Compile Include="src\Utilities\FileTransaction.vb" />
     <Compile Include="src\Utilities\Logger.vb" />
+    <Compile Include="src\Web\Hitokoto.vb" />
     <Compile Include="src\Web\HitokotoHandler.vb" />
     <Compile Include="src\Web\UpdateChecker.vb" />
     <Compile Include="src\Utilities\WinAPI.vb" />

@@ -54,7 +54,7 @@ Public Class MainForm
     ''' <summary>
     ''' 程序启动时调用
     ''' </summary>
-    Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Async Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         StatusLabel.Text = My.Resources.Stat_Init '正在初始化
         _libraryManager = LibraryManager.Instance '启动稿件库管理器实例
         ResizeControl() '调整组件尺寸
@@ -107,8 +107,41 @@ Public Class MainForm
         TlStrip.Visible = settings.Appearance.ShowToolBar
         If autoChangeLang Then settings.Save() '首次运行时保存配置文件
         Me.AllowDrop = True
+        StatusLabel.Text = "显示一言..."
+        Await ShowHitokoto()
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
     End Sub
+    ''' <summary>
+    ''' 显示一言
+    ''' </summary>
+    Private Async Function ShowHitokoto() As Task
+        Dim buttonInfo As New TaskDialogButton("更多信息")
+        Dim buttonCancel As New TaskDialogButton(ButtonType.Cancel)
+        Dim hitokotoInfo = Await HitokotoHandler.GetHitokoto()
+        Dim expandInfo As New StringBuilder
+        With expandInfo
+            .Append($"ID: {hitokotoInfo.ID}" & vbCrLf)
+            .Append($"UUID: {hitokotoInfo.UUID}" & vbCrLf)
+            .Append($"类型: {hitokotoInfo.Type}" & vbCrLf)
+            .Append($"提交者: {hitokotoInfo.Creator}" & vbCrLf)
+            .Append($"审核者: {hitokotoInfo.Reviewer}" & vbCrLf)
+            .Append($"提交于: {hitokotoInfo.CreatedAt}" & vbCrLf)
+        End With
+        Using dlg As New TaskDialog With {
+                    .WindowTitle = My.Resources.FurryArtStudio,
+                    .MainInstruction = hitokotoInfo.Content,
+                    .Content = $"——{hitokotoInfo.FromWho}「{hitokotoInfo.From}」",
+                    .MainIcon = TaskDialogIcon.Information,
+                    .ExpandedInformation = expandInfo.ToString
+                    }
+            dlg.Buttons.Add(buttonInfo)
+            dlg.Buttons.Add(buttonCancel)
+            Dim result As TaskDialogButton = dlg.ShowDialog()
+            If result Is buttonInfo Then
+                Process.Start($"https://hitokoto.cn/?uuid={hitokotoInfo.UUID}") '打开下载链接
+            End If
+        End Using
+    End Function
     ''' <summary>
     ''' 关闭时释放资源
     ''' </summary>
