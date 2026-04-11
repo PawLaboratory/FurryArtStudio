@@ -97,7 +97,8 @@ Public Class PropertiesForm
         CheckAutoStartStatus()
         ChkRestore.Checked = startups.RestoreLastLibrary
         ChkAutoPlay.Checked = startups.AutoPlaySlideshow
-        ChkAutoCheckUpdate.Checked=startups.AutoCheckUpdate
+        ChkAutoCheckUpdate.Checked = startups.AutoCheckUpdate
+        ChkShowHito.Checked = startups.ShowHitokoto
     End Sub
     Private Sub LanguageChange() Implements ILocalizable.LanguageChange
 
@@ -233,6 +234,9 @@ Public Class PropertiesForm
     End Sub
     Private Sub CboCheckUpdate_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboCheckUpdate.SelectedIndexChanged
 
+    End Sub
+    Private Sub ChkShowHito_CheckedChanged(sender As Object, e As EventArgs) Handles ChkShowHito.CheckedChanged
+        Setting.Startup.ShowHitokoto = ChkShowHito.Checked
     End Sub
 
 

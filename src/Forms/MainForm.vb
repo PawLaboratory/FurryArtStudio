@@ -107,8 +107,10 @@ Public Class MainForm
         TlStrip.Visible = settings.Appearance.ShowToolBar
         If autoChangeLang Then settings.Save() '首次运行时保存配置文件
         Me.AllowDrop = True
-        StatusLabel.Text = "显示一言..."
-        Await ShowHitokoto()
+        If settings.Startup.ShowHitokoto Then
+            StatusLabel.Text = "显示一言..."
+            Await ShowHitokoto()
+        End If
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
     End Sub
     ''' <summary>

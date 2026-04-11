@@ -78,6 +78,8 @@ Public Class AppSettings
         Public Property UpdateInterval As UpdateIntervalOption = UpdateIntervalOption.Daily
 
         Public Property LastCheckUpdateTime As DateTime = DateTime.MinValue '隐藏
+
+        Public Property ShowHitokoto As Boolean = False
     End Class
     Public Class AdvancedSettings
         Public Property ThumbnailMinSize As Integer = 120

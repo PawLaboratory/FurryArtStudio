@@ -64,6 +64,7 @@ Partial Class PropertiesForm
         Me.LblThumbMin = New System.Windows.Forms.Label()
         Me.ColorDlg = New System.Windows.Forms.ColorDialog()
         Me.BtnClose = New System.Windows.Forms.Button()
+        Me.ChkShowHito = New System.Windows.Forms.CheckBox()
         Me.GrpAppearance.SuspendLayout()
         Me.GrpStartup.SuspendLayout()
         Me.GrpAdvanced.SuspendLayout()
@@ -71,7 +72,7 @@ Partial Class PropertiesForm
         '
         'BtnExport
         '
-        Me.BtnExport.Location = New System.Drawing.Point(136, 404)
+        Me.BtnExport.Location = New System.Drawing.Point(136, 425)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(119, 41)
         Me.BtnExport.TabIndex = 53
@@ -80,7 +81,7 @@ Partial Class PropertiesForm
         '
         'BtnImport
         '
-        Me.BtnImport.Location = New System.Drawing.Point(12, 404)
+        Me.BtnImport.Location = New System.Drawing.Point(12, 425)
         Me.BtnImport.Name = "BtnImport"
         Me.BtnImport.Size = New System.Drawing.Size(119, 41)
         Me.BtnImport.TabIndex = 52
@@ -89,7 +90,7 @@ Partial Class PropertiesForm
         '
         'BtnReset
         '
-        Me.BtnReset.Location = New System.Drawing.Point(562, 404)
+        Me.BtnReset.Location = New System.Drawing.Point(562, 425)
         Me.BtnReset.Name = "BtnReset"
         Me.BtnReset.Size = New System.Drawing.Size(119, 41)
         Me.BtnReset.TabIndex = 51
@@ -291,14 +292,15 @@ Partial Class PropertiesForm
         '
         'GrpStartup
         '
+        Me.GrpStartup.Controls.Add(Me.ChkShowHito)
         Me.GrpStartup.Controls.Add(Me.ChkRestore)
         Me.GrpStartup.Controls.Add(Me.CboCheckUpdate)
         Me.GrpStartup.Controls.Add(Me.ChkAutoCheckUpdate)
         Me.GrpStartup.Controls.Add(Me.ChkAutoPlay)
         Me.GrpStartup.Controls.Add(Me.ChkAutoStart)
-        Me.GrpStartup.Location = New System.Drawing.Point(12, 262)
+        Me.GrpStartup.Location = New System.Drawing.Point(12, 264)
         Me.GrpStartup.Name = "GrpStartup"
-        Me.GrpStartup.Size = New System.Drawing.Size(380, 133)
+        Me.GrpStartup.Size = New System.Drawing.Size(380, 155)
         Me.GrpStartup.TabIndex = 56
         Me.GrpStartup.TabStop = False
         Me.GrpStartup.Text = "启动"
@@ -478,19 +480,29 @@ Partial Class PropertiesForm
         'BtnClose
         '
         Me.BtnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.BtnClose.Location = New System.Drawing.Point(687, 404)
+        Me.BtnClose.Location = New System.Drawing.Point(687, 425)
         Me.BtnClose.Name = "BtnClose"
         Me.BtnClose.Size = New System.Drawing.Size(119, 41)
         Me.BtnClose.TabIndex = 58
         Me.BtnClose.Text = "关闭(&C)"
         Me.BtnClose.UseVisualStyleBackColor = True
         '
+        'ChkShowHito
+        '
+        Me.ChkShowHito.AutoSize = True
+        Me.ChkShowHito.Location = New System.Drawing.Point(10, 126)
+        Me.ChkShowHito.Name = "ChkShowHito"
+        Me.ChkShowHito.Size = New System.Drawing.Size(134, 19)
+        Me.ChkShowHito.TabIndex = 60
+        Me.ChkShowHito.Text = "启动时显示一言"
+        Me.ChkShowHito.UseVisualStyleBackColor = True
+        '
         'PropertiesForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.BtnClose
-        Me.ClientSize = New System.Drawing.Size(812, 453)
+        Me.ClientSize = New System.Drawing.Size(812, 478)
         Me.Controls.Add(Me.BtnClose)
         Me.Controls.Add(Me.GrpAdvanced)
         Me.Controls.Add(Me.GrpStartup)
@@ -556,4 +568,5 @@ Partial Class PropertiesForm
     Friend WithEvents ChkMenuUpper As CheckBox
     Friend WithEvents ChkLoop As CheckBox
     Friend WithEvents ChkShowTool As CheckBox
+    Friend WithEvents ChkShowHito As CheckBox
 End Class
