@@ -826,12 +826,33 @@
     <value>File Modification Time: {0}</value>
   </data>
   <data name="View_CopyPath" xml:space="preserve">
-    <value>Copy Path</value>
+    <value>&amp;Copy Path</value>
   </data>
   <data name="View_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>&amp;Open</value>
   </data>
   <data name="View_OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>Open &amp;Folder</value>
+  </data>
+  <data name="Hitokoto" xml:space="preserve">
+    <value>Hitokoto</value>
+  </data>
+  <data name="Hitokoto_Type" xml:space="preserve">
+    <value>Type:</value>
+  </data>
+  <data name="Hitokoto_Creator" xml:space="preserve">
+    <value>Creator:</value>
+  </data>
+  <data name="Hitokoto_Reviewer" xml:space="preserve">
+    <value>Reviewer:</value>
+  </data>
+  <data name="Hitokoto_Createdat" xml:space="preserve">
+    <value>Created at:</value>
+  </data>
+  <data name="Hitokoto_MoreInfo" xml:space="preserve">
+    <value>&amp;More info</value>
+  </data>
+  <data name="Stat_ShowHitokoto" xml:space="preserve">
+    <value>Showing hitokoto...</value>
   </data>
 </root>

@@ -826,12 +826,33 @@
     <value>文件修改时间: {0}</value>
   </data>
   <data name="View_CopyPath" xml:space="preserve">
-    <value>复制路径</value>
+    <value>复制路径(&amp;C)</value>
   </data>
   <data name="View_Open" xml:space="preserve">
-    <value>打开</value>
+    <value>打开(&amp;O)</value>
   </data>
   <data name="View_OpenFolder" xml:space="preserve">
-    <value>打开目录</value>
+    <value>打开目录(&amp;F)</value>
+  </data>
+  <data name="Hitokoto" xml:space="preserve">
+    <value>一言</value>
+  </data>
+  <data name="Hitokoto_Type" xml:space="preserve">
+    <value>类型:</value>
+  </data>
+  <data name="Hitokoto_Creator" xml:space="preserve">
+    <value>提交者:</value>
+  </data>
+  <data name="Hitokoto_Reviewer" xml:space="preserve">
+    <value>审核者:</value>
+  </data>
+  <data name="Hitokoto_Createdat" xml:space="preserve">
+    <value>提交于:</value>
+  </data>
+  <data name="Hitokoto_MoreInfo" xml:space="preserve">
+    <value>更多信息(&amp;M)</value>
+  </data>
+  <data name="Stat_ShowHitokoto" xml:space="preserve">
+    <value>正在显示一言...</value>
   </data>
 </root>

@@ -295,6 +295,60 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Hitokoto 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Hitokoto() As String
+            Get
+                Return ResourceManager.GetString("Hitokoto", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Created at: 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Hitokoto_Createdat() As String
+            Get
+                Return ResourceManager.GetString("Hitokoto_Createdat", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Creator: 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Hitokoto_Creator() As String
+            Get
+                Return ResourceManager.GetString("Hitokoto_Creator", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 &amp;More info 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Hitokoto_MoreInfo() As String
+            Get
+                Return ResourceManager.GetString("Hitokoto_MoreInfo", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Reviewer: 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Hitokoto_Reviewer() As String
+            Get
+                Return ResourceManager.GetString("Hitokoto_Reviewer", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Type: 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Hitokoto_Type() As String
+            Get
+                Return ResourceManager.GetString("Hitokoto_Type", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Clone Manuscript Library 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Input_CloneLibTitle() As String
@@ -1744,6 +1798,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Showing hitokoto... 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Stat_ShowHitokoto() As String
+            Get
+                Return ResourceManager.GetString("Stat_ShowHitokoto", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Artwork Information 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property View_ArtInfo() As String
@@ -1771,7 +1834,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 Copy Path 的本地化字符串。
+        '''  查找类似 &amp;Copy Path 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property View_CopyPath() As String
             Get
@@ -2122,7 +2185,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 Open 的本地化字符串。
+        '''  查找类似 &amp;Open 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property View_Open() As String
             Get
@@ -2131,7 +2194,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 Open Folder 的本地化字符串。
+        '''  查找类似 Open &amp;Folder 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property View_OpenFolder() As String
             Get

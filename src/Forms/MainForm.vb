@@ -107,8 +107,8 @@ Public Class MainForm
         TlStrip.Visible = settings.Appearance.ShowToolBar
         If autoChangeLang Then settings.Save() '首次运行时保存配置文件
         Me.AllowDrop = True
-        If settings.Startup.ShowHitokoto Then
-            StatusLabel.Text = "显示一言..."
+        If settings.Startup.ShowHitokoto Then '调用异步过程显示一言
+            StatusLabel.Text = My.Resources.Stat_ShowHitokoto
             Await ShowHitokoto()
         End If
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
@@ -117,20 +117,20 @@ Public Class MainForm
     ''' 显示一言
     ''' </summary>
     Private Async Function ShowHitokoto() As Task
-        Dim buttonInfo As New TaskDialogButton("更多信息")
+        Dim buttonInfo As New TaskDialogButton(My.Resources.Hitokoto_MoreInfo)
         Dim buttonCancel As New TaskDialogButton(ButtonType.Cancel)
         Dim hitokotoInfo = Await HitokotoHandler.GetHitokoto()
         Dim expandInfo As New StringBuilder
         With expandInfo
             .Append($"ID: {hitokotoInfo.ID}" & vbCrLf)
             .Append($"UUID: {hitokotoInfo.UUID}" & vbCrLf)
-            .Append($"类型: {hitokotoInfo.Type}" & vbCrLf)
-            .Append($"提交者: {hitokotoInfo.Creator}" & vbCrLf)
-            .Append($"审核者: {hitokotoInfo.Reviewer}" & vbCrLf)
-            .Append($"提交于: {hitokotoInfo.CreatedAt}" & vbCrLf)
+            .Append($"{My.Resources.Hitokoto_Type} {hitokotoInfo.Type}" & vbCrLf)
+            .Append($"{My.Resources.Hitokoto_Creator} {hitokotoInfo.Creator}" & vbCrLf)
+            .Append($"{My.Resources.Hitokoto_Reviewer} {hitokotoInfo.Reviewer}" & vbCrLf)
+            .Append($"{My.Resources.Hitokoto_Createdat} {hitokotoInfo.CreatedAt}" & vbCrLf)
         End With
         Using dlg As New TaskDialog With {
-                    .WindowTitle = My.Resources.FurryArtStudio,
+                    .WindowTitle = My.Resources.Hitokoto,
                     .MainInstruction = hitokotoInfo.Content,
                     .Content = $"——{hitokotoInfo.FromWho}「{hitokotoInfo.From}」",
                     .MainIcon = TaskDialogIcon.Information,
@@ -140,7 +140,7 @@ Public Class MainForm
             dlg.Buttons.Add(buttonCancel)
             Dim result As TaskDialogButton = dlg.ShowDialog()
             If result Is buttonInfo Then
-                Process.Start($"https://hitokoto.cn/?uuid={hitokotoInfo.UUID}") '打开下载链接
+                Process.Start($"https://hitokoto.cn/?uuid={hitokotoInfo.UUID}") '打开一言链接
             End If
         End Using
     End Function
@@ -328,6 +328,12 @@ Public Class MainForm
         For Each item As ToolStripMenuItem In MnuStrip.Items
             SetMenuFont(item, tf)
         Next
+        If _libraryManager.GetCurrentLibrary Is Nothing Then
+            ArtworkStatusLabel.Text = My.Resources.Main_LblNoLib
+            SelectStatusLabel.Text = My.Resources.Main_LblNoMs
+            StorageStatusLabel.Text = My.Resources.Main_LblNoStorage
+            PageStatusLabel.Text = My.Resources.Main_LblNoPage
+        End If
     End Sub
     ''' <summary>
     ''' 递归设置字体
