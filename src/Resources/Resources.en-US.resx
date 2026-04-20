@@ -855,4 +855,7 @@
   <data name="Stat_ShowHitokoto" xml:space="preserve">
     <value>Showing hitokoto...</value>
   </data>
+  <data name="Main_LblDifference" xml:space="preserve">
+    <value>{0} difference(s)</value>
+  </data>
 </root>

@@ -412,6 +412,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 {0} difference(s) 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Main_LblDifference() As String
+            Get
+                Return ResourceManager.GetString("Main_LblDifference", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Library: {0} 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Main_LblLibName() As String

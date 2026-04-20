@@ -19,8 +19,6 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Text
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports Dapper.SqlMapper
 Imports Krypton.Toolkit
 Imports Ookii.Dialogs.WinForms
 Imports SysThreading = System.Threading
@@ -61,6 +59,8 @@ Public Class MainForm
         SysMenuInit() '设置系统菜单
         Dim titleFont As New Font(LblTitle.Font, FontStyle.Bold)
         LblTitle.Font = titleFont
+        Dim diffFont As New Font(LblTitle.Font, FontStyle.Italic)
+        LblDeltas.Font = diffFont
         If IsAdmin() Then MnuRunAsElevated.Enabled = False
         If ImageGalleryMain IsNot Nothing Then
             RegisterUIPIDragDropFilter(ImageGalleryMain.Handle)
@@ -543,6 +543,7 @@ Public Class MainForm
         ConMnuMsOpenFolder.Enabled = False
         ConMnuMsCopy.Enabled = False
         ConMnuMsCopyPath.Enabled = False
+        LblDeltas.Visible = False
         RefreshLibListMenu()
         ImageGalleryMain.ClearImages() '清空所有图片
         ImageGalleryMain.Enabled = False
@@ -1708,11 +1709,36 @@ Public Class MainForm
             TSBtnMsOpenFolder.Enabled = True
             SelectStatusLabel.Text = String.Format(My.Resources.Main_LblSelectMs1, _artworkCount)
             PiChkThumb.Image = selectedImage.Thumbnail
+            Dim artCount As Integer = selectedImages(0).Count
+            If artCount > 1 Then '当数量大于1时, 显示实际数量
+                LblDeltas.Text = String.Format(My.Resources.Main_LblDifference, artCount)
+                LblDeltas.Visible = True
+            Else
+                LblDeltas.Visible = False
+            End If
             LblTitle.Text = $"{selectedArtwork.Title}"
             LblAuthor.Text = $"{selectedArtwork.Author}"
-            LblCharacters.Text = String.Format(My.Resources.Main_LblCharacter, FormatArrayWithEllipsis(selectedArtwork.Characters))
-            LblTags.Text = String.Format(My.Resources.Main_LblTags, FormatArrayWithEllipsis(selectedArtwork.Tags))
-            LblNotes.Text = String.Format(My.Resources.Main_LblNotes, selectedArtwork.Notes)
+            Dim roleCount As Integer = selectedArtwork.Characters.Count
+            If roleCount = 0 Then
+                LblCharacters.Visible = False
+            Else
+                LblCharacters.Text = String.Format(My.Resources.Main_LblCharacter, FormatArrayWithEllipsis(selectedArtwork.Characters))
+                LblCharacters.Visible = True
+            End If
+            Dim tagCount As Integer = selectedArtwork.Tags.Count
+            If tagCount = 0 Then
+                LblTags.Visible = False
+            Else
+                LblTags.Text = String.Format(My.Resources.Main_LblTags, FormatArrayWithEllipsis(selectedArtwork.Tags))
+                LblTags.Visible = True
+            End If
+            Dim artNote As String = selectedArtwork.Notes
+            If artNote = "" Then
+                LblNotes.Visible = False
+            Else
+                LblNotes.Text = String.Format(My.Resources.Main_LblNotes, artNote)
+                LblNotes.Visible = True
+            End If
         ElseIf selectedCount > 1 Then '选择多个时
             MnuMsView.Enabled = False
             MnuMsEdit.Enabled = False

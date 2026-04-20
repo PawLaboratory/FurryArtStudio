@@ -855,4 +855,7 @@
   <data name="Stat_ShowHitokoto" xml:space="preserve">
     <value>正在顯示一言...</value>
   </data>
+  <data name="Main_LblDifference" xml:space="preserve">
+    <value>{0} 個變體</value>
+  </data>
 </root>
