@@ -253,7 +253,7 @@ Public Class ViewForm
     ''' <param name="extractType">处理类型</param>
     Private Sub UpdateExtractColor(img As Image, extractType As ExtractType)
         Dim pixels As New List(Of RGBColor)
-        For Each color In GetPixelsFromImage(img)
+        For Each color In GetPixelsFromImageFast(img) '使用更快的速率提取颜色
             pixels.Add(RGBColor.FromRGB(color.R, color.G, color.B))
         Next
         Dim colors = Extract(pixels, 10, extractType)
@@ -611,7 +611,7 @@ Public Class ViewForm
     Private Sub ShowTitleBarColor(img As Image)
         If useThemeColor Then '使用更快的方法读取粗略的颜色, 减少加载时间
             Dim pixels As New List(Of RGBColor)
-            For Each color In GetPixelsFromImage(img, 50)
+            For Each color In GetPixelsFromImageFast(img, 50)
                 pixels.Add(RGBColor.FromRGB(color.R, color.G, color.B))
             Next
             Dim extractColor = Extract(pixels, 8, ExtractType.Octree)(0)

@@ -360,6 +360,45 @@ Module BasicFcn
         End Using
         Return pixels
     End Function
+    ''' <summary>
+    ''' 从图像采样像素点(更高效率版本)
+    ''' </summary>
+    ''' <param name="image">图像类</param>
+    ''' <param name="stepCount">步长</param>
+    ''' <returns>一组包含采样点的像素列表</returns>
+    Public Function GetPixelsFromImageFast(image As Image, Optional stepCount As Integer = 5) As List(Of Color)
+        If stepCount < 1 Then
+            Throw New ArgumentOutOfRangeException(NameOf(stepCount))
+        End If
+
+        Dim pixels As New List(Of Color)()
+
+        Using bmp As New Bitmap(image)
+            Dim rect As New Rectangle(0, 0, bmp.Width, bmp.Height)
+            Dim data As BitmapData = bmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb)
+
+            Dim bytesPerPixel As Integer = 3
+            Dim stride As Integer = data.Stride
+            Dim rgbValues(bytesPerPixel * bmp.Width * bmp.Height - 1) As Byte
+
+            Marshal.Copy(data.Scan0, rgbValues, 0, rgbValues.Length)
+            bmp.UnlockBits(data)
+
+            For y As Integer = 0 To bmp.Height - 1 Step stepCount
+                Dim rowOffset As Integer = y * stride
+                For x As Integer = 0 To bmp.Width - 1 Step stepCount
+                    Dim pos As Integer = rowOffset + x * bytesPerPixel
+                    'LockBits 顺序为 BGR
+                    Dim b As Byte = rgbValues(pos)
+                    Dim g As Byte = rgbValues(pos + 1)
+                    Dim r As Byte = rgbValues(pos + 2)
+                    pixels.Add(Color.FromArgb(r, g, b))
+                Next
+            Next
+        End Using
+        Return pixels
+    End Function
+
 #End Region
 
 #Region "主题相关"
