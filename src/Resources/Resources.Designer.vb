@@ -412,7 +412,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 {0} difference(s) 的本地化字符串。
+        '''  查找类似 {0} differences 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Main_LblDifference() As String
             Get

@@ -856,6 +856,6 @@
     <value>Showing hitokoto...</value>
   </data>
   <data name="Main_LblDifference" xml:space="preserve">
-    <value>{0} difference(s)</value>
+    <value>{0} differences</value>
   </data>
 </root>
