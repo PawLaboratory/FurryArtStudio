@@ -100,8 +100,8 @@ Partial Class MainForm
         Me.MnuHelpAbout = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchTextBox = New System.Windows.Forms.TextBox()
         Me.ArtworkListSplitContainer = New System.Windows.Forms.SplitContainer()
-        Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.LblNotes = New System.Windows.Forms.Label()
+        Me.LblDeltas = New System.Windows.Forms.Label()
         Me.LblTags = New System.Windows.Forms.Label()
         Me.LblCharacters = New System.Windows.Forms.Label()
         Me.LblAuthor = New System.Windows.Forms.Label()
@@ -153,7 +153,7 @@ Partial Class MainForm
         Me.TSBtnSearch = New System.Windows.Forms.ToolStripButton()
         Me.TSBtnPrevPage = New System.Windows.Forms.ToolStripButton()
         Me.TSBtnNextPage = New System.Windows.Forms.ToolStripButton()
-        Me.LblDeltas = New System.Windows.Forms.Label()
+        Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.MnuStrip.SuspendLayout()
         CType(Me.ArtworkListSplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ArtworkListSplitContainer.Panel1.SuspendLayout()
@@ -172,7 +172,7 @@ Partial Class MainForm
         Me.MnuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuFile, Me.MnuLibrary, Me.MnuManuscript, Me.MnuViews, Me.MnuHelp})
         Me.MnuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MnuStrip.Name = "MnuStrip"
-        Me.MnuStrip.Size = New System.Drawing.Size(962, 28)
+        Me.MnuStrip.Size = New System.Drawing.Size(962, 30)
         Me.MnuStrip.TabIndex = 4
         Me.MnuStrip.Text = "MenuStrip1"
         '
@@ -180,7 +180,7 @@ Partial Class MainForm
         '
         Me.MnuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuOnTop, Me.ToolStripSeparator9, Me.MnuDevTools, Me.MnuRunAsElevated, Me.MnuRunTerminal, Me.MnuOpenPath, Me.MnuCreateShortcut, Me.MnuProperties, Me.ToolStripSeparator1, Me.MnuExit})
         Me.MnuFile.Name = "MnuFile"
-        Me.MnuFile.Size = New System.Drawing.Size(71, 24)
+        Me.MnuFile.Size = New System.Drawing.Size(71, 26)
         Me.MnuFile.Text = "文件(&F)"
         '
         'MnuOnTop
@@ -259,7 +259,7 @@ Partial Class MainForm
         '
         Me.MnuLibrary.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuLibList, Me.MnuLibRefresh, Me.ToolStripSeparator11, Me.MnuLibNew, Me.MnuLibImport, Me.MnuLibExport, Me.MnuLibExportCSV, Me.ToolStripSeparator5, Me.MnuLibClone, Me.MnuLibOpenFolder, Me.MnuLibCopy, Me.MnuLibCopyPath, Me.ToolStripSeparator6, Me.MnuLibClose, Me.MnuLibRename, Me.MnuLibDelete, Me.ToolStripSeparator7, Me.MnuLibStatistics})
         Me.MnuLibrary.Name = "MnuLibrary"
-        Me.MnuLibrary.Size = New System.Drawing.Size(86, 24)
+        Me.MnuLibrary.Size = New System.Drawing.Size(86, 26)
         Me.MnuLibrary.Text = "稿件库(&L)"
         '
         'MnuLibList
@@ -394,7 +394,7 @@ Partial Class MainForm
         '
         Me.MnuManuscript.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuMsNew, Me.MnuMsImport, Me.ToolStripSeparator3, Me.MnuMsView, Me.MnuMsEdit, Me.MnuMsExport, Me.MnuMsPrint, Me.MnuMsDelete, Me.ToolStripSeparator4, Me.MnuMsOpenFolder, Me.MnuMsCopy, Me.MnuMsCopyPath})
         Me.MnuManuscript.Name = "MnuManuscript"
-        Me.MnuManuscript.Size = New System.Drawing.Size(78, 24)
+        Me.MnuManuscript.Size = New System.Drawing.Size(78, 26)
         Me.MnuManuscript.Text = "稿件(&M)"
         '
         'MnuMsNew
@@ -489,7 +489,7 @@ Partial Class MainForm
         '
         Me.MnuViews.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuViewPlay, Me.ToolStripSeparator12, Me.MnuSelectAll, Me.MnuSelectReverse, Me.ToolStripSeparator13, Me.MnuSearch, Me.MnuAdvancedSearch, Me.ToolStripSeparator2, Me.MnuPageUp, Me.MnuPageDown})
         Me.MnuViews.Name = "MnuViews"
-        Me.MnuViews.Size = New System.Drawing.Size(73, 24)
+        Me.MnuViews.Size = New System.Drawing.Size(73, 26)
         Me.MnuViews.Text = "视图(&V)"
         '
         'MnuViewPlay
@@ -566,7 +566,7 @@ Partial Class MainForm
         '
         Me.MnuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuHelpTutorial, Me.ToolStripSeparator8, Me.MnuHelpWebsite, Me.MnuHelpDonate, Me.MnuHelpGithub, Me.MnuFeedback, Me.MnuCheckUpdate, Me.MnuHelpWhatsNew, Me.ToolStripSeparator10, Me.MnuHelpLicense, Me.MnuHelpPrivacy, Me.MnuTerms, Me.MnuHelpAbout})
         Me.MnuHelp.Name = "MnuHelp"
-        Me.MnuHelp.Size = New System.Drawing.Size(75, 24)
+        Me.MnuHelp.Size = New System.Drawing.Size(75, 26)
         Me.MnuHelp.Text = "帮助(&H)"
         '
         'MnuHelpTutorial
@@ -701,7 +701,7 @@ Partial Class MainForm
         '
         Me.ArtworkListSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ArtworkListSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.ArtworkListSplitContainer.Location = New System.Drawing.Point(0, 55)
+        Me.ArtworkListSplitContainer.Location = New System.Drawing.Point(0, 61)
         Me.ArtworkListSplitContainer.Name = "ArtworkListSplitContainer"
         '
         'ArtworkListSplitContainer.Panel1
@@ -722,25 +722,9 @@ Partial Class MainForm
         Me.ArtworkListSplitContainer.Panel2.Controls.Add(Me.PiChkThumb)
         Me.ArtworkListSplitContainer.Panel2.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
         Me.ArtworkListSplitContainer.Panel2MinSize = 220
-        Me.ArtworkListSplitContainer.Size = New System.Drawing.Size(962, 512)
+        Me.ArtworkListSplitContainer.Size = New System.Drawing.Size(962, 506)
         Me.ArtworkListSplitContainer.SplitterDistance = 730
         Me.ArtworkListSplitContainer.TabIndex = 3
-        '
-        'ImageGalleryMain
-        '
-        Me.ImageGalleryMain.AutoScroll = True
-        Me.ImageGalleryMain.BackColor = System.Drawing.Color.White
-        Me.ImageGalleryMain.BadgeColor = System.Drawing.Color.Red
-        Me.ImageGalleryMain.DisplayMode = FurryArtStudio.GalleryDisplayMode.Normal
-        Me.ImageGalleryMain.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ImageGalleryMain.Location = New System.Drawing.Point(3, 25)
-        Me.ImageGalleryMain.MaxItemSize = 240
-        Me.ImageGalleryMain.MinItemSize = 120
-        Me.ImageGalleryMain.Name = "ImageGalleryMain"
-        Me.ImageGalleryMain.PageSize = 100
-        Me.ImageGalleryMain.SelectionAccentColor = System.Drawing.Color.Blue
-        Me.ImageGalleryMain.Size = New System.Drawing.Size(727, 487)
-        Me.ImageGalleryMain.TabIndex = 3
         '
         'LblNotes
         '
@@ -750,6 +734,16 @@ Partial Class MainForm
         Me.LblNotes.Size = New System.Drawing.Size(225, 120)
         Me.LblNotes.TabIndex = 7
         Me.LblNotes.Text = "备注"
+        '
+        'LblDeltas
+        '
+        Me.LblDeltas.Dock = System.Windows.Forms.DockStyle.Top
+        Me.LblDeltas.Location = New System.Drawing.Point(0, 305)
+        Me.LblDeltas.Name = "LblDeltas"
+        Me.LblDeltas.Size = New System.Drawing.Size(225, 20)
+        Me.LblDeltas.TabIndex = 8
+        Me.LblDeltas.Text = "差分"
+        Me.LblDeltas.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'LblTags
         '
@@ -965,9 +959,9 @@ Partial Class MainForm
         Me.TlStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.TlStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.TlStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TSBtnOnTop, Me.TSBtnProperties, Me.ToolStripSeparator15, Me.TSBtnRefresh, Me.TSBtnLibNew, Me.TSBtnLibImport, Me.TSBtnLibExport, Me.TSBtnLibRename, Me.TSBtnLibClose, Me.ToolStripSeparator16, Me.TSBtnMsNew, Me.TSBtnMsImport, Me.TSBtnMsExport, Me.TSBtnMsEdit, Me.TSBtnMsPrint, Me.TSBtnMsOpenFolder, Me.ToolStripSeparator17, Me.TSBtnPlay, Me.TSBtnSearch, Me.TSBtnPrevPage, Me.TSBtnNextPage})
-        Me.TlStrip.Location = New System.Drawing.Point(0, 28)
+        Me.TlStrip.Location = New System.Drawing.Point(0, 30)
         Me.TlStrip.Name = "TlStrip"
-        Me.TlStrip.Size = New System.Drawing.Size(962, 27)
+        Me.TlStrip.Size = New System.Drawing.Size(962, 31)
         Me.TlStrip.TabIndex = 9
         Me.TlStrip.Text = "TlStrip"
         '
@@ -977,7 +971,7 @@ Partial Class MainForm
         Me.TSBtnOnTop.Image = CType(resources.GetObject("TSBtnOnTop.Image"), System.Drawing.Image)
         Me.TSBtnOnTop.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnOnTop.Name = "TSBtnOnTop"
-        Me.TSBtnOnTop.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnOnTop.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnOnTop.Text = "窗口置顶"
         '
         'TSBtnProperties
@@ -986,13 +980,13 @@ Partial Class MainForm
         Me.TSBtnProperties.Image = CType(resources.GetObject("TSBtnProperties.Image"), System.Drawing.Image)
         Me.TSBtnProperties.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnProperties.Name = "TSBtnProperties"
-        Me.TSBtnProperties.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnProperties.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnProperties.Text = "选项"
         '
         'ToolStripSeparator15
         '
         Me.ToolStripSeparator15.Name = "ToolStripSeparator15"
-        Me.ToolStripSeparator15.Size = New System.Drawing.Size(6, 27)
+        Me.ToolStripSeparator15.Size = New System.Drawing.Size(6, 31)
         '
         'TSBtnRefresh
         '
@@ -1000,7 +994,7 @@ Partial Class MainForm
         Me.TSBtnRefresh.Image = CType(resources.GetObject("TSBtnRefresh.Image"), System.Drawing.Image)
         Me.TSBtnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnRefresh.Name = "TSBtnRefresh"
-        Me.TSBtnRefresh.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnRefresh.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnRefresh.Text = "刷新"
         '
         'TSBtnLibNew
@@ -1009,7 +1003,7 @@ Partial Class MainForm
         Me.TSBtnLibNew.Image = CType(resources.GetObject("TSBtnLibNew.Image"), System.Drawing.Image)
         Me.TSBtnLibNew.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnLibNew.Name = "TSBtnLibNew"
-        Me.TSBtnLibNew.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnLibNew.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnLibNew.Text = "新建稿件库"
         '
         'TSBtnLibImport
@@ -1018,7 +1012,7 @@ Partial Class MainForm
         Me.TSBtnLibImport.Image = CType(resources.GetObject("TSBtnLibImport.Image"), System.Drawing.Image)
         Me.TSBtnLibImport.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnLibImport.Name = "TSBtnLibImport"
-        Me.TSBtnLibImport.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnLibImport.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnLibImport.Text = "导入稿件库"
         '
         'TSBtnLibExport
@@ -1027,7 +1021,7 @@ Partial Class MainForm
         Me.TSBtnLibExport.Image = CType(resources.GetObject("TSBtnLibExport.Image"), System.Drawing.Image)
         Me.TSBtnLibExport.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnLibExport.Name = "TSBtnLibExport"
-        Me.TSBtnLibExport.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnLibExport.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnLibExport.Text = "导出稿件库"
         '
         'TSBtnLibRename
@@ -1036,7 +1030,7 @@ Partial Class MainForm
         Me.TSBtnLibRename.Image = CType(resources.GetObject("TSBtnLibRename.Image"), System.Drawing.Image)
         Me.TSBtnLibRename.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnLibRename.Name = "TSBtnLibRename"
-        Me.TSBtnLibRename.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnLibRename.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnLibRename.Text = "重命名稿件库"
         '
         'TSBtnLibClose
@@ -1045,13 +1039,13 @@ Partial Class MainForm
         Me.TSBtnLibClose.Image = CType(resources.GetObject("TSBtnLibClose.Image"), System.Drawing.Image)
         Me.TSBtnLibClose.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnLibClose.Name = "TSBtnLibClose"
-        Me.TSBtnLibClose.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnLibClose.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnLibClose.Text = "关闭稿件库"
         '
         'ToolStripSeparator16
         '
         Me.ToolStripSeparator16.Name = "ToolStripSeparator16"
-        Me.ToolStripSeparator16.Size = New System.Drawing.Size(6, 27)
+        Me.ToolStripSeparator16.Size = New System.Drawing.Size(6, 31)
         '
         'TSBtnMsNew
         '
@@ -1059,7 +1053,7 @@ Partial Class MainForm
         Me.TSBtnMsNew.Image = CType(resources.GetObject("TSBtnMsNew.Image"), System.Drawing.Image)
         Me.TSBtnMsNew.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnMsNew.Name = "TSBtnMsNew"
-        Me.TSBtnMsNew.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnMsNew.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnMsNew.Text = "新建稿件"
         '
         'TSBtnMsImport
@@ -1068,7 +1062,7 @@ Partial Class MainForm
         Me.TSBtnMsImport.Image = CType(resources.GetObject("TSBtnMsImport.Image"), System.Drawing.Image)
         Me.TSBtnMsImport.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnMsImport.Name = "TSBtnMsImport"
-        Me.TSBtnMsImport.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnMsImport.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnMsImport.Text = "导入稿件"
         '
         'TSBtnMsExport
@@ -1077,7 +1071,7 @@ Partial Class MainForm
         Me.TSBtnMsExport.Image = CType(resources.GetObject("TSBtnMsExport.Image"), System.Drawing.Image)
         Me.TSBtnMsExport.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnMsExport.Name = "TSBtnMsExport"
-        Me.TSBtnMsExport.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnMsExport.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnMsExport.Text = "导出稿件"
         '
         'TSBtnMsEdit
@@ -1086,7 +1080,7 @@ Partial Class MainForm
         Me.TSBtnMsEdit.Image = CType(resources.GetObject("TSBtnMsEdit.Image"), System.Drawing.Image)
         Me.TSBtnMsEdit.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnMsEdit.Name = "TSBtnMsEdit"
-        Me.TSBtnMsEdit.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnMsEdit.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnMsEdit.Text = "编辑稿件"
         '
         'TSBtnMsPrint
@@ -1095,7 +1089,7 @@ Partial Class MainForm
         Me.TSBtnMsPrint.Image = CType(resources.GetObject("TSBtnMsPrint.Image"), System.Drawing.Image)
         Me.TSBtnMsPrint.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnMsPrint.Name = "TSBtnMsPrint"
-        Me.TSBtnMsPrint.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnMsPrint.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnMsPrint.Text = "打印稿件"
         '
         'TSBtnMsOpenFolder
@@ -1104,13 +1098,13 @@ Partial Class MainForm
         Me.TSBtnMsOpenFolder.Image = CType(resources.GetObject("TSBtnMsOpenFolder.Image"), System.Drawing.Image)
         Me.TSBtnMsOpenFolder.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnMsOpenFolder.Name = "TSBtnMsOpenFolder"
-        Me.TSBtnMsOpenFolder.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnMsOpenFolder.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnMsOpenFolder.Text = "打开稿件文件夹"
         '
         'ToolStripSeparator17
         '
         Me.ToolStripSeparator17.Name = "ToolStripSeparator17"
-        Me.ToolStripSeparator17.Size = New System.Drawing.Size(6, 27)
+        Me.ToolStripSeparator17.Size = New System.Drawing.Size(6, 31)
         '
         'TSBtnPlay
         '
@@ -1118,7 +1112,7 @@ Partial Class MainForm
         Me.TSBtnPlay.Image = CType(resources.GetObject("TSBtnPlay.Image"), System.Drawing.Image)
         Me.TSBtnPlay.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnPlay.Name = "TSBtnPlay"
-        Me.TSBtnPlay.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnPlay.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnPlay.Text = "幻灯片播放"
         '
         'TSBtnSearch
@@ -1127,7 +1121,7 @@ Partial Class MainForm
         Me.TSBtnSearch.Image = CType(resources.GetObject("TSBtnSearch.Image"), System.Drawing.Image)
         Me.TSBtnSearch.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnSearch.Name = "TSBtnSearch"
-        Me.TSBtnSearch.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnSearch.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnSearch.Text = "高级搜索"
         '
         'TSBtnPrevPage
@@ -1136,7 +1130,7 @@ Partial Class MainForm
         Me.TSBtnPrevPage.Image = CType(resources.GetObject("TSBtnPrevPage.Image"), System.Drawing.Image)
         Me.TSBtnPrevPage.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnPrevPage.Name = "TSBtnPrevPage"
-        Me.TSBtnPrevPage.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnPrevPage.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnPrevPage.Text = "上一页"
         '
         'TSBtnNextPage
@@ -1145,18 +1139,24 @@ Partial Class MainForm
         Me.TSBtnNextPage.Image = CType(resources.GetObject("TSBtnNextPage.Image"), System.Drawing.Image)
         Me.TSBtnNextPage.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TSBtnNextPage.Name = "TSBtnNextPage"
-        Me.TSBtnNextPage.Size = New System.Drawing.Size(29, 24)
+        Me.TSBtnNextPage.Size = New System.Drawing.Size(29, 28)
         Me.TSBtnNextPage.Text = "下一页"
         '
-        'LblDeltas
+        'ImageGalleryMain
         '
-        Me.LblDeltas.Dock = System.Windows.Forms.DockStyle.Top
-        Me.LblDeltas.Location = New System.Drawing.Point(0, 305)
-        Me.LblDeltas.Name = "LblDeltas"
-        Me.LblDeltas.Size = New System.Drawing.Size(225, 20)
-        Me.LblDeltas.TabIndex = 8
-        Me.LblDeltas.Text = "差分"
-        Me.LblDeltas.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ImageGalleryMain.AutoScroll = True
+        Me.ImageGalleryMain.BackColor = System.Drawing.Color.White
+        Me.ImageGalleryMain.BadgeColor = System.Drawing.Color.Red
+        Me.ImageGalleryMain.DisplayMode = FurryArtStudio.GalleryDisplayMode.Normal
+        Me.ImageGalleryMain.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ImageGalleryMain.Location = New System.Drawing.Point(3, 25)
+        Me.ImageGalleryMain.MaxItemSize = 240
+        Me.ImageGalleryMain.MinItemSize = 120
+        Me.ImageGalleryMain.Name = "ImageGalleryMain"
+        Me.ImageGalleryMain.PageSize = 100
+        Me.ImageGalleryMain.SelectionAccentColor = System.Drawing.Color.Blue
+        Me.ImageGalleryMain.Size = New System.Drawing.Size(727, 481)
+        Me.ImageGalleryMain.TabIndex = 3
         '
         'MainForm
         '

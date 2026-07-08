@@ -1677,6 +1677,7 @@ Public Class MainForm
         LblTags.Text = ""
         LblCharacters.Text = ""
         LblNotes.Text = ""
+        LblDeltas.Visible = False
         PiChkThumb.Image = Nothing
     End Sub
     Private Sub ImageGalleryMain_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles ImageGalleryMain.SelectionChanged
