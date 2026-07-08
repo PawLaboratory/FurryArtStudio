@@ -94,7 +94,7 @@ Public Class ViewForm
         LanguageChange() '初始化语言
         SystemThemeChange() '初始化主题
         LoadCurrentArtworkFirstImage() '加载当前稿件的第一张图片
-        useThemeColor = AppSettings.Load().Appearance.ViewWindowThemeColor '获取当前是否自动更换窗口颜色
+        useThemeColor = AppSettings.Load().Appearance.ViewWindowThemeColor '获取一个设置, 用来决定标题栏是否使用图片主颜色
     End Sub
     ''' <summary>
     ''' 窗体关闭时释放资源
@@ -584,7 +584,14 @@ Public Class ViewForm
                 End If
                 PictureBoxMain.Image = image
                 UpdateWindowTitle(filePath)
-                ShowTitleBarColor(image)
+                If useThemeColor Then '使用更快的方法读取粗略的颜色, 减少加载时间
+                    Dim pixels As New List(Of RGBColor)
+                    For Each color In GetPixelsFromImageFast(image, 50)
+                        pixels.Add(RGBColor.FromRGB(color.R, color.G, color.B))
+                    Next
+                    Dim extractColor = Extract(pixels, 8, ExtractType.Octree)(0)
+                    SetTitleBarColor(Handle, extractColor.Color.R, extractColor.Color.G, extractColor.Color.B)
+                End If
             End If
         Catch ex As OperationCanceledException
             '忽略取消事件
@@ -610,16 +617,6 @@ Public Class ViewForm
             Me.Cursor = Cursors.Default
             UpdateMenuStates()
         End Try
-    End Sub
-    Private Sub ShowTitleBarColor(img As Image)
-        If useThemeColor Then '使用更快的方法读取粗略的颜色, 减少加载时间
-            Dim pixels As New List(Of RGBColor)
-            For Each color In GetPixelsFromImageFast(img, 50)
-                pixels.Add(RGBColor.FromRGB(color.R, color.G, color.B))
-            Next
-            Dim extractColor = Extract(pixels, 8, ExtractType.Octree)(0)
-            SetTitleBarColor(Handle, extractColor.Color.R, extractColor.Color.G, extractColor.Color.B)
-        End If
     End Sub
     ''' <summary>
     ''' 在后台线程中加载并调整图片大小
