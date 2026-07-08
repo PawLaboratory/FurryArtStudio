@@ -20,7 +20,6 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Chromis.ColorExtractor
 Imports Ookii.Dialogs.WinForms
 Public Class ViewForm
@@ -292,7 +291,8 @@ Public Class ViewForm
         If filePaths Is Nothing Then Return result '没有文件
         For Each p In filePaths
             '跳过预览图文件
-            If Path.GetFileName(p).ToLower() = ".preview.jpg" Then
+            If String.Equals(Path.GetFileName(p).ToLower(), ".preview.jpg",
+                             StringComparison.OrdinalIgnoreCase) Then
                 Continue For
             End If
             Dim ext As String = Path.GetExtension(p).ToLower()
@@ -836,7 +836,7 @@ Public Class ViewForm
                 Case Keys.Space
                     PopupSysMenu()
                     e.Handled = True
-                    e.SuppressKeyPress = True '防止发出声音
+                    e.SuppressKeyPress = True '防止发出声音, 但是有点问题，需要修
             End Select
         End If
         '处理单键
@@ -891,7 +891,7 @@ Public Class ViewForm
     ''' 弹出系统菜单
     ''' </summary>
     Private Sub PopupSysMenu()
-        Dim screenPos As Point = New Point(0, 0)
+        Dim screenPos As New Point(0, 0)
         PopupSysMenu(screenPos)
     End Sub
     ''' <summary>
