@@ -20,6 +20,7 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Chromis.ColorExtractor
 Imports Ookii.Dialogs.WinForms
 Public Class ViewForm
@@ -61,6 +62,8 @@ Public Class ViewForm
     '设置
     Private Settings As AppSettings = AppSettings.Load()
     Private useThemeColor As Boolean = False
+    '全屏标志位
+    Private _isFullScreen As Boolean = False
 #End Region
 
 #Region "窗体相关"
@@ -232,7 +235,7 @@ Public Class ViewForm
                 Case SC_HELP '帮助
                     ShowHelp()
                 Case SC_FULLSCREEN '全屏
-                    '待开发
+                    ToggleFullScreen()
                 Case SC_KMEANS
                     UpdateExtractColor(PictureBoxMain.Image, ExtractType.KMeans)
                 Case SC_MEDIANCUT
@@ -830,6 +833,10 @@ Public Class ViewForm
                     UpdateExtractColor(PictureBoxMain.Image, ExtractType.MedianCut)
                 Case Keys.D3
                     UpdateExtractColor(PictureBoxMain.Image, ExtractType.Octree)
+                Case Keys.Space
+                    PopupSysMenu()
+                    e.Handled = True
+                    e.SuppressKeyPress = True '防止发出声音
             End Select
         End If
         '处理单键
@@ -861,13 +868,48 @@ Public Class ViewForm
             Case Keys.Insert '老板键
             Case Keys.F1
                 ShowHelp()
+            Case Keys.Apps '菜单键
+                PopupSysMenu()
         End Select
+    End Sub
+    ''' <summary>
+    ''' 弹出系统菜单
+    ''' </summary>
+    Private Sub PopupSysMenu(screenPos As Point)
+        '右键按下时显示系统菜单
+        Dim hMenu As IntPtr = GetSystemMenu(Me.Handle, False) '获取系统菜单句柄
+        If hMenu = IntPtr.Zero Then Return
+        '获取要执行的菜单命令
+        Dim cmd As Integer = TrackPopupMenu(hMenu, TPM_LEFTALIGN Or TPM_RETURNCMD,
+                                            screenPos.X, screenPos.Y, 0, Me.Handle, IntPtr.Zero)
+        '如果有命令, 发送给窗口
+        If cmd <> 0 Then
+            SendMessage(Me.Handle, WM_SYSCOMMAND, cmd, 0)
+        End If
+    End Sub
+    ''' <summary>
+    ''' 弹出系统菜单
+    ''' </summary>
+    Private Sub PopupSysMenu()
+        Dim screenPos As Point = New Point(0, 0)
+        PopupSysMenu(screenPos)
     End Sub
     ''' <summary>
     ''' 切换全屏模式
     ''' </summary>
     Private Sub ToggleFullScreen()
-        '全屏
+        Dim hMenu = GetSystemMenu(Handle, False)
+        If _isFullScreen Then
+            _isFullScreen = False
+            FormBorderStyle = FormBorderStyle.Sizable
+            WindowState = FormWindowState.Normal
+            CheckMenuItem(hMenu, SC_FULLSCREEN, MF_UNCHECKED)
+        Else
+            _isFullScreen = True
+            FormBorderStyle = FormBorderStyle.None
+            WindowState = FormWindowState.Maximized
+            CheckMenuItem(hMenu, SC_FULLSCREEN, MF_CHECKED)
+        End If
     End Sub
     ''' <summary>
     ''' 打开属性
@@ -897,18 +939,7 @@ Public Class ViewForm
             ReleaseCapture()
             SendMessage(Me.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0)
         ElseIf e.Button = MouseButtons.Right Then
-            '右键按下时显示系统菜单
-            Dim hMenu As IntPtr = GetSystemMenu(Me.Handle, False) '获取系统菜单句柄
-            If hMenu = IntPtr.Zero Then Return
-            '将客户区坐标转换为屏幕坐标
-            Dim screenPos As Point = Me.PointToScreen(New Point(e.X, e.Y))
-            '获取要执行的菜单命令
-            Dim cmd As Integer = TrackPopupMenu(hMenu, TPM_LEFTALIGN Or TPM_RETURNCMD,
-                                            screenPos.X, screenPos.Y, 0, Me.Handle, IntPtr.Zero)
-            '如果有命令, 发送给窗口
-            If cmd <> 0 Then
-                SendMessage(Me.Handle, WM_SYSCOMMAND, cmd, 0)
-            End If
+            PopupSysMenu(Me.PointToScreen(New Point(e.X, e.Y))) '将客户区坐标转换为屏幕坐标
         End If
     End Sub
     Private Sub PictureBoxMain_MouseWheel(sender As Object, e As MouseEventArgs) Handles PictureBoxMain.MouseWheel
