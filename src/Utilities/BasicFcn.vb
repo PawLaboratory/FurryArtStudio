@@ -534,7 +534,7 @@ Module BasicFcn
         mii.fType = MFT_STRING
         mii.wID = id
         mii.dwTypeData = text & vbTab & shortcut
-        mii.cch = Len(mii.dwTypeData)
+        mii.cch = mii.dwTypeData.Length
         SetMenuItemInfo(menuHandle, position, True, mii)
     End Sub
     ''' <summary>
