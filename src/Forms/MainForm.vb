@@ -177,11 +177,17 @@ Public Class MainForm
                     AboutForm.ShowDialog()
             End Select
         End If
-        If m.Msg = WM_DWMCOLORIZATIONCOLORCHANGED Then '主题发生改变时
-            Dim settings = AppSettings.Load()
-            If settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
-                _themeDebounceTimer.Stop()
-                _themeDebounceTimer.Start() '消抖
+        If m.Msg = WM_SETTINGCHANGE Then '主题发生改变时
+            '(注: 使用 WM_DWMCOLORIZATIONCOLORCHANGED 是个不靠谱的野路子办法,踩过坑)
+            If m.LParam <> IntPtr.Zero Then
+                Dim s = Marshal.PtrToStringUni(m.LParam)
+                If s = "ImmersiveColorSet" Then
+                    Dim settings = AppSettings.Load()
+                    If settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
+                        _themeDebounceTimer.Stop()
+                        _themeDebounceTimer.Start() '消抖
+                    End If
+                End If
             End If
         End If
         MyBase.WndProc(m) '循环监听消息

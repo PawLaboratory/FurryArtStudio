@@ -433,13 +433,13 @@ Module BasicFcn
     End Function
     Public Sub SetTitleBarColor(ByVal hwnd As IntPtr, ByVal r As Byte, ByVal g As Byte, ByVal b As Byte)
         Try
+            '设置标题栏与边框背景色
             Dim colorRef As Integer = RGBToCOLORREF(r, g, b)
-            '设置标题栏背景色
             DwmSetWindowAttribute(hwnd, DwmWindowAttribute.CaptionColor, colorRef, Marshal.SizeOf(Of Integer)())
+            DwmSetWindowAttribute(hwnd, DwmWindowAttribute.BorderColor, colorRef, Marshal.SizeOf(Of Integer)())
             '根据背景亮度决定文字颜色
             Dim textColor As Integer = RGBToCOLORREF(GetForeColor(Color.FromArgb(r, g, b)))
             DwmSetWindowAttribute(hwnd, DwmWindowAttribute.TextColor, textColor, Marshal.SizeOf(Of Integer)())
-            DwmSetWindowAttribute(hwnd, DwmWindowAttribute.BorderColor, textColor, Marshal.SizeOf(Of Integer)())
         Catch ex As Exception
             '忽略错误
         End Try

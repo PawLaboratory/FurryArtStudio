@@ -207,6 +207,7 @@ Public Module WinAPI
     Public Const WM_NCLBUTTONDOWN As Integer = &HA1
     Public Const WM_THEMECHANGED As Integer = &H31A
     Public Const WM_SETREDRAW As Integer = &HB
+    Public Const WM_SETTINGCHANGE As Integer = &H1A '设置变更
     '其他常量
     Public Const HTCAPTION As Integer = 2
 #End Region
