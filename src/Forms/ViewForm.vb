@@ -888,7 +888,7 @@ Public Class ViewForm
     ''' 弹出系统菜单
     ''' </summary>
     Private Sub PopupSysMenu()
-        Dim screenPos As New Point(0, 0)
+        Dim screenPos As New Point(Left, Top + SystemInformation.CaptionHeight)
         PopupSysMenu(screenPos)
     End Sub
     ''' <summary>
