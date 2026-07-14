@@ -264,7 +264,7 @@ Public Class ViewForm
             ColorDialogForm.L9, ColorDialogForm.L10}
         For Each label In colorLabels '先强制清除所有属性
             label.Text = ""
-            If IsDarkMode() Then label.BackColor = BgColorDark Else BackColor = BgColorLight
+            If IsDarkMode() Then label.BackColor = BgColorDark Else label.BackColor = BgColorLight
         Next
         For i As Integer = 0 To colors.Count - 1 '再重新赋值
             colorLabels(i).Text = $"RGB({colors(i).Color.R}, {colors(i).Color.G}, {colors(i).Color.B}) ({colors(i).Color.ToHex}) - {colors(i).Ratio:P2}"
