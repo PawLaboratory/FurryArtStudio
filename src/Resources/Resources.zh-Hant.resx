@@ -858,4 +858,7 @@
   <data name="Main_LblDifference" xml:space="preserve">
     <value>{0} 個變體</value>
   </data>
+  <data name="Mnu_PrivacyProtect" xml:space="preserve">
+    <value>隱私權保護(&amp;I)</value>
+  </data>
 </root>

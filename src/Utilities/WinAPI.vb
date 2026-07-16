@@ -163,6 +163,13 @@ Public Module WinAPI
         Public cbSize As Integer
         Public ExtStatus As Integer
     End Structure
+    'SetWindowDisplayAffinity 函数 - 改变窗口亲和性从而阻止截屏录屏操作
+    <DllImport("user32.dll", SetLastError:=True)>
+    Public Function SetWindowDisplayAffinity(
+        ByVal hWnd As IntPtr,
+        ByVal dwAffinity As UInteger
+    ) As Integer
+    End Function
     <DllImport("shell32.dll")>
     Public Sub DragAcceptFiles(ByVal hWnd As IntPtr, ByVal fAccept As Boolean)
     End Sub
@@ -210,6 +217,10 @@ Public Module WinAPI
     Public Const WM_SETTINGCHANGE As Integer = &H1A '设置变更
     '其他常量
     Public Const HTCAPTION As Integer = 2
+    '阻止截屏常量
+    Public Const WDA_NONE = &H0
+    Public Const WDA_MONITOR = &H1
+    Public Const WDA_EXCLUDEFROMCAPTURE = &H11 'Windows 10 20H1+
 #End Region
 
 #Region "主题"

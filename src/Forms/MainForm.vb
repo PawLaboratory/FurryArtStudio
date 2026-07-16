@@ -250,6 +250,7 @@ Public Class MainForm
         '文件
         MnuFile.Text = My.Resources.Mnu_File
         MnuOnTop.Text = My.Resources.Mnu_AlwaysOnTop
+        MnuPrivacyProtect.Text = My.Resources.Mnu_PrivacyProtect
         MnuDevTools.Text = My.Resources.Mnu_DevTools
         MnuRunAsElevated.Text = My.Resources.Mnu_RunAsElevated
         MnuRunTerminal.Text = My.Resources.Mnu_OpenTerminal
@@ -419,6 +420,7 @@ Public Class MainForm
     Private Sub InitializeMenuImages(Optional isDarkMode As Boolean = False)
         Dim menuIcons As New List(Of (MenuItem As ToolStripMenuItem, BaseName As String)) From {
             (MnuOnTop, "MenuPin"),
+            (MnuPrivacyProtect, "MenuPrivacyProtect"),
             (MnuDevTools, "MenuDevTools"),
             (MnuRunAsElevated, "MenuShield"),
             (MnuRunTerminal, "MenuTerminal"),
@@ -792,6 +794,15 @@ Public Class MainForm
 #Region "文件菜单项"
     Private Sub MnuOnTop_Click(sender As Object, e As EventArgs) Handles MnuOnTop.Click
         SetOnTop()
+    End Sub
+    Private Sub MnuPrivacyProtect_Click(sender As Object, e As EventArgs) Handles MnuPrivacyProtect.Click
+        If MnuPrivacyProtect.Checked Then
+            MnuPrivacyProtect.Checked = False
+            SetWindowDisplayAffinity(Handle, WDA_NONE)
+        Else
+            MnuPrivacyProtect.Checked = True
+            SetWindowDisplayAffinity(Handle, WDA_MONITOR)
+        End If
     End Sub
     Private Sub MnuDevTools_Click(sender As Object, e As EventArgs) Handles MnuDevTools.Click
         DevToolsForm.Show()

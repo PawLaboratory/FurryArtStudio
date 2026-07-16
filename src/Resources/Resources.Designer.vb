@@ -1033,6 +1033,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Pr&amp;ivacy Protect 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_PrivacyProtect() As String
+            Get
+                Return ResourceManager.GetString("Mnu_PrivacyProtect", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 &amp;Statistics... 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Mnu_Properties() As String

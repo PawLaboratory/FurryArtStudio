@@ -417,6 +417,7 @@
     <Content Include="src\Resources\Darkmode-Icons\code.png" />
     <Content Include="src\Resources\Darkmode-Icons\copy-plus.png" />
     <Content Include="src\Resources\Darkmode-Icons\copy.png" />
+    <Content Include="src\Resources\Darkmode-Icons\eye-off.png" />
     <Content Include="src\Resources\Darkmode-Icons\eye.png" />
     <Content Include="src\Resources\Darkmode-Icons\file-input.png" />
     <Content Include="src\Resources\Darkmode-Icons\file-output.png" />
@@ -467,6 +468,7 @@
     <Content Include="src\Resources\Lightmode-Icons\code.png" />
     <Content Include="src\Resources\Lightmode-Icons\copy-plus.png" />
     <Content Include="src\Resources\Lightmode-Icons\copy.png" />
+    <Content Include="src\Resources\Lightmode-Icons\eye-off.png" />
     <Content Include="src\Resources\Lightmode-Icons\eye.png" />
     <Content Include="src\Resources\Lightmode-Icons\file-input.png" />
     <Content Include="src\Resources\Lightmode-Icons\file-output.png" />

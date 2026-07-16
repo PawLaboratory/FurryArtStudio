@@ -858,4 +858,7 @@
   <data name="Main_LblDifference" xml:space="preserve">
     <value>{0} differences</value>
   </data>
+  <data name="Mnu_PrivacyProtect" xml:space="preserve">
+    <value>Pr&amp;ivacy Protect</value>
+  </data>
 </root>
