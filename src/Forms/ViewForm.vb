@@ -95,6 +95,8 @@ Public Class ViewForm
         SystemThemeChange() '初始化主题
         LoadCurrentArtworkFirstImage() '加载当前稿件的第一张图片
         useThemeColor = AppSettings.Load().Appearance.ViewWindowThemeColor '获取一个设置, 用来决定标题栏是否使用图片主颜色
+        Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.UserPaint Or ControlStyles.DoubleBuffer, True)
+        Me.UpdateStyles()
     End Sub
     ''' <summary>
     ''' 窗体关闭时释放资源
@@ -576,13 +578,14 @@ Public Class ViewForm
             End If
             '更新UI
             If image IsNot Nothing Then
+                '保存对旧图片的引用
+                Dim oldImage = PictureBoxMain.Image
+                '显示新图片
+                PictureBoxMain.Image = image
                 '释放旧图片
-                If PictureBoxMain.Image IsNot Nothing Then
-                    Dim oldImage = PictureBoxMain.Image
-                    PictureBoxMain.Image = Nothing
+                If oldImage IsNot Nothing Then
                     oldImage.Dispose()
                 End If
-                PictureBoxMain.Image = image
                 UpdateWindowTitle(filePath)
                 If useThemeColor Then '使用更快的方法读取粗略的颜色, 减少加载时间
                     Dim pixels As New List(Of RGBColor)
