@@ -14,6 +14,7 @@
 ' limitations under the License.
 
 Imports System.ComponentModel
+Imports System.Threading
 Public Class ImageGallery
 #Region "基本"
     Inherits ScrollableControl
@@ -393,7 +394,7 @@ Public Class ImageGallery
 
         Invalidate()
         '修改布局后焦点与锚点失效
-        _focusIndex = -1
+        '_focusIndex = -1
         _anchorIndex = -1
     End Sub
     ''' <summary>
@@ -479,13 +480,12 @@ Public Class ImageGallery
     ''' 尺寸变更时触发
     ''' </summary>
     Protected Overrides Sub OnResize(e As EventArgs)
-        MyBase.OnResize(e)
-
         If _currentPageImages IsNot Nothing AndAlso _currentPageImages.Count > 0 Then
             RecalculateLayout()
         Else
             Invalidate()
         End If
+        MyBase.OnResize(e) '不知道为什么, 后执行基类就不会导致滚动条问题TAT
     End Sub
 
     ''' <summary>
