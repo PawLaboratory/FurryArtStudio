@@ -73,5 +73,10 @@ cd FurryArtStudio
 技術的な議論や交流を歓迎します 🤝   
 QQグループ：620079146 🐧
 
+## 🤝 その他
+
+This project is maintained by Zhao Tianzuo.
+
+
 ## 🌟 スター推移
 [![Stargazers over time](https://starchart.cc/PawLaboratory/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/PawLaboratory/FurryArtStudio)
