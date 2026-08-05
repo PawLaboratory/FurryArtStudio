@@ -60,20 +60,6 @@ if __name__ == "__main__":
     # Wait for OTP window
     print("\nAuthenticating with SimplySignDesktop...")
 
-    start_time = time.time()
-
-    while True:
-        if time.time() - start_time > 60:
-            raise RuntimeError("Timeout waiting for SimplySign fingerprint.")
-        line = proc.stdout.readline()
-        if line:
-            print("SimplySign output:", repr(line))
-            fingerprint = normalize_sha1(line.strip())
-            break
-        if proc.poll() is not None:
-            raise RuntimeError("SimplySign exited unexpectedly.")
-        time.sleep(0.1)
-
     current_otp = totp.now()
     print(f"OTP: {current_otp}")
 
@@ -90,15 +76,31 @@ if __name__ == "__main__":
     fingerprint = None
     try:
         # Read first line for fingerprint
+        print("Waiting for SimplySign fingerprint...", flush=True)
+        start_time = time.time()
+
         while True:
+            if time.time() - start_time > 60:
+                raise RuntimeError("Timeout waiting for SimplySign fingerprint.")
+
             line = proc.stdout.readline()
-            if not line:
+
+            if line:
+                print("SimplySign output:", repr(line), flush=True)
+                fingerprint = normalize_sha1(line.strip())
                 break
-            fingerprint = normalize_sha1(line.strip())
-            break
+
+            if proc.poll() is not None:
+                raise RuntimeError("SimplySign exited unexpectedly.")
+
+            time.sleep(0.1)
+
         if not fingerprint:
-            raise RuntimeError("No fingerprint received. Authentication may have failed.")
-        print(f"Fingerprint: {fingerprint}")
+            raise RuntimeError(
+                "No fingerprint received. Authentication may have failed."
+            )
+
+        print(f"Fingerprint: {fingerprint}", flush=True)
 
         # Sign only specified files
         files_to_sign = [
