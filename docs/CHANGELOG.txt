@@ -1,4 +1,8 @@
-﻿Version 1.0.12
+﻿Version 1.0.13
+ - 新增了代码签名证书，感谢[Certum China](https://www.certumcodesign.cn/)
+ - 没啥别的更新了，就为了庆祝下，嘻嘻
+
+Version 1.0.12
  - 更新了部分依赖项目
  - 添加了图片预览窗口全屏功能
  - 添加了图片预览窗口对`Apps`键的支持
@@ -134,6 +138,7 @@ Version 1.0.1
 
 Version 1.0.0
  - 第一个测试版发布
+
 
 
 
