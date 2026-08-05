@@ -39,13 +39,14 @@ def sign_file(fingerprint: str, file_path: str, signtool_exe: str, max_retries: 
     raise RuntimeError(f"Failed to sign {file_path} after {max_retries} attempts.")
 
 if __name__ == "__main__":
+    print("=== Sign script started ===", flush=True)
     username = os.getenv('SIGN_USERNAME')
     otp_token = os.getenv('SIGN_OTP_TOKEN')
     if not username or not otp_token:
         raise RuntimeError("SIGN_USERNAME or SIGN_OTP_TOKEN missing.")
 
     if len(sys.argv) < 2:
-        raise RuntimeError("Usage: python sign_and_pack.py <publish_path>")
+        raise RuntimeError("Usage: python sign.py <publish_path>")
     publish_path = sys.argv[1]
     if not os.path.isdir(publish_path):
         raise RuntimeError(f"Publish path not found: {publish_path}")
@@ -58,11 +59,20 @@ if __name__ == "__main__":
 
     # Wait for OTP window
     print("\nAuthenticating with SimplySignDesktop...")
+
+    start_time = time.time()
+
     while True:
-        if not (3 < timecode(datetime.datetime.now(), 30) < 13):
-            time.sleep(0.1)
-            continue
-        break
+        if time.time() - start_time > 60:
+            raise RuntimeError("Timeout waiting for SimplySign fingerprint.")
+        line = proc.stdout.readline()
+        if line:
+            print("SimplySign output:", repr(line))
+            fingerprint = normalize_sha1(line.strip())
+            break
+        if proc.poll() is not None:
+            raise RuntimeError("SimplySign exited unexpectedly.")
+        time.sleep(0.1)
 
     current_otp = totp.now()
     print(f"OTP: {current_otp}")

@@ -383,7 +383,7 @@
     <None Include="README.md" />
     <None Include="docs\README_EN.md" />
     <None Include="script\release.ps1" />
-    <None Include="script\sign_and_pack.py" />
+    <None Include="script\sign.py" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -399,7 +399,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="docs\Tutorial\" />
-    <Folder Include="tools\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="script\signtool.exe" />

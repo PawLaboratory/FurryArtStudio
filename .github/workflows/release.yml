@@ -100,8 +100,17 @@ jobs:
         }
 
         Write-Host "SimplySignDesktop installed successfully."
+
+        $exe="C:\Program Files\Certum\SimplySign Desktop\SimplySignDesktop.exe"
+
+        if (!(Test-Path $exe)) {
+            Write-Error "SimplySignDesktop.exe not found"
+            exit 1
+        }
+
+        Write-Host "SimplySignDesktop executable found."
         
-        # 清理 MSI 文件（省出磁盘空间，虽然 GitHub Runner 不差这点）
+        # 清理 MSI 文件
         Remove-Item $msiPath -Force
       
     - name: Restore NuGet packages
@@ -132,9 +141,8 @@ jobs:
         SIGN_USERNAME: ${{ secrets.CERTUM_USERNAME }}
         SIGN_OTP_TOKEN: ${{ secrets.CERTUM_OTP_TOKEN }}
       run: |
-        python -m pip install --upgrade pip
-        pip install pyotp
-        python script/sign_and_pack.py "${{ github.workspace }}\${{ env.PACKAGE_DIR }}"
+        python -m pip install pyotp
+        python -u script/sign.py "${{ github.workspace }}\${{ env.PACKAGE_DIR }}"
 
     - name: Create ZIP package
       shell: pwsh
