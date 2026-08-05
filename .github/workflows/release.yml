@@ -126,72 +126,49 @@ jobs:
         }
         Get-ChildItem -Path $dest -Include *.pdb, *.xml -Recurse | Remove-Item -Force
 
-    - name: Sign specific binaries with Certum (Cloud)
+    - name: Sign binaries with Certum (Cloud)
       shell: pwsh
       env:
         SIGN_USERNAME: ${{ secrets.CERTUM_USERNAME }}
         SIGN_OTP_TOKEN: ${{ secrets.CERTUM_OTP_TOKEN }}
       run: |
-        # 1. 安装 pyotp
+        # 1. 安装 TOTP 生成库
         pip install pyotp --quiet
 
-        # 2. 等待黄金窗口期
+        # 2. 等待 Certum 要求的“验证码剩余 3~13 秒”黄金窗口期（硬性要求，否则登录失败）
         do {
           $second = (Get-Date).Second
           Start-Sleep -Milliseconds 50
         } while ($second -le 3 -or $second -ge 13)
 
-        # 3. 生成 OTP
+        # 3. 生成当前 6 位动态验证码
         $otp = python -c "import pyotp; print(pyotp.TOTP('$env:SIGN_OTP_TOKEN', digest='SHA256').now())"
         Write-Host "Generated OTP: $otp"
 
-        # 4. 先确认 SimplySignDesktop 是否安装成功
-        $exePath = "C:\Program Files\Certum\SimplySign Desktop\SimplySignDesktop.exe"
-        if (-not (Test-Path $exePath)) {
-          Write-Error "SimplySignDesktop.exe not found at $exePath"
-          exit 1
-        }
-
-        # 5. 启动进程，同时捕获标准输出和错误输出
-        $proc = Start-Process -FilePath $exePath `
+        # 4. 静默启动 SimplySignDesktop，捕获证书指纹（SHA1）
+        $proc = Start-Process -FilePath "C:\Program Files\Certum\SimplySign Desktop\SimplySignDesktop.exe" `
           -ArgumentList "/autologin", "$env:SIGN_USERNAME", "$otp" `
-          -RedirectStandardOutput "out.txt" `
-          -RedirectStandardError "err.txt" `
+          -RedirectStandardOutput "fingerprint.txt" `
           -NoNewWindow -PassThru
 
-        # 6. 等待输出（最多 15 秒），寻找 40 位十六进制指纹
-        $fingerprint = $null
+        # 等待指纹写入文件（最多 10 秒）
         $timeout = 0
+        $fingerprint = $null
         do {
-          Start-Sleep -Milliseconds 300
-          $timeout += 300
-          if (Test-Path "out.txt") {
-            $raw = Get-Content "out.txt" -Raw
-            # 匹配连续40位十六进制字符（SHA1指纹）
-            if ($raw -match '[a-fA-F0-9]{40}') {
-              $fingerprint = $matches[0]
-              break
-            }
+          Start-Sleep -Milliseconds 200
+          $timeout += 200
+          if (Test-Path "fingerprint.txt") {
+            $fingerprint = (Get-Content "fingerprint.txt" -Raw).Trim() -replace '[^a-zA-Z0-9]', ''
           }
-        } while ($timeout -lt 15000)
+        } while ([string]::IsNullOrEmpty($fingerprint) -and $timeout -lt 10000)
 
-        # 7. 强行终止后台进程（无论是否捕获到指纹）
+        # 终止后台进程
         Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
 
-        # 8. 如果没拿到指纹，打印诊断信息
         if ([string]::IsNullOrEmpty($fingerprint)) {
-          Write-Error "Failed to obtain certificate fingerprint."
-          if (Test-Path "out.txt") {
-            Write-Host "--- Standard Output ---"
-            Get-Content "out.txt"
-          }
-          if (Test-Path "err.txt") {
-            Write-Host "--- Standard Error ---"
-            Get-Content "err.txt"
-          }
+          Write-Error "Failed to get certificate fingerprint from SimplySignDesktop"
           exit 1
         }
-
         Write-Host "Certificate Fingerprint: $fingerprint"
 
         # 5. 定位 Windows SDK 内置的官方 signtool
