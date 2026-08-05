@@ -402,6 +402,7 @@
     <Folder Include="tools\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="script\signtool.exe" />
     <Content Include="src\Docs\ABOUT.txt" />
     <Content Include="docs\CHANGELOG.txt" />
     <Content Include="src\Docs\PRIVACY.txt" />

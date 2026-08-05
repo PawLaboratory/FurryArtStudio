@@ -50,18 +50,8 @@ if __name__ == "__main__":
     if not os.path.isdir(publish_path):
         raise RuntimeError(f"Publish path not found: {publish_path}")
 
-    # Use system-installed signtool (find via where or default path)
-    signtool_exe = None
-    # Try to locate via where command
-    where_result = subprocess.run(["where", "signtool"], capture_output=True, text=True)
-    if where_result.returncode == 0:
-        signtool_exe = where_result.stdout.strip().split('\n')[0]
-    else:
-        # Fallback to typical Windows SDK path
-        fallback = r"C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\signtool.exe"
-        if os.path.exists(fallback):
-            signtool_exe = fallback
-    if not signtool_exe or not os.path.exists(signtool_exe):
+    signtool_exe = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signtool.exe")
+    if not os.path.exists(signtool_exe):
         raise RuntimeError("signtool.exe not found")
 
     totp = pyotp.TOTP(otp_token, digest='SHA256', issuer='Certum')
