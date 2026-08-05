@@ -68,7 +68,6 @@ Public Class MainForm
 #If DEBUG Then
         MnuDevTools.Visible = True '显示并启用开发者工具选项
         MnuDevTools.Enabled = True
-        MnuRunAsElevated.Visible = True
 #Else
         MnuDevTools.Enabled = False
 #End If

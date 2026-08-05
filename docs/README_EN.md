@@ -79,10 +79,6 @@ Developer: xlonglongztz 🐾
 Welcome to exchange and discuss technology 🤝  
 QQ Group: 620079146 🐧
 
-## 🤝 Other
-
-This project is maintained by Zhao Tianzuo.
-
 
 ## 🌟 Stargazers
 [![Stargazers over time](https://starchart.cc/PawLaboratory/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/PawLaboratory/FurryArtStudio)

@@ -74,10 +74,6 @@ cd FurryArtStudio
 欢迎交流与技术探讨 🤝  
 QQ交流群：620079146🐧
 
-## 🤝 其他
-
-This project is maintained by Zhao Tianzuo.
-
 
 ## 🌟 趋势图
 [![Stargazers over time](https://starchart.cc/PawLaboratory/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/PawLaboratory/FurryArtStudio)
