@@ -398,7 +398,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="docs\Tutorial\" />
-    <Folder Include="tools\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\Docs\ABOUT.txt" />
