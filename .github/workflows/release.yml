@@ -53,33 +53,56 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1
 
-    - name: Install SimplySignDesktop
+    - name: Download and Install SimplySignDesktop
       shell: pwsh
+      env:
+        CERTUM_VERSION: "9.4.4.92"  # 版本号
       run: |
-        $msiPath = "tools/SimplySignDesktop.msi"
-        
-        # 检查文件是否存在（防止路径写错导致后续失败）
-        if (-not (Test-Path $msiPath)) {
-            Write-Error "MSI file not found at: $msiPath"
-            exit 1
-        }
+        # 构造下载 URL
+        $version = $env:CERTUM_VERSION
+        $url = "https://files.certum.eu/software/SimplySignDesktop/Windows/$version/SimplySignDesktop-$version-64-bit-en.msi"
+        $msiPath = "$env:TEMP\SimplySignDesktop-$version-64-bit-en.msi"
+        $logPath = "$env:TEMP\install.log"
 
-        $absMsiPath = Convert-Path $msiPath
-        $logPath = "$PWD\install.log"
-
-        Write-Host "Installing SimplySignDesktop from $absMsiPath..."
-        # /qn 表示完全静默安装，ALLUSERS=1 表示安装到所有用户（关键）
-        $process = Start-Process msiexec -ArgumentList "/i `"$absMsiPath`" /qn /norestart ALLUSERS=1 /l*v `"$logPath`"" -Wait -PassThru
+        Write-Host "Downloading SimplySignDesktop from: $url"
         
-        if ($process.ExitCode -ne 0) {
-            Write-Host "Installation failed with exit code $($process.ExitCode)"
-            # 打印日志帮助排错
-            if (Test-Path $logPath) {
-                Get-Content $logPath
+        # 下载 MSI 文件（增加重试机制，防止网络抖动）
+        $retryCount = 0
+        $maxRetries = 3
+        do {
+          try {
+            Invoke-WebRequest -Uri $url -OutFile $msiPath -UseBasicParsing
+            $downloadSuccess = $true
+          } catch {
+            $retryCount++
+            Write-Warning "Download attempt $retryCount failed: $_"
+            if ($retryCount -ge $maxRetries) {
+              Write-Error "Failed to download after $maxRetries attempts."
+              exit 1
             }
-            exit $process.ExitCode
+            Start-Sleep -Seconds 2
+          }
+        } while (-not $downloadSuccess -and $retryCount -lt $maxRetries)
+
+        Write-Host "Download completed. File size: $([math]::Round((Get-Item $msiPath).Length / 1MB, 2)) MB"
+
+        # 静默安装（/qn 完全静默，/norestart 不重启）
+        Write-Host "Installing SimplySignDesktop..."
+        $process = Start-Process msiexec -ArgumentList "/i `"$msiPath`" /qn /norestart ALLUSERS=1 /l*v `"$logPath`"" -Wait -PassThru
+
+        if ($process.ExitCode -ne 0) {
+          Write-Error "Installation failed with exit code $($process.ExitCode)"
+          if (Test-Path $logPath) {
+            Write-Host "Install log (last 50 lines):"
+            Get-Content $logPath -Tail 50
+          }
+          exit $process.ExitCode
         }
+
         Write-Host "SimplySignDesktop installed successfully."
+        
+        # 清理 MSI 文件（省出磁盘空间，虽然 GitHub Runner 不差这点）
+        Remove-Item $msiPath -Force
       
     - name: Restore NuGet packages
       run: nuget restore FurryArtStudio.sln
