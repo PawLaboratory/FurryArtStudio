@@ -52,6 +52,34 @@ jobs:
       
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1
+
+    - name: Install SimplySignDesktop
+      shell: pwsh
+      run: |
+        $msiPath = "tools/SimplySignDesktop.msi"
+        
+        # 检查文件是否存在（防止路径写错导致后续失败）
+        if (-not (Test-Path $msiPath)) {
+            Write-Error "MSI file not found at: $msiPath"
+            exit 1
+        }
+
+        $absMsiPath = Convert-Path $msiPath
+        $logPath = "$PWD\install.log"
+
+        Write-Host "Installing SimplySignDesktop from $absMsiPath..."
+        # /qn 表示完全静默安装，ALLUSERS=1 表示安装到所有用户（关键）
+        $process = Start-Process msiexec -ArgumentList "/i `"$absMsiPath`" /qn /norestart ALLUSERS=1 /l*v `"$logPath`"" -Wait -PassThru
+        
+        if ($process.ExitCode -ne 0) {
+            Write-Host "Installation failed with exit code $($process.ExitCode)"
+            # 打印日志帮助排错
+            if (Test-Path $logPath) {
+                Get-Content $logPath
+            }
+            exit $process.ExitCode
+        }
+        Write-Host "SimplySignDesktop installed successfully."
       
     - name: Restore NuGet packages
       run: nuget restore FurryArtStudio.sln
@@ -131,7 +159,7 @@ jobs:
           exit 1
         }
 
-        # 6. 对打包目录下的所有 .exe 和 .dll 进行签名（单线程循环，避免云限流）
+        # 6. 对主程序和辅助库进行签名
         $targetDir = "${{ github.workspace }}\${{ env.PACKAGE_DIR }}"
         $filesToSign = @(
             "$targetDir\FurryArtStudio.exe",
