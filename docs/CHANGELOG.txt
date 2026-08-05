@@ -28,6 +28,11 @@ Version 1.0.14
  - 修复了1.0.13版本缺少代码签名工具的Actions构建错误问题
  - 没啥别的更新了，就为了庆祝下，嘻嘻
 
+Version 1.0.14
+ - 新增了代码签名证书，感谢[Certum China](https://www.certumcodesign.cn/)
+ - 修复了1.0.13版本缺少代码签名工具的Actions构建错误问题
+ - 没啥别的更新了，就为了庆祝下，嘻嘻
+
 Version 1.0.13（构建失败）
  - 新增了代码签名证书，感谢[Certum China](https://www.certumcodesign.cn/)
  - 没啥别的更新了，就为了庆祝下，嘻嘻
@@ -168,6 +173,7 @@ Version 1.0.1
 
 Version 1.0.0
  - 第一个测试版发布
+
 
 
 
