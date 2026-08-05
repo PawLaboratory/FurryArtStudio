@@ -126,105 +126,15 @@ jobs:
         }
         Get-ChildItem -Path $dest -Include *.pdb, *.xml -Recurse | Remove-Item -Force
 
-    - name: Sign specific binaries with Certum (Cloud)
+    - name: Sign binaries with Certum
       shell: pwsh
       env:
         SIGN_USERNAME: ${{ secrets.CERTUM_USERNAME }}
         SIGN_OTP_TOKEN: ${{ secrets.CERTUM_OTP_TOKEN }}
       run: |
-        # 1. 安装 pyotp
-        pip install pyotp --quiet
-
-        # 2. 等待黄金窗口期
-        do {
-          $second = (Get-Date).Second
-          Start-Sleep -Milliseconds 50
-        } while ($second -le 3 -or $second -ge 13)
-
-        # 3. 生成 OTP
-        $otp = python -c "import pyotp; print(pyotp.TOTP('$env:SIGN_OTP_TOKEN', digest='SHA256').now())"
-        Write-Host "Generated OTP: $otp"
-
-        # 4. 先确认 SimplySignDesktop 是否安装成功
-        $exePath = "C:\Program Files\Certum\SimplySign Desktop\SimplySignDesktop.exe"
-        if (-not (Test-Path $exePath)) {
-          Write-Error "SimplySignDesktop.exe not found at $exePath"
-          exit 1
-        }
-
-        # 5. 启动进程，同时捕获标准输出和错误输出
-        $proc = Start-Process -FilePath $exePath `
-          -ArgumentList "/autologin", "$env:SIGN_USERNAME", "$otp" `
-          -RedirectStandardOutput "out.txt" `
-          -RedirectStandardError "err.txt" `
-          -NoNewWindow -PassThru
-
-        # 6. 等待输出（最多 15 秒），寻找 40 位十六进制指纹
-        $fingerprint = $null
-        $timeout = 0
-        do {
-          Start-Sleep -Milliseconds 300
-          $timeout += 300
-          if (Test-Path "out.txt") {
-            $raw = Get-Content "out.txt" -Raw
-            # 匹配连续40位十六进制字符（SHA1指纹）
-            if ($raw -match '[a-fA-F0-9]{40}') {
-              $fingerprint = $matches[0]
-              break
-            }
-          }
-        } while ($timeout -lt 15000)
-
-        # 7. 强行终止后台进程（无论是否捕获到指纹）
-        Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
-
-        # 8. 如果没拿到指纹，打印诊断信息
-        if ([string]::IsNullOrEmpty($fingerprint)) {
-          Write-Error "Failed to obtain certificate fingerprint."
-          if (Test-Path "out.txt") {
-            Write-Host "--- Standard Output ---"
-            Get-Content "out.txt"
-          }
-          if (Test-Path "err.txt") {
-            Write-Host "--- Standard Error ---"
-            Get-Content "err.txt"
-          }
-          exit 1
-        }
-
-        Write-Host "Certificate Fingerprint: $fingerprint"
-
-        # 5. 定位 Windows SDK 内置的官方 signtool
-        $signtool = (Get-Command signtool.exe -ErrorAction SilentlyContinue).Source
-        if (-not $signtool) {
-          # 备选路径（适配 windows-latest runner）
-          $signtool = "${env:ProgramFiles(x86)}\Windows Kits\10\bin\10.0.19041.0\x64\signtool.exe"
-        }
-        if (-not (Test-Path $signtool)) {
-          Write-Error "signtool.exe not found"
-          exit 1
-        }
-
-        # 6. 对主程序和辅助库进行签名
-        $targetDir = "${{ github.workspace }}\${{ env.PACKAGE_DIR }}"
-        $filesToSign = @(
-            "$targetDir\FurryArtStudio.exe",
-            "$targetDir\Chromis.dll"
-        )
-        foreach ($file in $filesToSign) {
-          if (Test-Path $file) {
-            Write-Host "Signing: $(Split-Path $file -Leaf)"
-            & $signtool sign /sha1 $fingerprint /tr "http://time.certum.pl" /td SHA256 /fd SHA256 /v $file
-            if ($LASTEXITCODE -ne 0) {
-              Write-Error "Failed to sign $file"
-              exit 1
-            }
-          } else {
-            # 如果文件不存在，给出警告但继续（避免因缺失文件导致整个流水线崩掉）
-            Write-Warning "File not found, skipping: $file"
-          }
-        }
-        Write-Host "Target binaries signed successfully."
+        python -m pip install --upgrade pip
+        pip install pyotp
+        python script/sign_and_pack.py "${{ github.workspace }}\${{ env.PACKAGE_DIR }}"
 
     - name: Create ZIP package
       shell: pwsh
