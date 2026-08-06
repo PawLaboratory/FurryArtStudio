@@ -140,6 +140,7 @@ jobs:
       env:
         SIGN_USERNAME: ${{ secrets.CERTUM_USERNAME }}
         SIGN_OTP_TOKEN: ${{ secrets.CERTUM_OTP_TOKEN }}
+        CERTUM_FINGERPRINT: ${{ secrets.CERTUM_FINGERPRINT }}
       run: |
         # Generate OPT
         pip install pyotp --quiet
