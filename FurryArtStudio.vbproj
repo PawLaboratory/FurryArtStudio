@@ -383,7 +383,6 @@
     <None Include="README.md" />
     <None Include="docs\README_EN.md" />
     <None Include="script\release.ps1" />
-    <None Include="script\sign.py" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
