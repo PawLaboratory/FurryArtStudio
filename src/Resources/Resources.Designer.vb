@@ -1870,6 +1870,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 &amp;Dark Mode 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property View_Dark() As String
+            Get
+                Return ResourceManager.GetString("View_Dark", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Bit Depth: {0} 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property View_Depth() As String
@@ -2131,6 +2140,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 &amp;Light Mode 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property View_Light() As String
+            Get
+                Return ResourceManager.GetString("View_Light", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Loading... 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property View_Loading() As String
@@ -2257,11 +2275,47 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Show &amp;Status Bar 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property View_ShowStatusBar() As String
+            Get
+                Return ResourceManager.GetString("View_ShowStatusBar", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Show &amp;Tool Bar 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property View_ShowToolBar() As String
+            Get
+                Return ResourceManager.GetString("View_ShowToolBar", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Follow &amp;System 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property View_System() As String
+            Get
+                Return ResourceManager.GetString("View_System", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Tags: {0} 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property View_Tags() As String
             Get
                 Return ResourceManager.GetString("View_Tags", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 T&amp;heme 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property View_Theme() As String
+            Get
+                Return ResourceManager.GetString("View_Theme", resourceCulture)
             End Get
         End Property
         

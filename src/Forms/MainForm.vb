@@ -104,6 +104,17 @@ Public Class MainForm
         ImageGalleryMain.SelectionAccentColor = Color.FromArgb(settings.Appearance.SelectionAccentColorArgb)
         ImageGalleryMain.BadgeColor = Color.FromArgb(settings.Appearance.BadgeColorArgb)
         TlStrip.Visible = settings.Appearance.ShowToolBar
+        MnuShowToolBar.Checked = settings.Appearance.ShowToolBar
+        StaStrip.Visible = settings.Appearance.ShowStatusBar
+        MnuShowStatusBar.Checked = settings.Appearance.ShowStatusBar
+        Select Case settings.Appearance.Theme
+            Case AppSettings.ThemeMode.Light
+                MnuThemeLight.Checked = True
+            Case AppSettings.ThemeMode.Dark
+                MnuThemeDark.Checked = True
+            Case AppSettings.ThemeMode.FollowSystem
+                MnuThemeSystem.Checked = True
+        End Select
         If autoChangeLang Then settings.Save() '首次运行时保存配置文件
         Me.AllowDrop = True
         If settings.Startup.ShowHitokoto Then '调用异步过程显示一言
@@ -287,6 +298,12 @@ Public Class MainForm
         MnuMsCopyPath.Text = My.Resources.Mnu_CopyPath
         '视图
         MnuViews.Text = My.Resources.Mnu_Views
+        MnuShowStatusBar.Text = My.Resources.View_ShowStatusBar
+        MnuShowToolBar.Text = My.Resources.View_ShowToolBar
+        MnuTheme.Text = My.Resources.View_Theme
+        MnuThemeDark.Text = My.Resources.View_Dark
+        MnuThemeLight.Text = My.Resources.View_Light
+        MnuThemeSystem.Text = My.Resources.View_System
         MnuViewPlay.Text = My.Resources.Mnu_Play
         MnuSelectAll.Text = My.Resources.Mnu_SelectAll
         MnuSelectReverse.Text = My.Resources.Mnu_SelectReverse
@@ -331,7 +348,7 @@ Public Class MainForm
             Case Else
                 tf = SystemFonts.MenuFont
         End Select
-        For Each item As ToolStripMenuItem In MnuStrip.Items
+        For Each item As ToolStripMenuItem In MnuStrip.Items.OfType(Of ToolStripMenuItem)()
             SetMenuFont(item, tf)
         Next
         If _libraryManager.GetCurrentLibrary Is Nothing Then
@@ -449,6 +466,12 @@ Public Class MainForm
             (MnuMsDelete, "MenuDelete"),
             (MnuMsOpenFolder, "MenuFolderOpen"),
             (MnuMsCopy, "MenuCopy"),
+            (MnuShowStatusBar, "MenuStatusBar"),
+            (MnuShowToolBar, "MenuToolBar"),
+            (MnuThemeDark, "MenuDarkMode"),
+            (MnuThemeLight, "MenuLightMode"),
+            (MnuThemeSystem, "MenuSystem"),
+            (MnuAdvancedSearch, "MenuAdvSearch"),
             (MnuViewPlay, "MenuImagePlay"),
             (MnuSearch, "MenuSearch"),
             (MnuPageUp, "MenuPrevious"),
@@ -554,7 +577,7 @@ Public Class MainForm
         RefreshLibListMenu()
         ImageGalleryMain.ClearImages() '清空所有图片
         ImageGalleryMain.Enabled = False
-        SearchTextBox.Focus()
+        MnuSearchTxtbox.Focus()
         If _imageList.Count <> 0 Then _imageList.Clear()
         PiChkThumb.Image = Nothing
         LblTitle.Text = ""
@@ -562,8 +585,8 @@ Public Class MainForm
         LblTags.Text = ""
         LblCharacters.Text = ""
         LblNotes.Text = ""
-        SearchTextBox.Enabled = False
-        SearchTextBox.Text = ""
+        MnuSearchTxtbox.Enabled = False
+        MnuSearchTxtbox.Text = ""
         StatusLabel.Text = My.Resources.Stat_Ready
         ArtworkStatusLabel.Text = My.Resources.Main_LblNoLib
         _artworkCount = 0
@@ -678,7 +701,7 @@ Public Class MainForm
         LblCharacters.Text = ""
         LblNotes.Text = ""
         PiChkThumb.Image = Nothing
-        SearchTextBox.Enabled = True
+        MnuSearchTxtbox.Enabled = True
         '设置图片墙
         ImageGalleryMain.ClearImages() '清空所有图片
         ArtworkStatusLabel.Text = String.Format(My.Resources.Main_LblLibName,
@@ -731,7 +754,7 @@ Public Class MainForm
     ''' <summary>
     ''' 搜索内容时触发
     ''' </summary>
-    Private Sub SearchTextBox_TextChanged(sender As Object, e As EventArgs) Handles SearchTextBox.TextChanged
+    Private Sub MnuSearchTxtbox_TextChanged(sender As Object, e As EventArgs) Handles MnuSearchTxtbox.TextChanged
         SearchArtwork()
     End Sub
     ''' <summary>
@@ -740,14 +763,14 @@ Public Class MainForm
     Private Sub SearchArtwork()
         StatusLabel.Text = My.Resources.Stat_Searching
         ClearSelect()
-        If SearchTextBox.Text = "" Then
+        If MnuSearchTxtbox.Text = "" Then
             RefreshLib()
             TSSep1.Visible = False
             SearchStatusLabel.Visible = False
             If _libraryManager.GetCurrentLibrary IsNot Nothing Then Text = $"{_libraryManager.GetCurrentLibrary.LibraryName} - FurryArtStudio"
         Else
             ImageGalleryMain.ClearImages()
-            Dim resultArtwork As List(Of Artwork) = _libraryManager.GetCurrentLibrary.SearchArtworks(SearchTextBox.Text)
+            Dim resultArtwork As List(Of Artwork) = _libraryManager.GetCurrentLibrary.SearchArtworks(MnuSearchTxtbox.Text)
             Dim libraryPath = _libraryManager.GetCurrentLibrary.LibraryPath
             SetGallery(resultArtwork, libraryPath) '载入稿件
             TSSep1.Visible = True
@@ -766,18 +789,6 @@ Public Class MainForm
 #Region "菜单项"
 
 #Region "文件菜单项"
-    Private Sub MnuOnTop_Click(sender As Object, e As EventArgs) Handles MnuOnTop.Click
-        SetOnTop()
-    End Sub
-    Private Sub MnuPrivacyProtect_Click(sender As Object, e As EventArgs) Handles MnuPrivacyProtect.Click
-        If MnuPrivacyProtect.Checked Then
-            MnuPrivacyProtect.Checked = False
-            SetWindowDisplayAffinity(Handle, WDA_NONE)
-        Else
-            MnuPrivacyProtect.Checked = True
-            SetWindowDisplayAffinity(Handle, WDA_MONITOR)
-        End If
-    End Sub
     Private Sub MnuDevTools_Click(sender As Object, e As EventArgs) Handles MnuDevTools.Click
         DevToolsForm.Show()
     End Sub
@@ -920,7 +931,7 @@ Public Class MainForm
         CloseLibrary() '为了避免编辑稿件后图片浏览器出现问题, 所以必须关闭库重载
         RefreshLibListMenu()
         If _libraryManager.GetCurrentLibrary IsNot Nothing Then LoadArtworks()
-        If SearchTextBox.Text <> "" Then SearchArtwork()
+        If MnuSearchTxtbox.Text <> "" Then SearchArtwork()
     End Sub
     Private Sub MnuLibClone_Click(sender As Object, e As EventArgs) Handles MnuLibClone.Click
         Using inputForm As New InputDialogForm With {
@@ -1386,6 +1397,69 @@ Public Class MainForm
 #End Region
 
 #Region "视图菜单项"
+    Private Sub MnuOnTop_Click(sender As Object, e As EventArgs) Handles MnuOnTop.Click
+        SetOnTop()
+    End Sub
+    Private Sub MnuPrivacyProtect_Click(sender As Object, e As EventArgs) Handles MnuPrivacyProtect.Click
+        If MnuPrivacyProtect.Checked Then
+            MnuPrivacyProtect.Checked = False
+            SetWindowDisplayAffinity(Handle, WDA_NONE)
+        Else
+            MnuPrivacyProtect.Checked = True
+            SetWindowDisplayAffinity(Handle, WDA_MONITOR)
+        End If
+    End Sub
+    Private Sub MnuShowStatusBar_Click(sender As Object, e As EventArgs) Handles MnuShowStatusBar.Click
+        If MnuShowStatusBar.Checked Then
+            MnuShowStatusBar.Checked = False
+            StaStrip.Visible = False
+        Else
+            MnuShowStatusBar.Checked = True
+            StaStrip.Visible = True
+        End If
+        Dim settings = AppSettings.Load()
+        settings.Appearance.ShowStatusBar = MnuShowStatusBar.Checked
+        settings.Save()
+    End Sub
+    Private Sub MnuShowToolBar_Click(sender As Object, e As EventArgs) Handles MnuShowToolBar.Click
+        If MnuShowToolBar.Checked Then
+            TlStrip.Visible = False
+            MnuShowToolBar.Checked = False
+        Else
+            TlStrip.Visible = True
+            MnuShowToolBar.Checked = True
+        End If
+        Dim settings = AppSettings.Load()
+        settings.Appearance.ShowToolBar = MnuShowToolBar.Checked
+        settings.Save()
+    End Sub
+    Private Sub MnuThemeSystem_Click(sender As Object, e As EventArgs) Handles MnuThemeSystem.Click
+        Dim settings = AppSettings.Load()
+        settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem
+        settings.Save()
+        UpdateFormTheme()
+        MnuThemeSystem.Checked = True
+        MnuThemeDark.Checked = False
+        MnuThemeLight.Checked = False
+    End Sub
+    Private Sub MnuThemeLight_Click(sender As Object, e As EventArgs) Handles MnuThemeLight.Click
+        Dim settings = AppSettings.Load()
+        settings.Appearance.Theme = AppSettings.ThemeMode.Light
+        settings.Save()
+        UpdateFormTheme()
+        MnuThemeSystem.Checked = False
+        MnuThemeDark.Checked = False
+        MnuThemeLight.Checked = True
+    End Sub
+    Private Sub MnuThemeDark_Click(sender As Object, e As EventArgs) Handles MnuThemeDark.Click
+        Dim settings = AppSettings.Load()
+        settings.Appearance.Theme = AppSettings.ThemeMode.Dark
+        settings.Save()
+        UpdateFormTheme()
+        MnuThemeSystem.Checked = False
+        MnuThemeDark.Checked = True
+        MnuThemeLight.Checked = False
+    End Sub
     Private Sub MnuViewPlay_Click(sender As Object, e As EventArgs) Handles MnuViewPlay.Click
         '待开发
     End Sub
@@ -1393,7 +1467,7 @@ Public Class MainForm
         '待开发
     End Sub
     Private Sub MnuSearch_Click(sender As Object, e As EventArgs) Handles MnuSearch.Click
-        SearchTextBox.Focus()
+        MnuSearchTxtbox.Focus()
     End Sub
     Private Sub MnuSelectAll_Click(sender As Object, e As EventArgs) Handles MnuSelectAll.Click
         ImageGalleryMain.SelectAll()

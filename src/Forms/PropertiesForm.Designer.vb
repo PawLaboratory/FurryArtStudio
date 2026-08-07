@@ -45,6 +45,7 @@ Partial Class PropertiesForm
         Me.RadLight = New System.Windows.Forms.RadioButton()
         Me.LblTheme = New System.Windows.Forms.Label()
         Me.GrpStartup = New System.Windows.Forms.GroupBox()
+        Me.ChkShowHito = New System.Windows.Forms.CheckBox()
         Me.ChkRestore = New System.Windows.Forms.CheckBox()
         Me.CboCheckUpdate = New System.Windows.Forms.ComboBox()
         Me.ChkAutoCheckUpdate = New System.Windows.Forms.CheckBox()
@@ -64,7 +65,7 @@ Partial Class PropertiesForm
         Me.LblThumbMin = New System.Windows.Forms.Label()
         Me.ColorDlg = New System.Windows.Forms.ColorDialog()
         Me.BtnClose = New System.Windows.Forms.Button()
-        Me.ChkShowHito = New System.Windows.Forms.CheckBox()
+        Me.ChkShowStatus = New System.Windows.Forms.CheckBox()
         Me.GrpAppearance.SuspendLayout()
         Me.GrpStartup.SuspendLayout()
         Me.GrpAdvanced.SuspendLayout()
@@ -99,6 +100,7 @@ Partial Class PropertiesForm
         '
         'GrpAppearance
         '
+        Me.GrpAppearance.Controls.Add(Me.ChkShowStatus)
         Me.GrpAppearance.Controls.Add(Me.ChkShowTool)
         Me.GrpAppearance.Controls.Add(Me.ChkMenuUpper)
         Me.GrpAppearance.Controls.Add(Me.ChkShowThemeColor)
@@ -119,7 +121,7 @@ Partial Class PropertiesForm
         Me.GrpAppearance.Controls.Add(Me.LblTheme)
         Me.GrpAppearance.Location = New System.Drawing.Point(12, 12)
         Me.GrpAppearance.Name = "GrpAppearance"
-        Me.GrpAppearance.Size = New System.Drawing.Size(380, 246)
+        Me.GrpAppearance.Size = New System.Drawing.Size(380, 268)
         Me.GrpAppearance.TabIndex = 55
         Me.GrpAppearance.TabStop = False
         Me.GrpAppearance.Text = "外观"
@@ -298,12 +300,22 @@ Partial Class PropertiesForm
         Me.GrpStartup.Controls.Add(Me.ChkAutoCheckUpdate)
         Me.GrpStartup.Controls.Add(Me.ChkAutoPlay)
         Me.GrpStartup.Controls.Add(Me.ChkAutoStart)
-        Me.GrpStartup.Location = New System.Drawing.Point(12, 264)
+        Me.GrpStartup.Location = New System.Drawing.Point(426, 264)
         Me.GrpStartup.Name = "GrpStartup"
         Me.GrpStartup.Size = New System.Drawing.Size(380, 155)
         Me.GrpStartup.TabIndex = 56
         Me.GrpStartup.TabStop = False
         Me.GrpStartup.Text = "启动"
+        '
+        'ChkShowHito
+        '
+        Me.ChkShowHito.AutoSize = True
+        Me.ChkShowHito.Location = New System.Drawing.Point(10, 126)
+        Me.ChkShowHito.Name = "ChkShowHito"
+        Me.ChkShowHito.Size = New System.Drawing.Size(134, 19)
+        Me.ChkShowHito.TabIndex = 60
+        Me.ChkShowHito.Text = "启动时显示一言"
+        Me.ChkShowHito.UseVisualStyleBackColor = True
         '
         'ChkRestore
         '
@@ -487,15 +499,15 @@ Partial Class PropertiesForm
         Me.BtnClose.Text = "关闭(&C)"
         Me.BtnClose.UseVisualStyleBackColor = True
         '
-        'ChkShowHito
+        'ChkShowStatus
         '
-        Me.ChkShowHito.AutoSize = True
-        Me.ChkShowHito.Location = New System.Drawing.Point(10, 126)
-        Me.ChkShowHito.Name = "ChkShowHito"
-        Me.ChkShowHito.Size = New System.Drawing.Size(134, 19)
-        Me.ChkShowHito.TabIndex = 60
-        Me.ChkShowHito.Text = "启动时显示一言"
-        Me.ChkShowHito.UseVisualStyleBackColor = True
+        Me.ChkShowStatus.AutoSize = True
+        Me.ChkShowStatus.Location = New System.Drawing.Point(205, 242)
+        Me.ChkShowStatus.Name = "ChkShowStatus"
+        Me.ChkShowStatus.Size = New System.Drawing.Size(104, 19)
+        Me.ChkShowStatus.TabIndex = 82
+        Me.ChkShowStatus.Text = "显示状态栏"
+        Me.ChkShowStatus.UseVisualStyleBackColor = True
         '
         'PropertiesForm
         '
@@ -569,4 +581,5 @@ Partial Class PropertiesForm
     Friend WithEvents ChkLoop As CheckBox
     Friend WithEvents ChkShowTool As CheckBox
     Friend WithEvents ChkShowHito As CheckBox
+    Friend WithEvents ChkShowStatus As CheckBox
 End Class

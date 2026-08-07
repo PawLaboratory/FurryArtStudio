@@ -20,7 +20,7 @@ Imports Microsoft.Win32
 
 Public Class PropertiesForm
     Implements IThemeChangeable, ILocalizable
-    Private Setting As AppSettings = AppSettings.Load()
+    Private Setting As AppSettings
     Private _isUpdatingCheckbox As Boolean = False '用来区分用户设置与程序设置
 #Region "窗体"
     Private Sub PropertiesForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -67,6 +67,7 @@ Public Class PropertiesForm
         FlushMenuThemes()
     End Sub
     Private Sub InitSettings()
+        Setting = AppSettings.Load()
         Dim appearances = Setting.Appearance
         Select Case appearances.Theme
             Case AppSettings.ThemeMode.FollowSystem
@@ -93,6 +94,7 @@ Public Class PropertiesForm
         CboLang.SelectedIndex() = appearances.Language
         ChkMenuUpper.Checked = appearances.MenuUppercase
         ChkShowTool.Checked = appearances.ShowToolBar
+        ChkShowStatus.Checked = appearances.ShowStatusBar
         Dim startups = Setting.Startup
         CheckAutoStartStatus()
         ChkRestore.Checked = startups.RestoreLastLibrary
@@ -110,16 +112,25 @@ Public Class PropertiesForm
         Setting.Appearance.Theme = AppSettings.ThemeMode.Light
         Setting.Save()
         UpdateFormTheme()
+        MainForm.MnuThemeSystem.Checked = False
+        MainForm.MnuThemeDark.Checked = False
+        MainForm.MnuThemeLight.Checked = True
     End Sub
     Private Sub RadDark_CheckedChanged(sender As Object, e As EventArgs) Handles RadDark.CheckedChanged
         Setting.Appearance.Theme = AppSettings.ThemeMode.Dark
         Setting.Save()
         UpdateFormTheme()
+        MainForm.MnuThemeSystem.Checked = False
+        MainForm.MnuThemeDark.Checked = True
+        MainForm.MnuThemeLight.Checked = False
     End Sub
     Private Sub RadSystem_CheckedChanged(sender As Object, e As EventArgs) Handles RadSystem.CheckedChanged
         Setting.Appearance.Theme = AppSettings.ThemeMode.FollowSystem
         Setting.Save()
         UpdateFormTheme()
+        MainForm.MnuThemeSystem.Checked = True
+        MainForm.MnuThemeDark.Checked = False
+        MainForm.MnuThemeLight.Checked = False
     End Sub
     Private Sub ChkShowThemeColor_CheckedChanged(sender As Object, e As EventArgs) Handles ChkShowThemeColor.CheckedChanged
         If ChkShowThemeColor.Checked Then
@@ -196,6 +207,17 @@ Public Class PropertiesForm
             Setting.Appearance.ShowToolBar = False
             MainForm.TlStrip.Visible = False
         End If
+        MainForm.MnuShowToolBar.Checked = ChkShowTool.Checked
+    End Sub
+    Private Sub ChkShowStatus_CheckedChanged(sender As Object, e As EventArgs) Handles ChkShowStatus.CheckedChanged
+        If ChkShowStatus.Checked Then
+            Setting.Appearance.ShowToolBar = True
+            MainForm.StaStrip.Visible = True
+        Else
+            Setting.Appearance.ShowToolBar = False
+            MainForm.StaStrip.Visible = False
+        End If
+        MainForm.MnuShowStatusBar.Checked = ChkShowStatus.Checked
     End Sub
 #End Region
 
@@ -238,6 +260,8 @@ Public Class PropertiesForm
     Private Sub ChkShowHito_CheckedChanged(sender As Object, e As EventArgs) Handles ChkShowHito.CheckedChanged
         Setting.Startup.ShowHitokoto = ChkShowHito.Checked
     End Sub
+
+
 
 
 #End Region

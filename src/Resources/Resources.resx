@@ -861,4 +861,22 @@
   <data name="Mnu_PrivacyProtect" xml:space="preserve">
     <value>Pr&amp;ivacy Protect</value>
   </data>
+  <data name="View_ShowStatusBar" xml:space="preserve">
+    <value>Show &amp;Status Bar</value>
+  </data>
+  <data name="View_ShowToolBar" xml:space="preserve">
+    <value>Show &amp;Tool Bar</value>
+  </data>
+  <data name="View_Theme" xml:space="preserve">
+    <value>T&amp;heme</value>
+  </data>
+  <data name="View_Light" xml:space="preserve">
+    <value>&amp;Light Mode</value>
+  </data>
+  <data name="View_Dark" xml:space="preserve">
+    <value>&amp;Dark Mode</value>
+  </data>
+  <data name="View_System" xml:space="preserve">
+    <value>Follow &amp;System</value>
+  </data>
 </root>

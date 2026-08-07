@@ -861,4 +861,22 @@
   <data name="Mnu_PrivacyProtect" xml:space="preserve">
     <value>隐私保护(&amp;I)</value>
   </data>
+  <data name="View_ShowStatusBar" xml:space="preserve">
+    <value>显示状态栏(&amp;S)</value>
+  </data>
+  <data name="View_ShowToolBar" xml:space="preserve">
+    <value>显示工具栏(&amp;T)</value>
+  </data>
+  <data name="View_Theme" xml:space="preserve">
+    <value>主题(&amp;H)</value>
+  </data>
+  <data name="View_Light" xml:space="preserve">
+    <value>浅色模式(&amp;L)</value>
+  </data>
+  <data name="View_Dark" xml:space="preserve">
+    <value>深色模式(&amp;D)</value>
+  </data>
+  <data name="View_System" xml:space="preserve">
+    <value>跟随系统(&amp;S)</value>
+  </data>
 </root>
