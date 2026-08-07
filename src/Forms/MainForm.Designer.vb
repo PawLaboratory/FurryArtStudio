@@ -154,6 +154,7 @@ Partial Class MainForm
         Me.TSBtnPrevPage = New System.Windows.Forms.ToolStripButton()
         Me.TSBtnNextPage = New System.Windows.Forms.ToolStripButton()
         Me.ArtworkListSplitContainer = New System.Windows.Forms.SplitContainer()
+        Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.LblNotes = New System.Windows.Forms.Label()
         Me.LblDeltas = New System.Windows.Forms.Label()
         Me.LblTags = New System.Windows.Forms.Label()
@@ -161,7 +162,6 @@ Partial Class MainForm
         Me.LblAuthor = New System.Windows.Forms.Label()
         Me.LblTitle = New System.Windows.Forms.Label()
         Me.PiChkThumb = New System.Windows.Forms.PictureBox()
-        Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.MnuStrip.SuspendLayout()
         Me.StaStrip.SuspendLayout()
         Me.ConMenu.SuspendLayout()
@@ -498,6 +498,7 @@ Partial Class MainForm
         '
         Me.MnuPrivacyProtect.Image = CType(resources.GetObject("MnuPrivacyProtect.Image"), System.Drawing.Image)
         Me.MnuPrivacyProtect.Name = "MnuPrivacyProtect"
+        Me.MnuPrivacyProtect.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
         Me.MnuPrivacyProtect.Size = New System.Drawing.Size(283, 26)
         Me.MnuPrivacyProtect.Text = "隐私保护(&I)"
         '
@@ -531,21 +532,21 @@ Partial Class MainForm
         '
         Me.MnuThemeSystem.Image = CType(resources.GetObject("MnuThemeSystem.Image"), System.Drawing.Image)
         Me.MnuThemeSystem.Name = "MnuThemeSystem"
-        Me.MnuThemeSystem.Size = New System.Drawing.Size(173, 26)
+        Me.MnuThemeSystem.Size = New System.Drawing.Size(224, 26)
         Me.MnuThemeSystem.Text = "跟随系统(&S)"
         '
         'MnuThemeLight
         '
         Me.MnuThemeLight.Image = CType(resources.GetObject("MnuThemeLight.Image"), System.Drawing.Image)
         Me.MnuThemeLight.Name = "MnuThemeLight"
-        Me.MnuThemeLight.Size = New System.Drawing.Size(173, 26)
+        Me.MnuThemeLight.Size = New System.Drawing.Size(224, 26)
         Me.MnuThemeLight.Text = "浅色模式(&L)"
         '
         'MnuThemeDark
         '
         Me.MnuThemeDark.Image = CType(resources.GetObject("MnuThemeDark.Image"), System.Drawing.Image)
         Me.MnuThemeDark.Name = "MnuThemeDark"
-        Me.MnuThemeDark.Size = New System.Drawing.Size(173, 26)
+        Me.MnuThemeDark.Size = New System.Drawing.Size(224, 26)
         Me.MnuThemeDark.Text = "深色模式(&D)"
         '
         'ToolStripSeparator18
@@ -1131,6 +1132,22 @@ Partial Class MainForm
         Me.ArtworkListSplitContainer.SplitterDistance = 730
         Me.ArtworkListSplitContainer.TabIndex = 3
         '
+        'ImageGalleryMain
+        '
+        Me.ImageGalleryMain.AutoScroll = True
+        Me.ImageGalleryMain.BackColor = System.Drawing.Color.White
+        Me.ImageGalleryMain.BadgeColor = System.Drawing.Color.Red
+        Me.ImageGalleryMain.DisplayMode = FurryArtStudio.GalleryDisplayMode.Normal
+        Me.ImageGalleryMain.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ImageGalleryMain.Location = New System.Drawing.Point(3, 0)
+        Me.ImageGalleryMain.MaxItemSize = 240
+        Me.ImageGalleryMain.MinItemSize = 120
+        Me.ImageGalleryMain.Name = "ImageGalleryMain"
+        Me.ImageGalleryMain.PageSize = 100
+        Me.ImageGalleryMain.SelectionAccentColor = System.Drawing.Color.Blue
+        Me.ImageGalleryMain.Size = New System.Drawing.Size(727, 509)
+        Me.ImageGalleryMain.TabIndex = 3
+        '
         'LblNotes
         '
         Me.LblNotes.Dock = System.Windows.Forms.DockStyle.Top
@@ -1200,22 +1217,6 @@ Partial Class MainForm
         Me.PiChkThumb.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PiChkThumb.TabIndex = 0
         Me.PiChkThumb.TabStop = False
-        '
-        'ImageGalleryMain
-        '
-        Me.ImageGalleryMain.AutoScroll = True
-        Me.ImageGalleryMain.BackColor = System.Drawing.Color.White
-        Me.ImageGalleryMain.BadgeColor = System.Drawing.Color.Red
-        Me.ImageGalleryMain.DisplayMode = FurryArtStudio.GalleryDisplayMode.Normal
-        Me.ImageGalleryMain.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ImageGalleryMain.Location = New System.Drawing.Point(3, 0)
-        Me.ImageGalleryMain.MaxItemSize = 240
-        Me.ImageGalleryMain.MinItemSize = 120
-        Me.ImageGalleryMain.Name = "ImageGalleryMain"
-        Me.ImageGalleryMain.PageSize = 100
-        Me.ImageGalleryMain.SelectionAccentColor = System.Drawing.Color.Blue
-        Me.ImageGalleryMain.Size = New System.Drawing.Size(727, 509)
-        Me.ImageGalleryMain.TabIndex = 3
         '
         'MainForm
         '

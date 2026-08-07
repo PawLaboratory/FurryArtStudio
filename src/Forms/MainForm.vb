@@ -1839,6 +1839,7 @@ Public Class MainForm
             LblTags.Text = ""
             LblNotes.Text = ""
             PiChkThumb.Image = Nothing
+            LblDeltas.Visible = False
         End If
     End Sub
     Private Sub ImageGalleryMain_PageChanged(page As Integer) Handles ImageGalleryMain.PageChanged
