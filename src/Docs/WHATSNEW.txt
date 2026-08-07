@@ -1,3 +1,5 @@
 ﻿Version 1.0.15
  - 删除了没用的更新日志
+ - 优化了缩略图读取策略
+ - BREAKING CHANGES（破坏性更新）：由于技术原因，原本架构数据库（`Database.db`）与新的数据库（`Metadata.db`）不兼容，用户需重新创建仓库，或者使用DB Browser结合AI等工具自行尝试转换
  - 

@@ -96,9 +96,6 @@ Public Class FileTransaction
     ''' </summary>
     Private Sub SyncTargetToWorkspace()
         For Each file In Directory.GetFiles(_targetPath)
-            If Path.GetFileName(file).ToLower() = ".preview.jpg" Then
-                Continue For '跳过预览图文件
-            End If
             IO.File.Copy(file, Path.Combine(_workingPath, Path.GetFileName(file)))
         Next
     End Sub
@@ -194,9 +191,6 @@ Public Class FileTransaction
         Try
             '删除工作区全部文件
             For Each file In Directory.GetFiles(_targetPath)
-                If Path.GetFileName(file).ToLower() = ".preview.jpg" Then
-                    Continue For '跳过预览图文件
-                End If
                 IO.File.Delete(file)
             Next
             '复制工作区所有文件到目标文件夹

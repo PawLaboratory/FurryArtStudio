@@ -296,6 +296,7 @@
   <ItemGroup>
     <EmbeddedResource Include="src\Forms\AboutForm.resx">
       <DependentUpon>AboutForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\ColorShowDialog.resx">
       <DependentUpon>ColorShowDialog.vb</DependentUpon>

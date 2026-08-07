@@ -64,4 +64,8 @@ Public Class Artwork
     ''' 稿件对应的文件路径
     ''' </summary>
     Public Property FilePaths As String()
+    ''' <summary>
+    ''' 稿件缩略图
+    ''' </summary>
+    Public Property Thumbnail As Image
 End Class

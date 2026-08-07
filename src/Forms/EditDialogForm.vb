@@ -116,7 +116,8 @@ Public Class EditDialogForm
                         .IsDeleted = 0,
                         .Tags = Array.Empty(Of String)(),
                         .Notes = String.Empty,
-                        .FilePaths = Array.Empty(Of String)()
+                        .FilePaths = Array.Empty(Of String)(),
+                        .Thumbnail = Nothing
                     }
             _transaction = New FileTransaction() '新建文件事务处理类
         Else '编辑已有稿件
@@ -157,19 +158,12 @@ Public Class EditDialogForm
             '如果稿件文件夹存在, 尝试查找预览图
             Dim artworkFolder As String = Path.Combine(_libraryPath, _artwork.UUID.ToString())
             If Directory.Exists(artworkFolder) Then
-                '查找预览图文件
-                Dim previewFiles = Directory.GetFiles(artworkFolder, ".preview.*")
-                If previewFiles.Length > 0 Then
-                    '加载第一个预览图
-                    Using stream As New FileStream(previewFiles(0), FileMode.Open, FileAccess.Read)
-                        Using tempImage As Image = Image.FromStream(stream) '创建独立副本, 解除对流的依赖
-                            PreviewPicturebox.Image = New Bitmap(tempImage)
-                        End Using
-                    End Using
-                    Return
-                End If
-                '如果没有预览图, 尝试加载第一个图片文件
-                Dim imageFiles = Directory.GetFiles(artworkFolder, "*.*") _
+                If _artwork.Thumbnail IsNot Nothing Then
+                    '读取数据库的缩略图
+                    PreviewPicturebox.Image = _artwork.Thumbnail
+                Else
+                    '如果没有预览图, 尝试加载第一个图片文件
+                    Dim imageFiles = Directory.GetFiles(artworkFolder, "*.*") _
                     .Where(Function(f)
                                Dim ext = Path.GetExtension(f).ToLower()
                                Return ext = ".jpg" OrElse ext = ".jpeg" OrElse
@@ -177,10 +171,11 @@ Public Class EditDialogForm
                                       ext = ".gif"
                            End Function) _
                     .ToArray()
-                If imageFiles.Length > 0 Then
-                    Using stream As New FileStream(imageFiles(0), FileMode.Open, FileAccess.Read)
-                        PreviewPicturebox.Image = Image.FromStream(stream)
-                    End Using
+                    If imageFiles.Length > 0 Then
+                        Using stream As New FileStream(imageFiles(0), FileMode.Open, FileAccess.Read)
+                            PreviewPicturebox.Image = Image.FromStream(stream)
+                        End Using
+                    End If
                 End If
             End If
         Catch ex As Exception
@@ -484,9 +479,8 @@ Public Class EditDialogForm
         _artwork.UpdateTime = Now
         _artwork.ImportTime = Now
         If Not CreateArtworkFolder() Then Return '创建/更新文件夹
+        _artwork.Thumbnail = PreviewPicturebox.Image '设定缩略图
         _transaction.Commit() '提交数据
-        Dim previewPath As String = Path.Combine(_libraryPath, _artwork.UUID.ToString(), ".preview.jpg")
-        PreviewPicturebox.Image?.Save(previewPath, ImageFormat.Jpeg) '图片不为空的时候, 保存图片
         '设置DialogResult为OK, 关闭窗体
         Me.DialogResult = DialogResult.OK
         Me.Close()

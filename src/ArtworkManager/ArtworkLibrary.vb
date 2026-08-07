@@ -14,6 +14,7 @@
 ' limitations under the License.
 Imports System.Data.SqlClient
 Imports System.Data.SQLite
+Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Text
 Imports System.Text.Json
@@ -47,7 +48,6 @@ Public Class ArtworkLibrary
     ''' 初始化稿件库实例
     ''' </summary>
     Public Sub New(name As String)
-
         LibraryName = name
         Dim artworksPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks")
         If Not Directory.Exists(artworksPath) Then
@@ -57,7 +57,7 @@ Public Class ArtworkLibrary
         If Not Directory.Exists(LibraryPath) Then
             Directory.CreateDirectory(LibraryPath) '如果目录不存在, 则创建新的稿件库
         End If
-        Dim dbPath As String = Path.Combine(LibraryPath, "Database.db")
+        Dim dbPath As String = Path.Combine(LibraryPath, "Metadata.db")
         Dim builder As New SQLiteConnectionStringBuilder With {
             .DataSource = dbPath,
             .ForeignKeys = True, '启用外键约束
@@ -110,6 +110,16 @@ Public Class ArtworkLibrary
                 PRIMARY KEY (ArtworkID, TagID)
             );
 
+            -- 缩略图表
+            CREATE TABLE IF NOT EXISTS Thumbnails (
+                ID          INTEGER PRIMARY KEY AUTOINCREMENT,
+                ArtworkID   INTEGER NOT NULL,
+                ImageData   BLOB NOT NULL,
+                FOREIGN KEY (ArtworkID) REFERENCES Artworks(ID) ON DELETE CASCADE
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_thumbnail_artwork ON Thumbnails(ArtworkID);
+
             -- 全文搜索表
             CREATE VIRTUAL TABLE IF NOT EXISTS ArtworksFTS USING fts4(
                 Title, 
@@ -134,7 +144,6 @@ Public Class ArtworkLibrary
                 VALUES (new.ID, new.Title, new.Author, new.Notes);
             END;"
 
-
             Using cmd As New SQLiteCommand(sql, conn)
                 Try
                     cmd.ExecuteNonQuery()
@@ -153,35 +162,42 @@ Public Class ArtworkLibrary
     Public Sub AddArtwork(artwork As Artwork)
         Using conn As New SQLiteConnection(_ConnectionString)
             conn.Open()
-            If artwork.UUID = Guid.Empty Then artwork.UUID = Guid.NewGuid() '确保UUID唯一
-            Directory.CreateDirectory(Path.Combine(LibraryPath, artwork.UUID.ToString))
-            '设置时间
-            artwork.ImportTime = DateTime.Now
-            artwork.UpdateTime = DateTime.Now
-            If artwork.CreateTime = DateTime.MinValue Then artwork.CreateTime = DateTime.Parse("1970-01-01 00:00:00")
-            Dim sql As String = "
-            INSERT INTO Artworks 
-            (UUID, Title, Author, CreateTime, ImportTime, UpdateTime, IsDeleted, Tags, Notes, Characters)
-            VALUES 
-            (@UUID, @Title, @Author, @CreateTime, @ImportTime, @UpdateTime, @IsDeleted, @Tags, @Notes, @Characters);
-            SELECT last_insert_rowid();"
-            Try
-                '使用Dapper执行
-                conn.ExecuteScalar(Of Integer)(sql, New With {
-                                .UUID = artwork.UUID.ToString(),
-                                .Title = artwork.Title,
-                                .Author = artwork.Author,
-                                .CreateTime = DateTimeToUnixTimestamp(artwork.CreateTime),
-                                .ImportTime = DateTimeToUnixTimestamp(artwork.ImportTime),
-                                .UpdateTime = DateTimeToUnixTimestamp(artwork.UpdateTime),
-                                .IsDeleted = 0,
-                                .Tags = JsonSerializer.Serialize(If(artwork.Tags, Array.Empty(Of String)())),
-                                .Notes = artwork.Notes,
-                                .Characters = JsonSerializer.Serialize(If(artwork.Characters, Array.Empty(Of String)()))
-                            })
-            Catch ex As SqlException
-                Throw
-            End Try
+            Using trans = conn.BeginTransaction()
+                If artwork.UUID = Guid.Empty Then artwork.UUID = Guid.NewGuid() '确保UUID唯一
+                Directory.CreateDirectory(Path.Combine(LibraryPath, artwork.UUID.ToString))
+                '设置时间
+                artwork.ImportTime = DateTime.Now
+                artwork.UpdateTime = DateTime.Now
+                If artwork.CreateTime = DateTime.MinValue Then artwork.CreateTime = DateTime.Parse("1970-01-01 00:00:00")
+                Dim sql As String = "
+                    INSERT INTO Artworks 
+                    (UUID, Title, Author, CreateTime, ImportTime, UpdateTime, IsDeleted, Tags, Notes, Characters)
+                    VALUES 
+                    (@UUID, @Title, @Author, @CreateTime, @ImportTime, @UpdateTime, @IsDeleted, @Tags, @Notes, @Characters);
+                    SELECT last_insert_rowid();"
+                Try
+                    '使用Dapper执行
+                    Dim newId As Integer = conn.ExecuteScalar(Of Integer)(sql, New With {
+                                    .UUID = artwork.UUID.ToString(),
+                                    .Title = artwork.Title,
+                                    .Author = artwork.Author,
+                                    .CreateTime = DateTimeToUnixTimestamp(artwork.CreateTime),
+                                    .ImportTime = DateTimeToUnixTimestamp(artwork.ImportTime),
+                                    .UpdateTime = DateTimeToUnixTimestamp(artwork.UpdateTime),
+                                    .IsDeleted = 0,
+                                    .Tags = JsonSerializer.Serialize(If(artwork.Tags, Array.Empty(Of String)())),
+                                    .Notes = artwork.Notes,
+                                    .Characters = JsonSerializer.Serialize(If(artwork.Characters, Array.Empty(Of String)()))
+                                })
+                    If artwork.Thumbnail IsNot Nothing Then
+                        InsertThumbnail(newId, artwork.Thumbnail, conn, trans) '存入缩略图
+                    End If
+                    trans.Commit() '提交事务
+                Catch ex As Exception
+                    trans.Rollback() '保证缩略图与元数据的原子性
+                    Throw
+                End Try
+            End Using
         End Using
     End Sub
 
@@ -416,6 +432,50 @@ Public Class ArtworkLibrary
     End Function
 
     ''' <summary>
+    ''' 将缩略图存入数据库
+    ''' </summary>
+    ''' <param name="artworkId">关联的作品ID</param>
+    ''' <param name="img">要插入的图片</param>
+    ''' <param name="conn">数据库连接</param>
+    ''' <param name="trans">数据库事务</param>
+    Private Sub InsertThumbnail(artworkId As Integer, img As Image, conn As SQLiteConnection, trans As SQLiteTransaction)
+        Using ms As New MemoryStream()
+            img.Save(ms, ImageFormat.Jpeg)
+            Dim imageBytes As Byte() = ms.ToArray()
+
+            Using cmd As New SQLiteCommand("INSERT INTO Thumbnails (ArtworkID, ImageData) VALUES (@id, @data)", conn, trans)
+                cmd.Parameters.AddWithValue("@id", artworkId)
+                cmd.Parameters.AddWithValue("@data", imageBytes)
+                cmd.ExecuteNonQuery()
+            End Using
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 从数据库读取特定ID的缩略图
+    ''' </summary>
+    ''' <returns>Image 对象, 若不存在则返回 Nothing</returns>
+    Public Function GetThumbnail(artworkId As Integer) As Image
+        Using conn As New SQLiteConnection(ConnectionString)
+            conn.Open()
+            Using cmd As New SQLiteCommand("SELECT ImageData FROM Thumbnails WHERE ArtworkID = @id LIMIT 1", conn)
+                cmd.Parameters.AddWithValue("@id", artworkId)
+                Using reader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        Dim imageBytes As Byte() = DirectCast(reader("ImageData"), Byte())
+                        Using ms As New MemoryStream(imageBytes) '创建临时 Image 对象
+                            Dim tempImage As Image = Image.FromStream(ms)
+                            Return New Bitmap(tempImage) '保证不被 Using 清理掉
+                        End Using
+                    Else
+                        Return Nothing
+                    End If
+                End Using
+            End Using
+        End Using
+    End Function
+
+    ''' <summary>
     ''' 数据库行映射到Artwork对象
     ''' </summary>
     Private Function MapToArtwork(row As Object) As Artwork
@@ -441,9 +501,12 @@ Public Class ArtworkLibrary
                       JsonSerializer.Deserialize(Of String())(row.Tags),
                       Array.Empty(Of String)()),
             .Notes = If(row.Notes, ""),
-            .FilePaths = files
+            .FilePaths = files,
+            .Thumbnail = GetThumbnail(CInt(row.ID))
         }
     End Function
+
+#Region "CSV相关处理"
 
     ''' <summary>
     ''' 将数据导出为CSV文件
@@ -519,4 +582,7 @@ Public Class ArtworkLibrary
         End If
         Return field
     End Function
+
+#End Region
+
 End Class

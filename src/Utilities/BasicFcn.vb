@@ -255,6 +255,7 @@ Module BasicFcn
             Return Nothing
         End Try
     End Function
+
     ''' <summary>
     ''' 创建圆角矩形图标
     ''' </summary>
@@ -343,6 +344,7 @@ Module BasicFcn
         path.CloseFigure()
         Return path
     End Function
+
     ''' <summary>
     ''' 从图像采样像素点
     ''' </summary>
@@ -360,6 +362,7 @@ Module BasicFcn
         End Using
         Return pixels
     End Function
+
     ''' <summary>
     ''' 从图像采样像素点(更高效率版本)
     ''' </summary>

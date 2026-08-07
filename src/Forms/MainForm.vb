@@ -711,39 +711,14 @@ Public Class MainForm
             If Not Directory.Exists(artworkPath) Then '保证文件夹存在
                 Directory.CreateDirectory(artworkPath)
             End If
-            Dim previewPath As String = Path.Combine(artworkPath, ".preview.jpg")
-            If Not File.Exists(previewPath) And Directory.GetFiles(artworkPath).Count > 0 Then '保证缩略图存在
-                Using img As Image = LoadImageFromFile(Directory.GetFiles(artworkPath)(0))
-                    If IsNothing(img) Then
-                        ' 跳过，不处理
-                        Continue For
-                    End If
-                    img.Save(previewPath, ImageFormat.Jpeg)
-                End Using
-            End If
             Dim fileCount As Integer = artwork.FilePaths.Length
-            If File.Exists(previewPath) Then '去除缩略图
-                fileCount -= 1
-            End If
             Dim gi As New GalleryImage With {
                 .Title = artwork.Title,
                 .UUID = artwork.UUID.ToString,
                 .ID = artwork.ID,
-                .Count = fileCount
+                .Count = fileCount,
+                .Thumbnail = artwork.Thumbnail
             }
-            If File.Exists(previewPath) Then
-                Try
-                    Using sourceImage As Image = Image.FromFile(previewPath)
-                        '创建独立于文件的新位图
-                        gi.Thumbnail = New Bitmap(sourceImage.Width, sourceImage.Height, sourceImage.PixelFormat)
-                        Using g As Graphics = Graphics.FromImage(gi.Thumbnail)
-                            g.DrawImage(sourceImage, 0, 0, sourceImage.Width, sourceImage.Height)
-                        End Using
-                    End Using
-                Catch ex As Exception
-                    '忽略无法加载的缩略图
-                End Try
-            End If
             ImageGalleryMain.AddImage(gi)
         Next
     End Sub
@@ -1102,6 +1077,7 @@ Public Class MainForm
             If editForm.ShowDialog() = DialogResult.OK Then
                 Dim newArtwork As Artwork = editForm.EditedArtwork '获得新建的稿件对象
                 _libraryManager.GetCurrentLibrary.AddArtwork(newArtwork)
+
                 RefreshLib()
             End If
         End Using
@@ -1204,11 +1180,7 @@ Public Class MainForm
             Dim imageExtensions() As String = {".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tiff", ".webp"}
             Dim files = Directory.GetFiles(artworkDir, "*.*")
             For Each file In files
-                '排除 .preview.jpg 缩略图文件
                 Dim fileName As String = Path.GetFileName(file)
-                If fileName.EndsWith(".preview.jpg", StringComparison.OrdinalIgnoreCase) Then
-                    Continue For
-                End If
                 If imageExtensions.Contains(Path.GetExtension(file).ToLower()) Then
                     selectedImages.Add(file)
                 End If

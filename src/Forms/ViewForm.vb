@@ -292,11 +292,6 @@ Public Class ViewForm
         Dim result As New List(Of String)
         If filePaths Is Nothing Then Return result '没有文件
         For Each p In filePaths
-            '跳过预览图文件
-            If String.Equals(Path.GetFileName(p).ToLower(), ".preview.jpg",
-                             StringComparison.OrdinalIgnoreCase) Then
-                Continue For
-            End If
             Dim ext As String = Path.GetExtension(p).ToLower()
             If _imageExtensions.Contains(ext) Then
                 result.Add(p)
