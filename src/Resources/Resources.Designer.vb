@@ -790,6 +790,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 &amp;Elevated 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_Elevated() As String
+            Get
+                Return ResourceManager.GetString("Mnu_Elevated", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 E&amp;xit 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Mnu_Exit() As String

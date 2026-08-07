@@ -12,6 +12,7 @@
 ' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ' See the License for the specific language governing permissions and
 ' limitations under the License.
+Imports System.ComponentModel
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.Drawing.Printing
@@ -262,7 +263,11 @@ Public Class MainForm
         MnuOnTop.Text = My.Resources.Mnu_AlwaysOnTop
         MnuPrivacyProtect.Text = My.Resources.Mnu_PrivacyProtect
         MnuDevTools.Text = My.Resources.Mnu_DevTools
-        MnuRunAsElevated.Text = My.Resources.Mnu_RunAsElevated
+        If IsAdmin() Then
+            MnuRunAsElevated.Text = My.Resources.Mnu_Elevated
+        Else
+            MnuRunAsElevated.Text = My.Resources.Mnu_RunAsElevated
+        End If
         MnuRunTerminal.Text = My.Resources.Mnu_OpenTerminal
         MnuProperties.Text = My.Resources.Mnu_Options
         MnuOpenPath.Text = My.Resources.Mnu_OpenFolder
@@ -1521,7 +1526,11 @@ Public Class MainForm
 
     End Sub
     Private Async Sub MnuLoadSponsors_Click(sender As Object, e As EventArgs) Handles MnuLoadSponsors.Click
-        Await CheckSponsors()
+        Try
+            Await CheckSponsors()
+        Catch ex As Exception
+            ShowErrorDialog(ex, "")
+        End Try
     End Sub
     Private Async Function CheckSponsors() As Task
         StatusLabel.Text = My.Resources.Msg_CheckingSponsor

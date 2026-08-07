@@ -879,4 +879,7 @@
   <data name="View_System" xml:space="preserve">
     <value>Follow &amp;System</value>
   </data>
+  <data name="Mnu_Elevated" xml:space="preserve">
+    <value>&amp;Elevated</value>
+  </data>
 </root>

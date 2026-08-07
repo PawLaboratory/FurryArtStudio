@@ -879,4 +879,7 @@
   <data name="View_System" xml:space="preserve">
     <value>跟隨系統(&amp;S)</value>
   </data>
+  <data name="Mnu_Elevated" xml:space="preserve">
+    <value>權限已提升(&amp;E)</value>
+  </data>
 </root>
