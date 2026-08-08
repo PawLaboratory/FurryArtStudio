@@ -785,7 +785,7 @@ Public Class MainForm
             MnuPageDown.Enabled = page > 1
             PageStatusLabel.Text = String.Format(My.Resources.Main_LblPage1, page) '在初始化阶段暂时获得不到准确的页码
             SelectStatusLabel.Text = String.Format(My.Resources.Main_LblMs, _artworkCount) '稿件总数量
-            Text = $"{ImageGalleryMain.TotalImageCount}个稿件 - {_libraryManager.GetCurrentLibrary.LibraryName} - FurryArtStudio"
+            Text = String.Format(My.Resources.Main_LblMs, ImageGalleryMain.TotalImageCount) & " - " & _libraryManager.GetCurrentLibrary.LibraryName & " - FurryArtStudio"
         End If
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
@@ -1181,7 +1181,17 @@ Public Class MainForm
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
     Private Sub MnuMsExport_Click(sender As Object, e As EventArgs) Handles MnuMsExport.Click
-        '待开发
+        StatusLabel.Text = "正在导出稿件"
+        Dim artworks As New List(Of Artwork)
+        For Each gi In ImageGalleryMain.SelectedImages
+            artworks.Add(_libraryManager.GetCurrentLibrary.GetArtworkByUUID(Guid.Parse(gi.UUID)))
+        Next
+        Using exportForm As New ExportForm(artworks)
+            If exportForm.ShowDialog() = DialogResult.OK Then
+
+            End If
+        End Using
+        StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
     Private Sub MnuMsPrint_Click(sender As Object, e As EventArgs) Handles MnuMsPrint.Click
         StatusLabel.Text = My.Resources.Stat_PreparePrint

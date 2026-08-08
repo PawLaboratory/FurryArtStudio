@@ -183,6 +183,12 @@
     <Compile Include="src\Forms\EditDialogForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="src\Forms\ExportForm.Designer.vb">
+      <DependentUpon>ExportForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\Forms\ExportForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\Forms\ImageEditor.Designer.vb">
       <DependentUpon>ImageEditor.vb</DependentUpon>
     </Compile>
@@ -306,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\EditDialogForm.resx">
       <DependentUpon>EditDialogForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Forms\ExportForm.resx">
+      <DependentUpon>ExportForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\ImageEditor.resx">
       <DependentUpon>ImageEditor.vb</DependentUpon>
