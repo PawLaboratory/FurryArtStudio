@@ -18,6 +18,7 @@ Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.InteropServices
+Imports System.Security.Cryptography
 Imports System.Security.Principal
 Imports System.Text
 Imports Microsoft.Win32
@@ -852,6 +853,32 @@ Module BasicFcn
             ShowErrorDialog(ex, My.Resources.Msg_ElevatedFailed)
             Return False
         End Try
+    End Function
+#End Region
+
+#Region "加密"
+    ''' <summary>
+    ''' 生成 HmacSHA256 签名，结果经过 Base64 和 URL 编码
+    ''' </summary>
+    ''' <param name="secret">密钥字符串</param>
+    ''' <returns>URL 编码后的 Base64 签名结果</returns>
+    Public Function GenerateSignature(secret As String) As String
+        '获取当前 Unix 时间戳
+        Dim timestamp As Long = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+        '构建待签名字符串：timestamp + "\n" + secret
+        Dim stringToSign As String = timestamp.ToString() & vbLf & secret
+        '转换为 UTF-8 字节数组
+        Dim secretBytes As Byte() = Encoding.UTF8.GetBytes(secret)
+        Dim stringToSignBytes As Byte() = Encoding.UTF8.GetBytes(stringToSign)
+        '使用 HMACSHA256 计算签名
+        Using hmac As New HMACSHA256(secretBytes)
+            Dim signBytes As Byte() = hmac.ComputeHash(stringToSignBytes)
+            'Base64 编码
+            Dim base64 As String = Convert.ToBase64String(signBytes)
+            'URL 编码
+            Dim sign As String = Uri.EscapeDataString(base64)
+            Return sign
+        End Using
     End Function
 #End Region
 
