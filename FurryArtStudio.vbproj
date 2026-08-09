@@ -471,6 +471,7 @@
     <Content Include="src\Resources\Darkmode-Icons\tag.png" />
     <Content Include="src\Resources\Darkmode-Icons\terminal.png" />
     <Content Include="src\Resources\Darkmode-Icons\trash-2.png" />
+    <Content Include="src\Resources\Darkmode-Icons\venetian-mask.png" />
     <Content Include="src\Resources\Darkmode-Icons\wallpaper.png" />
     <Content Include="src\Resources\Darkmode-Icons\x.png" />
     <Content Include="src\Resources\FAS.ico" />
@@ -529,6 +530,7 @@
     <Content Include="src\Resources\Lightmode-Icons\tag.png" />
     <Content Include="src\Resources\Lightmode-Icons\terminal.png" />
     <Content Include="src\Resources\Lightmode-Icons\trash-2.png" />
+    <Content Include="src\Resources\Lightmode-Icons\venetian-mask.png" />
     <Content Include="src\Resources\Lightmode-Icons\wallpaper.png" />
     <Content Include="src\Resources\Lightmode-Icons\x.png" />
     <Content Include="src\Docs\TERMS.txt" />

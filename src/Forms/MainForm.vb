@@ -468,6 +468,7 @@ Public Class MainForm
             (MnuProperties, "MenuSettings"),
             (MnuOpenPath, "MenuFolderOpen"),
             (MnuCreateShortcut, "MenuCreateShortcut"),
+            (MnuTray, "MenuTray"),
             (MnuExit, "MenuClose"),
             (MnuLibList, "MenuFolders"),
             (MnuLibRefresh, "MenuRefresh"),

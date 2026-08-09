@@ -33,6 +33,7 @@ Partial Class MainForm
         Me.MnuCreateShortcut = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuProperties = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.MnuTray = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuLibrary = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuLibList = New System.Windows.Forms.ToolStripMenuItem()
@@ -90,6 +91,8 @@ Partial Class MainForm
         Me.MnuExtension = New System.Windows.Forms.ToolStripMenuItem()
         Me.WebHookToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuPlugin = New System.Windows.Forms.ToolStripMenuItem()
+        Me.打开插件目录PToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator()
         Me.MnuHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuHelpTutorial = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
@@ -164,9 +167,6 @@ Partial Class MainForm
         Me.LblAuthor = New System.Windows.Forms.Label()
         Me.LblTitle = New System.Windows.Forms.Label()
         Me.PiChkThumb = New System.Windows.Forms.PictureBox()
-        Me.打开插件目录PToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator()
-        Me.MnuTray = New System.Windows.Forms.ToolStripMenuItem()
         Me.NotifyIco = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.MnuStrip.SuspendLayout()
@@ -247,6 +247,14 @@ Partial Class MainForm
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(250, 6)
+        '
+        'MnuTray
+        '
+        Me.MnuTray.Image = CType(resources.GetObject("MnuTray.Image"), System.Drawing.Image)
+        Me.MnuTray.Name = "MnuTray"
+        Me.MnuTray.ShortcutKeys = System.Windows.Forms.Keys.Insert
+        Me.MnuTray.Size = New System.Drawing.Size(253, 26)
+        Me.MnuTray.Text = "最小化到托盘(&A)"
         '
         'MnuExit
         '
@@ -651,6 +659,17 @@ Partial Class MainForm
         Me.MnuPlugin.Name = "MnuPlugin"
         Me.MnuPlugin.Size = New System.Drawing.Size(178, 26)
         Me.MnuPlugin.Text = "插件(&P)"
+        '
+        '打开插件目录PToolStripMenuItem
+        '
+        Me.打开插件目录PToolStripMenuItem.Name = "打开插件目录PToolStripMenuItem"
+        Me.打开插件目录PToolStripMenuItem.Size = New System.Drawing.Size(201, 26)
+        Me.打开插件目录PToolStripMenuItem.Text = "打开插件目录(&P)"
+        '
+        'ToolStripSeparator19
+        '
+        Me.ToolStripSeparator19.Name = "ToolStripSeparator19"
+        Me.ToolStripSeparator19.Size = New System.Drawing.Size(198, 6)
         '
         'MnuHelp
         '
@@ -1228,24 +1247,6 @@ Partial Class MainForm
         Me.PiChkThumb.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PiChkThumb.TabIndex = 0
         Me.PiChkThumb.TabStop = False
-        '
-        '打开插件目录PToolStripMenuItem
-        '
-        Me.打开插件目录PToolStripMenuItem.Name = "打开插件目录PToolStripMenuItem"
-        Me.打开插件目录PToolStripMenuItem.Size = New System.Drawing.Size(201, 26)
-        Me.打开插件目录PToolStripMenuItem.Text = "打开插件目录(&P)"
-        '
-        'ToolStripSeparator19
-        '
-        Me.ToolStripSeparator19.Name = "ToolStripSeparator19"
-        Me.ToolStripSeparator19.Size = New System.Drawing.Size(198, 6)
-        '
-        'MnuTray
-        '
-        Me.MnuTray.Name = "MnuTray"
-        Me.MnuTray.ShortcutKeys = System.Windows.Forms.Keys.Insert
-        Me.MnuTray.Size = New System.Drawing.Size(253, 26)
-        Me.MnuTray.Text = "最小化到托盘(&A)"
         '
         'NotifyIco
         '
