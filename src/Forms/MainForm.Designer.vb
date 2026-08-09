@@ -89,7 +89,7 @@ Partial Class MainForm
         Me.MnuPageDown = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuExtension = New System.Windows.Forms.ToolStripMenuItem()
         Me.WebHookToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.插件PToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuPlugin = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuHelpTutorial = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
@@ -164,6 +164,10 @@ Partial Class MainForm
         Me.LblAuthor = New System.Windows.Forms.Label()
         Me.LblTitle = New System.Windows.Forms.Label()
         Me.PiChkThumb = New System.Windows.Forms.PictureBox()
+        Me.打开插件目录PToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator()
+        Me.MnuTray = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NotifyIco = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.MnuStrip.SuspendLayout()
         Me.StaStrip.SuspendLayout()
@@ -189,7 +193,7 @@ Partial Class MainForm
         '
         'MnuFile
         '
-        Me.MnuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuDevTools, Me.MnuRunAsElevated, Me.MnuRunTerminal, Me.MnuOpenPath, Me.MnuCreateShortcut, Me.MnuProperties, Me.ToolStripSeparator1, Me.MnuExit})
+        Me.MnuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuDevTools, Me.MnuRunAsElevated, Me.MnuRunTerminal, Me.MnuOpenPath, Me.MnuCreateShortcut, Me.MnuProperties, Me.ToolStripSeparator1, Me.MnuTray, Me.MnuExit})
         Me.MnuFile.Name = "MnuFile"
         Me.MnuFile.Size = New System.Drawing.Size(71, 27)
         Me.MnuFile.Text = "文件(&F)"
@@ -199,7 +203,7 @@ Partial Class MainForm
         Me.MnuDevTools.Image = CType(resources.GetObject("MnuDevTools.Image"), System.Drawing.Image)
         Me.MnuDevTools.Name = "MnuDevTools"
         Me.MnuDevTools.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.MnuDevTools.Size = New System.Drawing.Size(235, 26)
+        Me.MnuDevTools.Size = New System.Drawing.Size(253, 26)
         Me.MnuDevTools.Text = "开发者工具(&D)..."
         Me.MnuDevTools.Visible = False
         '
@@ -207,28 +211,28 @@ Partial Class MainForm
         '
         Me.MnuRunAsElevated.Image = CType(resources.GetObject("MnuRunAsElevated.Image"), System.Drawing.Image)
         Me.MnuRunAsElevated.Name = "MnuRunAsElevated"
-        Me.MnuRunAsElevated.Size = New System.Drawing.Size(235, 26)
+        Me.MnuRunAsElevated.Size = New System.Drawing.Size(253, 26)
         Me.MnuRunAsElevated.Text = "以管理员权限重启(&R)"
         '
         'MnuRunTerminal
         '
         Me.MnuRunTerminal.Image = CType(resources.GetObject("MnuRunTerminal.Image"), System.Drawing.Image)
         Me.MnuRunTerminal.Name = "MnuRunTerminal"
-        Me.MnuRunTerminal.Size = New System.Drawing.Size(235, 26)
+        Me.MnuRunTerminal.Size = New System.Drawing.Size(253, 26)
         Me.MnuRunTerminal.Text = "在此处打开终端(&T)"
         '
         'MnuOpenPath
         '
         Me.MnuOpenPath.Image = CType(resources.GetObject("MnuOpenPath.Image"), System.Drawing.Image)
         Me.MnuOpenPath.Name = "MnuOpenPath"
-        Me.MnuOpenPath.Size = New System.Drawing.Size(235, 26)
+        Me.MnuOpenPath.Size = New System.Drawing.Size(253, 26)
         Me.MnuOpenPath.Text = "打开程序文件夹(&P)"
         '
         'MnuCreateShortcut
         '
         Me.MnuCreateShortcut.Image = CType(resources.GetObject("MnuCreateShortcut.Image"), System.Drawing.Image)
         Me.MnuCreateShortcut.Name = "MnuCreateShortcut"
-        Me.MnuCreateShortcut.Size = New System.Drawing.Size(235, 26)
+        Me.MnuCreateShortcut.Size = New System.Drawing.Size(253, 26)
         Me.MnuCreateShortcut.Text = "创建桌面快捷方式(&S)"
         '
         'MnuProperties
@@ -236,20 +240,20 @@ Partial Class MainForm
         Me.MnuProperties.Image = CType(resources.GetObject("MnuProperties.Image"), System.Drawing.Image)
         Me.MnuProperties.Name = "MnuProperties"
         Me.MnuProperties.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.K), System.Windows.Forms.Keys)
-        Me.MnuProperties.Size = New System.Drawing.Size(235, 26)
+        Me.MnuProperties.Size = New System.Drawing.Size(253, 26)
         Me.MnuProperties.Text = "选项(&O)..."
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(232, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(250, 6)
         '
         'MnuExit
         '
         Me.MnuExit.Image = CType(resources.GetObject("MnuExit.Image"), System.Drawing.Image)
         Me.MnuExit.Name = "MnuExit"
         Me.MnuExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.MnuExit.Size = New System.Drawing.Size(235, 26)
+        Me.MnuExit.Size = New System.Drawing.Size(253, 26)
         Me.MnuExit.Text = "退出(&X)"
         '
         'MnuLibrary
@@ -630,11 +634,10 @@ Partial Class MainForm
         '
         'MnuExtension
         '
-        Me.MnuExtension.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WebHookToolStripMenuItem, Me.插件PToolStripMenuItem})
+        Me.MnuExtension.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WebHookToolStripMenuItem, Me.MnuPlugin})
         Me.MnuExtension.Name = "MnuExtension"
         Me.MnuExtension.Size = New System.Drawing.Size(71, 27)
         Me.MnuExtension.Text = "扩展(&E)"
-        Me.MnuExtension.Visible = False
         '
         'WebHookToolStripMenuItem
         '
@@ -642,11 +645,12 @@ Partial Class MainForm
         Me.WebHookToolStripMenuItem.Size = New System.Drawing.Size(178, 26)
         Me.WebHookToolStripMenuItem.Text = "&WebHook..."
         '
-        '插件PToolStripMenuItem
+        'MnuPlugin
         '
-        Me.插件PToolStripMenuItem.Name = "插件PToolStripMenuItem"
-        Me.插件PToolStripMenuItem.Size = New System.Drawing.Size(178, 26)
-        Me.插件PToolStripMenuItem.Text = "插件(&P)"
+        Me.MnuPlugin.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.打开插件目录PToolStripMenuItem, Me.ToolStripSeparator19})
+        Me.MnuPlugin.Name = "MnuPlugin"
+        Me.MnuPlugin.Size = New System.Drawing.Size(178, 26)
+        Me.MnuPlugin.Text = "插件(&P)"
         '
         'MnuHelp
         '
@@ -1225,6 +1229,29 @@ Partial Class MainForm
         Me.PiChkThumb.TabIndex = 0
         Me.PiChkThumb.TabStop = False
         '
+        '打开插件目录PToolStripMenuItem
+        '
+        Me.打开插件目录PToolStripMenuItem.Name = "打开插件目录PToolStripMenuItem"
+        Me.打开插件目录PToolStripMenuItem.Size = New System.Drawing.Size(201, 26)
+        Me.打开插件目录PToolStripMenuItem.Text = "打开插件目录(&P)"
+        '
+        'ToolStripSeparator19
+        '
+        Me.ToolStripSeparator19.Name = "ToolStripSeparator19"
+        Me.ToolStripSeparator19.Size = New System.Drawing.Size(198, 6)
+        '
+        'MnuTray
+        '
+        Me.MnuTray.Name = "MnuTray"
+        Me.MnuTray.ShortcutKeys = System.Windows.Forms.Keys.Insert
+        Me.MnuTray.Size = New System.Drawing.Size(253, 26)
+        Me.MnuTray.Text = "最小化到托盘(&A)"
+        '
+        'NotifyIco
+        '
+        Me.NotifyIco.Text = "FurryArtStudio"
+        Me.NotifyIco.Visible = True
+        '
         'ImageGalleryMain
         '
         Me.ImageGalleryMain.AutoScroll = True
@@ -1411,5 +1438,9 @@ Partial Class MainForm
     Friend WithEvents ToolStripSeparator9 As ToolStripSeparator
     Friend WithEvents MnuExtension As ToolStripMenuItem
     Friend WithEvents WebHookToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents 插件PToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MnuPlugin As ToolStripMenuItem
+    Friend WithEvents 打开插件目录PToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator19 As ToolStripSeparator
+    Friend WithEvents MnuTray As ToolStripMenuItem
+    Friend WithEvents NotifyIco As NotifyIcon
 End Class

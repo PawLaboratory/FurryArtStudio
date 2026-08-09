@@ -122,7 +122,11 @@ Public Class MainForm
             StatusLabel.Text = My.Resources.Stat_ShowHitokoto
             Await ShowHitokoto()
         End If
+        NotifyIco.Icon = Me.Icon
+        NotifyIco.Text = "FurryArtStudio"
+        NotifyIco.Visible = False
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
+        MnuExtension.Visible = False
     End Sub
     ''' <summary>
     ''' 显示一言
@@ -840,6 +844,15 @@ Public Class MainForm
     End Sub
     Private Sub MnuOpenPath_Click(sender As Object, e As EventArgs) Handles MnuOpenPath.Click
         Shell($"explorer {Application.StartupPath}", 1)
+    End Sub
+    Private Sub MnuTray_Click(sender As Object, e As EventArgs) Handles MnuTray.Click
+        Hide()
+        NotifyIco.Visible = True
+    End Sub
+
+    Private Sub NotifyIco_MouseClick(sender As Object, e As MouseEventArgs) Handles NotifyIco.MouseClick
+        Show()
+        NotifyIco.Visible = False
     End Sub
 #End Region
 
