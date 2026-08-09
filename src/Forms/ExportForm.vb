@@ -28,7 +28,7 @@ Public Class ExportForm
         _currentArtwork = artworks(0)
         PreviewPicturebox.SizeMode = PictureBoxSizeMode.Zoom
         PreviewPicturebox.Image = _currentArtwork.Thumbnail
-        TxtName.Text = _currentArtwork.Title & " - " & _currentArtwork.Author
+        TxtName.Text = _currentArtwork.Title & "_" & _currentArtwork.Author
         If _artworkList.Count = 1 Then
             CbOperation.Enabled = False
             CbOperation.Text = "为后续所有稿件执行相同操作"
@@ -79,4 +79,13 @@ Public Class ExportForm
         LanguageChange()
     End Sub
 #End Region
+    Private Sub RadZip_CheckedChanged(sender As Object, e As EventArgs) Handles RadZip.CheckedChanged
+        LblName.Text = "压缩文件名："
+        LblZip.Visible = True
+    End Sub
+
+    Private Sub RadFolder_CheckedChanged(sender As Object, e As EventArgs) Handles RadFolder.CheckedChanged
+        LblName.Text = "文件夹："
+        LblZip.Visible = False
+    End Sub
 End Class

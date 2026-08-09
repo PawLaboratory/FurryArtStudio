@@ -298,6 +298,8 @@
     <Compile Include="src\Web\HitokotoHandler.vb" />
     <Compile Include="src\Web\UpdateChecker.vb" />
     <Compile Include="src\Utilities\WinAPI.vb" />
+    <Compile Include="src\Web\Webhook.vb" />
+    <Compile Include="src\Web\WebSocketHandler.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\Forms\AboutForm.resx">

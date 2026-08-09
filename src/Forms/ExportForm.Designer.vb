@@ -35,7 +35,7 @@ Partial Class ExportForm
         Me.LblPath = New System.Windows.Forms.Label()
         Me.BtnSelect = New System.Windows.Forms.Button()
         Me.CbOperation = New System.Windows.Forms.CheckBox()
-        Me.Label6 = New System.Windows.Forms.Label()
+        Me.LblZip = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         CType(Me.PreviewPicturebox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,22 +80,22 @@ Partial Class ExportForm
         'RadFolder
         '
         Me.RadFolder.AutoSize = True
-        Me.RadFolder.Checked = True
         Me.RadFolder.Location = New System.Drawing.Point(221, 12)
         Me.RadFolder.Name = "RadFolder"
         Me.RadFolder.Size = New System.Drawing.Size(148, 19)
         Me.RadFolder.TabIndex = 15
-        Me.RadFolder.TabStop = True
         Me.RadFolder.Text = "导出为独立文件夹"
         Me.RadFolder.UseVisualStyleBackColor = True
         '
         'RadZip
         '
         Me.RadZip.AutoSize = True
+        Me.RadZip.Checked = True
         Me.RadZip.Location = New System.Drawing.Point(423, 12)
         Me.RadZip.Name = "RadZip"
         Me.RadZip.Size = New System.Drawing.Size(127, 19)
         Me.RadZip.TabIndex = 16
+        Me.RadZip.TabStop = True
         Me.RadZip.Text = "压缩为ZIP文件"
         Me.RadZip.UseVisualStyleBackColor = True
         '
@@ -140,9 +140,9 @@ Partial Class ExportForm
         Me.LblPath.AutoSize = True
         Me.LblPath.Location = New System.Drawing.Point(218, 72)
         Me.LblPath.Name = "LblPath"
-        Me.LblPath.Size = New System.Drawing.Size(97, 15)
+        Me.LblPath.Size = New System.Drawing.Size(82, 15)
         Me.LblPath.TabIndex = 22
-        Me.LblPath.Text = "输出文件夹："
+        Me.LblPath.Text = "输出目录："
         '
         'BtnSelect
         '
@@ -163,14 +163,14 @@ Partial Class ExportForm
         Me.CbOperation.Text = "为后续2个稿件执行相同操作"
         Me.CbOperation.UseVisualStyleBackColor = True
         '
-        'Label6
+        'LblZip
         '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(511, 42)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(39, 15)
-        Me.Label6.TabIndex = 26
-        Me.Label6.Text = ".zip"
+        Me.LblZip.AutoSize = True
+        Me.LblZip.Location = New System.Drawing.Point(511, 42)
+        Me.LblZip.Name = "LblZip"
+        Me.LblZip.Size = New System.Drawing.Size(39, 15)
+        Me.LblZip.TabIndex = 26
+        Me.LblZip.Text = ".zip"
         '
         'Label1
         '
@@ -199,7 +199,7 @@ Partial Class ExportForm
         Me.ClientSize = New System.Drawing.Size(562, 223)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.LblZip)
         Me.Controls.Add(Me.CbOperation)
         Me.Controls.Add(Me.BtnSelect)
         Me.Controls.Add(Me.LblPath)
@@ -238,7 +238,7 @@ Partial Class ExportForm
     Friend WithEvents LblPath As Label
     Friend WithEvents BtnSelect As Button
     Friend WithEvents CbOperation As CheckBox
-    Friend WithEvents Label6 As Label
+    Friend WithEvents LblZip As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents Label7 As Label
 End Class
