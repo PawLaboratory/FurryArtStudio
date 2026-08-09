@@ -196,6 +196,10 @@ Public Module WinAPI
     <DllImport("user32.dll")>
     Public Function ReleaseCapture() As Boolean
     End Function
+    'SetForegroundWindow 函数 - 将窗口置于前台
+    <DllImport("user32.dll")>
+    Public Function SetForegroundWindow(ByVal hWnd As IntPtr) As Boolean
+    End Function
     '消息常量
     Public Const WM_DROPFILES As Integer = &H233 '拖拽文件
     Public Const WM_COPYGLOBALDATA As Integer = &H49
@@ -215,6 +219,7 @@ Public Module WinAPI
     Public Const WM_THEMECHANGED As Integer = &H31A
     Public Const WM_SETREDRAW As Integer = &HB
     Public Const WM_SETTINGCHANGE As Integer = &H1A '设置变更
+    Public Const WM_SHOWME As Integer = &H8000 + 9876 '恢复托盘图标状态消息
     '其他常量
     Public Const HTCAPTION As Integer = 2
     '阻止截屏常量

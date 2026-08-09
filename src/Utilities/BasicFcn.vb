@@ -21,6 +21,7 @@ Imports System.Runtime.InteropServices
 Imports System.Security.Cryptography
 Imports System.Security.Principal
 Imports System.Text
+Imports System.Threading
 Imports Microsoft.Win32
 Imports Ookii.Dialogs.WinForms
 
@@ -42,6 +43,8 @@ Module BasicFcn
     Public ReadOnly IconColorLight As Color = Color.FromArgb(58, 162, 143)
     Public ReadOnly IconColorDark As Color = Color.FromArgb(87, 226, 180)
     Public ReadOnly IconRed As Color = Color.FromArgb(232, 65, 65)
+    '全局互斥体
+    Public GlobalMutex As Mutex = Nothing
 
 #End Region
 
@@ -880,6 +883,66 @@ Module BasicFcn
             Return sign
         End Using
     End Function
+#End Region
+
+#Region "单例处理"
+    ''' <summary>
+    ''' 读取当前程序集GUID
+    ''' </summary>
+    ''' <returns>程序集Guid</returns>
+    Public Function GetAssemblyGuid() As String
+        Dim assembly As Assembly = Assembly.GetExecutingAssembly()
+        Dim guidAttr As GuidAttribute = assembly.GetCustomAttribute(Of GuidAttribute)()
+        If guidAttr IsNot Nothing Then
+            Return guidAttr.Value
+        Else
+            Return Guid.Empty.ToString
+        End If
+    End Function
+    ''' <summary>
+    ''' 创建全局互斥体
+    ''' </summary>
+    Public Sub CreateGlobalMutex()
+        Dim mutexName As String = "FAS_" & GetAssemblyGuid()
+        GlobalMutex = New Mutex(True, mutexName, False)
+    End Sub
+    ''' <summary>
+    ''' 销毁全局互斥体
+    ''' </summary>
+    Public Sub DestroyGlobalMutex()
+        If GlobalMutex IsNot Nothing Then
+            GlobalMutex.ReleaseMutex()
+            GlobalMutex.Dispose()
+        End If
+    End Sub
+    ''' <summary>
+    ''' 判断当前是否为单例
+    ''' </summary>
+    ''' <returns>若是, 则返回True, 否则返回False</returns>
+    Public Function IsSingleInstance()
+        Return GlobalMutex.WaitOne(0, False)
+    End Function
+    ''' <summary>
+    ''' 激活当前存在的实例
+    ''' </summary>
+    Public Sub ActivateExistingInstance()
+        Dim currentProcess = Process.GetCurrentProcess()
+        Dim processName = currentProcess.ProcessName
+        '遍历所有同名进程
+        For Each proc As Process In Process.GetProcessesByName(processName)
+            If proc.Id <> currentProcess.Id Then '跳过自身
+                Dim hWnd = proc.MainWindowHandle '注意: 进程隐藏后就获得不到了, 可能是这个函数特性
+                If hWnd <> IntPtr.Zero Then
+                    If MainForm.NotifyIco.Visible = True Then
+                        MainForm.Show()
+                        MainForm.NotifyIco.Visible = False
+                    End If
+                    SendMessage(hWnd, WM_SHOWME, IntPtr.Zero, IntPtr.Zero)
+                    Exit For
+                End If
+            End If
+        Next
+    End Sub
 #End Region
 
 End Module

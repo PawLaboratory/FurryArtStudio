@@ -127,6 +127,11 @@ Public Class MainForm
         NotifyIco.Visible = False
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
         MnuExtension.Visible = False
+        CreateGlobalMutex()
+        If Not IsSingleInstance() Then '激活已有单例
+            ActivateExistingInstance()
+            Dispose()
+        End If
     End Sub
     ''' <summary>
     ''' 显示一言
@@ -165,6 +170,7 @@ Public Class MainForm
     Private Sub MainForm_Closing(sender As Object, e As ComponentModel.CancelEventArgs) Handles Me.Closing
         CloseLibrary()
         LibraryManager.CloseAllLibrary() '关闭时释放资源
+        DestroyGlobalMutex()
     End Sub
     ''' <summary>
     ''' 窗体消息处理
@@ -204,6 +210,16 @@ Public Class MainForm
                     End If
                 End If
             End If
+        End If
+        If m.Msg = WM_SHOWME Then '从托盘图标状态恢复
+            If Me.WindowState = FormWindowState.Minimized Then
+                Me.WindowState = FormWindowState.Normal
+            End If
+            Me.Activate()
+            If NotifyIco IsNot Nothing Then
+                NotifyIco.Visible = False
+            End If
+            SetForegroundWindow(Handle)
         End If
         MyBase.WndProc(m) '循环监听消息
     End Sub
@@ -849,7 +865,6 @@ Public Class MainForm
         Hide()
         NotifyIco.Visible = True
     End Sub
-
     Private Sub NotifyIco_MouseClick(sender As Object, e As MouseEventArgs) Handles NotifyIco.MouseClick
         Show()
         NotifyIco.Visible = False
