@@ -20,7 +20,7 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
-Imports Chromis.ColorExtractor
+Imports PawLab.Chromis.ColorExtractor
 Imports Ookii.Dialogs.WinForms
 Public Class ViewForm
     Implements IThemeChangeable, ILocalizable

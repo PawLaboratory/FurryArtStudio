@@ -1617,7 +1617,7 @@ Public Class MainForm
         txt.Show()
     End Sub
     Private Sub MnuHelpTutorial_Click(sender As Object, e As EventArgs) Handles MnuHelpTutorial.Click
-
+        Process.Start("https://github.com/PawLaboratory/FurryArtStudio/wiki")
     End Sub
     Private Async Sub MnuCheckUpdate_Click(sender As Object, e As EventArgs) Handles MnuCheckUpdate.Click
         Await CheckForUpdate()
