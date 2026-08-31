@@ -24,6 +24,7 @@ Imports System.Text
 Imports System.Threading
 Imports Microsoft.Win32
 Imports Ookii.Dialogs.WinForms
+Imports PawLab.Logger
 
 ''' <summary>
 ''' 基本函数

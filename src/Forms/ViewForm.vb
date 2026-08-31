@@ -20,7 +20,7 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
-Imports PawLab.Chromis.ColorExtractor
+Imports PawLab.Chromis
 Imports Ookii.Dialogs.WinForms
 Public Class ViewForm
     Implements IThemeChangeable, ILocalizable
@@ -260,7 +260,7 @@ Public Class ViewForm
         For Each color In GetPixelsFromImageFast(img) '使用更快的速率提取颜色
             pixels.Add(RGBColor.FromRGB(color.R, color.G, color.B))
         Next
-        Dim colors = Extract(pixels, 10, extractType)
+        Dim colors = ColorExtractor.Extract(pixels, 10, extractType)
         Dim colorLabels() = {ColorDialogForm.L1, ColorDialogForm.L2, ColorDialogForm.L3, ColorDialogForm.L4,
             ColorDialogForm.L5, ColorDialogForm.L6, ColorDialogForm.L7, ColorDialogForm.L8,
             ColorDialogForm.L9, ColorDialogForm.L10}
@@ -587,7 +587,7 @@ Public Class ViewForm
                     For Each color In GetPixelsFromImageFast(image, 50)
                         pixels.Add(RGBColor.FromRGB(color.R, color.G, color.B))
                     Next
-                    Dim extractColor = Extract(pixels, 8, ExtractType.Octree)(0)
+                    Dim extractColor = ColorExtractor.Extract(pixels, 8, ExtractType.Octree)(0)
                     SetTitleBarColor(Handle, extractColor.Color.R, extractColor.Color.G, extractColor.Color.B)
                 End If
             End If
