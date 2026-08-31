@@ -163,7 +163,7 @@ jobs:
         }
 
         $targetDir = "${{ github.workspace }}\${{ env.PACKAGE_DIR }}"
-        $files = @("FurryArtStudio.exe", "Chromis.dll")
+        $files = @("FurryArtStudio.exe", "PawLab.Chromis.dll", "PawLab.Logger.dll")
         foreach ($f in $files) {
             $path = Join-Path $targetDir $f
             if (Test-Path $path) {
