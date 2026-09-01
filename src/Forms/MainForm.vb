@@ -604,12 +604,7 @@ Public Class MainForm
         ImageGalleryMain.Enabled = False
         MnuSearchTxtbox.Focus()
         If _imageList.Count <> 0 Then _imageList.Clear()
-        PiChkThumb.Image = Nothing
-        LblTitle.Text = ""
-        LblAuthor.Text = ""
-        LblTags.Text = ""
-        LblCharacters.Text = ""
-        LblNotes.Text = ""
+        ClearMetadata()
         MnuSearchTxtbox.Enabled = False
         MnuSearchTxtbox.Text = ""
         StatusLabel.Text = My.Resources.Stat_Ready
@@ -720,12 +715,8 @@ Public Class MainForm
         EnableMenuItem(menuHandle, SC_PLAY, MF_ENABLED)
         EnableMenuItem(menuHandle, SC_STATISTICS, MF_ENABLED)
         '设置UI
+        ClearMetadata()
         LblTitle.Text = My.Resources.Main_LblNoSelect
-        LblAuthor.Text = ""
-        LblTags.Text = ""
-        LblCharacters.Text = ""
-        LblNotes.Text = ""
-        PiChkThumb.Image = Nothing
         MnuSearchTxtbox.Enabled = True
         '设置图片墙
         ImageGalleryMain.ClearImages() '清空所有图片
@@ -808,6 +799,19 @@ Public Class MainForm
             Text = String.Format(My.Resources.Main_LblMs, ImageGalleryMain.TotalImageCount) & " - " & _libraryManager.GetCurrentLibrary.LibraryName & " - FurryArtStudio"
         End If
         StatusLabel.Text = My.Resources.Stat_Ready
+    End Sub
+
+    ''' <summary>
+    ''' 清除右侧面板显示元数据字段
+    ''' </summary>
+    Private Sub ClearMetadata()
+        LblTitle.Text = ""
+        LblAuthor.Text = ""
+        LblTags.Text = ""
+        LblCharacters.Text = ""
+        LblNotes.Text = ""
+        PiChkThumb.Image = Nothing
+        PiChkThumb.Visible = False
     End Sub
 #End Region
 
@@ -1781,13 +1785,9 @@ Public Class MainForm
         TSBtnMsPrint.Enabled = False
         TSBtnMsOpenFolder.Enabled = False
         SelectStatusLabel.Text = String.Format(My.Resources.Main_LblMs, _artworkCount)
+        ClearMetadata()
         LblTitle.Text = My.Resources.Main_LblNoSelect
-        LblAuthor.Text = ""
-        LblTags.Text = ""
-        LblCharacters.Text = ""
-        LblNotes.Text = ""
         LblDeltas.Visible = False
-        PiChkThumb.Image = Nothing
     End Sub
     Private Sub ImageGalleryMain_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles ImageGalleryMain.SelectionChanged
         Dim selectedImages = e.SelectedImages
@@ -1817,6 +1817,7 @@ Public Class MainForm
             TSBtnMsEdit.Enabled = True
             TSBtnMsPrint.Enabled = True
             TSBtnMsOpenFolder.Enabled = True
+            PiChkThumb.Visible = True
             SelectStatusLabel.Text = String.Format(My.Resources.Main_LblSelectMs1, _artworkCount)
             PiChkThumb.Image = selectedImage.Thumbnail
             Dim artCount As Integer = selectedImages(0).Count
@@ -1871,12 +1872,8 @@ Public Class MainForm
             TSBtnMsPrint.Enabled = False
             TSBtnMsOpenFolder.Enabled = True
             SelectStatusLabel.Text = String.Format(My.Resources.Main_LblSelectMs, selectedCount, _artworkCount)
+            ClearMetadata()
             LblTitle.Text = String.Format(My.Resources.Main_LblTitleSelect, selectedCount)
-            LblAuthor.Text = ""
-            LblCharacters.Text = ""
-            LblTags.Text = ""
-            LblNotes.Text = ""
-            PiChkThumb.Image = Nothing
             LblDeltas.Visible = False
         End If
     End Sub
