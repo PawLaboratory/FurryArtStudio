@@ -33,6 +33,7 @@
     开源与致谢
     本项目基于以下优秀开源库和技术构建（按字母顺序）：
     - PawLab.Chromis - xionglongztz (Apache-2.0)
+    - PawLab.Logger - xionglongztz (Apache-2.0)
     - Dapper - Sam Saffron,Marc Gravell,Nick Craver (Apache-2.0)
     - Krypton.Toolkit - Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro, tobitege, Phil Wright (A.K.A ComponentFactory) (BSD-3-Clause)
     - Lucide - Lucide Icons (ISC License)
@@ -52,57 +53,59 @@
 
 ---
 
-FurryArtStudio is a lightweight yet powerful local tool designed specifically for organizing and managing fursona artworks, reference materials, OC content, and image documents.
+    
+    FurryArtStudio is a lightweight yet powerful local tool designed specifically for organizing and managing fursona artworks, reference materials, OC content, and image documents.
 
-Core Advantages
-- Completely Free: FurryArtStudio is committed to staying fully free with all updates.
-- Offline Operation: All data is stored exclusively on your local device.
-- Privacy First: Apart from checking for updates, the program never connects to the internet, nor does it upload any user data or artwork information.
-- Open Source License: Apache License 2.0 (see LICENSE.txt)
-- Current Platform: Windows (more platforms are planned for the future)
+    Core Advantages
+    - Completely Free: FurryArtStudio is committed to staying fully free with all updates.
+    - Offline Operation: All data is stored exclusively on your local device.
+    - Privacy First: Apart from checking for updates, the program never connects to the internet, nor does it upload any user data or artwork information.
+    - Open Source License: Apache License 2.0 (see LICENSE.txt)
+    - Current Platform: Windows (more platforms are planned for the future)
 
-Important Reminders
-Completely Free & Permanently Open Source:
-- FurryArtStudio is entirely free to use with no charges of any kind (including subscriptions, feature unlocks, VIP, etc.).
-- We are dedicated to providing a high-quality open-source tool that empowers every furry creator to easily manage their artworks and reference materials.
+    Important Reminders
+    Completely Free & Permanently Open Source:
+    - FurryArtStudio is entirely free to use with no charges of any kind (including subscriptions, feature unlocks, VIP, etc.).
+    - We are dedicated to providing a high-quality open-source tool that empowers every furry creator to easily manage their artworks and reference materials.
 
-Please Always Download from Official Sources:
-- The only official download source is the GitHub repository: https://github.com/PawLaboratory/FurryArtStudio
-- Do NOT download installation packages from other websites, forums, cloud storage, or any unofficial channels (e.g., eBay, Facebook Marketplace, Telegram groups, etc.).
-- These unofficial versions may be bundled with viruses, trojans, backdoors, or malicious modifications, posing serious risks to your device and artwork privacy.
-- When redistributing this software, you must include the official GitHub repository link.
+    Please Always Download from Official Sources:
+    - The only official download source is the GitHub repository: https://github.com/PawLaboratory/FurryArtStudio
+    - Do NOT download installation packages from other websites, forums, cloud storage, or any unofficial channels (e.g., eBay, Facebook Marketplace, Telegram groups, etc.).
+    - These unofficial versions may be bundled with viruses, trojans, backdoors, or malicious modifications, posing serious risks to your device and artwork privacy.
+    - When redistributing this software, you must include the official GitHub repository link.
 
-Reselling or Paid Redistribution in Any Form Is Strictly Forbidden:
-- No one is permitted to sell, resell, package for a fee, or bundle this software under any name (including but not limited to renaming and selling modified versions, including it as part of a "paid tool", or selling on platforms such as Xianyu, Taobao, or WeChat groups).
-- Such actions violate the open-source spirit and may infringe upon trademark rights and user rights. We reserve the right to take legal action.
+    Reselling or Paid Redistribution in Any Form Is Strictly Forbidden:
+    - No one is permitted to sell, resell, package for a fee, or bundle this software under any name (including but not limited to renaming and selling modified versions, including it as part of a "paid tool", or selling on platforms such as Xianyu, Taobao, or WeChat groups).
+    - Such actions violate the open-source spirit and may infringe upon trademark rights and user rights. We reserve the right to take legal action.
 
-If You Paid for This Software:
-- If you obtained this software through any paid channel (e.g., unofficial resellers on eBay, Facebook Marketplace, paid Telegram groups, or similar), you have been scammed.
-- Please request a refund immediately and report the seller's reselling activity to the platform (you may attach this statement as evidence).
-- The developers of this software do not provide any paid refund services because the software itself is free. Please protect yourself and avoid being scammed.
+    If You Paid for This Software:
+    - If you obtained this software through any paid channel (e.g., unofficial resellers on eBay, Facebook Marketplace, paid Telegram groups, or similar), you have been scammed.
+    - Please request a refund immediately and report the seller's reselling activity to the platform (you may attach this statement as evidence).
+    - The developers of this software do not provide any paid refund services because the software itself is free. Please protect yourself and avoid being scammed.
 
-For other related statements, please refer to the TERMS.txt file in the repository.
+    For other related statements, please refer to the TERMS.txt file in the repository.
 
-Privacy Statement
-- We take your privacy very seriously. FurryArtStudio does not collect, store, or transmit any personal information, images, or metadata.
-- Only when you manually enable the "Check for Updates" feature will the program connect to the official source to obtain version information (no user data is involved). For details, please see PRIVACY.txt in the project repository.
+    Privacy Statement
+    - We take your privacy very seriously. FurryArtStudio does not collect, store, or transmit any personal information, images, or metadata.
+    - Only when you manually enable the "Check for Updates" feature will the program connect to the official source to obtain version information (no user data is involved). For details, please see PRIVACY.txt in the project repository.
 
-Open Source Acknowledgments
-This project is built upon the following excellent open-source libraries and technologies (in alphabetical order):
-- PawLab.Chromis - xionglongztz (Apache-2.0)
-- Dapper - Sam Saffron, Marc Gravell, Nick Craver (Apache-2.0)
-- Krypton.Toolkit - Peter Wagner (a.k.a. Wagnerp) and Simon Coghlan (a.k.a. Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro, tobitege, Phil Wright (a.k.a. ComponentFactory) (BSD-3-Clause)
-- Lucide - Lucide Icons (ISC License)
-- Maoken Assorted Sans - Maoken Fonts (OFL-1.1 license)
-- Microsoft .NET Runtime Libraries (MIT)
-- Stub.System.Data.SQLite.Core.NetFrame - SQLite Development Team (Public Domain)
-- System.Data.SQLite - System.Data.SQLite
-- System.Data.SQLite.Core - SQLite Development Team (Public Domain)
+    Open Source Acknowledgments
+    This project is built upon the following excellent open-source libraries and technologies (in alphabetical order):
+    - PawLab.Chromis - xionglongztz (Apache-2.0)
+    - PawLab.Logger - xionglongztz (Apache-2.0)
+    - Dapper - Sam Saffron, Marc Gravell, Nick Craver (Apache-2.0)
+    - Krypton.Toolkit - Peter Wagner (a.k.a. Wagnerp) and Simon Coghlan (a.k.a. Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro, tobitege, Phil Wright (a.k.a. ComponentFactory) (BSD-3-Clause)
+    - Lucide - Lucide Icons (ISC License)
+    - Maoken Assorted Sans - Maoken Fonts (OFL-1.1 license)
+    - Microsoft .NET Runtime Libraries (MIT)
+    - Stub.System.Data.SQLite.Core.NetFrame - SQLite Development Team (Public Domain)
+    - System.Data.SQLite - System.Data.SQLite
+    - System.Data.SQLite.Core - SQLite Development Team (Public Domain)
 
-Feedback & Support
-- GitHub: https://github.com/PawLaboratory/FurryArtStudio
-- Issues/Suggestions: https://github.com/PawLaboratory/FurryArtStudio/issues
-- Sponsorship: https://ifdian.net/a/xionglongztz
+    Feedback & Support
+    - GitHub: https://github.com/PawLaboratory/FurryArtStudio
+    - Issues/Suggestions: https://github.com/PawLaboratory/FurryArtStudio/issues
+    - Sponsorship: https://ifdian.net/a/xionglongztz
 
-Copyright © 2026 xionglongztz/PawLaboratory
-Licensed under the Apache License, Version 2.0.
+    Copyright © 2026 xionglongztz/PawLaboratory
+    Licensed under the Apache License, Version 2.0.
