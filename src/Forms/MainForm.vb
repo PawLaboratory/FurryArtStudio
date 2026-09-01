@@ -17,6 +17,7 @@ Imports System.Drawing.Imaging
 Imports System.Drawing.Printing
 Imports System.Globalization
 Imports System.IO
+Imports System.IO.Compression
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports Krypton.Toolkit
@@ -940,17 +941,33 @@ Public Class MainForm
         Dim pawFileDlg As New OpenFileDialog()
     End Sub
     Private Sub MnuLibExport_Click(sender As Object, e As EventArgs) Handles MnuLibExport.Click
-
+        Using pawFileDlg As New SaveFileDialog() With {
+            .Filter = "Paw Files(*.paw)|*.paw",
+            .FileName = $"{_libraryManager.GetCurrentLibrary.LibraryName}.paw"
+            }
+            If pawFileDlg.ShowDialog() = DialogResult.OK Then
+                Try
+                    Dim libPath As String = _libraryManager.GetCurrentLibrary.LibraryPath
+                    MnuLibClose.PerformClick()
+                    ZipFile.CreateFromDirectory(libPath, pawFileDlg.FileName, CompressionLevel.Fastest, True)
+                    MsgBox("导出成功")
+                Catch ex As Exception
+                    ShowErrorDialog(ex, "无法导出库")
+                End Try
+            End If
+        End Using
+        StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
     Private Sub MnuLibExportCSV_Click(sender As Object, e As EventArgs) Handles MnuLibExportCSV.Click
         StatusLabel.Text = My.Resources.Stat_ExportCSV
-        Using saveFileDialog As New SaveFileDialog() With {
+        Using csvFileDialog As New SaveFileDialog() With {
             .Filter = My.Resources.Main_FileFilterCSV,
             .FileName = $"{_libraryManager.GetCurrentLibrary.LibraryName}.csv"
             }
-            If saveFileDialog.ShowDialog() = DialogResult.OK Then
+            If csvFileDialog.ShowDialog() = DialogResult.OK Then
                 Try
-                    _libraryManager.GetCurrentLibrary.ExportTableToCSV(saveFileDialog.FileName)
+                    _libraryManager.GetCurrentLibrary.ExportTableToCSV(csvFileDialog.FileName)
+                    MsgBox("导出成功")
                 Catch ex As Exception
                     ShowErrorDialog(ex, My.Resources.Msg_CreateCSVFailed)
                 End Try
