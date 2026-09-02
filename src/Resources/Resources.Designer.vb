@@ -403,6 +403,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 PAW files(*.paw)|*.paw|ZIP files(*.zip)|*.zip 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Main_FileFilterPAW() As String
+            Get
+                Return ResourceManager.GetString("Main_FileFilterPAW", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Characters: {0} 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Main_LblCharacter() As String
@@ -1339,6 +1348,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 Export complete 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_ExportComplete() As String
+            Get
+                Return ResourceManager.GetString("Msg_ExportComplete", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Export failed 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Msg_ExportFailed() As String
+            Get
+                Return ResourceManager.GetString("Msg_ExportFailed", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 I know what I&apos;m doing! 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Msg_IKnowWhatIamDoing() As String
@@ -1740,6 +1767,24 @@ Namespace My.Resources
         Friend ReadOnly Property Stat_ExportCSV() As String
             Get
                 Return ResourceManager.GetString("Stat_ExportCSV", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Exporting... 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Stat_Exporting() As String
+            Get
+                Return ResourceManager.GetString("Stat_Exporting", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 Importing... 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Stat_Importing() As String
+            Get
+                Return ResourceManager.GetString("Stat_Importing", resourceCulture)
             End Get
         End Property
         

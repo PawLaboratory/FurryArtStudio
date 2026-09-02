@@ -140,12 +140,15 @@ Public Class ExportForm
             If ChkExportZip.Checked Then
                 Dim parentDir As String = AppDomain.CurrentDomain.BaseDirectory '工作区目录
                 Dim zipFilePath As String = Path.Combine(_targetPath, folderName & ".zip") '以目标文件夹命名的zip路径
+                If File.Exists(zipFilePath) Then '当出现重名文件时删除
+                    File.Delete(zipFilePath)
+                End If
                 ZipFile.CreateFromDirectory(_workingPath, zipFilePath, CboCompressLevel.SelectedIndex, True)
             Else
                 My.Computer.FileSystem.CopyDirectory(_workingPath, _targetPath, True)
             End If
         Catch ex As Exception
-            ShowErrorDialog(ex, "导出稿件失败")
+            ShowErrorDialog(ex, My.Resources.Msg_ExportFailed)
         Finally
             Directory.Delete(tempPath, True) '清理工作区
         End Try

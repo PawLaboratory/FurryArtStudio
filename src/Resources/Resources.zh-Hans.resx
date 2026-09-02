@@ -253,7 +253,7 @@
     <value>正在导出为CSV...</value>
   </data>
   <data name="Main_FileFilterCSV" xml:space="preserve">
-    <value>CSV文件(*.csv)|*.csv|所有文件(*.*)|*.*</value>
+    <value>CSV 文件(*.csv)|*.csv|所有文件(*.*)|*.*</value>
   </data>
   <data name="Input_CloneLibTitle" xml:space="preserve">
     <value>克隆稿件库</value>
@@ -881,5 +881,20 @@
   </data>
   <data name="Mnu_Elevated" xml:space="preserve">
     <value>权限已提升(&amp;E)</value>
+  </data>
+  <data name="Msg_ExportComplete" xml:space="preserve">
+    <value>导出完成</value>
+  </data>
+  <data name="Msg_ExportFailed" xml:space="preserve">
+    <value>导出失败</value>
+  </data>
+  <data name="Stat_Exporting" xml:space="preserve">
+    <value>正在导出...</value>
+  </data>
+  <data name="Main_FileFilterPAW" xml:space="preserve">
+    <value>PAW 文件(*.paw)|*.paw|ZIP 文件(*.zip)|*.zip</value>
+  </data>
+  <data name="Stat_Importing" xml:space="preserve">
+    <value>正在导入...</value>
   </data>
 </root>

@@ -882,4 +882,19 @@
   <data name="Mnu_Elevated" xml:space="preserve">
     <value>&amp;Elevated</value>
   </data>
+  <data name="Msg_ExportComplete" xml:space="preserve">
+    <value>Export complete</value>
+  </data>
+  <data name="Msg_ExportFailed" xml:space="preserve">
+    <value>Export failed</value>
+  </data>
+  <data name="Stat_Exporting" xml:space="preserve">
+    <value>Exporting...</value>
+  </data>
+  <data name="Main_FileFilterPAW" xml:space="preserve">
+    <value>PAW files(*.paw)|*.paw|ZIP files(*.zip)|*.zip</value>
+  </data>
+  <data name="Stat_Importing" xml:space="preserve">
+    <value>Importing...</value>
+  </data>
 </root>

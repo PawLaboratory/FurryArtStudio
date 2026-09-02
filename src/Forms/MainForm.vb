@@ -938,21 +938,39 @@ Public Class MainForm
         End Using
     End Sub
     Private Sub MnuLibImport_Click(sender As Object, e As EventArgs) Handles MnuLibImport.Click
-        Dim pawFileDlg As New OpenFileDialog()
+        Using pawFileDlg As New OpenFileDialog() With {
+            .Filter = My.Resources.Main_FileFilterPAW
+            }
+            If pawFileDlg.ShowDialog() = DialogResult.OK Then
+
+            End If
+        End Using
     End Sub
     Private Sub MnuLibExport_Click(sender As Object, e As EventArgs) Handles MnuLibExport.Click
+        StatusLabel.Text = My.Resources.Stat_Exporting
         Using pawFileDlg As New SaveFileDialog() With {
-            .Filter = "Paw Files(*.paw)|*.paw",
+            .Filter = My.Resources.Main_FileFilterPAW,
             .FileName = $"{_libraryManager.GetCurrentLibrary.LibraryName}.paw"
             }
             If pawFileDlg.ShowDialog() = DialogResult.OK Then
                 Try
                     Dim libPath As String = _libraryManager.GetCurrentLibrary.LibraryPath
                     MnuLibClose.PerformClick()
-                    ZipFile.CreateFromDirectory(libPath, pawFileDlg.FileName, CompressionLevel.Fastest, True)
-                    MsgBox("导出成功")
+                    Dim targetFileName As String = pawFileDlg.FileName
+                    If File.Exists(targetFileName) Then '当出现重名文件时删除
+                        File.Delete(targetFileName)
+                    End If
+                    ZipFile.CreateFromDirectory(libPath, targetFileName, CompressionLevel.Fastest, True)
+                    Using dlg As New TaskDialog With {
+                        .WindowTitle = My.Resources.FurryArtStudio,
+                        .Content = My.Resources.Msg_ExportComplete,
+                        .MainIcon = TaskDialogIcon.Information
+                        }
+                        dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
+                        dlg.ShowDialog()
+                    End Using
                 Catch ex As Exception
-                    ShowErrorDialog(ex, "无法导出库")
+                    ShowErrorDialog(ex, My.Resources.Msg_ExportFailed)
                 End Try
             End If
         End Using
@@ -967,7 +985,14 @@ Public Class MainForm
             If csvFileDialog.ShowDialog() = DialogResult.OK Then
                 Try
                     _libraryManager.GetCurrentLibrary.ExportTableToCSV(csvFileDialog.FileName)
-                    MsgBox("导出成功")
+                    Using dlg As New TaskDialog With {
+                        .WindowTitle = My.Resources.FurryArtStudio,
+                        .Content = My.Resources.Msg_ExportComplete,
+                        .MainIcon = TaskDialogIcon.Information
+                        }
+                        dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
+                        dlg.ShowDialog()
+                    End Using
                 Catch ex As Exception
                     ShowErrorDialog(ex, My.Resources.Msg_CreateCSVFailed)
                 End Try

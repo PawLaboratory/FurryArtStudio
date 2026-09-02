@@ -882,4 +882,19 @@
   <data name="Mnu_Elevated" xml:space="preserve">
     <value>權限已提升(&amp;E)</value>
   </data>
+  <data name="Msg_ExportComplete" xml:space="preserve">
+    <value>匯出完成</value>
+  </data>
+  <data name="Msg_ExportFailed" xml:space="preserve">
+    <value>匯出失敗</value>
+  </data>
+  <data name="Stat_Exporting" xml:space="preserve">
+    <value>正在匯出……</value>
+  </data>
+  <data name="Main_FileFilterPAW" xml:space="preserve">
+    <value>PAW 檔案(*.paw)|*.paw|ZIP 檔案(*.zip)|*.zip</value>
+  </data>
+  <data name="Stat_Importing" xml:space="preserve">
+    <value>正在匯入……</value>
+  </data>
 </root>
