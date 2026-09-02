@@ -13,8 +13,9 @@
 ' See the License for the specific language governing permissions and
 ' limitations under the License.
 Imports System.IO
-Imports System.Runtime.InteropServices
 Imports System.IO.Compression
+Imports System.Runtime.InteropServices
+Imports Ookii.Dialogs.WinForms
 Public Class ExportForm
     Implements IThemeChangeable, ILocalizable
     Private _artworkList As List(Of Artwork)
@@ -147,6 +148,14 @@ Public Class ExportForm
             Else
                 My.Computer.FileSystem.CopyDirectory(_workingPath, _targetPath, True)
             End If
+            Using dlg As New TaskDialog With {
+                        .WindowTitle = My.Resources.FurryArtStudio,
+                        .Content = My.Resources.Msg_ExportComplete,
+                        .MainIcon = TaskDialogIcon.Information
+                        }
+                dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
+                dlg.ShowDialog()
+            End Using
         Catch ex As Exception
             ShowErrorDialog(ex, My.Resources.Msg_ExportFailed)
         Finally
