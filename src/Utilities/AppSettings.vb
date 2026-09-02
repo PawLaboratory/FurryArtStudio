@@ -68,6 +68,7 @@ Public Class AppSettings
         Public Property MenuUppercase As Boolean = False
         Public Property ShowToolBar As Boolean = True
         Public Property ShowStatusBar As Boolean = True
+        Public Property UserName As String = ""
     End Class
     Public Class StartupSettings
         Public Property RestoreLastLibrary As Boolean = True

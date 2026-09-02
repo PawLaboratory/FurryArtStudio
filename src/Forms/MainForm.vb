@@ -922,6 +922,26 @@ Public Class MainForm
             .Filter = My.Resources.Main_FileFilterPAW
             }
             If pawFileDlg.ShowDialog() = DialogResult.OK Then
+                'Using archive As ZipFile = ZipFile.OpenRead(pawFileDlg.FileName)
+                '    For Each entry As ZipArchiveEntry In archive.Entries
+                '        ' 构建完整目标路径（保留 zip 内相对目录结构）
+                '        Dim destinationPath As String = Path.Combine(extractPath, entry.FullName)
+                '        Dim destinationDir As String = Path.GetDirectoryName(destinationPath)
+
+                '        ' 创建目标目录（如果不存在）
+                '        If Not String.IsNullOrEmpty(destinationDir) Then
+                '            Directory.CreateDirectory(destinationDir)
+                '        End If
+
+                '        ' 跳过表示目录的条目（以 '/' 结尾）
+                '        If entry.Name = "" Then
+                '            Continue For
+                '        End If
+
+                '        ' 提取文件，并覆盖同名文件（True 表示覆盖）
+                '        entry.ExtractToFile(destinationPath, True)
+                '    Next
+                'End Using
 
             End If
         End Using

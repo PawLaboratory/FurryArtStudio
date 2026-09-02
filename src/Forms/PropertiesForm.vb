@@ -33,6 +33,7 @@ Public Class PropertiesForm
         InitSettings()
     End Sub
     Private Sub PropertiesForm_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        Setting.Appearance.UserName = TxtUserName.Text
         Setting.Save()
     End Sub
     Private Sub SystemThemeChange() Implements IThemeChangeable.SystemThemeChange
@@ -95,6 +96,7 @@ Public Class PropertiesForm
         ChkMenuUpper.Checked = appearances.MenuUppercase
         ChkShowTool.Checked = appearances.ShowToolBar
         ChkShowStatus.Checked = appearances.ShowStatusBar
+        TxtUserName.Text = appearances.UserName
         Dim startups = Setting.Startup
         CheckAutoStartStatus()
         ChkRestore.Checked = startups.RestoreLastLibrary
@@ -104,6 +106,16 @@ Public Class PropertiesForm
     End Sub
     Private Sub LanguageChange() Implements ILocalizable.LanguageChange
 
+    End Sub
+    Private Sub TabGrp_TabIndexChanged(sender As Object, e As EventArgs) Handles TabGrp.TabIndexChanged
+        Select Case TabGrp.SelectedIndex
+            Case 0
+                Text = "选项 - 外观"
+            Case 1
+                Text = "选项 - 启动"
+            Case 2
+                Text = "选项 - 高级"
+        End Select
     End Sub
 #End Region
 
@@ -260,6 +272,8 @@ Public Class PropertiesForm
     Private Sub ChkShowHito_CheckedChanged(sender As Object, e As EventArgs) Handles ChkShowHito.CheckedChanged
         Setting.Startup.ShowHitokoto = ChkShowHito.Checked
     End Sub
+
+
 
 
 
