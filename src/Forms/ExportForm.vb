@@ -169,7 +169,7 @@ Public Class ExportForm
     ''' 复制到文件夹
     ''' </summary>
     Private Sub ExportToFolder(artwork As Artwork, rootPath As String)
-        Dim folderName = SanitizeFileName($"{artwork.Title}_{artwork.Author}") 'TODO:这里允许用户修改格式
+        Dim folderName = SanitizeFileName($"{artwork.Title}_{artwork.Author}")
         Dim targetDir = Path.Combine(rootPath, folderName)
         If Not Directory.Exists(targetDir) Then Directory.CreateDirectory(targetDir)
         For Each filePath In artwork.FilePaths

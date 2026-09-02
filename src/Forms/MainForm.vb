@@ -41,10 +41,8 @@ Public Class MainForm
     Private Const SC_ALWAYSONTOP = 1 '置顶
     Private Const SC_NEWMANUSCRIPT = 2 '新建稿件
     Private Const SC_REFRESH = 3 '刷新
-    Private Const SC_PLAY = 4 '幻灯片放映
-    Private Const SC_SETTINGS = 5 '选项
-    Private Const SC_STATISTICS = 6 '统计信息
-    Private Const SC_ABOUT = 7 '关于
+    Private Const SC_SETTINGS = 4 '选项
+    Private Const SC_ABOUT = 5 '关于
     '用于主题消息变更消抖
     Private WithEvents _themeDebounceTimer As New Timer With {.Interval = 300}
 #End Region
@@ -186,14 +184,10 @@ Public Class MainForm
                     NewManuscript()
                 Case SC_REFRESH
                     RefreshLib()
-                Case SC_PLAY
-                    '待开发
                 Case SC_SETTINGS
                     StatusLabel.Text = My.Resources.Stat_OpenProp
                     PropertiesForm.ShowDialog()
                     StatusLabel.Text = My.Resources.Stat_Ready
-                Case SC_STATISTICS
-                    ShowLibStatistics()
                 Case SC_ABOUT
                     AboutForm.ShowDialog()
             End Select
@@ -546,17 +540,13 @@ Public Class MainForm
             ApplyMenuIcon(menuHandle, SC_ALWAYSONTOP, My.Resources.Icons.MenuPinDark, True)
             ApplyMenuIcon(menuHandle, SC_NEWMANUSCRIPT, My.Resources.Icons.MenuFileNewDark, True)
             ApplyMenuIcon(menuHandle, SC_REFRESH, My.Resources.Icons.MenuRefreshDark, True)
-            ApplyMenuIcon(menuHandle, SC_PLAY, My.Resources.Icons.MenuImagePlayDark, True)
             ApplyMenuIcon(menuHandle, SC_SETTINGS, My.Resources.Icons.MenuSettingsDark, True)
-            ApplyMenuIcon(menuHandle, SC_STATISTICS, My.Resources.Icons.MenuPropertiesDark, True)
             ApplyMenuIcon(menuHandle, SC_ABOUT, My.Resources.Icons.MenuInfoDark, True)
         Else
             ApplyMenuIcon(menuHandle, SC_ALWAYSONTOP, My.Resources.Icons.MenuPinLight)
             ApplyMenuIcon(menuHandle, SC_NEWMANUSCRIPT, My.Resources.Icons.MenuFileNewLight)
             ApplyMenuIcon(menuHandle, SC_REFRESH, My.Resources.Icons.MenuRefreshLight)
-            ApplyMenuIcon(menuHandle, SC_PLAY, My.Resources.Icons.MenuImagePlayLight)
             ApplyMenuIcon(menuHandle, SC_SETTINGS, My.Resources.Icons.MenuSettingsLight)
-            ApplyMenuIcon(menuHandle, SC_STATISTICS, My.Resources.Icons.MenuPropertiesLight)
             ApplyMenuIcon(menuHandle, SC_ABOUT, My.Resources.Icons.MenuInfoLight)
         End If
     End Sub
@@ -622,8 +612,6 @@ Public Class MainForm
         ArtworkListSplitContainer.TabStop = False '避免启动时出现虚线
         Dim menuHandle = GetSystemMenu(Handle, False) '获取菜单句柄
         EnableMenuItem(menuHandle, SC_NEWMANUSCRIPT, MF_GRAYED)
-        EnableMenuItem(menuHandle, SC_PLAY, MF_GRAYED)
-        EnableMenuItem(menuHandle, SC_STATISTICS, MF_GRAYED)
         GC.Collect()
         TSBtnLibExport.Enabled = False
         TSBtnLibRename.Enabled = False
@@ -649,18 +637,14 @@ Public Class MainForm
         InsertMenu(menuHandle, 1, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
         InsertMenu(menuHandle, 8, MF_BYPOSITION Or MF_STRING, SC_NEWMANUSCRIPT, My.Resources.Mnu_NewMs)
         InsertMenu(menuHandle, 9, MF_BYPOSITION Or MF_STRING, SC_REFRESH, My.Resources.Mnu_Refresh)
-        InsertMenu(menuHandle, 10, MF_BYPOSITION Or MF_STRING, SC_PLAY, My.Resources.Mnu_Play)
-        InsertMenu(menuHandle, 11, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
-        InsertMenu(menuHandle, 12, MF_BYPOSITION Or MF_STRING, SC_SETTINGS, My.Resources.Mnu_Options)
-        InsertMenu(menuHandle, 13, MF_BYPOSITION Or MF_STRING, SC_STATISTICS, My.Resources.Mnu_Properties)
-        InsertMenu(menuHandle, 14, MF_BYPOSITION Or MF_STRING, SC_ABOUT, My.Resources.Mnu_About)
-        InsertMenu(menuHandle, 15, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
+        InsertMenu(menuHandle, 10, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
+        InsertMenu(menuHandle, 11, MF_BYPOSITION Or MF_STRING, SC_SETTINGS, My.Resources.Mnu_Options)
+        InsertMenu(menuHandle, 12, MF_BYPOSITION Or MF_STRING, SC_ABOUT, My.Resources.Mnu_About)
+        InsertMenu(menuHandle, 13, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
         '设置菜单快捷键
         UpdateMenuItem()
         '设置菜单可用状态
         EnableMenuItem(menuHandle, SC_NEWMANUSCRIPT, MF_GRAYED)
-        EnableMenuItem(menuHandle, SC_PLAY, MF_GRAYED)
-        EnableMenuItem(menuHandle, SC_STATISTICS, MF_GRAYED)
     End Sub
     ''' <summary>
     ''' 更新窗体菜单项
@@ -670,10 +654,8 @@ Public Class MainForm
         SetMenuItemWithShortcut(menuHandle, 0, SC_ALWAYSONTOP, My.Resources.Mnu_AlwaysOnTop, "Alt+T")
         SetMenuItemWithShortcut(menuHandle, 8, SC_NEWMANUSCRIPT, My.Resources.Mnu_NewMs, "Ctrl+N")
         SetMenuItemWithShortcut(menuHandle, 9, SC_REFRESH, My.Resources.Mnu_Refresh, "F5")
-        SetMenuItemWithShortcut(menuHandle, 10, SC_PLAY, My.Resources.Mnu_Play, "Ctrl+F5")
-        SetMenuItemWithShortcut(menuHandle, 12, SC_SETTINGS, My.Resources.Mnu_Options, "Ctrl+K")
-        SetMenuItemWithShortcut(menuHandle, 13, SC_STATISTICS, My.Resources.Mnu_Properties, "Alt+I")
-        SetMenuItemWithShortcut(menuHandle, 14, SC_ABOUT, My.Resources.Mnu_About, "Ctrl+F1")
+        SetMenuItemWithShortcut(menuHandle, 11, SC_SETTINGS, My.Resources.Mnu_Options, "Ctrl+K")
+        SetMenuItemWithShortcut(menuHandle, 12, SC_ABOUT, My.Resources.Mnu_About, "Ctrl+F1")
     End Sub
     ''' <summary>
     ''' 载入数据并设置图片墙
@@ -713,8 +695,6 @@ Public Class MainForm
         TSBtnSearch.Enabled = True
         Dim menuHandle = GetSystemMenu(Handle, False) '获取菜单句柄
         EnableMenuItem(menuHandle, SC_NEWMANUSCRIPT, MF_ENABLED)
-        EnableMenuItem(menuHandle, SC_PLAY, MF_ENABLED)
-        EnableMenuItem(menuHandle, SC_STATISTICS, MF_ENABLED)
         '设置UI
         ClearMetadata()
         LblTitle.Text = My.Resources.Main_LblNoSelect
