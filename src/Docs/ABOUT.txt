@@ -39,6 +39,7 @@
     - Microsoft .NET Runtime Libraries (MIT)
     - PawLab.Chromis - xionglongztz (Apache-2.0)
     - PawLab.Logger - xionglongztz (Apache-2.0)
+    - PawLab.WindowsTheme - xionglongztz (Apache-2.0)
     - Stub.System.Data.SQLite.Core.NetFrame - SQLite Development Team (Public Domain)
     - System.Data.SQLite - System.Data.SQLite
     - System.Data.SQLite.Core - SQLite Development Team (Public Domain)
@@ -98,6 +99,7 @@
     - Microsoft .NET Runtime Libraries (MIT)
     - PawLab.Chromis - xionglongztz (Apache-2.0)
     - PawLab.Logger - xionglongztz (Apache-2.0)
+    - PawLab.WindowsTheme - xionglongztz (Apache-2.0)
     - Stub.System.Data.SQLite.Core.NetFrame - SQLite Development Team (Public Domain)
     - System.Data.SQLite - System.Data.SQLite
     - System.Data.SQLite.Core - SQLite Development Team (Public Domain)
