@@ -1686,8 +1686,7 @@ Public Class MainForm
         StatusLabel.Text = My.Resources.Stat_Ready
     End Function
     Private Sub MnuHelpWhatsNew_Click(sender As Object, e As EventArgs) Handles MnuHelpWhatsNew.Click
-        Dim txt As New TextBoxForm(My.Resources.Licenses.WhatsNewText, My.Resources.Main_StrWhatsNew)
-        txt.Show()
+        ShowInfoDialog(My.Resources.Licenses.WhatsNewText, My.Resources.Main_StrWhatsNew)
     End Sub
     Private Sub MnuTerms_Click(sender As Object, e As EventArgs) Handles MnuTerms.Click
         Dim txt As New TextBoxForm(My.Resources.Licenses.TermsText, My.Resources.Main_StrTerms)
