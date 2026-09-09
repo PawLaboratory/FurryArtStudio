@@ -974,14 +974,7 @@ Public Class MainForm
                         File.Delete(targetFileName)
                     End If
                     ZipFile.CreateFromDirectory(libPath, targetFileName, CompressionLevel.Fastest, True)
-                    Using dlg As New TaskDialog With {
-                        .WindowTitle = My.Resources.FurryArtStudio,
-                        .Content = My.Resources.Msg_ExportComplete,
-                        .MainIcon = TaskDialogIcon.Information
-                        }
-                        dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-                        dlg.ShowDialog()
-                    End Using
+                    ShowInfoDialog(My.Resources.Msg_ExportComplete)
                 Catch ex As Exception
                     ShowErrorDialog(ex, My.Resources.Msg_ExportFailed)
                 End Try
@@ -998,14 +991,7 @@ Public Class MainForm
             If csvFileDialog.ShowDialog() = DialogResult.OK Then
                 Try
                     _libraryManager.GetCurrentLibrary.ExportTableToCSV(csvFileDialog.FileName)
-                    Using dlg As New TaskDialog With {
-                        .WindowTitle = My.Resources.FurryArtStudio,
-                        .Content = My.Resources.Msg_ExportComplete,
-                        .MainIcon = TaskDialogIcon.Information
-                        }
-                        dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-                        dlg.ShowDialog()
-                    End Using
+                    ShowInfoDialog(My.Resources.Msg_ExportComplete)
                 Catch ex As Exception
                     ShowErrorDialog(ex, My.Resources.Msg_CreateCSVFailed)
                 End Try
@@ -1156,14 +1142,7 @@ Public Class MainForm
         Dim result = GetFolderInfo(library.LibraryPath)
         sb.Append(String.Format(My.Resources.Main_StrPropStorage, result.sizeString, result.fileCount) & vbCrLf)
         sb.Append(String.Format(My.Resources.Main_StrPropNowTime, Now))
-        Using dlg As New TaskDialog With {
-            .WindowTitle = My.Resources.FurryArtStudio,
-            .Content = sb.ToString,
-            .MainIcon = TaskDialogIcon.Information
-            }
-            dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-            dlg.ShowDialog()
-        End Using
+        ShowInfoDialog(sb.ToString)
     End Sub
 #End Region
 
@@ -1301,14 +1280,7 @@ Public Class MainForm
         End If
         '检查是否有图片
         If selectedImages.Count = 0 Then
-            Using dlg As New TaskDialog With {
-                    .WindowTitle = My.Resources.FurryArtStudio,
-                    .MainInstruction = My.Resources.Msg_NoPrintFile,
-                    .MainIcon = TaskDialogIcon.Information
-                    }
-                dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-                dlg.ShowDialog()
-            End Using
+            ShowInfoDialog(My.Resources.Msg_NoPrintFile)
             StatusLabel.Text = My.Resources.Stat_Ready
             Return
         End If
@@ -1709,15 +1681,7 @@ Public Class MainForm
                 End If
             End Using
         Else '已是最新版本
-            Using dlg As New TaskDialog With {
-                .WindowTitle = My.Resources.FurryArtStudio,
-                .MainInstruction = My.Resources.Msg_UptoDate,
-                .Content = updateInfo.LatestVersion,
-                .MainIcon = TaskDialogIcon.Information
-                }
-                dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-                dlg.ShowDialog()
-            End Using
+            ShowInfoDialog(updateInfo.LatestVersion, My.Resources.Msg_UptoDate)
         End If
         StatusLabel.Text = My.Resources.Stat_Ready
     End Function
