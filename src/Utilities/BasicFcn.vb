@@ -664,6 +664,21 @@ Module BasicFcn
             dlg.ShowDialog()
         End Using
     End Sub
+    Public Sub ShowPaimonDialog()
+        Dim buttonExplore As New TaskDialogButton("前面的区域，我现在就要探索！")
+        Using dlg As New TaskDialog With {
+            .WindowTitle = My.Resources.FurryArtStudio,
+            .MainIcon = TaskDialogIcon.Information,
+            .MainInstruction = "前面的区域以后再来探索吧？"
+            }
+            dlg.Buttons.Add(buttonExplore)
+            dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
+            Dim result As TaskDialogButton = dlg.ShowDialog()
+            If result Is buttonExplore Then
+                Process.Start("https://www.bilibili.com/video/BV1UT42167xb")
+            End If
+        End Using
+    End Sub
 #End Region
 
 #Region "窗口特权相关"

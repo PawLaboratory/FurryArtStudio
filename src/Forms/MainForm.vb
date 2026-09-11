@@ -55,7 +55,6 @@ Public Class MainForm
     Private Async Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         StatusLabel.Text = My.Resources.Stat_Init '正在初始化
         _libraryManager = LibraryManager.Instance '启动稿件库管理器实例
-        ResizeControl() '调整组件尺寸
         SysMenuInit() '设置系统菜单
         Dim titleFont As New Font(LblTitle.Font, FontStyle.Bold)
         LblTitle.Font = titleFont
@@ -122,6 +121,7 @@ Public Class MainForm
             StatusLabel.Text = My.Resources.Stat_ShowHitokoto
             Await ShowHitokoto()
         End If
+        PiChkThumb.Height = PiChkThumb.Width '调整图片预览框为方形
         NotifyIco.Icon = Me.Icon
         NotifyIco.Text = My.Resources.FurryArtStudio
         NotifyIco.Visible = False
@@ -232,13 +232,6 @@ Public Class MainForm
     ''' 分割线调整时触发
     ''' </summary>
     Private Sub ArtworkListSplitContainer_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles ArtworkListSplitContainer.SplitterMoved
-        ResizeControl()
-    End Sub
-    ''' <summary>
-    ''' 调整组件的大小
-    ''' </summary>
-    Private Sub ResizeControl()
-        Dim p2Width = ArtworkListSplitContainer.Panel2.Width - 10
         PiChkThumb.Height = PiChkThumb.Width '保持为方形
     End Sub
     ''' <summary>
@@ -934,30 +927,31 @@ Public Class MainForm
         Using pawFileDlg As New OpenFileDialog() With {
             .Filter = My.Resources.Main_FileFilterPAW
             }
-            If pawFileDlg.ShowDialog() = DialogResult.OK Then
-                'Using archive As ZipFile = ZipFile.OpenRead(pawFileDlg.FileName)
-                '    For Each entry As ZipArchiveEntry In archive.Entries
-                '        ' 构建完整目标路径（保留 zip 内相对目录结构）
-                '        Dim destinationPath As String = Path.Combine(extractPath, entry.FullName)
-                '        Dim destinationDir As String = Path.GetDirectoryName(destinationPath)
+            'If pawFileDlg.ShowDialog() = DialogResult.OK Then
+            'Using archive As ZipFile = ZipFile.OpenRead(pawFileDlg.FileName)
+            '    For Each entry As ZipArchiveEntry In archive.Entries
+            '        ' 构建完整目标路径（保留 zip 内相对目录结构）
+            '        Dim destinationPath As String = Path.Combine(extractPath, entry.FullName)
+            '        Dim destinationDir As String = Path.GetDirectoryName(destinationPath)
 
-                '        ' 创建目标目录（如果不存在）
-                '        If Not String.IsNullOrEmpty(destinationDir) Then
-                '            Directory.CreateDirectory(destinationDir)
-                '        End If
+            '        ' 创建目标目录（如果不存在）
+            '        If Not String.IsNullOrEmpty(destinationDir) Then
+            '            Directory.CreateDirectory(destinationDir)
+            '        End If
 
-                '        ' 跳过表示目录的条目（以 '/' 结尾）
-                '        If entry.Name = "" Then
-                '            Continue For
-                '        End If
+            '        ' 跳过表示目录的条目（以 '/' 结尾）
+            '        If entry.Name = "" Then
+            '            Continue For
+            '        End If
 
-                '        ' 提取文件，并覆盖同名文件（True 表示覆盖）
-                '        entry.ExtractToFile(destinationPath, True)
-                '    Next
-                'End Using
+            '        ' 提取文件，并覆盖同名文件（True 表示覆盖）
+            '        entry.ExtractToFile(destinationPath, True)
+            '    Next
+            'End Using
 
-            End If
+            'End If
         End Using
+        ShowPaimonDialog()
     End Sub
     Private Sub MnuLibExport_Click(sender As Object, e As EventArgs) Handles MnuLibExport.Click
         StatusLabel.Text = My.Resources.Stat_Exporting
@@ -1166,7 +1160,7 @@ Public Class MainForm
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
     Private Sub MnuMsImport_Click(sender As Object, e As EventArgs) Handles MnuMsImport.Click
-
+        ShowPaimonDialog()
     End Sub
     Private Sub MnuMsView_Click(sender As Object, e As EventArgs) Handles MnuMsView.Click
         ViewImage(Guid.Parse(ImageGalleryMain.SelectedImages(0).UUID))
@@ -1535,10 +1529,10 @@ Public Class MainForm
         MnuThemeLight.Checked = False
     End Sub
     Private Sub MnuViewPlay_Click(sender As Object, e As EventArgs) Handles MnuViewPlay.Click
-        '待开发
+        ShowPaimonDialog()
     End Sub
     Private Sub MnuAdvancedSearch_Click(sender As Object, e As EventArgs) Handles MnuAdvancedSearch.Click
-        '待开发
+        ShowPaimonDialog()
     End Sub
     Private Sub MnuSearch_Click(sender As Object, e As EventArgs) Handles MnuSearch.Click
         MnuSearchTxtbox.Focus()
