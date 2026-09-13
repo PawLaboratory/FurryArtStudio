@@ -31,10 +31,12 @@ Public Class PropertiesForm
         RemoveMenu(MnuHandle, SC_MINIMIZE, MF_BYCOMMAND) '去除最小化菜单
         SystemThemeChange()
         InitSettings()
+        Text = "选项 - 外观"
     End Sub
     Private Sub PropertiesForm_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         Setting.Appearance.UserName = TxtUserName.Text
         Setting.Save()
+        MainForm.ImageGalleryMain.Refresh()
     End Sub
     Private Sub SystemThemeChange() Implements IThemeChangeable.SystemThemeChange
         '颜色常量
@@ -104,7 +106,7 @@ Public Class PropertiesForm
     Private Sub LanguageChange() Implements ILocalizable.LanguageChange
 
     End Sub
-    Private Sub TabGrp_TabIndexChanged(sender As Object, e As EventArgs) Handles TabGrp.TabIndexChanged
+    Private Sub TabGrp_Selected(sender As Object, e As TabControlEventArgs) Handles TabGrp.Selected
         Select Case TabGrp.SelectedIndex
             Case 0
                 Text = "选项 - 外观"

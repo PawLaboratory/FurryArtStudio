@@ -406,13 +406,13 @@ Public Class EditDialogForm
             End Try
         End If
         '更新字段
-        TxtboxTitle.Text = extractedTitle
+        'TxtboxTitle.Text = extractedTitle
         'TxtboxAuthor.Text =
         'TxtboxCharacters.Text =
         For i As Integer = 0 To extractedTags.Count - 1 '清除空格
             extractedTags(i) = extractedTags(i).Replace(" ", "_")
         Next
-        TxtboxTags.Text = String.Join(" ", extractedTags)
+        'TxtboxTags.Text = String.Join(" ", extractedTags)
         TxtboxCreateTime.Text = earliestDate.ToString("yyyy-MM-dd HH:mm:ss")
         'TxtboxNotes.Text =
     End Sub

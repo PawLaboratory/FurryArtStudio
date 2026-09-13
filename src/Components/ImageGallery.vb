@@ -28,6 +28,8 @@ Public Class ImageGallery
     Private _minItemSize As Integer = 120
     Private _maxItemSize As Integer = 240
 
+    Private _showBadge As Boolean = True
+
     Private _pageSize As Integer = 100
     Private _currentPage As Integer = 1 '当前页码
     Private _totalPages As Integer = 1 '总页码
@@ -102,6 +104,19 @@ Public Class ImageGallery
         Set(value As Integer)
             _minItemSize = value
             RecalculateLayout()
+        End Set
+    End Property
+    ''' <summary>
+    ''' 获取或设置是否显示差分角标数字
+    ''' </summary>
+    <Browsable(True)>
+    <Description("获取或设置是否显示差分角标数字")>
+    Public Property ShowBadge As Boolean
+        Get
+            Return _showBadge
+        End Get
+        Set(value As Boolean)
+            _showBadge = value
         End Set
     End Property
     ''' <summary>
@@ -438,33 +453,37 @@ Public Class ImageGallery
                     g.FillRectangle(b, item.Bounds)
                 End Using
             End If
-            '绘制角标
-            '绘制右上角角标（显示Count数量）
-            If item.Image.Count > 1 Then
-                '角标尺寸为边长的20分之一
-                Dim badgeSize As Integer = Math.Max(15, item.Bounds.Width \ 20)
-                '计算角标位置（右上角，留一些边距）
-                Dim badgeX As Integer = item.Bounds.Right - badgeSize - 2
-                Dim badgeY As Integer = item.Bounds.Top + 2
-                Dim badgeRect As New Rectangle(badgeX, badgeY, badgeSize, badgeSize)
-                Dim badgeFontSize As Integer = badgeSize * 0.6
-                '绘制方形背景
-                Using badgeBrush As New SolidBrush(_badgeColor)
-                    g.FillRectangle(badgeBrush, badgeRect)
-                End Using
-                '绘制数字
-                Using badgeFont As New Font("Arial", badgeFontSize, FontStyle.Bold)
-                    Using textBrush As New SolidBrush(GetForeColor(_badgeColor)) '根据颜色选择前景色
-                        Dim countText As String = item.Image.Count.ToString()
-                        Dim textSize As SizeF = g.MeasureString(countText, badgeFont)
-                        '计算文字居中位置
-                        Dim textX As Single = badgeX + (badgeSize - textSize.Width) / 2
-                        Dim textY As Single = badgeY + (badgeSize - textSize.Height) / 2
 
-                        g.DrawString(countText, badgeFont, textBrush, textX, textY)
+            '绘制角标
+            If _showBadge Then
+                '绘制右上角角标（显示Count数量）
+                If item.Image.Count > 1 Then
+                    '角标尺寸为边长的20分之一
+                    Dim badgeSize As Integer = Math.Max(15, item.Bounds.Width \ 20)
+                    '计算角标位置（右上角，留一些边距）
+                    Dim badgeX As Integer = item.Bounds.Right - badgeSize - 2
+                    Dim badgeY As Integer = item.Bounds.Top + 2
+                    Dim badgeRect As New Rectangle(badgeX, badgeY, badgeSize, badgeSize)
+                    Dim badgeFontSize As Integer = badgeSize * 0.6
+                    '绘制方形背景
+                    Using badgeBrush As New SolidBrush(_badgeColor)
+                        g.FillRectangle(badgeBrush, badgeRect)
                     End Using
-                End Using
+                    '绘制数字
+                    Using badgeFont As New Font("Arial", badgeFontSize, FontStyle.Bold)
+                        Using textBrush As New SolidBrush(GetForeColor(_badgeColor)) '根据颜色选择前景色
+                            Dim countText As String = item.Image.Count.ToString()
+                            Dim textSize As SizeF = g.MeasureString(countText, badgeFont)
+                            '计算文字居中位置
+                            Dim textX As Single = badgeX + (badgeSize - textSize.Width) / 2
+                            Dim textY As Single = badgeY + (badgeSize - textSize.Height) / 2
+
+                            g.DrawString(countText, badgeFont, textBrush, textX, textY)
+                        End Using
+                    End Using
+                End If
             End If
+
             '绘制选中边框
             If _selectedImages.Contains(item.Image) Then
                 Using p As New Pen(_selectionAccentColor, 5)

@@ -107,6 +107,7 @@ Public Class MainForm
         MnuShowToolBar.Checked = settings.Appearance.ShowToolBar
         StaStrip.Visible = settings.Appearance.ShowStatusBar
         MnuShowStatusBar.Checked = settings.Appearance.ShowStatusBar
+        MnuShowBadge.Checked = True
         Select Case settings.Appearance.Theme
             Case AppSettings.ThemeMode.Light
                 MnuThemeLight.Checked = True
@@ -1500,6 +1501,16 @@ Public Class MainForm
         Dim settings = AppSettings.Load()
         settings.Appearance.ShowToolBar = MnuShowToolBar.Checked
         settings.Save()
+    End Sub
+    Private Sub MnuShowBadge_Click(sender As Object, e As EventArgs) Handles MnuShowBadge.Click
+        If MnuShowBadge.Checked Then
+            MnuShowBadge.Checked = False
+            ImageGalleryMain.ShowBadge = False
+        Else
+            MnuShowBadge.Checked = True
+            ImageGalleryMain.ShowBadge = True
+        End If
+        ImageGalleryMain.Refresh()
     End Sub
     Private Sub MnuThemeSystem_Click(sender As Object, e As EventArgs) Handles MnuThemeSystem.Click
         Dim settings = AppSettings.Load()

@@ -171,6 +171,7 @@ Partial Class MainForm
         Me.LblTitle = New System.Windows.Forms.Label()
         Me.PiChkThumb = New System.Windows.Forms.PictureBox()
         Me.NotifyIco = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.MnuShowBadge = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.MnuStrip.SuspendLayout()
         Me.StaStrip.SuspendLayout()
@@ -516,7 +517,7 @@ Partial Class MainForm
         '
         'MnuViews
         '
-        Me.MnuViews.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuOnTop, Me.MnuPrivacyProtect, Me.ToolStripSeparator9, Me.MnuShowStatusBar, Me.MnuShowToolBar, Me.MnuTheme, Me.ToolStripSeparator18, Me.MnuViewPlay, Me.ToolStripSeparator12, Me.MnuSelectAll, Me.MnuSelectReverse, Me.ToolStripSeparator13, Me.MnuSearch, Me.MnuAdvancedSearch, Me.ToolStripSeparator2, Me.MnuPageUp, Me.MnuPageDown})
+        Me.MnuViews.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuOnTop, Me.MnuPrivacyProtect, Me.ToolStripSeparator9, Me.MnuShowStatusBar, Me.MnuShowToolBar, Me.MnuShowBadge, Me.MnuTheme, Me.ToolStripSeparator18, Me.MnuViewPlay, Me.ToolStripSeparator12, Me.MnuSelectAll, Me.MnuSelectReverse, Me.ToolStripSeparator13, Me.MnuSearch, Me.MnuAdvancedSearch, Me.ToolStripSeparator2, Me.MnuPageUp, Me.MnuPageDown})
         Me.MnuViews.Name = "MnuViews"
         Me.MnuViews.Size = New System.Drawing.Size(73, 27)
         Me.MnuViews.Text = "视图(&V)"
@@ -1274,6 +1275,12 @@ Partial Class MainForm
         Me.NotifyIco.Text = "FurryArtStudio"
         Me.NotifyIco.Visible = True
         '
+        'MnuShowBadge
+        '
+        Me.MnuShowBadge.Name = "MnuShowBadge"
+        Me.MnuShowBadge.Size = New System.Drawing.Size(283, 26)
+        Me.MnuShowBadge.Text = "显示角标(&B)"
+        '
         'ImageGalleryMain
         '
         Me.ImageGalleryMain.AutoScroll = True
@@ -1287,6 +1294,7 @@ Partial Class MainForm
         Me.ImageGalleryMain.Name = "ImageGalleryMain"
         Me.ImageGalleryMain.PageSize = 100
         Me.ImageGalleryMain.SelectionAccentColor = System.Drawing.Color.Blue
+        Me.ImageGalleryMain.ShowBadge = True
         Me.ImageGalleryMain.Size = New System.Drawing.Size(727, 509)
         Me.ImageGalleryMain.TabIndex = 3
         '
@@ -1468,4 +1476,5 @@ Partial Class MainForm
     Friend WithEvents MnuAddStartMenu As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator20 As ToolStripSeparator
     Friend WithEvents ToolStripSeparator21 As ToolStripSeparator
+    Friend WithEvents MnuShowBadge As ToolStripMenuItem
 End Class
