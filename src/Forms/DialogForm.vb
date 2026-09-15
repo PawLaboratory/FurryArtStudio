@@ -111,6 +111,8 @@ Public Class DialogForm
         Else
             LblMainInstruction.Text = mainInstruction
         End If
+        '对话框级别
+        _dialogType = dialogType
     End Sub
 
 #Region "基本"
@@ -152,16 +154,21 @@ Public Class DialogForm
         RemoveMenu(MnuHandle, SC_SIZE, MF_BYCOMMAND) '去除大小菜单
         RemoveMenu(MnuHandle, SC_MINIMIZE, MF_BYCOMMAND) '去除最小化菜单
         Me.KeyPreview = True
-        '播放系统消息音
+        '播放系统消息音和设置logo
+        PicBox.SizeMode = PictureBoxSizeMode.Zoom
         Select Case _dialogType
             Case DialogType.Info
                 SystemSounds.Asterisk.Play()
+                PicBox.Image = My.Resources.Icons.DialogInfo
             Case DialogType.Warn
                 SystemSounds.Exclamation.Play()
+                PicBox.Image = My.Resources.Icons.DialogWarn
             Case DialogType.Error
                 SystemSounds.Hand.Play()
+                PicBox.Image = My.Resources.Icons.DialogError
             Case Else
                 SystemSounds.Asterisk.Play()
+                PicBox.Image = My.Resources.Icons.DialogInfo
         End Select
         '设置字体
         LblContent.Font = SystemFonts.MessageBoxFont

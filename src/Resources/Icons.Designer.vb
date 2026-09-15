@@ -67,6 +67,36 @@ Namespace My.Resources
         '''<summary>
         '''  查找 System.Drawing.Bitmap 类型的本地化资源。
         '''</summary>
+        Public Shared ReadOnly Property DialogError() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("DialogError", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找 System.Drawing.Bitmap 类型的本地化资源。
+        '''</summary>
+        Public Shared ReadOnly Property DialogInfo() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("DialogInfo", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找 System.Drawing.Bitmap 类型的本地化资源。
+        '''</summary>
+        Public Shared ReadOnly Property DialogWarn() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("DialogWarn", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找 System.Drawing.Bitmap 类型的本地化资源。
+        '''</summary>
         Public Shared ReadOnly Property FormFileDark() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("FormFileDark", resourceCulture)

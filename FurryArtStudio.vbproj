@@ -506,6 +506,9 @@
     <Content Include="src\Resources\Darkmode-Icons\venetian-mask.png" />
     <Content Include="src\Resources\Darkmode-Icons\wallpaper.png" />
     <Content Include="src\Resources\Darkmode-Icons\x.png" />
+    <Content Include="src\Resources\DialogIcon\Error.png" />
+    <Content Include="src\Resources\DialogIcon\Info.png" />
+    <Content Include="src\Resources\DialogIcon\Warn.png" />
     <Content Include="src\Resources\FAS.ico" />
     <Content Include="src\Resources\FAS.png" />
     <Content Include="src\Resources\Lightmode-Icons\arrow-big-left.png" />

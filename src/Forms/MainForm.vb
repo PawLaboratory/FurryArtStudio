@@ -127,7 +127,7 @@ Public Class MainForm
         NotifyIco.Text = My.Resources.FurryArtStudio
         NotifyIco.Visible = False
         StatusLabel.Text = My.Resources.Stat_Ready '就绪
-        MnuExtension.Visible = False
+        'MnuExtension.Visible = False
         CreateGlobalMutex()
         If Not IsSingleInstance() Then '激活已有单例
             ActivateExistingInstance()
@@ -1544,8 +1544,6 @@ Public Class MainForm
     End Sub
     Private Sub MnuAdvancedSearch_Click(sender As Object, e As EventArgs) Handles MnuAdvancedSearch.Click
         'ShowPaimonDialog()
-        Dim a As New DialogForm("测试文本",, "主操作文本")
-        a.ShowDialog()
     End Sub
     Private Sub MnuSearch_Click(sender As Object, e As EventArgs) Handles MnuSearch.Click
         MnuSearchTxtbox.Focus()
@@ -1947,5 +1945,12 @@ Public Class MainForm
         _openViewForms.Clear()
     End Sub
 #End Region
-
+    Private Sub MnuDialogTest_Click(sender As Object, e As EventArgs) Handles MnuDialogTest.Click
+        Dim a As New DialogForm("测试文本1",, "信息对话框", DialogForm.DialogType.Info)
+        a.ShowDialog()
+        Dim b As New DialogForm("测试文本2",, "警告对话框", DialogForm.DialogType.Warn)
+        b.ShowDialog()
+        Dim c As New DialogForm("测试文本2",, "错误对话框", DialogForm.DialogType.Error)
+        c.ShowDialog()
+    End Sub
 End Class
