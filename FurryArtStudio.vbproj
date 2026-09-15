@@ -201,6 +201,12 @@
     <Compile Include="src\Forms\DevToolsForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="src\Forms\DialogForm.Designer.vb">
+      <DependentUpon>DialogForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\Forms\DialogForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\Forms\EditDialogForm.Designer.vb">
       <DependentUpon>EditDialogForm.vb</DependentUpon>
     </Compile>
@@ -334,6 +340,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\DevToolsForm.resx">
       <DependentUpon>DevToolsForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Forms\DialogForm.resx">
+      <DependentUpon>DialogForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\EditDialogForm.resx">
       <DependentUpon>EditDialogForm.vb</DependentUpon>

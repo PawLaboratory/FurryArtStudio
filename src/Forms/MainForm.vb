@@ -1543,7 +1543,9 @@ Public Class MainForm
         ShowPaimonDialog()
     End Sub
     Private Sub MnuAdvancedSearch_Click(sender As Object, e As EventArgs) Handles MnuAdvancedSearch.Click
-        ShowPaimonDialog()
+        'ShowPaimonDialog()
+        Dim a As New DialogForm("测试文本",, "主操作文本")
+        a.ShowDialog()
     End Sub
     Private Sub MnuSearch_Click(sender As Object, e As EventArgs) Handles MnuSearch.Click
         MnuSearchTxtbox.Focus()

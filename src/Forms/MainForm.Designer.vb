@@ -76,6 +76,7 @@ Partial Class MainForm
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
         Me.MnuShowStatusBar = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuShowToolBar = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuShowBadge = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuTheme = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuThemeSystem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuThemeLight = New System.Windows.Forms.ToolStripMenuItem()
@@ -171,7 +172,6 @@ Partial Class MainForm
         Me.LblTitle = New System.Windows.Forms.Label()
         Me.PiChkThumb = New System.Windows.Forms.PictureBox()
         Me.NotifyIco = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.MnuShowBadge = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageGalleryMain = New FurryArtStudio.ImageGallery()
         Me.MnuStrip.SuspendLayout()
         Me.StaStrip.SuspendLayout()
@@ -556,6 +556,12 @@ Partial Class MainForm
         Me.MnuShowToolBar.Name = "MnuShowToolBar"
         Me.MnuShowToolBar.Size = New System.Drawing.Size(283, 26)
         Me.MnuShowToolBar.Text = "显示工具栏(&T)"
+        '
+        'MnuShowBadge
+        '
+        Me.MnuShowBadge.Name = "MnuShowBadge"
+        Me.MnuShowBadge.Size = New System.Drawing.Size(283, 26)
+        Me.MnuShowBadge.Text = "显示角标(&B)"
         '
         'MnuTheme
         '
@@ -1274,12 +1280,6 @@ Partial Class MainForm
         '
         Me.NotifyIco.Text = "FurryArtStudio"
         Me.NotifyIco.Visible = True
-        '
-        'MnuShowBadge
-        '
-        Me.MnuShowBadge.Name = "MnuShowBadge"
-        Me.MnuShowBadge.Size = New System.Drawing.Size(283, 26)
-        Me.MnuShowBadge.Text = "显示角标(&B)"
         '
         'ImageGalleryMain
         '
