@@ -68,6 +68,7 @@ Public Class MainForm
         MnuDevTools.Enabled = True
 #Else
         MnuDevTools.Enabled = False
+        MnuExtension.Visible = False
 #End If
         Dim autoChangeLang As Boolean = IsFirstRun() '判断程序是否首次启动, 并存储状态
         Dim settings = AppSettings.Load() '读取设置项
