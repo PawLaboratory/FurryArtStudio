@@ -60,14 +60,11 @@ Public Class DialogForm
             Height = Math.Max(220, LblContent.Height + 145)
         Else
             LblMainInstruction.Text = mainInstruction
-            Height = Math.Max(220, LblContent.Height + LblMainInstruction.Height + 200)
+
+            Height = Math.Max(220, LblContent.Height + LblMainInstruction.Height)
         End If
         Width = Math.Max(460, LblContent.Width + 120)
         Width = Math.Max(Width, LblMainInstruction.Width + 240)
-        Btn1.Top = Height - 85
-        Btn2.Top = Btn1.Top
-        Btn3.Top = Btn1.Top
-        Btn4.Top = Btn1.Top
         '对话框默认按键
         Select Case defaultButtonIndex
             Case 1
@@ -135,17 +132,16 @@ Public Class DialogForm
             btnWidth += Btn1.Width
             Btn1.Left = Btn2.Left + Btn2.Width + 15
         End If
-        Dim measure As Integer = btnWidth + 120 - Width
-        If measure < 0 Then
-            Btn1.Left -= measure
-            Btn2.Left -= measure
-            Btn3.Left -= measure
-            Btn4.Left -= measure
+        Dim measureX As Integer = btnWidth + 120 - Width
+        If measureX < 0 Then
+            Btn1.Left -= measureX
+            Btn2.Left -= measureX
+            Btn3.Left -= measureX
+            Btn4.Left -= measureX
         End If
         Width = Math.Max(btnWidth + 120, Width)
         '对话框级别
         _dialogType = dialogType
-
     End Sub
 
 #Region "基本"
@@ -213,6 +209,15 @@ Public Class DialogForm
         Btn4.Font = SystemFonts.MessageBoxFont
         Dim tf As New Font(SystemFonts.MessageBoxFont.Name, 12)
         LblMainInstruction.Font = tf
+        '计算高度
+        Dim measureY As Integer = 220 - LblContent.Height + LblMainInstruction.Height
+        If measureY < 0 Then
+            Height -= (measureY - 140)
+        End If
+        Btn1.Top = Height - 85
+        Btn2.Top = Btn1.Top
+        Btn3.Top = Btn1.Top
+        Btn4.Top = Btn1.Top
     End Sub
     ''' <summary>
     ''' 对话框类型

@@ -203,6 +203,40 @@ Module BasicFcn
             Clipboard.SetDataObject(dataObject, True)
         End If
     End Sub
+
+    ''' <summary>
+    ''' 将字符串的中间部分省略为 "...", 使结果长度不超过 maxLength。
+    ''' </summary>
+    ''' <param name="source">原始字符串。</param>
+    ''' <param name="maxLength">结果允许的最大长度（字符数）。</param>
+    ''' <returns>处理后的字符串。</returns>
+    Public Function ShrinkMiddle(source As String, maxLength As Integer) As String
+        Dim ellipsis As String = "..."
+        ' ---- 边界处理 ----
+        If String.IsNullOrEmpty(source) Then Return String.Empty
+        If ellipsis Is Nothing Then ellipsis = String.Empty
+        If maxLength <= 0 Then Return String.Empty
+
+        ' 本来就够短，原样返回
+        If source.Length <= maxLength Then Return source
+
+        ' 连省略号都放不下时，退化为直接截断
+        If maxLength <= ellipsis.Length Then
+            Return source.Substring(0, maxLength)
+        End If
+
+        ' ---- 分配首尾可用字符数 ----
+        Dim remain As Integer = maxLength - ellipsis.Length   ' 首部 + 尾部 的总配额
+        Dim headLen As Integer = (remain + 1) \ 2             ' 首部多分一个字符
+        Dim tailLen As Integer = remain - headLen             ' 剩余给尾部
+
+        Dim head As String = source.Substring(0, headLen)
+        Dim tail As String = If(tailLen > 0,
+                            source.Substring(source.Length - tailLen),
+                            String.Empty)
+
+        Return head & ellipsis & tail
+    End Function
 #End Region
 
 #Region "图像处理"
