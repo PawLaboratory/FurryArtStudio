@@ -13,14 +13,12 @@
 ' See the License for the specific language governing permissions and
 ' limitations under the License.
 Imports System.Media
-Imports System.Runtime.InteropServices
 Imports System.Text
 Imports PawTheme = PawLab.WindowsTheme.ThemeService
 
 Public Class DialogForm
     Implements IThemeChangeable
 
-    Private _buttonIndex As Integer
     Private _dialogType As DialogType
     ''' <summary>
     ''' 构造函数 - 新建一个对话框
@@ -46,6 +44,8 @@ Public Class DialogForm
                    Optional button3Text As String = "",
                    Optional button4Text As String = "")
         InitializeComponent()
+        LblContent.AutoSize = True
+        LblMainInstruction.AutoSize = True
         '对话框内容
         LblContent.Text = content
         '对话框标题
@@ -53,6 +53,21 @@ Public Class DialogForm
             title = Reflection.Assembly.GetExecutingAssembly().GetName().Name
         End If
         Text = title
+        '主操作内容
+        If mainInstruction = "" Then
+            LblMainInstruction.Hide()
+            LblContent.Top = 10
+            Height = Math.Max(220, LblContent.Height + 145)
+        Else
+            LblMainInstruction.Text = mainInstruction
+            Height = Math.Max(220, LblContent.Height + LblMainInstruction.Height + 200)
+        End If
+        Width = Math.Max(460, LblContent.Width + 120)
+        Width = Math.Max(Width, LblMainInstruction.Width + 240)
+        Btn1.Top = Height - 85
+        Btn2.Top = Btn1.Top
+        Btn3.Top = Btn1.Top
+        Btn4.Top = Btn1.Top
         '对话框默认按键
         Select Case defaultButtonIndex
             Case 1
@@ -83,44 +98,58 @@ Public Class DialogForm
             Case Else
                 CancelButton = Btn1
         End Select
-        '按钮文本
+        '按钮文本与间距
+        Dim btnWidth As Integer = 60
+
+        If button4Text = "" Then
+            Btn4.Hide()
+            Btn4.Left = 10
+        Else
+            Btn4.Text = $" {button4Text} "
+            btnWidth += Btn4.Width
+            Btn4.Left = 100
+        End If
+
+        If button3Text = "" Then
+            Btn3.Hide()
+            Btn3.Left = 25
+        Else
+            Btn3.Text = $" {button3Text} "
+            btnWidth += Btn3.Width
+            Btn3.Left = Btn4.Left + Btn4.Width + 15
+        End If
+
+        If button2Text = "" Then
+            Btn2.Hide()
+            Btn2.Left = 40
+        Else
+            Btn2.Text = $" {button2Text} "
+            btnWidth += Btn2.Width
+            Btn2.Left = Btn3.Left + Btn3.Width + 15
+        End If
+
         If button1Text = "" Then
             Btn1.Hide()
         Else
-            Btn1.Text = button1Text
+            Btn1.Text = $" {button1Text} "
+            btnWidth += Btn1.Width
+            Btn1.Left = Btn2.Left + Btn2.Width + 15
         End If
-        If button2Text = "" Then
-            Btn2.Hide()
-        Else
-            Btn2.Text = button2Text
+        Dim measure As Integer = btnWidth + 120 - Width
+        If measure < 0 Then
+            Btn1.Left -= measure
+            Btn2.Left -= measure
+            Btn3.Left -= measure
+            Btn4.Left -= measure
         End If
-        If button3Text = "" Then
-            Btn3.Hide()
-        Else
-            Btn3.Text = button3Text
-        End If
-        If button4Text = "" Then
-            Btn4.Hide()
-        Else
-            Btn4.Text = button4Text
-        End If
-        '主操作内容
-        If mainInstruction = "" Then
-            LblMainInstruction.Hide()
-            LblContent.Top = 10
-        Else
-            LblMainInstruction.Text = mainInstruction
-        End If
+        Width = Math.Max(btnWidth + 120, Width)
         '对话框级别
         _dialogType = dialogType
+
     End Sub
 
 #Region "基本"
-    Public ReadOnly Property ButtonIndex As Integer
-        Get
-            Return _buttonIndex
-        End Get
-    End Property
+    Public Property ButtonIndex As Integer = 0
     ''' <summary>
     ''' 实现深色主题
     ''' </summary>
@@ -144,6 +173,12 @@ Public Class DialogForm
         Next
         ForeColor = frColor
         BackColor = bgColor
+        If IsDarkMode() Then
+            LblMainInstruction.ForeColor = Color.FromArgb(100, 120, 255)
+        Else
+            LblMainInstruction.ForeColor = Color.FromArgb(0, 51, 153)
+        End If
+
         PawTheme.SetWindowTheme(Handle, IsDarkMode) 'PawLab.WindowsTheme
     End Sub
     Private Sub Dialog_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -226,7 +261,7 @@ Public Class DialogForm
 
 #Region "按钮操作"
     Private Sub Btn1_Click(sender As Object, e As EventArgs) Handles Btn1.Click
-        _buttonIndex = 1
+        ButtonIndex = 1
         Me.Close()
     End Sub
     Private Sub Btn2_Click(sender As Object, e As EventArgs) Handles Btn2.Click
@@ -240,17 +275,6 @@ Public Class DialogForm
     Private Sub Btn4_Click(sender As Object, e As EventArgs) Handles Btn4.Click
         _buttonIndex = 4
         Me.Close()
-    End Sub
-    Private Sub DialogForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        If CancelButton Is Btn1 Then
-            _buttonIndex = 1
-        ElseIf CancelButton Is Btn2 Then
-            _buttonIndex = 2
-        ElseIf CancelButton Is Btn3 Then
-            _buttonIndex = 3
-        ElseIf CancelButton Is Btn4 Then
-            _buttonIndex = 4
-        End If
     End Sub
 #End Region
 

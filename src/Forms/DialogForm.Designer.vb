@@ -42,6 +42,7 @@ Partial Class DialogForm
         '
         'Btn1
         '
+        Me.Btn1.AutoSize = True
         Me.Btn1.Location = New System.Drawing.Point(340, 135)
         Me.Btn1.Name = "Btn1"
         Me.Btn1.Size = New System.Drawing.Size(90, 30)
@@ -51,6 +52,7 @@ Partial Class DialogForm
         '
         'Btn2
         '
+        Me.Btn2.AutoSize = True
         Me.Btn2.Location = New System.Drawing.Point(244, 135)
         Me.Btn2.Name = "Btn2"
         Me.Btn2.Size = New System.Drawing.Size(90, 30)
@@ -68,6 +70,7 @@ Partial Class DialogForm
         '
         'Btn3
         '
+        Me.Btn3.AutoSize = True
         Me.Btn3.Location = New System.Drawing.Point(148, 135)
         Me.Btn3.Name = "Btn3"
         Me.Btn3.Size = New System.Drawing.Size(90, 30)
@@ -109,6 +112,7 @@ Partial Class DialogForm
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "DialogForm"
+        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Dialog"
         CType(Me.PicBox, System.ComponentModel.ISupportInitialize).EndInit()

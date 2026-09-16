@@ -1072,48 +1072,35 @@ Public Class MainForm
         Dim isShiftPressed As Boolean = My.Computer.Keyboard.ShiftKeyDown
         Dim nowPath As String = _libraryManager.GetCurrentLibrary.LibraryPath
         Dim nowLib As String = _libraryManager.GetCurrentLibrary.LibraryName
-        '对话框按钮
-        Dim buttonDeletePermanently As New TaskDialogButton(My.Resources.Msg_IKnowWhatIamDoing)
-        Dim buttonDelete As New TaskDialogButton(My.Resources.Msg_DeleteLibConfirm)
-        Dim buttonCancel As New TaskDialogButton(ButtonType.Cancel)
         _libraryManager.CloseLibrary(nowLib) '先释放数据库资源, 再尝试删除文件
         Try
             StatusLabel.Text = My.Resources.Stat_DeletingLib
             If isShiftPressed Then
-                Using dlg As New TaskDialog With {
-                    .WindowTitle = My.Resources.FurryArtStudio,
-                    .MainInstruction = String.Format(My.Resources.Msg_DeleteLibPermanently, nowLib),
-                    .Content = My.Resources.Msg_CannotBeIrreversible,
-                    .MainIcon = TaskDialogIcon.Warning
-                    }
-
-                    dlg.Buttons.Add(buttonDeletePermanently)
-                    dlg.Buttons.Add(buttonCancel)
-                    Dim result As TaskDialogButton = dlg.ShowDialog()
-                    If result Is buttonDeletePermanently Then
-                        Directory.Delete(nowPath, True)
-                    Else
-                        Throw New OperationCanceledException(My.Resources.Main_StrOperationCancelled)
-                    End If
-                End Using
+                Dim dlg As New DialogForm(My.Resources.Msg_CannotBeIrreversible,,
+                                          String.Format(My.Resources.Msg_DeleteLibPermanently, nowLib),
+                                          DialogForm.DialogType.Warn,,,
+                                          "取消(&C)",
+                                          My.Resources.Msg_IKnowWhatIamDoing)
+                dlg.ShowDialog()
+                If dlg.ButtonIndex = 2 Then
+                    Directory.Delete(nowPath, True)
+                Else
+                    Throw New OperationCanceledException(My.Resources.Main_StrOperationCancelled)
+                End If
             Else
-                Using dlg As New TaskDialog With {
-                    .WindowTitle = My.Resources.FurryArtStudio,
-                    .MainInstruction = String.Format(My.Resources.Msg_DeleteLib, nowLib),
-                    .MainIcon = TaskDialogIcon.Information
-                    }
-
-                    dlg.Buttons.Add(buttonDelete)
-                    dlg.Buttons.Add(buttonCancel)
-                    Dim result As TaskDialogButton = dlg.ShowDialog()
-                    If result Is buttonDelete Then
-                        FileIO.FileSystem.DeleteDirectory(nowPath,
-                        FileIO.UIOption.AllDialogs,
-                        FileIO.RecycleOption.SendToRecycleBin)
-                    Else
-                        Throw New OperationCanceledException(My.Resources.Main_StrOperationCancelled)
-                    End If
-                End Using
+                Dim dlg As New DialogForm("",,
+                                          String.Format(My.Resources.Msg_DeleteLib, nowLib),
+                                          DialogForm.DialogType.Info,,,
+                                          "取消(&C)",
+                                          My.Resources.Msg_DeleteLibConfirm)
+                dlg.ShowDialog()
+                If dlg.ButtonIndex = 2 Then
+                    FileIO.FileSystem.DeleteDirectory(nowPath,
+                    FileIO.UIOption.AllDialogs,
+                    FileIO.RecycleOption.SendToRecycleBin)
+                Else
+                    Throw New OperationCanceledException(My.Resources.Main_StrOperationCancelled)
+                End If
             End If
             MenuInit()
             CloseLibrary()
@@ -1946,11 +1933,6 @@ Public Class MainForm
     End Sub
 #End Region
     Private Sub MnuDialogTest_Click(sender As Object, e As EventArgs) Handles MnuDialogTest.Click
-        Dim a As New DialogForm("测试文本1",, "信息对话框", DialogForm.DialogType.Info)
-        a.ShowDialog()
-        Dim b As New DialogForm("测试文本2",, "警告对话框", DialogForm.DialogType.Warn)
-        b.ShowDialog()
-        Dim c As New DialogForm("测试文本2",, "错误对话框", DialogForm.DialogType.Error)
-        c.ShowDialog()
+
     End Sub
 End Class
