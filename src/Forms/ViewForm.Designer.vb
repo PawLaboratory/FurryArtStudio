@@ -40,6 +40,7 @@ Partial Class ViewForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(622, 433)
         Me.Controls.Add(Me.PictureBoxMain)
+        Me.DoubleBuffered = True
         Me.Name = "ViewForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "ViewForm"

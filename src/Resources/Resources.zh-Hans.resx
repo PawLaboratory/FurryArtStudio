@@ -942,4 +942,7 @@
   <data name="Dialog_BtnOK" xml:space="preserve">
     <value>确定(&amp;O)</value>
   </data>
+  <data name="Mnu_Tray" xml:space="preserve">
+    <value>最小化到托盘(&amp;M)</value>
+  </data>
 </root>

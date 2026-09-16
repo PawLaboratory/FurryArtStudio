@@ -284,6 +284,7 @@ Public Class MainForm
         MnuCreateShortcut.Text = My.Resources.Mnu_CreateShortcut
         MnuAddStartMenu.Text = My.Resources.Mnu_StartMenu
         MnuExit.Text = My.Resources.Mnu_Exit
+        MnuTray.Text = My.Resources.Mnu_Tray
         '稿件库
         MnuLibrary.Text = My.Resources.Mnu_Lib
         MnuLibList.Text = My.Resources.Mnu_CurrentLib
@@ -1182,14 +1183,12 @@ Public Class MainForm
                                           My.Resources.Dialog_BtnCancel,
                                           My.Resources.Msg_DeleteMsPermanentlyConfirm)
                 dlg.ShowDialog()
-                If dlg.ButtonIndex = 1 Then
-                    StatusLabel.Text = My.Resources.Stat_Ready
-                    Return
+                If dlg.ButtonIndex = 2 Then
+                    For Each uuid In uuidList
+                        Directory.Delete(Path.Combine(nowPath, uuid.ToString), True) '永久删除数据
+                        _libraryManager.GetCurrentLibrary.SoftDeleteArtwork(uuid) '标记为软删除
+                    Next
                 End If
-                For Each uuid In uuidList
-                    Directory.Delete(Path.Combine(nowPath, uuid.ToString), True) '永久删除数据
-                    _libraryManager.GetCurrentLibrary.SoftDeleteArtwork(uuid) '标记为软删除
-                Next
             Else
                 Dim dlg As New DialogForm(String.Join(vbCrLf, titleList.Take(4)) &
                                              If(titleList.Count > 4, vbCrLf &
@@ -1198,16 +1197,14 @@ Public Class MainForm
                                           My.Resources.Dialog_BtnCancel,
                                           My.Resources.Msg_DeleteMsConfirm)
                 dlg.ShowDialog()
-                If dlg.ButtonIndex = 1 Then
-                    StatusLabel.Text = My.Resources.Stat_Ready
-                    Return
-                End If
-                For Each uuid In uuidList
-                    FileIO.FileSystem.DeleteDirectory(Path.Combine(nowPath, uuid.ToString),
+                If dlg.ButtonIndex = 2 Then
+                    For Each uuid In uuidList
+                        FileIO.FileSystem.DeleteDirectory(Path.Combine(nowPath, uuid.ToString),
                                                       FileIO.UIOption.OnlyErrorDialogs,
                                                       FileIO.RecycleOption.SendToRecycleBin) '移动到回收站
-                    _libraryManager.GetCurrentLibrary.SoftDeleteArtwork(uuid) '标记为软删除
-                Next
+                        _libraryManager.GetCurrentLibrary.SoftDeleteArtwork(uuid) '标记为软删除
+                    Next
+                End If
             End If
                 RefreshLib()
         Catch ex As OperationCanceledException

@@ -942,4 +942,7 @@
   <data name="Dialog_BtnOK" xml:space="preserve">
     <value>&amp;OK</value>
   </data>
+  <data name="Mnu_Tray" xml:space="preserve">
+    <value>&amp;Minimize to System Tray</value>
+  </data>
 </root>

@@ -22,7 +22,6 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports PawLab.Chromis
 Imports PawTheme = PawLab.WindowsTheme.ThemeService
-Imports Ookii.Dialogs.WinForms
 Public Class ViewForm
     Implements IThemeChangeable, ILocalizable
 
@@ -386,7 +385,7 @@ Public Class ViewForm
         Dim imageFiles As List(Of String) = GetCurrentArtworkImages()
         Dim totalImages As Integer = imageFiles.Count
         If totalImages = 0 Then
-            Me.Text = $"{title} - 图片浏览器 [0/0]"
+            Me.Text = $"{title} - {My.Resources.View_ImageBrowser} [0/0]"
         Else
             Dim fileName As String = ""
             If currentFilePath IsNot Nothing Then
@@ -394,9 +393,9 @@ Public Class ViewForm
             End If
             '显示格式: 标题 - [当前文件索引/总文件数] 文件名 - 图片浏览器 (当前稿件索引/总稿件数)
             If _currentArtworkIndex >= 0 AndAlso _allArtworks IsNot Nothing Then
-                Me.Text = $"{title} - [{_currentFileIndex + 1}/{totalImages}] {fileName} - 图片浏览器 ({_currentArtworkIndex + 1}/{_allArtworks.Count})"
+                Me.Text = $"{title} - [{_currentFileIndex + 1}/{totalImages}] {fileName} - {My.Resources.View_ImageBrowser} ({_currentArtworkIndex + 1}/{_allArtworks.Count})"
             Else
-                Me.Text = $"{title} - [{_currentFileIndex + 1}/{totalImages}] {fileName} - 图片浏览器"
+                Me.Text = $"{title} - [{_currentFileIndex + 1}/{totalImages}] {fileName} - {My.Resources.View_ImageBrowser}"
             End If
             UpdateMenuStates() '同时更新菜单
             'Dim a As String = Settings.Appearance.ImageWindowTitleFormat

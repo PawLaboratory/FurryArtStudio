@@ -1276,6 +1276,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 &amp;Minimize to System Tray 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Mnu_Tray() As String
+            Get
+                Return ResourceManager.GetString("Mnu_Tray", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 &amp;Tutorial 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Mnu_Tutorial() As String
