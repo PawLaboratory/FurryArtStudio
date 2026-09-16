@@ -579,12 +579,12 @@
     <comment>最小化到托盘 - 深色模式</comment>
   </data>
   <data name="DialogInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DialogIcon\Info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>Dialog-Icons\Info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DialogWarn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DialogIcon\Warn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>Dialog-Icons\Warn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DialogError" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DialogIcon\Error.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>Dialog-Icons\Error.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

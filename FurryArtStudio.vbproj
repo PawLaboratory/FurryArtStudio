@@ -268,11 +268,6 @@
     <Compile Include="src\Forms\ViewForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Resources\Icons.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Icons.resx</DependentUpon>
-    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -283,6 +278,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="src\Resources\Icons.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Icons.resx</DependentUpon>
     </Compile>
     <Compile Include="src\Resources\Licenses.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -373,6 +373,7 @@
     <EmbeddedResource Include="src\Resources\Icons.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Icons.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Resources\Resources.resx">
