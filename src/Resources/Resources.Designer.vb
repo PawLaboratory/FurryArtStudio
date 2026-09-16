@@ -133,6 +133,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  查找类似 &amp;Cancel 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Dialog_BtnCancel() As String
+            Get
+                Return ResourceManager.GetString("Dialog_BtnCancel", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 &amp;OK 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property Dialog_BtnOK() As String
+            Get
+                Return ResourceManager.GetString("Dialog_BtnOK", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  查找类似 Select the image(s) to add 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Edit_AddImg() As String

@@ -21,7 +21,6 @@ Imports System.IO.Compression
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports Krypton.Toolkit
-Imports Ookii.Dialogs.WinForms
 Imports SysThreading = System.Threading
 Imports PawTheme = PawLab.WindowsTheme.ThemeService
 
@@ -52,7 +51,7 @@ Public Class MainForm
     ''' <summary>
     ''' 程序启动时调用
     ''' </summary>
-    Private Async Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         StatusLabel.Text = My.Resources.Stat_Init '正在初始化
         _libraryManager = LibraryManager.Instance '启动稿件库管理器实例
         SysMenuInit() '设置系统菜单
@@ -118,10 +117,10 @@ Public Class MainForm
         End Select
         If autoChangeLang Then settings.Save() '首次运行时保存配置文件
         Me.AllowDrop = True
-        If settings.Startup.ShowHitokoto Then '调用异步过程显示一言
-            StatusLabel.Text = My.Resources.Stat_ShowHitokoto
-            Await ShowHitokoto()
-        End If
+        'If settings.Startup.ShowHitokoto Then '调用异步过程显示一言
+        '    StatusLabel.Text = My.Resources.Stat_ShowHitokoto
+        '    Await ShowHitokoto()
+        'End If
         PiChkThumb.Height = PiChkThumb.Width '调整图片预览框为方形
         NotifyIco.Icon = Me.Icon
         NotifyIco.Text = My.Resources.FurryArtStudio
@@ -134,37 +133,37 @@ Public Class MainForm
             Dispose()
         End If
     End Sub
-    ''' <summary>
-    ''' 显示一言
-    ''' </summary>
-    Private Async Function ShowHitokoto() As Task
-        Dim buttonInfo As New TaskDialogButton(My.Resources.Hitokoto_MoreInfo)
-        Dim buttonCancel As New TaskDialogButton(ButtonType.Cancel)
-        Dim hitokotoInfo = Await HitokotoHandler.GetHitokoto()
-        Dim expandInfo As New StringBuilder
-        With expandInfo
-            .Append($"ID: {hitokotoInfo.ID}" & vbCrLf)
-            .Append($"UUID: {hitokotoInfo.UUID}" & vbCrLf)
-            .Append($"{My.Resources.Hitokoto_Type} {hitokotoInfo.Type}" & vbCrLf)
-            .Append($"{My.Resources.Hitokoto_Creator} {hitokotoInfo.Creator}" & vbCrLf)
-            .Append($"{My.Resources.Hitokoto_Reviewer} {hitokotoInfo.Reviewer}" & vbCrLf)
-            .Append($"{My.Resources.Hitokoto_Createdat} {hitokotoInfo.CreatedAt}" & vbCrLf)
-        End With
-        Using dlg As New TaskDialog With {
-                    .WindowTitle = My.Resources.Hitokoto,
-                    .MainInstruction = hitokotoInfo.Content,
-                    .Content = $"——{hitokotoInfo.FromWho}「{hitokotoInfo.From}」",
-                    .MainIcon = TaskDialogIcon.Information,
-                    .ExpandedInformation = expandInfo.ToString
-                    }
-            dlg.Buttons.Add(buttonInfo)
-            dlg.Buttons.Add(buttonCancel)
-            Dim result As TaskDialogButton = dlg.ShowDialog()
-            If result Is buttonInfo Then
-                Process.Start($"https://hitokoto.cn/?uuid={hitokotoInfo.UUID}") '打开一言链接
-            End If
-        End Using
-    End Function
+    '''' <summary>
+    '''' 显示一言
+    '''' </summary>
+    'Private Async Function ShowHitokoto() As Task
+    '    Dim buttonInfo As New TaskDialogButton(My.Resources.Hitokoto_MoreInfo)
+    '    Dim buttonCancel As New TaskDialogButton(ButtonType.Cancel)
+    '    Dim hitokotoInfo = Await HitokotoHandler.GetHitokoto()
+    '    Dim expandInfo As New StringBuilder
+    '    With expandInfo
+    '        .Append($"ID: {hitokotoInfo.ID}" & vbCrLf)
+    '        .Append($"UUID: {hitokotoInfo.UUID}" & vbCrLf)
+    '        .Append($"{My.Resources.Hitokoto_Type} {hitokotoInfo.Type}" & vbCrLf)
+    '        .Append($"{My.Resources.Hitokoto_Creator} {hitokotoInfo.Creator}" & vbCrLf)
+    '        .Append($"{My.Resources.Hitokoto_Reviewer} {hitokotoInfo.Reviewer}" & vbCrLf)
+    '        .Append($"{My.Resources.Hitokoto_Createdat} {hitokotoInfo.CreatedAt}" & vbCrLf)
+    '    End With
+    '    Using dlg As New TaskDialog With {
+    '                .WindowTitle = My.Resources.Hitokoto,
+    '                .MainInstruction = hitokotoInfo.Content,
+    '                .Content = $"——{hitokotoInfo.FromWho}「{hitokotoInfo.From}」",
+    '                .MainIcon = TaskDialogIcon.Information,
+    '                .ExpandedInformation = expandInfo.ToString
+    '                }
+    '        dlg.Buttons.Add(buttonInfo)
+    '        dlg.Buttons.Add(buttonCancel)
+    '        Dim result As TaskDialogButton = dlg.ShowDialog()
+    '        If result Is buttonInfo Then
+    '            Process.Start($"https://hitokoto.cn/?uuid={hitokotoInfo.UUID}") '打开一言链接
+    '        End If
+    '    End Using
+    'End Function
     ''' <summary>
     ''' 关闭时释放资源
     ''' </summary>
@@ -1079,7 +1078,7 @@ Public Class MainForm
                 Dim dlg As New DialogForm(My.Resources.Msg_CannotBeIrreversible,,
                                           String.Format(My.Resources.Msg_DeleteLibPermanently, nowLib),
                                           DialogForm.DialogType.Warn,,,
-                                          "取消(&C)",
+                                          My.Resources.Dialog_BtnCancel,
                                           My.Resources.Msg_IKnowWhatIamDoing)
                 dlg.ShowDialog()
                 If dlg.ButtonIndex = 2 Then
@@ -1091,7 +1090,7 @@ Public Class MainForm
                 Dim dlg As New DialogForm("",,
                                           String.Format(My.Resources.Msg_DeleteLib, nowLib),
                                           DialogForm.DialogType.Info,,,
-                                          "取消(&C)",
+                                          My.Resources.Dialog_BtnCancel,
                                           My.Resources.Msg_DeleteLibConfirm)
                 dlg.ShowDialog()
                 If dlg.ButtonIndex = 2 Then
@@ -1172,57 +1171,44 @@ Public Class MainForm
         Dim uuidList As List(Of Guid) = imgList.Select(Function(c) Guid.Parse(c.UUID)).ToList()
         Dim titleList As List(Of String) = imgList.Select(Function(c) c.Title).ToList()
         Dim nowPath As String = _libraryManager.GetCurrentLibrary.LibraryPath
-        '对话框按钮
-        Dim buttonDelete As New TaskDialogButton(My.Resources.Msg_DeleteMsConfirm)
-        Dim buttonDeletePermanently As New TaskDialogButton(My.Resources.Msg_DeleteMsPermanentlyConfirm)
-        Dim buttonCancel As New TaskDialogButton(ButtonType.Cancel)
         Try
             If isShiftPressed Then
-                Using dlg As New TaskDialog With {
-                    .WindowTitle = My.Resources.FurryArtStudio,
-                    .MainInstruction = String.Format(My.Resources.Msg_DeleteMsPermanently, titleList.Count),
-                    .Content = String.Join(vbCrLf, titleList.Take(5)) &
-                                             If(titleList.Count > 5, vbCrLf &
-                                             String.Format(My.Resources.Msg_DeleteMsCount, titleList.Count), ""),
-                    .MainIcon = TaskDialogIcon.Warning
-                    }
-                    dlg.Buttons.Add(buttonDeletePermanently)
-                    dlg.Buttons.Add(buttonCancel)
-                    Dim result As TaskDialogButton = dlg.ShowDialog()
-                    If result Is buttonCancel Then
-                        StatusLabel.Text = My.Resources.Stat_Ready
-                        Return
-                    End If
-                    For Each uuid In uuidList
-                        Directory.Delete(Path.Combine(nowPath, uuid.ToString), True) '永久删除数据
-                        _libraryManager.GetCurrentLibrary.SoftDeleteArtwork(uuid) '标记为软删除
-                    Next
-                End Using
+                Dim dlg As New DialogForm(String.Join(vbCrLf, titleList.Take(4)) &
+                                             If(titleList.Count > 4, vbCrLf &
+                                             String.Format(My.Resources.Msg_DeleteMsCount, titleList.Count), ""),,
+                                          String.Format(My.Resources.Msg_DeleteMsPermanently,
+                                          titleList.Count), DialogForm.DialogType.Warn,,,
+                                          My.Resources.Dialog_BtnCancel,
+                                          My.Resources.Msg_DeleteMsPermanentlyConfirm)
+                dlg.ShowDialog()
+                If dlg.ButtonIndex = 1 Then
+                    StatusLabel.Text = My.Resources.Stat_Ready
+                    Return
+                End If
+                For Each uuid In uuidList
+                    Directory.Delete(Path.Combine(nowPath, uuid.ToString), True) '永久删除数据
+                    _libraryManager.GetCurrentLibrary.SoftDeleteArtwork(uuid) '标记为软删除
+                Next
             Else
-                Using dlg As New TaskDialog With {
-                    .WindowTitle = My.Resources.FurryArtStudio,
-                    .MainInstruction = String.Format(My.Resources.Msg_DeleteMs, titleList.Count),
-                    .Content = String.Join(vbCrLf, titleList.Take(5)) &
-                                             If(titleList.Count > 5, vbCrLf &
-                                             String.Format(My.Resources.Msg_DeleteMsCount, titleList.Count), ""),
-                    .MainIcon = TaskDialogIcon.Information
-                    }
-                    dlg.Buttons.Add(buttonDelete)
-                    dlg.Buttons.Add(buttonCancel)
-                    Dim result As TaskDialogButton = dlg.ShowDialog()
-                    If result Is buttonCancel Then
-                        StatusLabel.Text = My.Resources.Stat_Ready
-                        Return
-                    End If
-                    For Each uuid In uuidList
-                        FileIO.FileSystem.DeleteDirectory(Path.Combine(nowPath, uuid.ToString),
-                                                          FileIO.UIOption.OnlyErrorDialogs,
-                                                          FileIO.RecycleOption.SendToRecycleBin) '移动到回收站
-                        _libraryManager.GetCurrentLibrary.SoftDeleteArtwork(uuid) '标记为软删除
-                    Next
-                End Using
+                Dim dlg As New DialogForm(String.Join(vbCrLf, titleList.Take(4)) &
+                                             If(titleList.Count > 4, vbCrLf &
+                                             String.Format(My.Resources.Msg_DeleteMsCount, titleList.Count), ""),,
+                                          String.Format(My.Resources.Msg_DeleteMs, titleList.Count),,,,
+                                          My.Resources.Dialog_BtnCancel,
+                                          My.Resources.Msg_DeleteMsConfirm)
+                dlg.ShowDialog()
+                If dlg.ButtonIndex = 1 Then
+                    StatusLabel.Text = My.Resources.Stat_Ready
+                    Return
+                End If
+                For Each uuid In uuidList
+                    FileIO.FileSystem.DeleteDirectory(Path.Combine(nowPath, uuid.ToString),
+                                                      FileIO.UIOption.OnlyErrorDialogs,
+                                                      FileIO.RecycleOption.SendToRecycleBin) '移动到回收站
+                    _libraryManager.GetCurrentLibrary.SoftDeleteArtwork(uuid) '标记为软删除
+                Next
             End If
-            RefreshLib()
+                RefreshLib()
         Catch ex As OperationCanceledException
             '忽略
         End Try
@@ -1388,25 +1374,18 @@ Public Class MainForm
     Private Sub MnuMsOpenFolder_Click(sender As Object, e As EventArgs) Handles MnuMsOpenFolder.Click
         Dim artworkPaths = GetSelectedArtworkList()
         If artworkPaths.Count > 5 Then '当用户打开超过5个稿件时, 进行确认
-            Dim buttonYes As New TaskDialogButton(ButtonType.Yes)
-            Using dlg As New TaskDialog With {
-                    .WindowTitle = My.Resources.FurryArtStudio,
-                    .MainInstruction = String.Format(My.Resources.Msg_MultiFolderOpen, artworkPaths.Count),
-                    .MainIcon = TaskDialogIcon.Information
-                    }
-                dlg.Buttons.Add(buttonYes)
-                dlg.Buttons.Add(New TaskDialogButton(ButtonType.No))
-                If dlg.ShowDialog() Is buttonYes Then
-                    For Each artworkPath In artworkPaths
-                        Shell($"explorer {artworkPath}", 1)
-                    Next
-                End If
-            End Using
-        Else
-            For Each artworkPath In artworkPaths
-                Shell($"explorer {artworkPath}", 1)
-            Next
+            Dim dlg As New DialogForm("",,
+                  String.Format(My.Resources.Msg_MultiFolderOpen, artworkPaths.Count),,,,
+                  My.Resources.Dialog_BtnCancel,
+                  My.Resources.Dialog_BtnOK)
+            dlg.ShowDialog()
+            If dlg.ButtonIndex = 1 Then
+                Return
+            End If
         End If
+        For Each artworkPath In artworkPaths
+            Shell($"explorer {artworkPath}", 1)
+        Next
     End Sub
     Private Sub MnuMsCopy_Click(sender As Object, e As EventArgs) Handles MnuMsCopy.Click
         Dim artworkPaths = GetSelectedArtworkList() '获取所有选中的项目的目录路径
@@ -1649,29 +1628,19 @@ Public Class MainForm
         StatusLabel.Text = My.Resources.Msg_CheckingUpdate
         Dim updateInfo = Await UpdateChecker.CheckForUpdateAsync()
         If updateInfo.HasError Then '检查更新失败
-            Using dlg As New TaskDialog With {
-                .WindowTitle = My.Resources.FurryArtStudio,
-                .MainInstruction = My.Resources.Msg_CheckUpdateFailed,
-                .Content = updateInfo.ErrorMessage,
-                .MainIcon = TaskDialogIcon.Error
-                }
-                dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-                dlg.ShowDialog()
-            End Using
+            Dim dlg As New DialogForm(updateInfo.ErrorMessage,,
+                  My.Resources.Msg_CheckUpdateFailed, DialogForm.DialogType.Error,,,
+                  My.Resources.Dialog_BtnOK)
+            dlg.ShowDialog()
         ElseIf updateInfo.IsUpdateAvailable Then '有新版本可用
-            Dim buttonDownload As New TaskDialogButton(My.Resources.Msg_DownloadNewVer)
-            Using dlg As New TaskDialog With {
-                .WindowTitle = My.Resources.FurryArtStudio,
-                .MainInstruction = String.Format(My.Resources.Msg_NewVerFound, updateInfo.LatestVersion),
-                .Content = updateInfo.ReleaseNotes,
-                .MainIcon = TaskDialogIcon.Information
-                }
-                dlg.Buttons.Add(New TaskDialogButton(ButtonType.Cancel))
-                dlg.Buttons.Add(buttonDownload)
-                If dlg.ShowDialog() Is buttonDownload Then
-                    Process.Start(updateInfo.DownloadUrl) '打开下载链接
-                End If
-            End Using
+            Dim dlg As New DialogForm(updateInfo.ReleaseNotes,,
+                  String.Format(My.Resources.Msg_NewVerFound, updateInfo.LatestVersion),,,,
+                  My.Resources.Dialog_BtnCancel,
+                  My.Resources.Msg_DownloadNewVer)
+            dlg.ShowDialog()
+            If dlg.ButtonIndex = 2 Then
+                Process.Start(updateInfo.DownloadUrl) '打开下载链接
+            End If
         Else '已是最新版本
             ShowInfoDialog(updateInfo.LatestVersion, My.Resources.Msg_UptoDate)
         End If
@@ -1907,14 +1876,10 @@ Public Class MainForm
             If currentArtwork.FilePaths Is Nothing OrElse'检查当前稿件是否有图片
             currentArtwork.FilePaths.Length = 0 OrElse
             Not currentArtwork.FilePaths.Any(Function(p) IsImageFile(p)) Then
-                Using dlg As New TaskDialog With {
-                    .WindowTitle = My.Resources.FurryArtStudio,
-                    .MainInstruction = My.Resources.Msg_NoImg,
-                    .MainIcon = TaskDialogIcon.Information
-                    }
-                    dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-                    dlg.ShowDialog()
-                End Using
+                Dim dlg As New DialogForm("",,
+                    My.Resources.Msg_NoImg, DialogForm.DialogType.Error,,,
+                    My.Resources.Dialog_BtnOK)
+                dlg.ShowDialog()
                 Return
             End If
             Dim viewForm As New ViewForm(currentArtwork, allArtworks)

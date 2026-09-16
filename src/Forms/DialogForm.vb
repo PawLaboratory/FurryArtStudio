@@ -212,7 +212,7 @@ Public Class DialogForm
         '计算高度
         Dim measureY As Integer = 220 - LblContent.Height + LblMainInstruction.Height
         If measureY < 0 Then
-            Height -= (measureY - 140)
+            Height -= (measureY - 150)
         End If
         Btn1.Top = Height - 85
         Btn2.Top = Btn1.Top

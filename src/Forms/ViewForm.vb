@@ -443,33 +443,9 @@ Public Class ViewForm
         sb.Append(String.Format(My.Resources.View_FileSize, FormatFileSize(fi.Length)) & vbCrLf)
         sb.Append(String.Format(My.Resources.View_FileCreateTime, fi.CreationTime.ToString) & vbCrLf)
         sb.Append(String.Format(My.Resources.View_FileModifyTime, fi.LastWriteTime) & vbCrLf)
-        'Dim buttonOpenFolder As New TaskDialogButton(My.Resources.View_OpenFolder) '打开路径
-        'Dim buttonCopyPath As New TaskDialogButton(My.Resources.View_CopyPath) '复制路径
-        'Dim buttonOpen As New TaskDialogButton(My.Resources.View_Open) '打开
-        'Using dlg As New TaskDialog With {
-        '    .WindowTitle = My.Resources.FurryArtStudio,
-        '    .Content = sb.ToString,
-        '    .MainIcon = TaskDialogIcon.Information,
-        '    .MainInstruction = My.Resources.View_ArtInfo
-        '    }
-        '    dlg.Buttons.Add(New TaskDialogButton(ButtonType.Cancel))
-        '    dlg.Buttons.Add(buttonCopyPath)
-        '    dlg.Buttons.Add(buttonOpenFolder)
-        '    dlg.Buttons.Add(buttonOpen)
-        '    Dim result As TaskDialogButton = dlg.ShowDialog()
-        '    If result Is buttonOpenFolder Then
-        '        Shell($"explorer /select,{filePath}", 1)
-        '    ElseIf result Is buttonCopyPath Then
-        '        Clipboard.SetDataObject(filePath)
-        '    ElseIf result Is buttonOpen And My.Computer.Keyboard.ShiftKeyDown Then
-        '        Process.Start("rundll32.exe", $"shell32.dll,OpenAs_RunDLL {filePath}")
-        '    ElseIf result Is buttonOpen Then
-        '        Process.Start(filePath)
-        '    End If
-        'End Using
         Dim dlg As New DialogForm(sb.ToString,,
                                   My.Resources.View_ArtInfo,,,,
-                                  "取消(&C)",
+                                  My.Resources.Dialog_BtnCancel,
                                   My.Resources.View_Open,
                                   My.Resources.View_OpenFolder,
                                   My.Resources.View_CopyPath)
@@ -530,7 +506,10 @@ Public Class ViewForm
         sb.Append(My.Resources.View_HelpPlay & vbCrLf)
         sb.Append(My.Resources.View_HelpFullScreen & vbCrLf)
         sb.Append(My.Resources.View_HelpShowHelp & vbCrLf)
-        ShowInfoDialog(sb.ToString, My.Resources.View_HelpShowInfo)
+        Dim dlg As New DialogForm(sb.ToString,,
+                                  My.Resources.View_HelpShowInfo,,,,
+                                  My.Resources.Dialog_BtnOK)
+        dlg.ShowDialog()
     End Sub
     ''' <summary>
     ''' 置顶

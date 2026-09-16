@@ -145,14 +145,8 @@ Public Class ExportForm
             Else
                 My.Computer.FileSystem.CopyDirectory(_workingPath, _targetPath, True)
             End If
-            Using dlg As New TaskDialog With {
-                        .WindowTitle = My.Resources.FurryArtStudio,
-                        .Content = My.Resources.Msg_ExportComplete,
-                        .MainIcon = TaskDialogIcon.Information
-                        }
-                dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-                dlg.ShowDialog()
-            End Using
+            Dim dlg As New DialogForm(My.Resources.Msg_ExportComplete,,,,,, My.Resources.Dialog_BtnOK)
+            dlg.ShowDialog()
         Catch ex As Exception
             ShowErrorDialog(ex, My.Resources.Msg_ExportFailed)
         Finally

@@ -80,7 +80,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Dapper.2.1.79\lib\net461\Dapper.dll</HintPath>
+      <HintPath>packages\Dapper.2.1.86\lib\net461\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="Krypton.Toolkit, Version=105.26.4.110, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
       <HintPath>packages\Krypton.Toolkit.105.26.4.110\lib\net472\Krypton.Toolkit.dll</HintPath>
@@ -92,9 +92,6 @@
       <HintPath>packages\Microsoft.Bcl.HashCode.6.0.0\lib\net462\Microsoft.Bcl.HashCode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
-      <HintPath>packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
-    </Reference>
     <Reference Include="PawLab.Chromis, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\PawLab.Chromis.1.0.12\lib\net472\PawLab.Chromis.dll</HintPath>
     </Reference>
@@ -271,7 +268,6 @@
     <Compile Include="src\Forms\ViewForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Meta\Artifacts.vb" />
     <Compile Include="src\Resources\Icons.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -449,7 +445,6 @@
     <Content Include="docs\CHANGELOG.txt" />
     <Content Include="src\Docs\PRIVACY.txt" />
     <Content Include="docs\Banner.png" />
-    <Content Include="src\Meta\BV1GJ411x7h7.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-left.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-right-dash.png" />
     <Content Include="src\Resources\Darkmode-Icons\arrow-big-right.png" />

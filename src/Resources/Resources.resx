@@ -936,4 +936,10 @@
   <data name="Mnu_HideTray" xml:space="preserve">
     <value>&amp;Minimize to Tray</value>
   </data>
+  <data name="Dialog_BtnCancel" xml:space="preserve">
+    <value>&amp;Cancel</value>
+  </data>
+  <data name="Dialog_BtnOK" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
 </root>

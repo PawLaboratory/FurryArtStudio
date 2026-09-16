@@ -23,7 +23,6 @@ Imports System.Security.Principal
 Imports System.Text
 Imports System.Threading
 Imports Microsoft.Win32
-Imports Ookii.Dialogs.WinForms
 Imports PawLab.Logger
 Imports PawTheme = PawLab.WindowsTheme.ThemeService
 
@@ -655,63 +654,37 @@ Module BasicFcn
     ''' 显示一个包含堆栈跟踪的错误对话框
     ''' </summary>
     Public Sub ShowErrorDialog(exception As Exception, mainInstruction As String)
-        Dim dialog As New TaskDialog()
-        dialog.WindowTitle = My.Resources.FurryArtStudio
-        dialog.MainInstruction = mainInstruction
-        dialog.Content = exception.Message
-        If Not String.IsNullOrEmpty(exception.StackTrace) Then
-            dialog.ExpandedInformation = exception.StackTrace
+        Dim dlg As New DialogForm(exception.Message,,
+            mainInstruction, DialogForm.DialogType.Error,,,
+            My.Resources.Dialog_BtnOK,
+            My.Resources.Msg_CopyDetails)
+        dlg.ShowDialog()
+        If dlg.ButtonIndex = 2 Then
+            Dim info As New StringBuilder()
+            info.AppendLine(mainInstruction)
+            info.AppendLine(exception.Message)
+            If Not String.IsNullOrEmpty(exception.StackTrace) Then
+                info.AppendLine(vbCrLf)
+                info.AppendLine(exception.StackTrace)
+            End If
+            Clipboard.SetText(info.ToString())
         End If
-        dialog.ExpandedByDefault = False
-        dialog.MainIcon = TaskDialogIcon.Error
-        Dim copyButton As New TaskDialogButton(My.Resources.Msg_CopyDetails)
-        '处理复制按钮点击事件
-
-        Dim okButton As New TaskDialogButton(ButtonType.Ok)
-        dialog.Buttons.Add(copyButton)
-        dialog.Buttons.Add(okButton)
-        AddHandler dialog.ButtonClicked, Sub(sender, e)
-                                             '构建要复制的完整信息
-                                             If e.Item Is copyButton Then
-                                                 Dim info As New StringBuilder()
-                                                 info.AppendLine(mainInstruction)
-                                                 info.AppendLine(exception.Message)
-                                                 If Not String.IsNullOrEmpty(exception.StackTrace) Then
-                                                     info.AppendLine(vbCrLf)
-                                                     info.AppendLine(exception.StackTrace)
-                                                 End If
-                                                 '复制到剪贴板
-                                                 Clipboard.SetText(info.ToString())
-                                                 e.Cancel = True
-                                             End If
-                                         End Sub
-        dialog.ShowDialog()
     End Sub
     Public Sub ShowInfoDialog(content As String, Optional mainInstruction As String = "")
-        Using dlg As New TaskDialog With {
-            .WindowTitle = My.Resources.FurryArtStudio,
-            .Content = content,
-            .MainIcon = TaskDialogIcon.Information
-            }
-            If mainInstruction <> "" Then dlg.MainInstruction = mainInstruction
-            dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-            dlg.ShowDialog()
-        End Using
+        Dim dlg As New DialogForm(content,,
+            mainInstruction,,,,
+            My.Resources.Dialog_BtnOK)
+        dlg.ShowDialog()
     End Sub
     Public Sub ShowPaimonDialog()
-        Dim buttonExplore As New TaskDialogButton("前面的区域，我现在就要探索！")
-        Using dlg As New TaskDialog With {
-            .WindowTitle = My.Resources.FurryArtStudio,
-            .MainIcon = TaskDialogIcon.Information,
-            .MainInstruction = "前面的区域以后再来探索吧？"
-            }
-            dlg.Buttons.Add(buttonExplore)
-            dlg.Buttons.Add(New TaskDialogButton(ButtonType.Ok))
-            Dim result As TaskDialogButton = dlg.ShowDialog()
-            If result Is buttonExplore Then
-                Process.Start("https://www.bilibili.com/video/BV1UT42167xb")
-            End If
-        End Using
+        Dim dlg As New DialogForm("",,
+            "前面的区域以后再来探索吧？",,,,
+            My.Resources.Dialog_BtnCancel,
+            "前面的区域，我现在就要探索！")
+        dlg.ShowDialog()
+        If dlg.ButtonIndex = 2 Then
+            Process.Start("https://www.bilibili.com/video/BV1UT42167xb")
+        End If
     End Sub
 #End Region
 

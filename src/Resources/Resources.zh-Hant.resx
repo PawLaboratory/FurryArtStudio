@@ -936,4 +936,10 @@
   <data name="Mnu_HideTray" xml:space="preserve">
     <value>最小化到托盤(&amp;M)</value>
   </data>
+  <data name="Dialog_BtnCancel" xml:space="preserve">
+    <value>取消(&amp;C)</value>
+  </data>
+  <data name="Dialog_BtnOK" xml:space="preserve">
+    <value>確定(&amp;O)</value>
+  </data>
 </root>
