@@ -441,6 +441,10 @@
     <Folder Include="docs\Tutorial\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="docs\Fig1.png" />
+    <Content Include="docs\Fig2.png" />
+    <Content Include="docs\Fig3.png" />
+    <Content Include="docs\Fig4.png" />
     <Content Include="script\signtool.exe" />
     <Content Include="src\Docs\ABOUT.txt" />
     <Content Include="docs\CHANGELOG.txt" />

@@ -27,15 +27,20 @@
 
 ## 📦 主な機能
 
-- 📁 **マルチコンテンツ管理**: 設定画、イラスト、リファレンス資料など、様々な形式のデータを一元管理。
-- 🔍 **スマート検索**: テキスト検索、タグフィルタリング、条件絞り込みにより、目的の画像を即座に発見。
-- 📌 **モダンなUI**: ネイティブのダークテーマ、アクセシビリティ対応の洗練されたデザイン。
-- 🐶 **Furry特化型**: ケモノジャンルのクリエイターが必要とするワークフローに最適化。
-- 🧠 **軽量＆ポータブル**: オープンソースで拡張性が高く、インストール不要の「グリーンソフト」仕様。
-- 📄 **堅牢なデータ構造**: SQLite + ファイルシステムを採用。安全かつ移行も容易。
-- ℹ **トランザクション管理**: ファイル操作の整合性を保ち、データの破損を防止。
-- 🖼 **高速プレビュー**: 低メモリ消費で動作する高性能な画像タイル表示エンジンを搭載。
-- 🦾 **プライバシー第一**: データのクラウドアップロードなし。AI学習への利用も一切行いません。
+- **マルチコンテンツ管理**: 設定画、イラスト、リファレンス資料など、様々な形式のデータを一元管理。
+![图1](Fig1.png)
+- **スマート検索**: テキスト検索、タグフィルタリング、条件絞り込みにより、目的の画像を即座に発見 (WIP)。
+![图2](Fig2.png)
+- **モダンなUI**: ネイティブのダークテーマ、アクセシビリティ対応の洗練されたデザイン。
+![图3](Fig3.png)
+- **Furry特化型**: ケモノジャンルのクリエイターが必要とするワークフローに最適化。
+- **軽量＆ポータブル**: オープンソースで拡張性が高く、インストール不要の「グリーンソフト」仕様。
+- **堅牢なデータ構造**: SQLite + ファイルシステムを採用。安全かつ移行も容易。
+- **トランザクション管理**: ファイル操作の整合性を保ち、データの破損を防止。
+- **高速プレビュー**: 低メモリ消費で動作する高性能な画像タイル表示エンジンを搭載。
+- **プライバシー第一**: データのクラウドアップロードなし。AI学習への利用も一切行いません。
+![图4](Fig4.png)
+*Image from Pixabay (Pixabay Content License)*
 
 ## 📥 クイックスタート
 
@@ -75,4 +80,11 @@ QQグループ：620079146 🐧
 
 
 ## 🌟 スター推移
-[![Stargazers over time](https://starchart.cc/PawLaboratory/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/PawLaboratory/FurryArtStudio)
+
+<a href="https://www.star-history.com/?repos=pawlaboratory%2Ffurryartstudio&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=pawlaboratory/furryartstudio&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=pawlaboratory/furryartstudio&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=pawlaboratory/furryartstudio&type=date&legend=top-left" />
+ </picture>
+</a>

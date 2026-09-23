@@ -27,16 +27,21 @@
 
 ## 📦 功能亮点
 
-- 📁 管理手稿、图片、参考资料等多种类型内容  
-- 🔍 支持文本搜索、标签过滤与条件过滤  
-- 📌 现代化的UI、原生深色主题、无障碍（Accessibility）支持  
-- 🐶 面向 Furry 创作者的专用管理工具  
-- 🧠 轻量、开源、可扩展、绿色（免安装）、免费  
-- 📄 SQLite + 文件系统存储方式，安全、易迁移  
-- ℹ 角标设计、事务提交型文件管理  
-- 🖼 高性能图片墙、加载速度快、内存占用低  
-- 🦾 隐私优先、不上传数据、不训练AI  
+- 管理手稿、图片、参考资料等多种类型内容  
+![图1](docs/Fig1.png)
+- 支持文本搜索、标签过滤与条件过滤（WIP）  
+![图2](docs/Fig2.png)
+- 现代化的UI、原生深色主题、无障碍（Accessibility）支持  
+![图3](docs/Fig3.png)
+- 面向 Furry 创作者的专用管理工具  
+- 轻量、开源、可扩展、绿色（免安装）、免费  
+- SQLite + 文件系统存储方式，安全、易迁移  
+- 角标设计、事务提交型文件管理  
+- 高性能图片墙、加载速度快、内存占用低  
+- 隐私优先、不上传数据、不训练AI  
 - 以及更多...  
+![图4](docs/Fig4.png)
+*Image from Pixabay (Pixabay Content License)*
 
 ## 📥 快速开始
 
@@ -76,4 +81,11 @@ QQ交流群：620079146🐧
 
 
 ## 🌟 趋势图
-[![Stargazers over time](https://starchart.cc/PawLaboratory/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/PawLaboratory/FurryArtStudio)
+
+<a href="https://www.star-history.com/?repos=pawlaboratory%2Ffurryartstudio&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=pawlaboratory/furryartstudio&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=pawlaboratory/furryartstudio&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=pawlaboratory/furryartstudio&type=date&legend=top-left" />
+ </picture>
+</a>

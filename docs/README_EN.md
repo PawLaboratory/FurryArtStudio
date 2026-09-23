@@ -29,16 +29,21 @@ It supports intuitive categorization, tagging, searching, and batch operations, 
 
 ## 📦 Key Features
 
-- 📁 Manage sketches, images, reference materials, and other types of content  
-- 🔍 Support for text search, tag filtering, and conditional filtering  
-- 📌 Modern UI, native dark theme, and accessibility support  
-- 🐶 Specialized management tool for Furry creators  
-- 🧠 Lightweight, open source, extensible, portable (installation-free), and free  
-- 📄 SQLite + file system storage, secure and easy to migrate  
-- ℹ Badge design and transaction-based file management  
-- 🖼 High-performance image wall, fast loading, low memory usage  
-- 🦾 Privacy-first, no data uploads, no AI training  
+- Manage sketches, images, reference materials, and other types of content  
+![图1](Fig1.png)
+- Support for text search, tag filtering, and conditional filtering (WIP)  
+![图2](Fig2.png)
+- Modern UI, native dark theme, and accessibility support  
+![图3](Fig3.png)
+- Specialized management tool for Furry creators  
+- Lightweight, open source, extensible, portable (installation-free), and free  
+- SQLite + file system storage, secure and easy to migrate  
+- Badge design and transaction-based file management  
+- High-performance image wall, fast loading, low memory usage  
+- Privacy-first, no data uploads, no AI training  
 - And more...  
+![图4](Fig4.png)
+*Image from Pixabay (Pixabay Content License)*
 
 
 ## 📥 Quick Start
@@ -81,4 +86,11 @@ QQ Group: 620079146 🐧
 
 
 ## 🌟 Stargazers
-[![Stargazers over time](https://starchart.cc/PawLaboratory/FurryArtStudio.svg?background=%23101010&axis=%23ffffff&line=%233aa28f)](https://starchart.cc/PawLaboratory/FurryArtStudio)
+
+<a href="https://www.star-history.com/?repos=pawlaboratory%2Ffurryartstudio&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=pawlaboratory/furryartstudio&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=pawlaboratory/furryartstudio&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=pawlaboratory/furryartstudio&type=date&legend=top-left" />
+ </picture>
+</a>
