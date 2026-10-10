@@ -17,6 +17,9 @@ Imports System.Text.Json
 Imports System.Text.Json.Serialization
 
 Public Class AppSettings
+    '缓存层
+    Private Shared _cached As AppSettings
+    Private Shared ReadOnly _lock As New Object()
 
     Private Shared ReadOnly SettingsPath As String =
         Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json")
@@ -111,31 +114,37 @@ Public Class AppSettings
 #Region "核心方法"
 
     Public Shared Function Load() As AppSettings
-        Try
-            If Not File.Exists(SettingsPath) Then
-                Dim def = CreateDefault()
-                def.Save()
-                Return def
-            End If
+        '双检锁避免多线程重复读
+        If _cached IsNot Nothing Then Return _cached
 
-            Dim json = File.ReadAllText(SettingsPath)
-            Dim settings = JsonSerializer.Deserialize(Of AppSettings)(json, JsonOptions)
+        SyncLock _lock
+            If _cached IsNot Nothing Then Return _cached
 
-            If settings Is Nothing Then
-                Return CreateDefault()
-            End If
+            Try
+                If Not File.Exists(SettingsPath) Then
+                    Dim def = CreateDefault()
+                    def.Save()   '这里 Save 会把 _cached 也设置好
+                    Return def
+                End If
 
-            Return settings
+                Dim json = File.ReadAllText(SettingsPath)
+                Dim settings = JsonSerializer.Deserialize(Of AppSettings)(json, JsonOptions)
+                _cached = If(settings, CreateDefault())
+            Catch
+                _cached = CreateDefault() '读取失败自动恢复默认
+            End Try
 
-        Catch
-            '读取失败自动恢复默认
-            Return CreateDefault()
-        End Try
+            Return _cached
+        End SyncLock
     End Function
 
     Public Sub Save()
         Dim json = JsonSerializer.Serialize(Me, JsonOptions)
         File.WriteAllText(SettingsPath, json)
+        '更新缓存
+        SyncLock _lock
+            _cached = Me
+        End SyncLock
     End Sub
 
     Public Shared Sub Reset()

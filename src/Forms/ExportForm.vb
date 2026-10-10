@@ -15,7 +15,6 @@
 Imports System.IO
 Imports System.IO.Compression
 Imports PawTheme = PawLab.WindowsTheme.ThemeService
-Imports Ookii.Dialogs.WinForms
 Public Class ExportForm
     Implements IThemeChangeable, ILocalizable
     Private _artworkList As List(Of Artwork)

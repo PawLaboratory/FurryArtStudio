@@ -253,19 +253,19 @@ Public Class ImageGallery
     ''' 清空所有图片
     ''' </summary>
     Public Sub ClearImages()
-        _allImages.Clear()
-        _currentPageImages.Clear()
-        _layoutItems.Clear()
-        _selectedImages.Clear()
-        _currentPage = 1
-        _totalPages = 1
-
         For Each img In _allImages
             If img.Thumbnail IsNot Nothing Then
                 img.Thumbnail.Dispose()
                 img.Thumbnail = Nothing
             End If
         Next '释放全部缓存资源
+
+        _allImages.Clear()
+        _currentPageImages.Clear()
+        _layoutItems.Clear()
+        _selectedImages.Clear()
+        _currentPage = 1
+        _totalPages = 1
 
         '当清空图片时清空所选项目
         RaiseEvent SelectionChanged(Me, New SelectionChangedEventArgs(_selectedImages.AsReadOnly()))

@@ -237,7 +237,7 @@ Public Class PropertiesForm
         If _isUpdatingCheckbox Then Return
         Dim regResult As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
         Try
-            SetAutoStart()
+            ToggleAutoStart()
         Catch ex As Exception
             ShowErrorDialog(ex, "无法修改注册表")
         Finally

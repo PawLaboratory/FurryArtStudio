@@ -270,15 +270,15 @@ Public Class DialogForm
         Me.Close()
     End Sub
     Private Sub Btn2_Click(sender As Object, e As EventArgs) Handles Btn2.Click
-        _buttonIndex = 2
+        ButtonIndex = 2
         Me.Close()
     End Sub
     Private Sub Btn3_Click(sender As Object, e As EventArgs) Handles Btn3.Click
-        _buttonIndex = 3
+        ButtonIndex = 3
         Me.Close()
     End Sub
     Private Sub Btn4_Click(sender As Object, e As EventArgs) Handles Btn4.Click
-        _buttonIndex = 4
+        ButtonIndex = 4
         Me.Close()
     End Sub
 #End Region

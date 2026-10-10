@@ -170,9 +170,7 @@ Module BasicFcn
         If Not Directory.Exists(directoryPath) Then
             Throw New DirectoryNotFoundException($"目录不存在: {directoryPath}")
         End If
-        Dim files As String() = Directory.GetFiles(directoryPath, "*.*",
-                                                   SearchOption.AllDirectories) '创建 FileDrop 格式的数据
-        Dim data As New System.Collections.Specialized.StringCollection From {
+        Dim data As New Specialized.StringCollection From {
             directoryPath '添加目录本身
             } '将目录添加到列表
         Clipboard.SetFileDropList(data) '设置到剪贴板
@@ -268,25 +266,25 @@ Module BasicFcn
                             (img.Height - size) \ 2,
                             size,
                             size)
-                        Dim croppedImage As Bitmap = Nothing
                         Dim outputSize As Integer = 256
-                        croppedImage = New Bitmap(outputSize, outputSize, img.PixelFormat)
-                        croppedImage.SetResolution(img.HorizontalResolution, img.VerticalResolution) '设置图像分辨率
-                        '使用Graphics对象进行裁剪
-                        Using g As Graphics = Graphics.FromImage(croppedImage)
-                            '设置高质量绘制选项
-                            g.InterpolationMode = InterpolationMode.HighQualityBicubic
-                            g.SmoothingMode = SmoothingMode.HighQuality
-                            g.PixelOffsetMode = PixelOffsetMode.HighQuality
-                            g.CompositingQuality = CompositingQuality.HighQuality
-                            '绘制裁剪部分
-                            g.DrawImage(img,
-                                    New Rectangle(0, 0, outputSize, outputSize),
-                                    cropRect,
-                                    GraphicsUnit.Pixel)
-                        End Using
-                        '返回裁剪后图像的副本
-                        Return CType(croppedImage.Clone(), Image)
+                        Using croppedImage As New Bitmap(outputSize, outputSize, PixelFormat.Format32bppArgb)
+                            croppedImage.SetResolution(img.HorizontalResolution, img.VerticalResolution) '设置图像分辨率
+                            '使用Graphics对象进行裁剪
+                            Using g As Graphics = Graphics.FromImage(croppedImage)
+                                '设置高质量绘制选项
+                                g.InterpolationMode = InterpolationMode.HighQualityBicubic
+                                g.SmoothingMode = SmoothingMode.HighQuality
+                                g.PixelOffsetMode = PixelOffsetMode.HighQuality
+                                g.CompositingQuality = CompositingQuality.HighQuality
+                                '绘制裁剪部分
+                                g.DrawImage(img,
+                                        New Rectangle(0, 0, outputSize, outputSize),
+                                        cropRect,
+                                        GraphicsUnit.Pixel)
+                            End Using
+                            '返回裁剪后图像的副本
+                            Return CType(croppedImage.Clone(), Image)
+                        End Using 'croppedImage 在这里释放
                     End Using 'img 在这里释放
                 End Using 'memoryStream 在这里释放
             End Using 'fs 在这里释放
@@ -421,7 +419,7 @@ Module BasicFcn
 
             Dim bytesPerPixel As Integer = 3
             Dim stride As Integer = data.Stride
-            Dim rgbValues(bytesPerPixel * bmp.Width * bmp.Height - 1) As Byte
+            Dim rgbValues(data.Stride * bmp.Height - 1) As Byte
 
             Marshal.Copy(data.Scan0, rgbValues, 0, rgbValues.Length)
             bmp.UnlockBits(data)
@@ -823,13 +821,14 @@ Module BasicFcn
     ''' <summary>
     ''' 设置开机自启动
     ''' </summary>
-    Public Sub SetAutoStart()
-        Dim regResult As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
-        If Not IsAutoStart() Then
-            regResult.SetValue("FurryArtStudio", """" & Application.ExecutablePath & """")
-        Else
-            regResult.DeleteValue("FurryArtStudio")
-        End If
+    Public Sub ToggleAutoStart()
+        Using regResult As RegistryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+            If Not IsAutoStart() Then
+                regResult.SetValue("FurryArtStudio", """" & Application.ExecutablePath & """")
+            Else
+                regResult.DeleteValue("FurryArtStudio")
+            End If
+        End Using
     End Sub
 #End Region
 
