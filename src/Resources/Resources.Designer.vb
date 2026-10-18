@@ -1042,15 +1042,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 &amp;Load Sponsor List 的本地化字符串。
-        '''</summary>
-        Friend ReadOnly Property Mnu_LoadSponsors() As String
-            Get
-                Return ResourceManager.GetString("Mnu_LoadSponsors", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  查找类似 &amp;Manuscript 的本地化字符串。
         '''</summary>
         Friend ReadOnly Property Mnu_Ms() As String
@@ -1092,15 +1083,6 @@ Namespace My.Resources
         Friend ReadOnly Property Mnu_Next() As String
             Get
                 Return ResourceManager.GetString("Mnu_Next", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  查找类似 Open &amp;Afdian Official Website 的本地化字符串。
-        '''</summary>
-        Friend ReadOnly Property Mnu_OpenAfdian() As String
-            Get
-                Return ResourceManager.GetString("Mnu_OpenAfdian", resourceCulture)
             End Get
         End Property
         

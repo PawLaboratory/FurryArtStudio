@@ -17,6 +17,22 @@ Imports System.Runtime.InteropServices
 Public Module WinAPI
 
 #Region "菜单"
+    'DestroyMenu - 释放菜单资源
+    <DllImport("user32.dll")>
+    Public Function DestroyMenu(hMenu As IntPtr) As Boolean
+    End Function
+    'CreateMenu 函数 - 新建菜单
+    <DllImport("user32.dll")>
+    Public Function CreateMenu() As IntPtr
+    End Function
+    'SetMenu 函数 - 设置菜单
+    <DllImport("user32.dll", SetLastError:=True)>
+    Public Function SetMenu(hWnd As IntPtr, hMenu As IntPtr) As Boolean
+    End Function
+    'DrawMenuBar 函数 - 绘制菜单栏
+    <DllImport("user32.dll")>
+    Public Function DrawMenuBar(hWnd As IntPtr) As Boolean
+    End Function
     'CreatePopupMenu 函数 - 新建弹出菜单
     <DllImport("user32.dll")>
     Public Function CreatePopupMenu() As IntPtr
@@ -219,6 +235,7 @@ Public Module WinAPI
     Public Const WM_THEMECHANGED As Integer = &H31A
     Public Const WM_SETREDRAW As Integer = &HB
     Public Const WM_SETTINGCHANGE As Integer = &H1A '设置变更
+    Public Const WM_MENUSELECT = &H11F '菜单选中消息
     Public Const WM_SHOWME As Integer = &H8000 + 9876 '恢复托盘图标状态消息
     '其他常量
     Public Const HTCAPTION As Integer = 2

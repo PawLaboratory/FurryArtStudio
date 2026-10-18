@@ -314,7 +314,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.zh-Hant.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\Web\AfdianHandler.vb" />
     <Compile Include="src\Utilities\AppSettings.vb" />
     <Compile Include="src\Utilities\BasicFcn.vb" />
     <Compile Include="src\Utilities\ImageChecker.vb" />

@@ -26,7 +26,8 @@ Imports PawTheme = PawLab.WindowsTheme.ThemeService
 
 Public Class MainForm
     Implements IThemeChangeable, ILocalizable
-#Region "变量与常量"
+
+#Region "全局变量"
     '库
     Private _libraryManager As LibraryManager '当前稿件库管理器实例
     '打印
@@ -37,21 +38,64 @@ Public Class MainForm
     Private _imageList As New List(Of Artwork) '图片列表
     Public Event LibraryClosed As EventHandler '定义库关闭事件
     Private _openViewForms As New List(Of ViewForm) '跟踪打开的图片窗口
-    '菜单
+    '用于主题消息变更消抖
+    Private WithEvents _themeDebounceTimer As New Timer With {.Interval = 300}
+#End Region
+
+#Region "菜单常量"
+    '系统菜单
     Private Const SC_ALWAYSONTOP = 1 '置顶
     Private Const SC_NEWMANUSCRIPT = 2 '新建稿件
     Private Const SC_REFRESH = 3 '刷新
     Private Const SC_SETTINGS = 4 '选项
     Private Const SC_ABOUT = 5 '关于
-    '用于主题消息变更消抖
-    Private WithEvents _themeDebounceTimer As New Timer With {.Interval = 300}
+
+    '菜单栏句柄
+    Private hMainMenu As IntPtr = IntPtr.Zero
+
+    '文件菜单
+    Private hFileMenu As IntPtr = IntPtr.Zero
+    Private Const IDM_DEVTOOLS As Integer = 1001
+    Private Const IDM_RUNASELEVATED As Integer = 1002
+    Private Const IDM_OPENTERMINAL As Integer = 1003
+    Private Const IDM_OPENFOLDER As Integer = 1004
+    Private Const IDM_CREATESHORTCUT As Integer = 1005
+    Private Const IDM_STARTMENU As Integer = 1006
+    Private Const IDM_OPTIONS As Integer = 1007
+    Private Const IDM_TRAY As Integer = 1008
+    Private Const IDM_EXIT As Integer = 1009
+
+    '稿件库菜单
+    Private hLibraryMenu As IntPtr = IntPtr.Zero
+    Private Const IDM_CURRENTLIB As Integer = 2001
+    Private Const IDM_REFRESH As Integer = 2002
+    Private Const IDM_NEW As Integer = 2003
+    Private Const IDM_IMPORT As Integer = 2004
+    Private Const IDM_EXPORT As Integer = 2005
+    Private Const IDM_EXPORTCSV As Integer = 2006
+    Private Const IDM_CLONE As Integer = 2007
+    Private Const IDM_OPENPATH As Integer = 2008
+    Private Const IDM_COPY As Integer = 2009
+    Private Const IDM_COPYPATH As Integer = 2010
+    Private Const IDM_CLOSE As Integer = 2011
+    Private Const IDM_RENAME As Integer = 2012
+    Private Const IDM_DELETE As Integer = 2013
+    Private Const IDM_PROPERTIES As Integer = 2014
+
+    '稿件菜单
+    Private hManuscriptMenu As IntPtr = IntPtr.Zero
+
+    Private hViewMenu As IntPtr = IntPtr.Zero
+
+    Private hExtMenu As IntPtr = IntPtr.Zero
+
+    Private hHelpMenu As IntPtr = IntPtr.Zero
 #End Region
 
-#Region "窗体事件处理"
-    ''' <summary>
-    ''' 程序启动时调用
-    ''' </summary>
+#Region "生命周期管理"
+
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        CreateNativeMenu()
         StatusLabel.Text = My.Resources.Stat_Init '正在初始化
         _libraryManager = LibraryManager.Instance '启动稿件库管理器实例
         SysMenuInit() '设置系统菜单
@@ -116,6 +160,7 @@ Public Class MainForm
             Case AppSettings.ThemeMode.FollowSystem
                 MnuThemeSystem.Checked = True
         End Select
+        UpdateNativeMenu()
         If autoChangeLang Then settings.Save() '首次运行时保存配置文件
         Me.AllowDrop = True
         'If settings.Startup.ShowHitokoto Then '调用异步过程显示一言
@@ -134,106 +179,10 @@ Public Class MainForm
             Dispose()
         End If
     End Sub
-    '''' <summary>
-    '''' 显示一言
-    '''' </summary>
-    'Private Async Function ShowHitokoto() As Task
-    '    Dim buttonInfo As New TaskDialogButton(My.Resources.Hitokoto_MoreInfo)
-    '    Dim buttonCancel As New TaskDialogButton(ButtonType.Cancel)
-    '    Dim hitokotoInfo = Await HitokotoHandler.GetHitokoto()
-    '    Dim expandInfo As New StringBuilder
-    '    With expandInfo
-    '        .Append($"ID: {hitokotoInfo.ID}" & vbCrLf)
-    '        .Append($"UUID: {hitokotoInfo.UUID}" & vbCrLf)
-    '        .Append($"{My.Resources.Hitokoto_Type} {hitokotoInfo.Type}" & vbCrLf)
-    '        .Append($"{My.Resources.Hitokoto_Creator} {hitokotoInfo.Creator}" & vbCrLf)
-    '        .Append($"{My.Resources.Hitokoto_Reviewer} {hitokotoInfo.Reviewer}" & vbCrLf)
-    '        .Append($"{My.Resources.Hitokoto_Createdat} {hitokotoInfo.CreatedAt}" & vbCrLf)
-    '    End With
-    '    Using dlg As New TaskDialog With {
-    '                .WindowTitle = My.Resources.Hitokoto,
-    '                .MainInstruction = hitokotoInfo.Content,
-    '                .Content = $"——{hitokotoInfo.FromWho}「{hitokotoInfo.From}」",
-    '                .MainIcon = TaskDialogIcon.Information,
-    '                .ExpandedInformation = expandInfo.ToString
-    '                }
-    '        dlg.Buttons.Add(buttonInfo)
-    '        dlg.Buttons.Add(buttonCancel)
-    '        Dim result As TaskDialogButton = dlg.ShowDialog()
-    '        If result Is buttonInfo Then
-    '            Process.Start($"https://hitokoto.cn/?uuid={hitokotoInfo.UUID}") '打开一言链接
-    '        End If
-    '    End Using
-    'End Function
-    ''' <summary>
-    ''' 关闭时释放资源
-    ''' </summary>
     Private Sub MainForm_Closing(sender As Object, e As ComponentModel.CancelEventArgs) Handles Me.Closing
         CloseLibrary()
         LibraryManager.CloseAllLibrary() '关闭时释放资源
         DestroyGlobalMutex()
-    End Sub
-    ''' <summary>
-    ''' 窗体消息处理
-    ''' </summary>
-    ''' <param name="m">Windows消息</param>
-    Protected Overrides Sub WndProc(ByRef m As Message) '窗体消息处理函数
-        If m.Msg = WM_SYSCOMMAND Then '窗体响应菜单
-            Dim hMenu = GetSystemMenu(Handle, False)
-            Select Case m.WParam.ToInt32'对应菜单标号
-                Case SC_ALWAYSONTOP '窗口置顶
-                    SetOnTop()
-                Case SC_NEWMANUSCRIPT
-                    NewManuscript()
-                Case SC_REFRESH
-                    RefreshLib()
-                Case SC_SETTINGS
-                    StatusLabel.Text = My.Resources.Stat_OpenProp
-                    PropertiesForm.ShowDialog()
-                    StatusLabel.Text = My.Resources.Stat_Ready
-                Case SC_ABOUT
-                    AboutForm.ShowDialog()
-            End Select
-        End If
-        If m.Msg = WM_SETTINGCHANGE Then '主题发生改变时
-            '(注: 使用 WM_DWMCOLORIZATIONCOLORCHANGED 是个不靠谱的野路子办法,踩过坑)
-            If m.LParam <> IntPtr.Zero Then
-                Dim s = Marshal.PtrToStringUni(m.LParam)
-                If s = "ImmersiveColorSet" Then
-                    Dim settings = AppSettings.Load()
-                    If settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
-                        _themeDebounceTimer.Stop()
-                        _themeDebounceTimer.Start() '消抖
-                    End If
-                End If
-            End If
-        End If
-        If m.Msg = WM_SHOWME Then '从托盘图标状态恢复
-            If Me.WindowState = FormWindowState.Minimized Then
-                Me.WindowState = FormWindowState.Normal
-            End If
-            Me.Activate()
-            If NotifyIco IsNot Nothing Then
-                NotifyIco.Visible = False
-            End If
-            SetForegroundWindow(Handle)
-        End If
-        MyBase.WndProc(m) '循环监听消息
-    End Sub
-    Private Sub _themeDebounceTimer_Tick() Handles _themeDebounceTimer.Tick
-        _themeDebounceTimer.Stop()
-        BeginInvoke(New MethodInvoker(Sub()
-                                          Dim settings = AppSettings.Load()
-                                          If settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
-                                              UpdateFormTheme() '当主题设置为跟随系统时,主题变更通过接口发送给全部窗体
-                                          End If
-                                      End Sub))
-    End Sub
-    ''' <summary>
-    ''' 分割线调整时触发
-    ''' </summary>
-    Private Sub ArtworkListSplitContainer_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles ArtworkListSplitContainer.SplitterMoved
-        PiChkThumb.Height = PiChkThumb.Width '保持为方形
     End Sub
     ''' <summary>
     ''' 当窗口句柄创建或重建时，注入UIPI消息过滤器
@@ -247,7 +196,502 @@ Public Class MainForm
     End Sub
 #End Region
 
-#Region "辅助方法"
+#Region "菜单处理"
+    Private Sub CreateNativeMenu()
+        hMainMenu = CreateMenu()
+        '文件
+        hFileMenu = CreatePopupMenu()
+        AppendMenu(hMainMenu, MF_POPUP, hFileMenu, My.Resources.Mnu_File)
+        AppendMenu(hFileMenu, MF_STRING, IDM_DEVTOOLS, My.Resources.Mnu_DevTools)
+        If IsAdmin() Then
+            AppendMenu(hFileMenu, MF_STRING, IDM_RUNASELEVATED, My.Resources.Mnu_Elevated)
+        Else
+            AppendMenu(hFileMenu, MF_STRING, IDM_RUNASELEVATED, My.Resources.Mnu_RunAsElevated)
+        End If
+        AppendMenu(hFileMenu, MF_STRING, IDM_OPENTERMINAL, My.Resources.Mnu_OpenTerminal)
+        AppendMenu(hFileMenu, MF_STRING, IDM_OPENFOLDER, My.Resources.Mnu_OpenFolder)
+        AppendMenu(hFileMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hFileMenu, MF_STRING, IDM_CREATESHORTCUT, My.Resources.Mnu_CreateShortcut)
+        AppendMenu(hFileMenu, MF_STRING, IDM_STARTMENU, My.Resources.Mnu_StartMenu)
+        AppendMenu(hFileMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hFileMenu, MF_STRING, IDM_OPTIONS, My.Resources.Mnu_Options)
+        AppendMenu(hFileMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hFileMenu, MF_STRING, IDM_TRAY, My.Resources.Mnu_Tray)
+        AppendMenu(hFileMenu, MF_STRING, IDM_EXIT, My.Resources.Mnu_Exit)
+        '稿件库
+        hLibraryMenu = CreatePopupMenu()
+        AppendMenu(hMainMenu, MF_POPUP, hLibraryMenu, My.Resources.Mnu_Lib)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_CurrentLib)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_REFRESH, My.Resources.Mnu_Refresh)
+        AppendMenu(hLibraryMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_NEW, My.Resources.Mnu_New)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_IMPORT, My.Resources.Mnu_Import)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_EXPORT, My.Resources.Mnu_Export)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_EXPORTCSV, My.Resources.Mnu_ExportCSV)
+        AppendMenu(hLibraryMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_CLONE, My.Resources.Mnu_Clone)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_OPENPATH, My.Resources.Mnu_OpenPath)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_COPY, My.Resources.Mnu_Copy)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_COPYPATH, My.Resources.Mnu_CopyPath)
+        AppendMenu(hLibraryMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_CLOSE, My.Resources.Mnu_Close)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_RENAME, My.Resources.Mnu_Rename)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_DELETE, My.Resources.Mnu_Delete)
+        AppendMenu(hLibraryMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hLibraryMenu, MF_STRING, IDM_PROPERTIES, My.Resources.Mnu_Properties)
+        '稿件
+        hManuscriptMenu = CreatePopupMenu()
+        AppendMenu(hMainMenu, MF_POPUP, hManuscriptMenu, My.Resources.Mnu_Ms)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_New)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Import)
+        AppendMenu(hManuscriptMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_View)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Edit)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_ExportMs)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Print)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Delete)
+        AppendMenu(hManuscriptMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_OpenPath)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Copy)
+        AppendMenu(hManuscriptMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_CopyPath)
+        '视图
+        hViewMenu = CreatePopupMenu()
+        AppendMenu(hMainMenu, MF_POPUP, hViewMenu, My.Resources.Mnu_Views)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Views)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.View_ShowStatusBar)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.View_ShowToolBar)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.View_Theme)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.View_Dark)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.View_Light)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.View_System)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Play)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_SelectAll)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_SelectReverse)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Search)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_AdvancedSearch)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Prev)
+        AppendMenu(hViewMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Next)
+        '扩展
+        hExtMenu = CreatePopupMenu()
+        AppendMenu(hMainMenu, MF_POPUP, hExtMenu, My.Resources.Mnu_Edit)
+        '帮助
+        hHelpMenu = CreatePopupMenu()
+        AppendMenu(hMainMenu, MF_POPUP, hHelpMenu, My.Resources.Mnu_Help)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Tutorial)
+        AppendMenu(hHelpMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Website)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Donate)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_GitHub)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Feedback)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_BugReport)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Suggestions)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_MyFeedback)
+
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_CheckUpdate)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_WhatsNew)
+        AppendMenu(hHelpMenu, MF_SEPARATOR, IntPtr.Zero, Nothing)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_License)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Privacy)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_Terms)
+        AppendMenu(hHelpMenu, MF_STRING, IDM_CURRENTLIB, My.Resources.Mnu_About)
+        '设置菜单栏
+        SetMenu(Me.Handle, hMainMenu)
+        DrawMenuBar(Me.Handle)
+    End Sub
+    Private Sub UpdateNativeMenu()
+        If IsDarkMode() Then
+            ApplyMenuItem(hFileMenu, IDM_DEVTOOLS, True, My.Resources.Mnu_DevTools, "F12", My.Resources.Icons.MenuDevToolsDark)
+
+        End If
+    End Sub
+    Protected Overrides Sub OnFormClosed(e As FormClosedEventArgs)
+        If hMainMenu <> IntPtr.Zero Then
+            DestroyMenu(hMainMenu)
+            hMainMenu = IntPtr.Zero
+            hFileMenu = IntPtr.Zero
+            hLibraryMenu = IntPtr.Zero
+            hManuscriptMenu = IntPtr.Zero
+        End If
+        MyBase.OnFormClosed(e)
+    End Sub
+    Protected Overrides Sub WndProc(ByRef m As Message) '窗体消息处理函数
+        Select Case m.Msg
+            Case WM_SYSCOMMAND '系统菜单
+                Select Case m.WParam.ToInt32'对应菜单标号
+                    Case SC_ALWAYSONTOP '窗口置顶
+                        SetOnTop()
+                    Case SC_NEWMANUSCRIPT
+                        NewManuscript()
+                    Case SC_REFRESH
+                        RefreshLib()
+                    Case SC_SETTINGS
+                        StatusLabel.Text = My.Resources.Stat_OpenProp
+                        PropertiesForm.ShowDialog()
+                        StatusLabel.Text = My.Resources.Stat_Ready
+                    Case SC_ABOUT
+                        AboutForm.ShowDialog()
+                End Select
+            Case WM_COMMAND '菜单
+                Dim ID As Integer = m.WParam.ToInt32
+                Select Case ID
+                    Case 1000 To 1999
+                        FileMenuHandler(ID)
+                    Case 2000 To 2999
+                        LibMenuHandler(ID)
+                    Case 3000 To 3999
+                        ArtworkMenuHandler(ID)
+                    Case 4000 To 4999
+                        ViewMenuHandler(ID)
+                    Case 5000 To 5999
+                        ExtMenuHandler(ID)
+                    Case 6000 To 6999
+                        HelpMenuHandler(ID)
+                End Select
+            Case WM_SETTINGCHANGE '设置消息变更
+                '(注: 使用 WM_DWMCOLORIZATIONCOLORCHANGED 是个不靠谱的野路子办法,踩过坑)
+                If m.LParam <> IntPtr.Zero Then
+                    Dim s = Marshal.PtrToStringUni(m.LParam)
+                    If s = "ImmersiveColorSet" Then
+                        Dim settings = AppSettings.Load()
+                        If settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
+                            _themeDebounceTimer.Stop()
+                            _themeDebounceTimer.Start() '消抖
+                        End If
+                    End If
+                End If
+            Case WM_SHOWME
+                If Me.WindowState = FormWindowState.Minimized Then
+                    Me.WindowState = FormWindowState.Normal
+                End If
+                Me.Activate()
+                If NotifyIco IsNot Nothing Then
+                    NotifyIco.Visible = False
+                End If
+                SetForegroundWindow(Handle)
+        End Select
+        MyBase.WndProc(m) '循环监听消息
+    End Sub
+
+#Region "菜单处理"
+    Private Sub FileMenuHandler(IDM As Integer)
+        Select Case IDM
+            Case IDM_DEVTOOLS
+                DevToolsForm.Show()
+            Case IDM_RUNASELEVATED
+                If RunAsElevated() Then
+                    Me.Close()
+                End If
+            Case IDM_OPENTERMINAL
+                Dim startPath As String
+                Try
+                    If _libraryManager.GetCurrentLibrary IsNot Nothing Then
+                        startPath = _libraryManager.GetCurrentLibrary.LibraryPath
+                    Else
+                        startPath = AppDomain.CurrentDomain.BaseDirectory
+                    End If
+                    Dim psi As New ProcessStartInfo With {
+                        .FileName = "cmd.exe",
+                        .Arguments = $"/K cd /D {startPath}",
+                        .UseShellExecute = False,
+                        .CreateNoWindow = False
+                    }
+                    Process.Start(psi)
+                Catch ex As Exception
+                    ShowErrorDialog(ex, My.Resources.Msg_TerminalFailed)
+                End Try
+            Case IDM_OPENFOLDER
+                Shell($"explorer {Application.StartupPath}", 1)
+            Case IDM_CREATESHORTCUT
+                CreateShortcut(
+                    targetPath:=Application.ExecutablePath,
+                    shortcutName:=My.Resources.FurryArtStudio,
+                    destinationFolder:=Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+                    workingDirectory:=Application.StartupPath,
+                    description:=My.Resources.FAS_Description,
+                    iconLocation:=$"{Application.ExecutablePath},0"
+                )
+            Case IDM_STARTMENU
+                CreateShortcut(
+                targetPath:=Application.ExecutablePath,
+                shortcutName:=My.Resources.FurryArtStudio,
+                destinationFolder:=Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),
+                workingDirectory:=Application.StartupPath,
+                description:=My.Resources.FAS_Description,
+                iconLocation:=$"{Application.ExecutablePath},0"
+            )
+            Case IDM_OPTIONS
+                StatusLabel.Text = My.Resources.Stat_OpenProp
+                PropertiesForm.ShowDialog()
+                StatusLabel.Text = My.Resources.Stat_Ready
+            Case IDM_TRAY
+                Hide()
+                NotifyIco.Visible = True
+            Case IDM_EXIT
+                Dispose()
+        End Select
+    End Sub
+    Private Sub LibMenuHandler(IDM As Integer)
+        Select Case IDM
+            Case IDM_REFRESH
+                RefreshLib()
+            Case IDM_NEW
+                Using inputForm As New InputDialogForm With {
+                    .Text = My.Resources.Input_NewLibTitle
+                }
+                    inputForm.InputTxtbox.Text = My.Resources.Input_TxtNewLib
+                    StatusLabel.Text = My.Resources.Stat_CreatingLib
+                    If inputForm.ShowDialog() = DialogResult.OK Then '显示对话框并获取结果
+                        Dim newLib As String = inputForm.InputValue
+                        _libraryManager.AddLibrary(newLib)
+                        _libraryManager.SwitchLibrary(newLib)
+                        RefreshLib() '刷新
+                    Else
+                    End If
+                    StatusLabel.Text = My.Resources.Stat_Ready
+                End Using
+            Case IDM_IMPORT
+                Using pawFileDlg As New OpenFileDialog() With {
+                .Filter = My.Resources.Main_FileFilterPAW
+                }
+                    'If pawFileDlg.ShowDialog() = DialogResult.OK Then
+                    'Using archive As ZipFile = ZipFile.OpenRead(pawFileDlg.FileName)
+                    '    For Each entry As ZipArchiveEntry In archive.Entries
+                    '        ' 构建完整目标路径（保留 zip 内相对目录结构）
+                    '        Dim destinationPath As String = Path.Combine(extractPath, entry.FullName)
+                    '        Dim destinationDir As String = Path.GetDirectoryName(destinationPath)
+
+                    '        ' 创建目标目录（如果不存在）
+                    '        If Not String.IsNullOrEmpty(destinationDir) Then
+                    '            Directory.CreateDirectory(destinationDir)
+                    '        End If
+
+                    '        ' 跳过表示目录的条目（以 '/' 结尾）
+                    '        If entry.Name = "" Then
+                    '            Continue For
+                    '        End If
+
+                    '        ' 提取文件，并覆盖同名文件（True 表示覆盖）
+                    '        entry.ExtractToFile(destinationPath, True)
+                    '    Next
+                    'End Using
+
+                    'End If
+                End Using
+                ShowPaimonDialog()
+            Case IDM_EXPORT
+                StatusLabel.Text = My.Resources.Stat_Exporting
+                Using pawFileDlg As New SaveFileDialog() With {
+                    .Filter = My.Resources.Main_FileFilterPAW,
+                    .FileName = $"{_libraryManager.GetCurrentLibrary.LibraryName}.paw"
+                    }
+                    If pawFileDlg.ShowDialog() = DialogResult.OK Then
+                        Try
+                            Dim libPath As String = _libraryManager.GetCurrentLibrary.LibraryPath
+                            MnuLibClose.PerformClick()
+                            Dim targetFileName As String = pawFileDlg.FileName
+                            If File.Exists(targetFileName) Then '当出现重名文件时删除
+                                File.Delete(targetFileName)
+                            End If
+                            ZipFile.CreateFromDirectory(libPath, targetFileName, CompressionLevel.Fastest, True)
+                            ShowInfoDialog(My.Resources.Msg_ExportComplete)
+                        Catch ex As Exception
+                            ShowErrorDialog(ex, My.Resources.Msg_ExportFailed)
+                        End Try
+                    End If
+                End Using
+                StatusLabel.Text = My.Resources.Stat_Ready
+            Case IDM_EXPORTCSV
+                StatusLabel.Text = My.Resources.Stat_ExportCSV
+                Using csvFileDialog As New SaveFileDialog() With {
+                    .Filter = My.Resources.Main_FileFilterCSV,
+                    .FileName = $"{_libraryManager.GetCurrentLibrary.LibraryName}.csv"
+                    }
+                    If csvFileDialog.ShowDialog() = DialogResult.OK Then
+                        Try
+                            _libraryManager.GetCurrentLibrary.ExportTableToCSV(csvFileDialog.FileName)
+                            ShowInfoDialog(My.Resources.Msg_ExportComplete)
+                        Catch ex As Exception
+                            ShowErrorDialog(ex, My.Resources.Msg_CreateCSVFailed)
+                        End Try
+                    End If
+                End Using
+                StatusLabel.Text = My.Resources.Stat_Ready
+            Case IDM_CLONE
+                Using inputForm As New InputDialogForm With {
+                    .Text = My.Resources.Input_CloneLibTitle
+                }
+                    inputForm.InputTxtbox.Text = String.Format(My.Resources.Input_TxtClone, _libraryManager.GetCurrentLibrary.LibraryName)
+                    StatusLabel.Text = My.Resources.Stat_Cloning
+                    If inputForm.ShowDialog() = DialogResult.OK Then '显示对话框并获取结果
+                        Dim newLib As String = inputForm.InputValue
+                        Dim newPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", newLib)
+                        Try
+                            FileIO.FileSystem.CopyDirectory(_libraryManager.GetCurrentLibrary.LibraryPath, newPath, FileIO.UIOption.AllDialogs)
+                        Catch ex As OperationCanceledException
+                            Return '操作被取消, 忽略即可
+                        End Try
+                        _libraryManager.AddLibrary(newLib)
+                        _libraryManager.SwitchLibrary(newLib)
+                        RefreshLib() '刷新
+                    Else
+                    End If
+                    StatusLabel.Text = My.Resources.Stat_Ready
+                End Using
+            Case IDM_OPENPATH
+                Shell($"explorer /select,{_libraryManager.GetCurrentLibrary.LibraryPath}", 1)
+            Case IDM_COPY
+                CopyDirectoryToClipboard(_libraryManager.GetCurrentLibrary.LibraryPath)
+            Case IDM_COPYPATH
+                Clipboard.SetDataObject(_libraryManager.GetCurrentLibrary.LibraryPath)
+            Case IDM_CLOSE
+                StatusLabel.Text = My.Resources.Stat_Closing
+                CloseLibrary()
+                _libraryManager.CloseLibrary(_libraryManager.GetCurrentLibrary.LibraryName)
+                MenuInit()
+            Case IDM_RENAME
+                Dim oldLib As String = _libraryManager.GetCurrentLibrary.LibraryName
+                Dim oldPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", oldLib)
+                Using inputForm As New InputDialogForm With {
+                    .Text = My.Resources.Input_RenameLibTitle
+                }
+                    inputForm.InputTxtbox.Text = _libraryManager.GetCurrentLibrary.LibraryName
+                    StatusLabel.Text = My.Resources.Stat_Renaming
+                    If inputForm.ShowDialog() = DialogResult.OK Then '显示对话框并获取结果
+                        Try
+                            Dim newLib As String = inputForm.InputValue
+                            _libraryManager.CloseLibrary(_libraryManager.GetCurrentLibrary.LibraryName) '先释放数据库资源
+                            Dim newPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", newLib)
+                            Directory.Move(oldPath, newPath) '重命名
+                            _libraryManager.AddLibrary(newLib) '载入新稿件库
+                            _libraryManager.SwitchLibrary(newLib)
+                        Catch ex As Exception
+                            ShowErrorDialog(ex, My.Resources.Msg_CreateFailed)
+                        End Try
+                        RefreshLib() '更名后重新载入数据库
+                    Else
+                    End If
+                    StatusLabel.Text = My.Resources.Stat_Ready
+                End Using
+            Case IDM_DELETE
+                Dim isShiftPressed As Boolean = My.Computer.Keyboard.ShiftKeyDown
+                Dim nowPath As String = _libraryManager.GetCurrentLibrary.LibraryPath
+                Dim nowLib As String = _libraryManager.GetCurrentLibrary.LibraryName
+                _libraryManager.CloseLibrary(nowLib) '先释放数据库资源, 再尝试删除文件
+                Try
+                    StatusLabel.Text = My.Resources.Stat_DeletingLib
+                    If isShiftPressed Then
+                        Dim dlg As New DialogForm(My.Resources.Msg_CannotBeIrreversible,,
+                                                  String.Format(My.Resources.Msg_DeleteLibPermanently, nowLib),
+                                                  DialogForm.DialogType.Warn,,,
+                                                  My.Resources.Dialog_BtnCancel,
+                                                  My.Resources.Msg_IKnowWhatIamDoing)
+                        dlg.ShowDialog()
+                        If dlg.ButtonIndex = 2 Then
+                            Directory.Delete(nowPath, True)
+                        Else
+                            Throw New OperationCanceledException(My.Resources.Main_StrOperationCancelled)
+                        End If
+                    Else
+                        Dim dlg As New DialogForm("",,
+                                                  String.Format(My.Resources.Msg_DeleteLib, nowLib),
+                                                  DialogForm.DialogType.Info,,,
+                                                  My.Resources.Dialog_BtnCancel,
+                                                  My.Resources.Msg_DeleteLibConfirm)
+                        dlg.ShowDialog()
+                        If dlg.ButtonIndex = 2 Then
+                            FileIO.FileSystem.DeleteDirectory(nowPath,
+                            FileIO.UIOption.AllDialogs,
+                            FileIO.RecycleOption.SendToRecycleBin)
+                        Else
+                            Throw New OperationCanceledException(My.Resources.Main_StrOperationCancelled)
+                        End If
+                    End If
+                    MenuInit()
+                    CloseLibrary()
+                Catch ex As OperationCanceledException '操作被取消, 回滚操作
+                    _libraryManager.AddLibrary(nowLib)
+                    _libraryManager.SwitchLibrary(nowLib)
+                Catch ex As Exception
+                    ShowErrorDialog(ex, My.Resources.Msg_LibDeleteFailed)
+                End Try
+                StatusLabel.Text = My.Resources.Stat_Ready
+            Case IDM_PROPERTIES
+                Dim sb As New StringBuilder
+                Dim library = _libraryManager.GetCurrentLibrary
+                sb.Append(String.Format(My.Resources.Main_StrPropLib, library.LibraryName) & vbCrLf)
+                sb.Append(String.Format(My.Resources.Main_StrPropLibPath, library.LibraryPath) & vbCrLf)
+                sb.Append(String.Format(My.Resources.Main_StrPropMsCount, library.GetAllArtworksComplete.Count) & vbCrLf)
+                Dim result = GetFolderInfo(library.LibraryPath)
+                sb.Append(String.Format(My.Resources.Main_StrPropStorage, result.sizeString, result.fileCount) & vbCrLf)
+                sb.Append(String.Format(My.Resources.Main_StrPropNowTime, Now))
+                ShowInfoDialog(sb.ToString)
+        End Select
+    End Sub
+    Private Sub ArtworkMenuHandler(IDM As Integer)
+
+    End Sub
+    Private Sub ViewMenuHandler(IDM As Integer)
+
+    End Sub
+    Private Sub ExtMenuHandler(IDM As Integer)
+
+    End Sub
+    Private Sub HelpMenuHandler(IDM As Integer)
+
+    End Sub
+
+#End Region
+
+#End Region
+
+#Region "辅助函数"
+    Private Sub _themeDebounceTimer_Tick() Handles _themeDebounceTimer.Tick
+        _themeDebounceTimer.Stop()
+        BeginInvoke(New MethodInvoker(Sub()
+                                          Dim settings = AppSettings.Load()
+                                          If settings.Appearance.Theme = AppSettings.ThemeMode.FollowSystem Then
+                                              UpdateFormTheme() '当主题设置为跟随系统时,主题变更通过接口发送给全部窗体
+                                          End If
+                                      End Sub))
+    End Sub
+    ''' <summary>
+    ''' 系统主题发生变化时调用以更新
+    ''' </summary>
+    Private Sub SystemThemeChange() Implements IThemeChangeable.SystemThemeChange
+        '颜色常量
+        Dim bgColor As Color
+        Dim frColor As Color
+        '获取控件集合
+        Dim controlList As List(Of Control) = GetAllControls(Me)
+        '判断颜色
+        If IsDarkMode() Then
+            bgColor = BgColorDark
+            frColor = FrColorDark
+            ImageGalleryMain.DisplayMode = GalleryDisplayMode.Dark '设置图片墙主题
+            KryptonMgrMain.GlobalPaletteMode = PaletteMode.MaterialDark '设置菜单栏主题
+            InitializeMenuImages(True) '设置菜单图标主题
+        Else
+            bgColor = BgColorLight
+            frColor = FrColorLight
+            ImageGalleryMain.DisplayMode = GalleryDisplayMode.Normal
+            KryptonMgrMain.GlobalPaletteMode = PaletteMode.MaterialLight
+            InitializeMenuImages()
+        End If
+        For Each control In controlList
+            control.ForeColor = frColor
+            control.BackColor = bgColor
+        Next
+        ForeColor = frColor
+        BackColor = bgColor
+        PawTheme.SetWindowTheme(Handle, IsDarkMode) 'PawLab.WindowsTheme
+        UpdateNativeMenu()
+    End Sub
+    ''' <summary>
+    ''' 分割线调整时触发
+    ''' </summary>
+    Private Sub ArtworkListSplitContainer_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles ArtworkListSplitContainer.SplitterMoved
+        PiChkThumb.Height = PiChkThumb.Width '保持为方形
+    End Sub
     ''' <summary>
     ''' 设置置顶状态
     ''' </summary>
@@ -342,8 +786,6 @@ Public Class MainForm
         MnuSuggestions.Text = My.Resources.Mnu_Suggestions
         MnuMyFeedback.Text = My.Resources.Mnu_MyFeedback
         MnuHelpDonate.Text = My.Resources.Mnu_Donate
-        MnuOpenAfdian.Text = My.Resources.Mnu_OpenAfdian
-        MnuLoadSponsors.Text = My.Resources.Mnu_LoadSponsors
         MnuTerms.Text = My.Resources.Mnu_Terms
         MnuHelpAbout.Text = My.Resources.Mnu_About
         '窗体
@@ -374,6 +816,7 @@ Public Class MainForm
             StorageStatusLabel.Text = My.Resources.Main_LblNoStorage
             PageStatusLabel.Text = My.Resources.Main_LblNoPage
         End If
+        UpdateNativeMenu()
     End Sub
     ''' <summary>
     ''' 递归设置字体
@@ -388,37 +831,6 @@ Public Class MainForm
                 SetMenuFont(menuItem, f)
             End If
         Next
-    End Sub
-    ''' <summary>
-    ''' 系统主题发生变化时调用以更新
-    ''' </summary>
-    Private Sub SystemThemeChange() Implements IThemeChangeable.SystemThemeChange
-        '颜色常量
-        Dim bgColor As Color
-        Dim frColor As Color
-        '获取控件集合
-        Dim controlList As List(Of Control) = GetAllControls(Me)
-        '判断颜色
-        If IsDarkMode() Then
-            bgColor = BgColorDark
-            frColor = FrColorDark
-            ImageGalleryMain.DisplayMode = GalleryDisplayMode.Dark '设置图片墙主题
-            KryptonMgrMain.GlobalPaletteMode = PaletteMode.MaterialDark '设置菜单栏主题
-            InitializeMenuImages(True) '设置菜单图标主题
-        Else
-            bgColor = BgColorLight
-            frColor = FrColorLight
-            ImageGalleryMain.DisplayMode = GalleryDisplayMode.Normal
-            KryptonMgrMain.GlobalPaletteMode = PaletteMode.MaterialLight
-            InitializeMenuImages()
-        End If
-        For Each control In controlList
-            control.ForeColor = frColor
-            control.BackColor = bgColor
-        Next
-        ForeColor = frColor
-        BackColor = bgColor
-        PawTheme.SetWindowTheme(Handle, IsDarkMode) 'PawLab.WindowsTheme
     End Sub
     ''' <summary>
     ''' 设置缩放图标
@@ -777,7 +1189,6 @@ Public Class MainForm
         End If
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
-
     ''' <summary>
     ''' 清除右侧面板显示元数据字段
     ''' </summary>
@@ -795,72 +1206,9 @@ Public Class MainForm
 #Region "菜单项"
 
 #Region "文件菜单项"
-    Private Sub MnuDevTools_Click(sender As Object, e As EventArgs) Handles MnuDevTools.Click
-        DevToolsForm.Show()
-    End Sub
-    Private Sub MnuRunAsElevated_Click(sender As Object, e As EventArgs) Handles MnuRunAsElevated.Click
-        If RunAsElevated() Then
-            Me.Close()
-        End If
-    End Sub
-    Private Sub MnuRunTerminal_Click(sender As Object, e As EventArgs) Handles MnuRunTerminal.Click
-        Dim startPath As String
-        Try
-            If _libraryManager.GetCurrentLibrary IsNot Nothing Then
-                startPath = _libraryManager.GetCurrentLibrary.LibraryPath
-            Else
-                startPath = AppDomain.CurrentDomain.BaseDirectory
-            End If
-            Dim psi As New ProcessStartInfo With {
-                .FileName = "cmd.exe",
-                .Arguments = $"/K cd /D {startPath}",
-                .UseShellExecute = False,
-                .CreateNoWindow = False
-            }
-            Process.Start(psi)
-        Catch ex As Exception
-            ShowErrorDialog(ex, My.Resources.Msg_TerminalFailed)
-        End Try
-    End Sub
-    Private Sub MnuProperties_Click(sender As Object, e As EventArgs) Handles MnuProperties.Click
-        StatusLabel.Text = My.Resources.Stat_OpenProp
-        PropertiesForm.ShowDialog()
-        StatusLabel.Text = My.Resources.Stat_Ready
-    End Sub
-    Private Sub MnuCreateShortcut_Click(sender As Object, e As EventArgs) Handles MnuCreateShortcut.Click
-        CreateShortcut(
-            targetPath:=Application.ExecutablePath,
-            shortcutName:=My.Resources.FurryArtStudio,
-            destinationFolder:=Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
-            workingDirectory:=Application.StartupPath,
-            description:=My.Resources.FAS_Description,
-            iconLocation:=$"{Application.ExecutablePath},0"
-        )
-    End Sub
-    Private Sub MnuExit_Click(sender As Object, e As EventArgs) Handles MnuExit.Click
-        Me.Close()
-    End Sub
-    Private Sub MnuOpenPath_Click(sender As Object, e As EventArgs) Handles MnuOpenPath.Click
-        Shell($"explorer {Application.StartupPath}", 1)
-    End Sub
-    Private Sub MnuTray_Click(sender As Object, e As EventArgs) Handles MnuTray.Click
-        Hide()
-        NotifyIco.Visible = True
-    End Sub
     Private Sub NotifyIco_MouseClick(sender As Object, e As MouseEventArgs) Handles NotifyIco.MouseClick
         Show()
         NotifyIco.Visible = False
-    End Sub
-
-    Private Sub MnuAddStartMenu_Click(sender As Object, e As EventArgs) Handles MnuAddStartMenu.Click
-        CreateShortcut(
-            targetPath:=Application.ExecutablePath,
-            shortcutName:=My.Resources.FurryArtStudio,
-            destinationFolder:=Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),
-            workingDirectory:=Application.StartupPath,
-            description:=My.Resources.FAS_Description,
-            iconLocation:=$"{Application.ExecutablePath},0"
-        )
     End Sub
 #End Region
 
@@ -909,95 +1257,6 @@ Public Class MainForm
             End If
         End If
     End Sub
-    Private Sub MnuLibNew_Click(sender As Object, e As EventArgs) Handles MnuLibNew.Click
-        Using inputForm As New InputDialogForm With {
-            .Text = My.Resources.Input_NewLibTitle
-        }
-            inputForm.InputTxtbox.Text = My.Resources.Input_TxtNewLib
-            StatusLabel.Text = My.Resources.Stat_CreatingLib
-            If inputForm.ShowDialog() = DialogResult.OK Then '显示对话框并获取结果
-                Dim newLib As String = inputForm.InputValue
-                _libraryManager.AddLibrary(newLib)
-                _libraryManager.SwitchLibrary(newLib)
-                RefreshLib() '刷新
-            Else
-            End If
-            StatusLabel.Text = My.Resources.Stat_Ready
-        End Using
-    End Sub
-    Private Sub MnuLibImport_Click(sender As Object, e As EventArgs) Handles MnuLibImport.Click
-        Using pawFileDlg As New OpenFileDialog() With {
-            .Filter = My.Resources.Main_FileFilterPAW
-            }
-            'If pawFileDlg.ShowDialog() = DialogResult.OK Then
-            'Using archive As ZipFile = ZipFile.OpenRead(pawFileDlg.FileName)
-            '    For Each entry As ZipArchiveEntry In archive.Entries
-            '        ' 构建完整目标路径（保留 zip 内相对目录结构）
-            '        Dim destinationPath As String = Path.Combine(extractPath, entry.FullName)
-            '        Dim destinationDir As String = Path.GetDirectoryName(destinationPath)
-
-            '        ' 创建目标目录（如果不存在）
-            '        If Not String.IsNullOrEmpty(destinationDir) Then
-            '            Directory.CreateDirectory(destinationDir)
-            '        End If
-
-            '        ' 跳过表示目录的条目（以 '/' 结尾）
-            '        If entry.Name = "" Then
-            '            Continue For
-            '        End If
-
-            '        ' 提取文件，并覆盖同名文件（True 表示覆盖）
-            '        entry.ExtractToFile(destinationPath, True)
-            '    Next
-            'End Using
-
-            'End If
-        End Using
-        ShowPaimonDialog()
-    End Sub
-    Private Sub MnuLibExport_Click(sender As Object, e As EventArgs) Handles MnuLibExport.Click
-        StatusLabel.Text = My.Resources.Stat_Exporting
-        Using pawFileDlg As New SaveFileDialog() With {
-            .Filter = My.Resources.Main_FileFilterPAW,
-            .FileName = $"{_libraryManager.GetCurrentLibrary.LibraryName}.paw"
-            }
-            If pawFileDlg.ShowDialog() = DialogResult.OK Then
-                Try
-                    Dim libPath As String = _libraryManager.GetCurrentLibrary.LibraryPath
-                    MnuLibClose.PerformClick()
-                    Dim targetFileName As String = pawFileDlg.FileName
-                    If File.Exists(targetFileName) Then '当出现重名文件时删除
-                        File.Delete(targetFileName)
-                    End If
-                    ZipFile.CreateFromDirectory(libPath, targetFileName, CompressionLevel.Fastest, True)
-                    ShowInfoDialog(My.Resources.Msg_ExportComplete)
-                Catch ex As Exception
-                    ShowErrorDialog(ex, My.Resources.Msg_ExportFailed)
-                End Try
-            End If
-        End Using
-        StatusLabel.Text = My.Resources.Stat_Ready
-    End Sub
-    Private Sub MnuLibExportCSV_Click(sender As Object, e As EventArgs) Handles MnuLibExportCSV.Click
-        StatusLabel.Text = My.Resources.Stat_ExportCSV
-        Using csvFileDialog As New SaveFileDialog() With {
-            .Filter = My.Resources.Main_FileFilterCSV,
-            .FileName = $"{_libraryManager.GetCurrentLibrary.LibraryName}.csv"
-            }
-            If csvFileDialog.ShowDialog() = DialogResult.OK Then
-                Try
-                    _libraryManager.GetCurrentLibrary.ExportTableToCSV(csvFileDialog.FileName)
-                    ShowInfoDialog(My.Resources.Msg_ExportComplete)
-                Catch ex As Exception
-                    ShowErrorDialog(ex, My.Resources.Msg_CreateCSVFailed)
-                End Try
-            End If
-        End Using
-        StatusLabel.Text = My.Resources.Stat_Ready
-    End Sub
-    Private Sub MnuLibRefresh_Click(sender As Object, e As EventArgs) Handles MnuLibRefresh.Click
-        RefreshLib()
-    End Sub
     ''' <summary>
     ''' 刷新菜单列表, 并重新载入数据
     ''' </summary>
@@ -1006,126 +1265,6 @@ Public Class MainForm
         RefreshLibListMenu()
         If _libraryManager.GetCurrentLibrary IsNot Nothing Then LoadArtworks()
         If MnuSearchTxtbox.Text <> "" Then SearchArtwork()
-    End Sub
-    Private Sub MnuLibClone_Click(sender As Object, e As EventArgs) Handles MnuLibClone.Click
-        Using inputForm As New InputDialogForm With {
-            .Text = My.Resources.Input_CloneLibTitle
-        }
-            inputForm.InputTxtbox.Text = String.Format(My.Resources.Input_TxtClone, _libraryManager.GetCurrentLibrary.LibraryName)
-            StatusLabel.Text = My.Resources.Stat_Cloning
-            If inputForm.ShowDialog() = DialogResult.OK Then '显示对话框并获取结果
-                Dim newLib As String = inputForm.InputValue
-                Dim newPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", newLib)
-                Try
-                    FileIO.FileSystem.CopyDirectory(_libraryManager.GetCurrentLibrary.LibraryPath, newPath, FileIO.UIOption.AllDialogs)
-                Catch ex As OperationCanceledException
-                    Return '操作被取消, 忽略即可
-                End Try
-                _libraryManager.AddLibrary(newLib)
-                _libraryManager.SwitchLibrary(newLib)
-                RefreshLib() '刷新
-            Else
-            End If
-            StatusLabel.Text = My.Resources.Stat_Ready
-        End Using
-    End Sub
-    Private Sub MnuLibOpenFolder_Click(sender As Object, e As EventArgs) Handles MnuLibOpenFolder.Click
-        Shell($"explorer /select,{_libraryManager.GetCurrentLibrary.LibraryPath}", 1)
-    End Sub
-    Private Sub MnuLibCopy_Click(sender As Object, e As EventArgs) Handles MnuLibCopy.Click
-        CopyDirectoryToClipboard(_libraryManager.GetCurrentLibrary.LibraryPath)
-    End Sub
-    Private Sub MnuLibCopyPath_Click(sender As Object, e As EventArgs) Handles MnuLibCopyPath.Click
-        Clipboard.SetDataObject(_libraryManager.GetCurrentLibrary.LibraryPath)
-    End Sub
-    Private Sub MnuLibClose_Click(sender As Object, e As EventArgs) Handles MnuLibClose.Click
-        StatusLabel.Text = My.Resources.Stat_Closing
-        CloseLibrary()
-        _libraryManager.CloseLibrary(_libraryManager.GetCurrentLibrary.LibraryName)
-        MenuInit()
-    End Sub
-    Private Sub MnuLibRename_Click(sender As Object, e As EventArgs) Handles MnuLibRename.Click
-        Dim oldLib As String = _libraryManager.GetCurrentLibrary.LibraryName
-        Dim oldPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", oldLib)
-        Using inputForm As New InputDialogForm With {
-            .Text = My.Resources.Input_RenameLibTitle
-        }
-            inputForm.InputTxtbox.Text = _libraryManager.GetCurrentLibrary.LibraryName
-            StatusLabel.Text = My.Resources.Stat_Renaming
-            If inputForm.ShowDialog() = DialogResult.OK Then '显示对话框并获取结果
-                Try
-                    Dim newLib As String = inputForm.InputValue
-                    _libraryManager.CloseLibrary(_libraryManager.GetCurrentLibrary.LibraryName) '先释放数据库资源
-                    Dim newPath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Artworks", newLib)
-                    Directory.Move(oldPath, newPath) '重命名
-                    _libraryManager.AddLibrary(newLib) '载入新稿件库
-                    _libraryManager.SwitchLibrary(newLib)
-                Catch ex As Exception
-                    ShowErrorDialog(ex, My.Resources.Msg_CreateFailed)
-                End Try
-                RefreshLib() '更名后重新载入数据库
-            Else
-            End If
-            StatusLabel.Text = My.Resources.Stat_Ready
-        End Using
-    End Sub
-    Private Sub MnuLibDelete_Click(sender As Object, e As EventArgs) Handles MnuLibDelete.Click
-        Dim isShiftPressed As Boolean = My.Computer.Keyboard.ShiftKeyDown
-        Dim nowPath As String = _libraryManager.GetCurrentLibrary.LibraryPath
-        Dim nowLib As String = _libraryManager.GetCurrentLibrary.LibraryName
-        _libraryManager.CloseLibrary(nowLib) '先释放数据库资源, 再尝试删除文件
-        Try
-            StatusLabel.Text = My.Resources.Stat_DeletingLib
-            If isShiftPressed Then
-                Dim dlg As New DialogForm(My.Resources.Msg_CannotBeIrreversible,,
-                                          String.Format(My.Resources.Msg_DeleteLibPermanently, nowLib),
-                                          DialogForm.DialogType.Warn,,,
-                                          My.Resources.Dialog_BtnCancel,
-                                          My.Resources.Msg_IKnowWhatIamDoing)
-                dlg.ShowDialog()
-                If dlg.ButtonIndex = 2 Then
-                    Directory.Delete(nowPath, True)
-                Else
-                    Throw New OperationCanceledException(My.Resources.Main_StrOperationCancelled)
-                End If
-            Else
-                Dim dlg As New DialogForm("",,
-                                          String.Format(My.Resources.Msg_DeleteLib, nowLib),
-                                          DialogForm.DialogType.Info,,,
-                                          My.Resources.Dialog_BtnCancel,
-                                          My.Resources.Msg_DeleteLibConfirm)
-                dlg.ShowDialog()
-                If dlg.ButtonIndex = 2 Then
-                    FileIO.FileSystem.DeleteDirectory(nowPath,
-                    FileIO.UIOption.AllDialogs,
-                    FileIO.RecycleOption.SendToRecycleBin)
-                Else
-                    Throw New OperationCanceledException(My.Resources.Main_StrOperationCancelled)
-                End If
-            End If
-            MenuInit()
-            CloseLibrary()
-        Catch ex As OperationCanceledException '操作被取消, 回滚操作
-            _libraryManager.AddLibrary(nowLib)
-            _libraryManager.SwitchLibrary(nowLib)
-        Catch ex As Exception
-            ShowErrorDialog(ex, My.Resources.Msg_LibDeleteFailed)
-        End Try
-        StatusLabel.Text = My.Resources.Stat_Ready
-    End Sub
-    Private Sub MnuLibStatistics_Click(sender As Object, e As EventArgs) Handles MnuLibStatistics.Click
-        ShowLibStatistics()
-    End Sub
-    Private Sub ShowLibStatistics()
-        Dim sb As New StringBuilder
-        Dim library = _libraryManager.GetCurrentLibrary
-        sb.Append(String.Format(My.Resources.Main_StrPropLib, library.LibraryName) & vbCrLf)
-        sb.Append(String.Format(My.Resources.Main_StrPropLibPath, library.LibraryPath) & vbCrLf)
-        sb.Append(String.Format(My.Resources.Main_StrPropMsCount, library.GetAllArtworksComplete.Count) & vbCrLf)
-        Dim result = GetFolderInfo(library.LibraryPath)
-        sb.Append(String.Format(My.Resources.Main_StrPropStorage, result.sizeString, result.fileCount) & vbCrLf)
-        sb.Append(String.Format(My.Resources.Main_StrPropNowTime, Now))
-        ShowInfoDialog(sb.ToString)
     End Sub
 #End Region
 
@@ -1563,39 +1702,9 @@ Public Class MainForm
     Private Sub MnuHelpWebsite_Click(sender As Object, e As EventArgs) Handles MnuHelpWebsite.Click
 
     End Sub
-    Private Async Sub MnuLoadSponsors_Click(sender As Object, e As EventArgs) Handles MnuLoadSponsors.Click
-        Try
-            Await CheckSponsors()
-        Catch ex As Exception
-            ShowErrorDialog(ex, "")
-        End Try
+    Private Sub MnuLoadSponsors_Click(sender As Object, e As EventArgs) Handles MnuLoadSponsors.Click
+
     End Sub
-    Private Async Function CheckSponsors() As Task
-        StatusLabel.Text = My.Resources.Msg_CheckingSponsor
-        Dim sponsorInfo = Await AfdianHandler.CheckSponsorsAsync()
-        MnuHelpDonate.DropDownItems.Clear()
-        MnuHelpDonate.DropDownItems.Add(MnuOpenAfdian) '打开爱发电
-        MnuHelpDonate.DropDownItems.Add(MnuLoadSponsors) '加载赞助者信息
-        MnuHelpDonate.DropDownItems.Add(New ToolStripSeparator) '分割线
-        If sponsorInfo.Count = 0 Then
-            Dim sponsorMenuItem As New ToolStripMenuItem() With {
-                .Text = My.Resources.Msg_NoSponsor,
-                .Enabled = False
-            }
-            MnuHelpDonate.DropDownItems.Add(sponsorMenuItem)
-            Return
-        End If
-        For Each sponsor In sponsorInfo
-            Dim sponsorMenuItem As New ToolStripMenuItem With {
-                .Tag = sponsor.UserID,
-                .Image = sponsor.UserAvatar,
-                .Text = sponsor.UserName
-            }
-            MnuHelpDonate.DropDownItems.Add(sponsorMenuItem)
-            AddHandler sponsorMenuItem.Click, AddressOf OnSponsorClick
-        Next
-        StatusLabel.Text = My.Resources.Stat_Ready
-    End Function
     Private Sub OnSponsorClick(sender As Object, e As EventArgs)
         Dim menuItem As ToolStripMenuItem = TryCast(sender, ToolStripMenuItem)
         If menuItem IsNot Nothing Then
@@ -1895,7 +2004,5 @@ Public Class MainForm
         _openViewForms.Clear()
     End Sub
 #End Region
-    Private Sub MnuDialogTest_Click(sender As Object, e As EventArgs) Handles MnuDialogTest.Click
 
-    End Sub
 End Class
