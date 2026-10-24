@@ -24,7 +24,7 @@ Imports System.Text
 Imports System.Threading
 Imports Microsoft.Win32
 Imports PawLab.Logger
-Imports PawLab.WindowsTheme
+Imports PawTheme = PawLab.WindowsTheme.ThemeService
 
 ''' <summary>
 ''' 基本函数
@@ -415,32 +415,26 @@ Module BasicFcn
 
         Using bmp As New Bitmap(image)
             Dim rect As New Rectangle(0, 0, bmp.Width, bmp.Height)
-            Dim data As BitmapData = Nothing
-            Try
-                data = bmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb)
+            Dim data As BitmapData = bmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb)
 
-                Dim bytesPerPixel As Integer = 3
-                Dim stride As Integer = data.Stride
+            Dim bytesPerPixel As Integer = 3
+            Dim stride As Integer = data.Stride
+            Dim rgbValues(data.Stride * bmp.Height - 1) As Byte
 
-                Dim rgbValues(data.Stride * bmp.Height - 1) As Byte
-                Marshal.Copy(data.Scan0, rgbValues, 0, rgbValues.Length)
+            Marshal.Copy(data.Scan0, rgbValues, 0, rgbValues.Length)
+            bmp.UnlockBits(data)
 
-                For y As Integer = 0 To bmp.Height - 1 Step stepCount
-                    Dim rowOffset As Integer = y * stride
-                    For x As Integer = 0 To bmp.Width - 1 Step stepCount
-                        Dim pos As Integer = rowOffset + x * bytesPerPixel
-                        'LockBits 顺序为 BGR
-                        Dim b As Byte = rgbValues(pos)
-                        Dim g As Byte = rgbValues(pos + 1)
-                        Dim r As Byte = rgbValues(pos + 2)
-                        pixels.Add(Color.FromArgb(r, g, b))
-                    Next
+            For y As Integer = 0 To bmp.Height - 1 Step stepCount
+                Dim rowOffset As Integer = y * stride
+                For x As Integer = 0 To bmp.Width - 1 Step stepCount
+                    Dim pos As Integer = rowOffset + x * bytesPerPixel
+                    'LockBits 顺序为 BGR
+                    Dim b As Byte = rgbValues(pos)
+                    Dim g As Byte = rgbValues(pos + 1)
+                    Dim r As Byte = rgbValues(pos + 2)
+                    pixels.Add(Color.FromArgb(r, g, b))
                 Next
-            Finally
-                If data IsNot Nothing Then
-                    bmp.UnlockBits(data)
-                End If
-            End Try
+            Next
         End Using
         Return pixels
     End Function
@@ -492,88 +486,6 @@ Module BasicFcn
 #End Region
 
 #Region "菜单处理"
-    ''' <summary>
-    ''' 统一设置菜单项的文本、快捷键与图标。
-    ''' 仅在传入对应可选参数时更新相应属性, 未传入的参数保持不变。
-    ''' </summary>
-    ''' <param name="hMenu">菜单句柄</param>
-    ''' <param name="itemId">菜单项标识符(命令 ID)</param>
-    ''' <param name="isDarkMode">当前主题, 用于图标背景填充</param>
-    ''' <param name="text">菜单文本(可选)。传 Nothing 表示不修改文本</param>
-    ''' <param name="shortcut">快捷键文本(可选, 如 "Ctrl+C")。传 Nothing 表示不追加快捷键</param>
-    ''' <param name="icon">图标资源(可选)。传 Nothing 表示不修改图标</param>
-    Public Sub ApplyMenuItem(
-    hMenu As IntPtr,
-    itemId As Integer,
-    isDarkMode As Boolean,
-    Optional text As String = Nothing,
-    Optional shortcut As String = Nothing,
-    Optional icon As Bitmap = Nothing)
-
-        ' ========== 1. 更新文本与快捷键 ==========
-        If text IsNot Nothing OrElse shortcut IsNot Nothing Then
-            Dim displayText As String = text
-            If Not String.IsNullOrEmpty(shortcut) Then
-                displayText = If(displayText, "") & vbTab & shortcut
-            End If
-
-            Dim mii As New MENUITEMINFO With {
-            .cbSize = Marshal.SizeOf(Of MENUITEMINFO)(),
-            .fMask = MIIM_STRING Or MIIM_ID Or MIIM_FTYPE,
-            .fType = MFT_STRING,
-            .wID = itemId,
-            .dwTypeData = displayText,
-            .cch = displayText.Length
-        }
-            SetMenuItemInfo(hMenu, itemId, False, mii)
-        End If
-
-        ' ========== 2. 更新图标 ==========
-        If icon IsNot Nothing Then
-            ' 2.1 释放旧的位图句柄, 避免 GDI 资源泄漏
-            Dim oldInfo As New MENUITEMINFO With {
-            .cbSize = Marshal.SizeOf(Of MENUITEMINFO)(),
-            .fMask = MIIM_BITMAP
-        }
-            If GetMenuItemInfo(hMenu, itemId, False, oldInfo) AndAlso oldInfo.hbmpItem <> IntPtr.Zero Then
-                DeleteObject(oldInfo.hbmpItem)
-            End If
-
-            ' 2.2 缩放图标并绘制到统一尺寸的画布上
-            Const iconSize As Integer = 18
-            Using resizedBmp As New Bitmap(iconSize, iconSize, PixelFormat.Format24bppRgb)
-                Using g As Graphics = Graphics.FromImage(resizedBmp)
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic
-                    g.SmoothingMode = SmoothingMode.HighQuality
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality
-                    g.CompositingQuality = CompositingQuality.HighQuality
-
-                    ' 按主题填充背景色 (模拟透明效果)
-                    If isDarkMode Then
-                        g.Clear(Color.FromArgb(43, 43, 43))
-                    Else
-                        g.Clear(SystemColors.Menu)
-                    End If
-                    ' 保持宽高比缩放并居中
-                    Dim ratio As Double = Math.Min(iconSize / icon.Width, iconSize / icon.Height)
-                        Dim newWidth As Integer = CInt(icon.Width * ratio)
-                        Dim newHeight As Integer = CInt(icon.Height * ratio)
-                        Dim x As Integer = (iconSize - newWidth) \ 2
-                        Dim y As Integer = (iconSize - newHeight) \ 2
-
-                        g.DrawImage(icon,
-                            New Rectangle(x, y, newWidth, newHeight),
-                            0, 0, icon.Width, icon.Height,
-                            GraphicsUnit.Pixel)
-                End Using
-
-                Dim hBitmap As IntPtr = resizedBmp.GetHbitmap()
-                SetMenuItemBitmaps(hMenu, itemId, MF_BYCOMMAND, hBitmap, Nothing)
-            End Using
-        End If
-    End Sub
-
-
     ''' <summary>
     ''' 为指定的菜单项设置图标, 并处理透明度背景模拟
     ''' </summary>
@@ -686,7 +598,7 @@ Module BasicFcn
             Case AppSettings.ThemeMode.Dark
                 Return True
             Case AppSettings.ThemeMode.FollowSystem
-                Return ThemeService.IsAppDarkMode()
+                Return PawTheme.IsAppDarkMode()
             Case Else
                 Return False
         End Select
