@@ -684,12 +684,6 @@
   <data name="Msg_NoSponsor" xml:space="preserve">
     <value>&lt;无赞助者信息&gt;</value>
   </data>
-  <data name="Mnu_OpenAfdian" xml:space="preserve">
-    <value>打开爱发电官网(&amp;A)</value>
-  </data>
-  <data name="Mnu_LoadSponsors" xml:space="preserve">
-    <value>加载赞助者名单(&amp;L)</value>
-  </data>
   <data name="Msg_CreateCSVFailed" xml:space="preserve">
     <value>无法导出为CSV文件</value>
   </data>

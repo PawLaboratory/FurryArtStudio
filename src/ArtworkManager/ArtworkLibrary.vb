@@ -240,6 +240,22 @@ Public Class ArtworkLibrary
             End Try
         End Using
     End Sub
+    ''' <summary>
+    ''' 获取当前稿件库稿件数量
+    ''' </summary>
+    ''' <returns>未删除的稿件的数量</returns>
+    ''' <param name="isDeleted">(可选)当该值为1时, 获得当前库已被删除的稿件数量</param>
+    Public Function GetArtworksCount(Optional isDeleted As Integer = 0) As Integer
+        Using conn As New SQLiteConnection(_ConnectionString)
+            Dim sql = "SELECT COUNT(*) FROM Artworks WHERE IsDeleted = @IsDeleted"
+            Try
+                Dim n = conn.ExecuteScalar(sql, New With {.IsDeleted = isDeleted})
+                Return n
+            Catch ex As SqlException
+                Throw
+            End Try
+        End Using
+    End Function
 
     ''' <summary>
     ''' 根据UUID获取稿件
@@ -404,6 +420,31 @@ Public Class ArtworkLibrary
                 conn.Execute(sql, New With {
                 .UUID = uuid.ToString(),
                 .IsDeleted = 1,
+                .UpdateTime = DateTimeToUnixTimestamp(DateTime.Now)
+            })
+
+            Catch ex As SqlException
+                Throw
+            End Try
+
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 恢复已删除的作品
+    ''' </summary>
+    Public Sub RestoreArtwork(uuid As Guid)
+        Using conn As New SQLiteConnection(_ConnectionString)
+            Dim sql As String = "
+            UPDATE Artworks SET 
+                IsDeleted = @IsDeleted,
+                UpdateTime = @UpdateTime
+            WHERE UUID = @UUID"
+
+            Try
+                conn.Execute(sql, New With {
+                .UUID = uuid.ToString(),
+                .IsDeleted = 0,
                 .UpdateTime = DateTimeToUnixTimestamp(DateTime.Now)
             })
 

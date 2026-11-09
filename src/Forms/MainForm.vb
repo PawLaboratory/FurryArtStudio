@@ -54,15 +54,27 @@ Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         StatusLabel.Text = My.Resources.Stat_Init '正在初始化
         _libraryManager = LibraryManager.Instance '启动稿件库管理器实例
-        SysMenuInit() '设置系统菜单
+
+        '添加系统菜单
+        Dim menuHandle = GetSystemMenu(Handle, False)
+        InsertMenu(menuHandle, 0, MF_BYPOSITION Or MF_STRING, SC_ALWAYSONTOP, My.Resources.Mnu_AlwaysOnTop)
+        InsertMenu(menuHandle, 1, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
+        InsertMenu(menuHandle, 8, MF_BYPOSITION Or MF_STRING, SC_NEWMANUSCRIPT, My.Resources.Mnu_NewMs)
+        InsertMenu(menuHandle, 9, MF_BYPOSITION Or MF_STRING, SC_REFRESH, My.Resources.Mnu_Refresh)
+        InsertMenu(menuHandle, 10, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
+        InsertMenu(menuHandle, 11, MF_BYPOSITION Or MF_STRING, SC_SETTINGS, My.Resources.Mnu_Options)
+        InsertMenu(menuHandle, 12, MF_BYPOSITION Or MF_STRING, SC_ABOUT, My.Resources.Mnu_About)
+        InsertMenu(menuHandle, 13, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
+        UpdateMenuItem() '设置菜单快捷键
+        EnableMenuItem(menuHandle, SC_NEWMANUSCRIPT, MF_GRAYED) '设置菜单可用状态
+
         Dim titleFont As New Font(LblTitle.Font, FontStyle.Bold)
         LblTitle.Font = titleFont
         Dim diffFont As New Font(LblTitle.Font, FontStyle.Italic)
         LblDeltas.Font = diffFont
+
         If IsAdmin() Then MnuRunAsElevated.Enabled = False
-        If ImageGalleryMain IsNot Nothing Then
-            RegisterUIPIDragDropFilter(ImageGalleryMain.Handle)
-        End If
+
 #If DEBUG Then
         MnuDevTools.Visible = True '显示并启用开发者工具选项
         MnuDevTools.Enabled = True
@@ -70,6 +82,7 @@ Public Class MainForm
         MnuDevTools.Enabled = False
         MnuExtension.Visible = False
 #End If
+
         Dim autoChangeLang As Boolean = IsFirstRun() '判断程序是否首次启动, 并存储状态
         Dim settings = AppSettings.Load() '读取设置项
         If autoChangeLang Then
@@ -94,6 +107,7 @@ Public Class MainForm
                 SysThreading.Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
         End Select
         UpdateFormLang() '更新语言
+
         MenuInit() '初始化菜单
         SystemThemeChange() '设置主题
         If settings.Appearance.ShowThemeColor Then '修改标题栏颜色(win11生效)
@@ -117,11 +131,8 @@ Public Class MainForm
                 MnuThemeSystem.Checked = True
         End Select
         If autoChangeLang Then settings.Save() '首次运行时保存配置文件
+
         Me.AllowDrop = True
-        'If settings.Startup.ShowHitokoto Then '调用异步过程显示一言
-        '    StatusLabel.Text = My.Resources.Stat_ShowHitokoto
-        '    Await ShowHitokoto()
-        'End If
         PiChkThumb.Height = PiChkThumb.Width '调整图片预览框为方形
         NotifyIco.Icon = Me.Icon
         NotifyIco.Text = My.Resources.FurryArtStudio
@@ -235,16 +246,6 @@ Public Class MainForm
     Private Sub ArtworkListSplitContainer_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles ArtworkListSplitContainer.SplitterMoved
         PiChkThumb.Height = PiChkThumb.Width '保持为方形
     End Sub
-    ''' <summary>
-    ''' 当窗口句柄创建或重建时，注入UIPI消息过滤器
-    ''' </summary>
-    Protected Overrides Sub OnHandleCreated(e As EventArgs)
-        MyBase.OnHandleCreated(e)
-        RegisterUIPIDragDropFilter(Me.Handle)
-        If ImageGalleryMain IsNot Nothing AndAlso ImageGalleryMain.IsHandleCreated Then
-            RegisterUIPIDragDropFilter(ImageGalleryMain.Handle)
-        End If
-    End Sub
 #End Region
 
 #Region "辅助方法"
@@ -342,8 +343,6 @@ Public Class MainForm
         MnuSuggestions.Text = My.Resources.Mnu_Suggestions
         MnuMyFeedback.Text = My.Resources.Mnu_MyFeedback
         MnuHelpDonate.Text = My.Resources.Mnu_Donate
-        MnuOpenAfdian.Text = My.Resources.Mnu_OpenAfdian
-        MnuLoadSponsors.Text = My.Resources.Mnu_LoadSponsors
         MnuTerms.Text = My.Resources.Mnu_Terms
         MnuHelpAbout.Text = My.Resources.Mnu_About
         '窗体
@@ -494,7 +493,7 @@ Public Class MainForm
             (MnuPageDown, "MenuNext"),
             (MnuHelpTutorial, "MenuTutorial"),
             (MnuHelpGithub, "MenuGithub"),
-            (MnuOpenAfdian, "MenuSupport"),
+            (MnuHelpDonate, "MenuSupport"),
             (MnuHelpWebsite, "MenuWebsite"),
             (MnuHelpAbout, "MenuInfo"),
             (MnuBugReport, "MenuBugReport"),
@@ -624,25 +623,6 @@ Public Class MainForm
         TSBtnNextPage.Enabled = False
     End Sub
     ''' <summary>
-    ''' 初始化系统菜单
-    ''' </summary>
-    Private Sub SysMenuInit()
-        Dim menuHandle = GetSystemMenu(Handle, False) '获取菜单句柄
-        '添加新菜单
-        InsertMenu(menuHandle, 0, MF_BYPOSITION Or MF_STRING, SC_ALWAYSONTOP, My.Resources.Mnu_AlwaysOnTop)
-        InsertMenu(menuHandle, 1, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
-        InsertMenu(menuHandle, 8, MF_BYPOSITION Or MF_STRING, SC_NEWMANUSCRIPT, My.Resources.Mnu_NewMs)
-        InsertMenu(menuHandle, 9, MF_BYPOSITION Or MF_STRING, SC_REFRESH, My.Resources.Mnu_Refresh)
-        InsertMenu(menuHandle, 10, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
-        InsertMenu(menuHandle, 11, MF_BYPOSITION Or MF_STRING, SC_SETTINGS, My.Resources.Mnu_Options)
-        InsertMenu(menuHandle, 12, MF_BYPOSITION Or MF_STRING, SC_ABOUT, My.Resources.Mnu_About)
-        InsertMenu(menuHandle, 13, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
-        '设置菜单快捷键
-        UpdateMenuItem()
-        '设置菜单可用状态
-        EnableMenuItem(menuHandle, SC_NEWMANUSCRIPT, MF_GRAYED)
-    End Sub
-    ''' <summary>
     ''' 更新窗体菜单项
     ''' </summary>
     Private Sub UpdateMenuItem()
@@ -689,32 +669,34 @@ Public Class MainForm
         TSBtnMsImport.Enabled = True
         TSBtnPlay.Enabled = True
         TSBtnSearch.Enabled = True
-        Dim menuHandle = GetSystemMenu(Handle, False) '获取菜单句柄
-        EnableMenuItem(menuHandle, SC_NEWMANUSCRIPT, MF_ENABLED)
+        EnableMenuItem(GetSystemMenu(Handle, False), SC_NEWMANUSCRIPT, MF_ENABLED)
         '设置UI
         ClearMetadata()
         LblTitle.Text = My.Resources.Main_LblNoSelect
         MnuSearchTxtbox.Enabled = True
         '设置图片墙
         ImageGalleryMain.ClearImages() '清空所有图片
-        ArtworkStatusLabel.Text = String.Format(My.Resources.Main_LblLibName,
-                                                _libraryManager.GetCurrentLibrary.LibraryName) '稿件库名称
-        Dim artworks = _libraryManager.GetCurrentLibrary.GetAllArtworksComplete '获取当前库全部数据
-        SelectStatusLabel.Text = String.Format(My.Resources.Main_LblMs, artworks.Count) '稿件数量
+
+        Dim currentLib As ArtworkLibrary = _libraryManager.GetCurrentLibrary
+        ArtworkStatusLabel.Text = String.Format(My.Resources.Main_LblLibName, currentLib.LibraryName) '稿件库名称
+        Dim artworks = currentLib.GetAllArtworksComplete '获取当前库全部数据
+        _artworkCount = currentLib.GetArtworksCount '稿件数量
+        SelectStatusLabel.Text = String.Format(My.Resources.Main_LblMs, _artworkCount)
         '遍历所有稿件
-        Dim libraryPath = _libraryManager.GetCurrentLibrary.LibraryPath
+        Dim libraryPath = currentLib.LibraryPath
         SetGallery(artworks, libraryPath) '载入稿件
-        _artworkCount = artworks.Count
+
         _imageList = artworks '用作预览器参数
         _imageList.Reverse() '反转顺序
         '设置状态栏
         Dim result = GetFolderInfo(libraryPath)
         StorageStatusLabel.Text = String.Format(My.Resources.Main_LblStorage,
                                                 result.sizeString, result.fileCount)
-        Dim page As Integer = Math.Max(1, Math.Ceiling(_artworkCount / ImageGalleryMain.PageSize))
+        Dim page As Integer = Math.Ceiling(_artworkCount / ImageGalleryMain.PageSize)
         MnuPageDown.Enabled = page > 1
         TSBtnNextPage.Enabled = page > 1
-        PageStatusLabel.Text = String.Format(My.Resources.Main_LblPage1, page) '在初始化阶段暂时获得不到准确的页码
+        PageStatusLabel.Text = String.Format(My.Resources.Main_LblPage1, page)
+        NotifyIco.Text = currentLib.LibraryName & " - " & My.Resources.FurryArtStudio '设置托盘图标文本
         ArtworkListSplitContainer.UseWaitCursor = False
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
@@ -1042,6 +1024,7 @@ Public Class MainForm
         StatusLabel.Text = My.Resources.Stat_Closing
         CloseLibrary()
         _libraryManager.CloseLibrary(_libraryManager.GetCurrentLibrary.LibraryName)
+        NotifyIco.Text = My.Resources.FurryArtStudio '恢复托盘图标文本
         MenuInit()
     End Sub
     Private Sub MnuLibRename_Click(sender As Object, e As EventArgs) Handles MnuLibRename.Click
@@ -1114,14 +1097,11 @@ Public Class MainForm
         StatusLabel.Text = My.Resources.Stat_Ready
     End Sub
     Private Sub MnuLibStatistics_Click(sender As Object, e As EventArgs) Handles MnuLibStatistics.Click
-        ShowLibStatistics()
-    End Sub
-    Private Sub ShowLibStatistics()
         Dim sb As New StringBuilder
         Dim library = _libraryManager.GetCurrentLibrary
         sb.Append(String.Format(My.Resources.Main_StrPropLib, library.LibraryName) & vbCrLf)
         sb.Append(String.Format(My.Resources.Main_StrPropLibPath, library.LibraryPath) & vbCrLf)
-        sb.Append(String.Format(My.Resources.Main_StrPropMsCount, library.GetAllArtworksComplete.Count) & vbCrLf)
+        sb.Append(String.Format(My.Resources.Main_StrPropMsCount, library.GetArtworksCount) & vbCrLf)
         Dim result = GetFolderInfo(library.LibraryPath)
         sb.Append(String.Format(My.Resources.Main_StrPropStorage, result.sizeString, result.fileCount) & vbCrLf)
         sb.Append(String.Format(My.Resources.Main_StrPropNowTime, Now))
@@ -1520,27 +1500,24 @@ Public Class MainForm
     End Sub
     Private Sub MnuPageUp_Click(sender As Object, e As EventArgs) Handles MnuPageUp.Click
         ImageGalleryMain.SetPage(ImageGalleryMain.Page - 1)
-        UpdatePageMenu()
     End Sub
     Private Sub MnuPageDown_Click(sender As Object, e As EventArgs) Handles MnuPageDown.Click
         ImageGalleryMain.SetPage(ImageGalleryMain.Page + 1)
-        UpdatePageMenu()
     End Sub
     Private Sub UpdatePageMenu()
-        If ImageGalleryMain.Page = 1 Then
-            MnuPageUp.Enabled = False
-            TSBtnPrevPage.Enabled = False
-        Else
-            MnuPageUp.Enabled = True
-            TSBtnPrevPage.Enabled = True
-        End If
-        If ImageGalleryMain.Page = ImageGalleryMain.TotalPages Then
-            MnuPageDown.Enabled = False
-            TSBtnNextPage.Enabled = False
-        Else
-            MnuPageDown.Enabled = True
-            TSBtnNextPage.Enabled = True
-        End If
+        Select Case ImageGalleryMain.Page
+            Case 1
+                MnuPageUp.Enabled = False
+                TSBtnPrevPage.Enabled = False
+            Case ImageGalleryMain.TotalPages
+                MnuPageDown.Enabled = False
+                TSBtnNextPage.Enabled = False
+            Case Else
+                MnuPageUp.Enabled = True
+                TSBtnPrevPage.Enabled = True
+                MnuPageDown.Enabled = True
+                TSBtnNextPage.Enabled = True
+        End Select
     End Sub
 #End Region
 
@@ -1561,51 +1538,9 @@ Public Class MainForm
         Process.Start("https://github.com/PawLaboratory/FurryArtStudio/issues?q=is%3Aissue%20author%3A%40me")
     End Sub
     Private Sub MnuHelpWebsite_Click(sender As Object, e As EventArgs) Handles MnuHelpWebsite.Click
-
+        Process.Start("https://pawlabs.top")
     End Sub
-    Private Async Sub MnuLoadSponsors_Click(sender As Object, e As EventArgs) Handles MnuLoadSponsors.Click
-        Try
-            Await CheckSponsors()
-        Catch ex As Exception
-            ShowErrorDialog(ex, "")
-        End Try
-    End Sub
-    Private Async Function CheckSponsors() As Task
-        StatusLabel.Text = My.Resources.Msg_CheckingSponsor
-        Dim sponsorInfo = Await AfdianHandler.CheckSponsorsAsync()
-        MnuHelpDonate.DropDownItems.Clear()
-        MnuHelpDonate.DropDownItems.Add(MnuOpenAfdian) '打开爱发电
-        MnuHelpDonate.DropDownItems.Add(MnuLoadSponsors) '加载赞助者信息
-        MnuHelpDonate.DropDownItems.Add(New ToolStripSeparator) '分割线
-        If sponsorInfo.Count = 0 Then
-            Dim sponsorMenuItem As New ToolStripMenuItem() With {
-                .Text = My.Resources.Msg_NoSponsor,
-                .Enabled = False
-            }
-            MnuHelpDonate.DropDownItems.Add(sponsorMenuItem)
-            Return
-        End If
-        For Each sponsor In sponsorInfo
-            Dim sponsorMenuItem As New ToolStripMenuItem With {
-                .Tag = sponsor.UserID,
-                .Image = sponsor.UserAvatar,
-                .Text = sponsor.UserName
-            }
-            MnuHelpDonate.DropDownItems.Add(sponsorMenuItem)
-            AddHandler sponsorMenuItem.Click, AddressOf OnSponsorClick
-        Next
-        StatusLabel.Text = My.Resources.Stat_Ready
-    End Function
-    Private Sub OnSponsorClick(sender As Object, e As EventArgs)
-        Dim menuItem As ToolStripMenuItem = TryCast(sender, ToolStripMenuItem)
-        If menuItem IsNot Nothing Then
-            Dim userID As String = TryCast(menuItem.Tag, String)
-            If Not String.IsNullOrEmpty(userID) Then
-                Process.Start($"https://ifdian.net/u/{userID}")
-            End If
-        End If
-    End Sub
-    Private Sub MnuOpenAfdian_Click(sender As Object, e As EventArgs) Handles MnuOpenAfdian.Click
+    Private Sub MnuHelpDonate_Click(sender As Object, e As EventArgs) Handles MnuHelpDonate.Click
         Process.Start("https://ifdian.net/a/xionglongztz")
     End Sub
     Private Sub MnuHelpLicense_Click(sender As Object, e As EventArgs) Handles MnuHelpLicense.Click

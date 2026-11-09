@@ -82,10 +82,6 @@ Public Class EditDialogForm
         End If
         LanguageChange()
     End Sub
-    Protected Overrides Sub OnHandleCreated(e As EventArgs)
-        MyBase.OnHandleCreated(e)
-        RegisterUIPIDragDropFilter(Me.Handle)
-    End Sub
     Private Sub EditDialogForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         _transaction.Dispose()
     End Sub

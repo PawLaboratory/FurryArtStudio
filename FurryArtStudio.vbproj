@@ -314,17 +314,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.zh-Hant.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\Web\AfdianHandler.vb" />
     <Compile Include="src\Utilities\AppSettings.vb" />
     <Compile Include="src\Utilities\BasicFcn.vb" />
     <Compile Include="src\Utilities\ImageChecker.vb" />
     <Compile Include="src\Utilities\FileTransaction.vb" />
-    <Compile Include="src\Web\Hitokoto.vb" />
-    <Compile Include="src\Web\HitokotoHandler.vb" />
-    <Compile Include="src\Web\UpdateChecker.vb" />
+    <Compile Include="src\Utilities\UpdateChecker.vb" />
     <Compile Include="src\Utilities\WinAPI.vb" />
-    <Compile Include="src\Web\Webhook.vb" />
-    <Compile Include="src\Web\WebSocketHandler.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\Forms\AboutForm.resx">

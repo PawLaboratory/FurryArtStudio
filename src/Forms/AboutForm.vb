@@ -102,7 +102,7 @@ Public Class AboutForm
     End Sub
     '官网
     Private Sub LlblWebSite_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LlblWebSite.LinkClicked
-
+        Process.Start("https://pawlabs.top")
     End Sub
     Private Sub TxtBox_LinkClicked(sender As Object, e As LinkClickedEventArgs) Handles TxtBox.LinkClicked
         Process.Start(e.LinkText)

@@ -127,39 +127,4 @@ Public Class LibraryManager
         Next
         _activeConnections.Clear()
     End Sub
-
-    ''' <summary>
-    ''' 将稿件从一个稿件库复制到另一个稿件库, 同时赋予新的UUID
-    ''' </summary>
-    ''' <param name="sourceLibraryName">原稿件库名称</param>
-    ''' <param name="targetLibraryName">目标稿件库名称</param>
-    ''' <param name="artworkUUID">原稿件库稿件UUID</param>
-    ''' <returns>若复制成功, 则返回新稿件的UUID, 否则返回 <seealso cref="Guid.Empty"/></returns>
-    Public Function CopyArtwork(sourceLibraryName As String,
-                                targetLibraryName As String,
-                                artworkUUID As Guid) As Guid
-        If _libraries.ContainsKey(sourceLibraryName) AndAlso
-           _libraries.ContainsKey(targetLibraryName) Then
-            Dim sourceLib = _libraries(sourceLibraryName)
-            Dim targetLib = _libraries(targetLibraryName)
-            '从源库获取稿件数据
-            Dim artwork = sourceLib.GetArtworkByUUID(artworkUUID)
-            If artwork Is Nothing Then Return Guid.Empty
-            '构造路径
-            Dim sourceFolder = Path.Combine(sourceLib.LibraryPath, artwork.UUID.ToString())
-            Dim targetFolder = Path.Combine(targetLib.LibraryPath, Guid.NewGuid().ToString())
-            '新建目标文件夹
-            Directory.CreateDirectory(targetFolder)
-            For Each filePath In artwork.FilePaths
-                Dim sourceFile = filePath
-                Dim targetFile = Path.Combine(targetFolder, Path.GetFileName(filePath))
-                File.Copy(sourceFile, targetFile, True)
-            Next
-            '添加到目标库数据库
-            artwork.UUID = Guid.NewGuid() '新UUID
-            targetLib.AddArtwork(artwork)
-            Return artwork.UUID
-        End If
-        Return Guid.Empty
-    End Function
 End Class

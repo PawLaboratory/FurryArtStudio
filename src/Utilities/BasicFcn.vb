@@ -686,33 +686,6 @@ Module BasicFcn
     End Sub
 #End Region
 
-#Region "窗口特权相关"
-    ''' <summary>
-    ''' 底层注册逻辑: 放行跨特权等级的拖拽消息(#10)
-    ''' </summary>
-    Public Sub RegisterUIPIDragDropFilter(hWnd As IntPtr)
-        If hWnd = IntPtr.Zero Then Return
-        
-        Try
-            Dim cfs As New CHANGEFILTERSTRUCT()
-            cfs.cbSize = Marshal.SizeOf(cfs)
-            '定义需要穿越UIPI墙的消息集
-            Dim targetMessages As Integer() = {
-                WM_DROPFILES,
-                WM_COPYDATA,
-                WM_COPYGLOBALDATA
-            }
-            For Each msg In targetMessages
-                ChangeWindowMessageFilterEx(hWnd, msg, MSGFLT_ALLOW, cfs)
-            Next
-            '显式告知Shell接受文件流
-            DragAcceptFiles(hWnd, True)
-        Catch ex As Exception
-            Debug.WriteLine($"Critical: Failed to set UIPI filter for {hWnd:X}. Message: {ex.Message}")
-        End Try
-    End Sub
-#End Region
-
 #Region "桌面快捷方式"
     ''' <summary>
     ''' 通过 PowerShell 在桌面创建快捷方式
