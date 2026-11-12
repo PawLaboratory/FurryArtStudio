@@ -50,10 +50,11 @@ Public Class ViewForm
     Private Const SC_COPY = 6
     Private Const SC_PROP = 7
     Private Const SC_INFO = 8
-    Private Const SC_EXTRACT = 9
-    Private Const SC_PLAY = 10
-    Private Const SC_HELP = 11
-    Private Const SC_FULLSCREEN = 12
+    Private Const SC_PRINT = 9
+    Private Const SC_EXTRACT = 10
+    Private Const SC_PLAY = 11
+    Private Const SC_HELP = 12
+    Private Const SC_FULLSCREEN = 13
     Private Const SC_KMEANS = 101
     Private Const SC_MEDIANCUT = 102
     Private Const SC_OCTREE = 103
@@ -143,8 +144,9 @@ Public Class ViewForm
         SetMenuItemWithShortcut(menuHandle, 9, SC_FULLSCREEN, My.Resources.View_Fullscreen, "F11")
         SetMenuItemWithShortcut(menuHandle, 16, SC_PROP, My.Resources.View_FileProperties, "Alt+Enter")
         SetMenuItemWithShortcut(menuHandle, 17, SC_INFO, My.Resources.View_Info, "I")
-        SetMenuItemWithShortcut(menuHandle, 19, SC_PLAY, My.Resources.Mnu_Play, "Ctrl+F5")
-        SetMenuItemWithShortcut(menuHandle, 20, SC_HELP, My.Resources.View_Help, "F1")
+        SetMenuItemWithShortcut(menuHandle, 18, SC_PRINT, My.Resources.Mnu_Print, "Ctrl+P")
+        SetMenuItemWithShortcut(menuHandle, 20, SC_PLAY, My.Resources.Mnu_Play, "Ctrl+F5")
+        SetMenuItemWithShortcut(menuHandle, 21, SC_HELP, My.Resources.View_Help, "F1")
         SetMenuItemWithShortcut(_hSubMenu, 0, SC_KMEANS, My.Resources.View_KMeansCluster, "Alt+1")
         SetMenuItemWithShortcut(_hSubMenu, 1, SC_MEDIANCUT, My.Resources.View_MedianCut, "Alt+2")
         SetMenuItemWithShortcut(_hSubMenu, 2, SC_OCTREE, My.Resources.View_Octree, "Alt+3")
@@ -171,10 +173,11 @@ Public Class ViewForm
         InsertMenu(menuHandle, 9, MF_BYPOSITION Or MF_STRING, SC_FULLSCREEN, My.Resources.View_Fullscreen)
         InsertMenu(menuHandle, 16, MF_BYPOSITION Or MF_STRING, SC_PROP, My.Resources.View_FileProperties)
         InsertMenu(menuHandle, 17, MF_BYPOSITION Or MF_STRING, SC_INFO, My.Resources.View_Info)
-        InsertMenu(menuHandle, 18, MF_BYPOSITION Or MF_POPUP, hSubMenu, My.Resources.View_Extract)
-        InsertMenu(menuHandle, 19, MF_BYPOSITION Or MF_STRING, SC_PLAY, My.Resources.Mnu_Play)
-        InsertMenu(menuHandle, 20, MF_BYPOSITION Or MF_STRING, SC_HELP, My.Resources.View_Help)
-        InsertMenu(menuHandle, 21, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
+        InsertMenu(menuHandle, 18, MF_BYPOSITION Or MF_STRING, SC_PRINT, My.Resources.Mnu_Print)
+        InsertMenu(menuHandle, 19, MF_BYPOSITION Or MF_POPUP, hSubMenu, My.Resources.View_Extract)
+        InsertMenu(menuHandle, 20, MF_BYPOSITION Or MF_STRING, SC_PLAY, My.Resources.Mnu_Play)
+        InsertMenu(menuHandle, 21, MF_BYPOSITION Or MF_STRING, SC_HELP, My.Resources.View_Help)
+        InsertMenu(menuHandle, 22, MF_BYPOSITION Or MF_SEPARATOR, 0, Nothing)
     End Sub
     Private Sub InitializeMenuImages(Optional isDarkMode As Boolean = False)
         Dim menuHandle = GetSystemMenu(Handle, False) '设置窗体菜单
@@ -187,6 +190,7 @@ Public Class ViewForm
             ApplyMenuIcon(menuHandle, SC_COPY, My.Resources.Icons.MenuCopyDark, True)
             ApplyMenuIcon(menuHandle, SC_PROP, My.Resources.Icons.FormFileDark, True)
             ApplyMenuIcon(menuHandle, SC_INFO, My.Resources.Icons.MenuInfoDark, True)
+            ApplyMenuIcon(menuHandle, SC_PRINT, My.Resources.Icons.MenuPrintDark, True)
             ApplyMenuIcon(menuHandle, _hSubMenu, My.Resources.Icons.MenuExtractDark, True)
             ApplyMenuIcon(menuHandle, SC_PLAY, My.Resources.Icons.MenuImagePlayDark, True)
             ApplyMenuIcon(menuHandle, SC_HELP, My.Resources.Icons.MenuTutorialDark, True)
@@ -200,6 +204,7 @@ Public Class ViewForm
             ApplyMenuIcon(menuHandle, SC_COPY, My.Resources.Icons.MenuCopyLight)
             ApplyMenuIcon(menuHandle, SC_PROP, My.Resources.Icons.FormFileLight)
             ApplyMenuIcon(menuHandle, SC_INFO, My.Resources.Icons.MenuInfoLight)
+            ApplyMenuIcon(menuHandle, SC_PRINT, My.Resources.Icons.MenuPrintLight)
             ApplyMenuIcon(menuHandle, _hSubMenu, My.Resources.Icons.MenuExtractLight)
             ApplyMenuIcon(menuHandle, SC_PLAY, My.Resources.Icons.MenuImagePlayLight)
             ApplyMenuIcon(menuHandle, SC_HELP, My.Resources.Icons.MenuTutorialLight)
@@ -228,6 +233,8 @@ Public Class ViewForm
                     ShowProperties(filePath)
                 Case SC_INFO '详情
                     ShowArtworkInfo()
+                Case SC_PRINT '打印
+                    PrintImage(filePath)
                 Case SC_PLAY'幻灯片放映
                     '待开发
                 Case SC_HELP '帮助
@@ -551,6 +558,7 @@ Public Class ViewForm
                 EnableMenuItem(_hSubMenu, i, MF_BYCOMMAND Or MF_GRAYED)
             Next
             EnableMenuItem(hMenu, SC_COPY, MF_BYCOMMAND Or MF_GRAYED)
+            EnableMenuItem(hMenu, SC_PRINT, MF_BYCOMMAND Or MF_GRAYED)
             '取消之前的加载任务
             _cancellationTokenSource?.Cancel()
             _cancellationTokenSource = New CancellationTokenSource()
@@ -603,6 +611,7 @@ Public Class ViewForm
                 _isProcessing = False
                 Dim hMenu = GetSystemMenu(Me.Handle, False)
                 EnableMenuItem(hMenu, SC_COPY, MF_BYCOMMAND Or MF_ENABLED)
+                EnableMenuItem(hMenu, SC_PRINT, MF_BYCOMMAND Or MF_ENABLED)
                 For Each i In {SC_KMEANS, SC_MEDIANCUT, SC_OCTREE} '子菜单可用
                     EnableMenuItem(_hSubMenu, i, MF_BYCOMMAND Or MF_ENABLED)
                 Next
@@ -804,6 +813,11 @@ Public Class ViewForm
                     Return
                 Case Keys.C
                     Clipboard.SetImage(PictureBoxMain.Image)
+                Case Keys.P
+                    Dim imageFiles As List(Of String) = GetCurrentArtworkImages()
+                    PrintImage(imageFiles(_currentFileIndex))
+                    e.Handled = True
+                    Return
             End Select
         End If
         If e.Alt Then
@@ -921,6 +935,21 @@ Public Class ViewForm
             End If
         Catch ex As Exception
             ShowErrorDialog(ex, My.Resources.View_FailedtoOpenProp)
+        End Try
+    End Sub
+    ''' <summary>
+    ''' 打印当前图片
+    ''' </summary>
+    ''' <param name="filePath">文件路径</param>
+    Private Sub PrintImage(filepath As String)
+        Dim psi As New ProcessStartInfo(filepath) With {
+            .Verb = "print",
+            .UseShellExecute = True
+        }
+        Try
+            Process.Start(psi)
+        Catch ex As Exception
+            ShowErrorDialog(ex, My.Resources.Msg_PrintFailed)
         End Try
     End Sub
     Private Sub PictureBoxMain_MouseDown(sender As Object, e As MouseEventArgs) Handles PictureBoxMain.MouseDown
